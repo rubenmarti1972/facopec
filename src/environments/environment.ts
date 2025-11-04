@@ -35,11 +35,11 @@ export const environment = {
     allowedFileTypes: ['image/jpeg', 'image/png', 'video/mp4', 'application/pdf']
   },
   socialMedia: {
-    facebook: 'https://facebook.com/fundacionafrocolombiana',
-    instagram: 'https://instagram.com/fundacionafrocolombiana',
-    twitter: 'https://twitter.com/fundacionafro',
-    youtube: 'https://youtube.com/@fundacionafrocolombiana',
-    tiktok: 'https://tiktok.com/@fundacionafro'
+    facebook: 'https://www.facebook.com/FundacionAfrocolombianaProfeEnCasa',
+    instagram: 'https://www.instagram.com/fundacion_profeencasa',
+    x: 'https://x.com/FundacionProfe',
+    youtube: 'https://www.youtube.com/@fundacionprofeencasa',
+    whatsapp: 'https://wa.me/573215230283'
   },
   logging: {
     enabled: true,
