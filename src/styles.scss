@@ -10,22 +10,22 @@
 
 :root {
   // Colors
-  --color-primary: #D4A574;
-  --color-primary-light: #E8C9A3;
-  --color-primary-dark: #B88A5F;
-  
-  --color-secondary: #1B1B4D;
-  --color-secondary-light: #3D3D7A;
-  --color-secondary-dark: #0F0F2E;
-  
-  --color-accent: #E74C3C;
-  --color-accent-light: #EC7063;
-  --color-accent-dark: #C0392B;
-  
-  --color-dark: #2C3E50;
-  --color-dark-gray: #34495E;
-  --color-medium-gray: #7F8C8D;
-  --color-light-gray: #ECF0F1;
+  --color-primary: #7BD1A9;
+  --color-primary-light: #A3E3C5;
+  --color-primary-dark: #3A8B69;
+
+  --color-secondary: #0B3B5A;
+  --color-secondary-light: #2A5F86;
+  --color-secondary-dark: #052033;
+
+  --color-accent: #F7A9C4;
+  --color-accent-light: #FBD0DE;
+  --color-accent-dark: #DB6F9C;
+
+  --color-dark: #1C2A3A;
+  --color-dark-gray: #2F4052;
+  --color-medium-gray: #6B7C8A;
+  --color-light-gray: #F4F7FB;
   --color-white: #FFFFFF;
   
   // Semantic colors
@@ -94,10 +94,19 @@ html {
 body {
   font-family: var(--font-family-primary);
   color: var(--color-dark);
-  background-color: var(--color-white);
+  background-color: var(--color-light-gray);
+  background-image: radial-gradient(circle at top left, rgba(123, 209, 169, 0.2), transparent 45%),
+    radial-gradient(circle at 80% 0%, rgba(135, 196, 235, 0.18), transparent 50%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(244, 247, 251, 0.95));
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 // ============================================================================

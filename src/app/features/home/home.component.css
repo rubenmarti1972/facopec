@@ -1,41 +1,108 @@
-/* Animaciones profesionales para Home */
+:host {
+  display: block;
+}
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
+.hero {
+  align-items: center;
+}
+
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 2vw, 20px);
+}
+
+.hero__visual {
+  display: flex;
+  justify-content: center;
+}
+
+.callout {
+  width: min(360px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+  position: relative;
+}
+
+.callout__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(247, 169, 196, 0.2);
+  color: #8f3d60;
+  width: fit-content;
+}
+
+.callout__title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+}
+
+.callout__text {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.callout__media {
+  background: linear-gradient(135deg, rgba(91, 169, 217, 0.2), rgba(123, 209, 169, 0.18));
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 16px 32px rgba(12, 68, 61, 0.12);
+}
+
+.callout__media img {
+  width: 120px;
+}
+
+.impact-strip__title {
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.project-card__media img {
+  max-width: 140px;
+}
+
+.cta-panel__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+@media (max-width: 960px) {
+  .hero__content {
+    align-items: center;
+    text-align: center;
   }
-  50% {
-    transform: translateY(-15px);
+
+  .hero__visual {
+    order: -1;
   }
-}
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
+  .callout {
+    text-align: center;
+    align-items: center;
   }
-  50% {
-    opacity: 0.8;
+
+  .callout__badge {
+    margin-inline: auto;
   }
-}
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-/* Gradientes suaves */
-.gradient-text {
-  background: linear-gradient(135deg, #52D273 0%, #87CEEB 50%, #EC4899 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Hover effects profesionales */
-.card-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.card-hover:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  .cta-panel__actions {
+    justify-content: center;
+  }
 }
