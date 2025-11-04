@@ -1,250 +1,249 @@
-<div class="min-h-screen">
-  <!-- Hero Section -->
-  <section class="relative bg-gradient-to-br from-rose-50 via-white to-pink-50 py-16">
-    <div class="container mx-auto px-4">
-      <div class="max-w-4xl mx-auto text-center">
-        <!-- Icon -->
-        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-rose-DEFAULT to-rose-light shadow-lg mb-6">
-          <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
-          </svg>
-        </div>
-        
-        <h1 class="text-4xl md:text-5xl font-display font-bold text-ocean mb-4">
-          Tu Donación <span class="text-rose-DEFAULT">Cambia Vidas</span>
+<div class="donation-page">
+  <section class="section donation-hero" data-strapi-section="donations.hero">
+    <div class="container donation-hero__grid">
+      <div class="donation-hero__content">
+        <span class="donation-hero__badge">Fundación Afrocolombiana Profe en Casa</span>
+        <h1 class="donation-hero__title">
+          Tu donación <span>cambia vidas</span>
         </h1>
-        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-          Con tus donaciones ayudas a proporcionar recursos educativos, organizar eventos especiales 
-          y crear un ambiente acogedor. <strong class="text-ocean">¡Cada aporte cuenta!</strong>
+        <p class="donation-hero__text">
+          Con cada aporte fortalecemos procesos educativos, culturales y espirituales en el Valle del Cauca.
+          Acompañas a familias afrocolombianas para que sigan soñando con más oportunidades.
+        </p>
+        <div class="donation-hero__stats">
+          <div
+            class="donation-hero__stat"
+            *ngFor="let stat of donationStats"
+            [attr.data-strapi-uid]="stat.dataStrapiUid"
+          >
+            <span class="donation-hero__stat-value">{{ stat.value }}</span>
+            <span class="donation-hero__stat-label">{{ stat.label }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="donation-hero__media" aria-hidden="true">
+        <div class="donation-hero__collage">
+          <figure
+            class="donation-hero__photo"
+            *ngFor="let story of donationStories; let index = index"
+            [class.donation-hero__photo--offset]="index === 1"
+            [attr.data-strapi-collection]="story.strapiCollection"
+            [attr.data-strapi-entry]="story.strapiEntryId"
+          >
+            <img [src]="story.cover" [alt]="story.title" loading="lazy" />
+            <figcaption>{{ story.title }}</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="impacto" data-strapi-section="donations.impact">
+    <div class="container">
+      <div class="section__heading">
+        <span class="section__eyebrow">Impacto real</span>
+        <h2 class="section__title">Así transformamos tu donación</h2>
+        <p class="section__subtitle">
+          Tu solidaridad nos permite sostener programas integrales con enfoque comunitario, cultural y de fe.
+          Estos son algunos de los frentes que acompañamos gracias a los aportes mensuales y puntuales.
         </p>
       </div>
-    </div>
-  </section>
 
-  <!-- Impacto de las Donaciones -->
-  <section class="py-16 bg-white">
-    <div class="container mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-display font-bold text-center text-ocean mb-12">
-        El Impacto de Tu Donación
-      </h2>
-      
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-        <div class="group relative bg-gradient-to-br from-primary-500 to-grass text-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2">
-          <div class="text-5xl mb-4 transform group-hover:scale-110 transition-transform">📚</div>
-          <h3 class="font-display font-bold text-xl mb-2">Educación Accesible</h3>
-          <p class="text-sm text-primary-50">Recursos para quienes más los necesitan</p>
-        </div>
-
-        <div class="group relative bg-gradient-to-br from-sky-DEFAULT to-blue-400 text-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2">
-          <div class="text-5xl mb-4 transform group-hover:scale-110 transition-transform">🤝</div>
-          <h3 class="font-display font-bold text-xl mb-2">Crecimiento Comunitario</h3>
-          <p class="text-sm text-blue-50">Fortaleciendo lazos y pertenencia</p>
-        </div>
-
-        <div class="group relative bg-gradient-to-br from-sunshine-DEFAULT to-orange-400 text-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2">
-          <div class="text-5xl mb-4 transform group-hover:scale-110 transition-transform">⭐</div>
-          <h3 class="font-display font-bold text-xl mb-2">Fomento de Valores</h3>
-          <p class="text-sm text-yellow-50">Agentes de cambio con valores sólidos</p>
-        </div>
-
-        <div class="group relative bg-gradient-to-br from-rose-DEFAULT to-pink-500 text-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2">
-          <div class="text-5xl mb-4 transform group-hover:scale-110 transition-transform">📖</div>
-          <h3 class="font-display font-bold text-xl mb-2">Cultura Literaria</h3>
-          <p class="text-sm text-pink-50">Inspirando el amor por la lectura</p>
-        </div>
+      <div class="donation-impact">
+        <article
+          class="donation-impact__card"
+          *ngFor="let highlight of donationHighlights"
+          [ngClass]="'donation-impact__card--' + highlight.theme"
+          [attr.data-strapi-uid]="highlight.dataStrapiUid"
+        >
+          <span class="donation-impact__icon">{{ highlight.icon }}</span>
+          <h3>{{ highlight.title }}</h3>
+          <p>{{ highlight.description }}</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- Formulario de Donación -->
-  <section class="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
-    <div class="container mx-auto px-4">
-      <div class="max-w-4xl mx-auto">
-        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
-          <!-- Header -->
-          <div class="relative bg-gradient-to-r from-rose-DEFAULT via-pink-500 to-rose-light text-white p-8 text-center">
-            <div class="absolute inset-0 opacity-10">
-              <div class="absolute top-0 right-0 w-64 h-64 bg-white rounded-full filter blur-3xl"></div>
-            </div>
-            <div class="relative z-10">
-              <h2 class="text-3xl font-display font-bold mb-2">Haz tu Donación</h2>
-              <p class="text-rose-50">Selecciona el monto y transforma una vida hoy</p>
+  <section class="section section--tinted" data-strapi-section="donations.gallery">
+    <div class="container">
+      <div class="section__heading">
+        <span class="section__eyebrow">Historias en imágenes</span>
+        <h2 class="section__title">Tu aporte en acción</h2>
+        <p class="section__subtitle">
+          Organizamos una galería lista para Strapi con testimonios, actividades y proyectos para que puedas
+          destacar fácilmente en la web o redes sociales.
+        </p>
+      </div>
+
+      <div class="donation-gallery">
+        <article
+          class="donation-gallery__item"
+          *ngFor="let story of donationStories"
+          [attr.data-strapi-collection]="story.strapiCollection"
+          [attr.data-strapi-entry]="story.strapiEntryId"
+        >
+          <div class="donation-gallery__media">
+            <img [src]="story.cover" [alt]="story.title" loading="lazy" />
+          </div>
+          <div class="donation-gallery__body">
+            <h3 class="donation-gallery__title">{{ story.title }}</h3>
+            <p class="donation-gallery__description">{{ story.description }}</p>
+            <p class="donation-gallery__impact">{{ story.impact }}</p>
+            <a class="donation-gallery__link" [href]="story.href" target="_blank" rel="noopener">
+              Ver en el blog
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-strapi-section="donations.form">
+    <div class="container">
+      <div class="donation-form">
+        <div class="donation-form__header">
+          <span class="donation-form__badge">Haz tu donación</span>
+          <h2>Selecciona el monto y la frecuencia de tu aporte</h2>
+          <p>
+            Elige una de las opciones sugeridas o ingresa el valor que prefieras. Puedes apoyar una sola vez
+            o sumarte al círculo de aliadas y aliados mensuales.
+          </p>
+        </div>
+
+        <div class="donation-form__body">
+          <div class="donation-form__group">
+            <h3 class="donation-form__title">Montos sugeridos</h3>
+            <div class="donation-amounts">
+              <button
+                *ngFor="let amount of donationAmounts"
+                (click)="selectAmount(amount.value)"
+                class="donation-option"
+                [class.donation-option--active]="selectedAmount() === amount.value"
+              >
+                <span class="donation-option__icon">{{ amount.icon }}</span>
+                <span class="donation-option__label">{{ amount.label }}</span>
+                <span class="donation-option__impact">{{ amount.impact }}</span>
+              </button>
             </div>
           </div>
 
-          <div class="p-8">
-            <!-- Montos predefinidos -->
-            <div class="mb-8">
-              <label class="block text-lg font-semibold text-ocean mb-4">
-                Selecciona un monto:
-              </label>
-              <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <button *ngFor="let amount of donationAmounts"
-                  (click)="selectAmount(amount.value)"
-                  [class.ring-4]="selectedAmount() === amount.value"
-                  [class.ring-primary-500]="selectedAmount() === amount.value"
-                  [class.bg-primary-50]="selectedAmount() === amount.value"
-                  [class.border-primary-500]="selectedAmount() === amount.value"
-                  class="group p-4 rounded-2xl border-2 border-gray-200 hover:border-primary-500 transition-all transform hover:scale-105 hover:shadow-lg">
-                  <div class="text-4xl mb-2 transform group-hover:scale-110 transition-transform">{{ amount.icon }}</div>
-                  <p class="font-bold text-xl text-ocean">{{ amount.label }}</p>
-                  <p class="text-xs text-gray-600 mt-1">{{ amount.impact }}</p>
-                </button>
-              </div>
+          <div class="donation-form__group">
+            <h3 class="donation-form__title">Monto personalizado</h3>
+            <div class="donation-input">
+              <span>$</span>
+              <input
+                type="number"
+                [(ngModel)]="customAmount"
+                (input)="onCustomAmountChange()"
+                placeholder="Ingresa tu monto"
+                aria-label="Monto personalizado para donar"
+              />
             </div>
+          </div>
 
-            <!-- Monto personalizado -->
-            <div class="mb-8">
-              <label class="block text-lg font-semibold text-ocean mb-3">
-                O ingresa un monto personalizado:
-              </label>
-              <div class="relative">
-                <span class="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 text-xl font-semibold">$</span>
-                <input
-                  type="number"
-                  [(ngModel)]="customAmount"
-                  (input)="onCustomAmountChange()"
-                  placeholder="Ingresa tu monto"
-                  class="w-full pl-14 pr-6 py-4 text-xl font-semibold border-2 border-gray-300 rounded-2xl focus:border-primary-500 focus:ring-4 focus:ring-primary-100 focus:outline-none transition">
-              </div>
-            </div>
-
-            <!-- Tipo de donación -->
-            <div class="mb-8">
-              <label class="block text-lg font-semibold text-ocean mb-3">
-                Tipo de donación:
-              </label>
-              <div class="grid grid-cols-2 gap-4">
-                <button
-                  (click)="donationType.set('once')"
-                  [class.ring-4]="donationType() === 'once'"
-                  [class.ring-primary-500]="donationType() === 'once'"
-                  [class.bg-primary-50]="donationType() === 'once'"
-                  [class.border-primary-500]="donationType() === 'once'"
-                  class="group p-6 rounded-2xl border-2 border-gray-200 hover:border-primary-500 transition-all transform hover:scale-105">
-                  <div class="text-3xl mb-2 transform group-hover:scale-110 transition-transform">💝</div>
-                  <p class="font-bold text-ocean text-lg">Única</p>
-                  <p class="text-xs text-gray-600 mt-1">Donación de una sola vez</p>
-                </button>
-                <button
-                  (click)="donationType.set('monthly')"
-                  [class.ring-4]="donationType() === 'monthly'"
-                  [class.ring-sunshine-DEFAULT]="donationType() === 'monthly'"
-                  [class.bg-sunshine-light/10]="donationType() === 'monthly'"
-                  [class.border-sunshine-DEFAULT]="donationType() === 'monthly'"
-                  class="group p-6 rounded-2xl border-2 border-gray-200 hover:border-sunshine-DEFAULT transition-all transform hover:scale-105">
-                  <div class="text-3xl mb-2 transform group-hover:scale-110 transition-transform">🔄</div>
-                  <p class="font-bold text-ocean text-lg">Mensual</p>
-                  <p class="text-xs text-gray-600 mt-1">Impacto continuo</p>
-                </button>
-              </div>
-            </div>
-
-            <!-- Resumen de impacto -->
-            <div *ngIf="selectedAmount() > 0" class="mb-8 p-6 bg-gradient-to-r from-primary-50 via-grass/20 to-sky-light/10 rounded-2xl border-l-4 border-primary-500">
-              <div class="flex items-start gap-3">
-                <svg class="w-6 h-6 text-primary-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                </svg>
+          <div class="donation-form__group">
+            <h3 class="donation-form__title">Tipo de donación</h3>
+            <div class="donation-type">
+              <button
+                type="button"
+                class="donation-type__option"
+                [class.donation-type__option--active]="donationType() === 'once'"
+                (click)="donationType.set('once')"
+              >
+                <span class="donation-type__icon">💝</span>
                 <div>
-                  <p class="font-semibold text-primary-600 mb-1">💚 Tu impacto:</p>
-                  <p class="text-gray-700 text-sm">{{ getImpactMessage() }}</p>
+                  <strong>Única</strong>
+                  <p>Realiza un aporte puntual cuando quieras.</p>
                 </div>
-              </div>
+              </button>
+              <button
+                type="button"
+                class="donation-type__option"
+                [class.donation-type__option--active]="donationType() === 'monthly'"
+                (click)="donationType.set('monthly')"
+              >
+                <span class="donation-type__icon">🔄</span>
+                <div>
+                  <strong>Mensual</strong>
+                  <p>Genera impacto continuo con un apoyo recurrente.</p>
+                </div>
+              </button>
             </div>
+          </div>
 
-            <!-- Botón de donación -->
-            <button
-              (click)="processDonation()"
-              [disabled]="selectedAmount() === 0"
-              class="group relative w-full py-5 rounded-full font-bold text-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none overflow-hidden">
-              <span class="absolute inset-0 bg-gradient-to-r from-rose-DEFAULT to-rose-light"></span>
-              <span class="relative z-10 text-white flex items-center justify-center gap-3">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
-                </svg>
-                <span *ngIf="selectedAmount() > 0">Donar {{ selectedAmount() | number:'1.0-0':'es-CO' }} COP</span>
-                <span *ngIf="selectedAmount() === 0">Selecciona un monto para donar</span>
-              </span>
-            </button>
+          <div class="donation-impact-note" *ngIf="selectedAmount() > 0">
+            <strong>💚 Tu impacto:</strong>
+            <span>{{ getImpactMessage() }}</span>
+          </div>
 
-            <!-- Métodos de pago -->
-            <div class="mt-6 text-center">
-              <p class="text-sm text-gray-600 mb-4">Métodos de pago aceptados:</p>
-              <div class="flex flex-wrap justify-center gap-3">
-                <div class="px-4 py-2 bg-gray-50 rounded-lg font-semibold text-sm border border-gray-200 flex items-center gap-2">
-                  <span class="text-lg">💳</span> PayPal
-                </div>
-                <div class="px-4 py-2 bg-gray-50 rounded-lg font-semibold text-sm border border-gray-200 flex items-center gap-2">
-                  <span class="text-lg">💰</span> Transferencia
-                </div>
-                <div class="px-4 py-2 bg-gray-50 rounded-lg font-semibold text-sm border border-gray-200 flex items-center gap-2">
-                  <span class="text-lg">📱</span> PSE
-                </div>
-              </div>
+          <button
+            type="button"
+            class="donation-submit btn btn-primary"
+            (click)="processDonation()"
+            [disabled]="selectedAmount() === 0"
+          >
+            <span *ngIf="selectedAmount() > 0">Donar {{ selectedAmount() | number:'1.0-0':'es-CO' }} COP</span>
+            <span *ngIf="selectedAmount() === 0">Selecciona un monto para donar</span>
+          </button>
+
+          <div class="donation-form__footer">
+            <div class="donation-form__payments">
+              <span>Métodos de pago:</span>
+              <ul>
+                <li>💳 PayPal</li>
+                <li>💰 Transferencia</li>
+                <li>📱 PSE</li>
+              </ul>
             </div>
-
-            <!-- Seguridad -->
-            <div class="mt-6 flex items-center justify-center gap-2 text-sm text-gray-500 bg-gray-50 p-4 rounded-lg">
-              <svg class="w-5 h-5 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
-              </svg>
-              <span class="font-medium">Donación 100% segura y cifrada</span>
-            </div>
+            <p class="donation-form__secure">
+              <span aria-hidden="true">🔒</span>
+              Donación 100% segura y cifrada
+            </p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Otras formas de ayudar -->
-  <section class="py-16 bg-white">
-    <div class="container mx-auto px-4">
-      <h3 class="text-3xl font-display font-bold text-ocean text-center mb-12">
-        Otras Formas de Ayudar
-      </h3>
-      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-        <div class="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all border-t-4 border-sunshine-DEFAULT hover:-translate-y-2">
-          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-sunshine-DEFAULT to-sunshine-light flex items-center justify-center text-4xl mb-4 transform group-hover:scale-110 transition-transform">
-            🤝
-          </div>
-          <h4 class="font-display font-bold text-xl text-ocean mb-3">Apadrina un Niño</h4>
-          <p class="text-gray-600 mb-4 leading-relaxed">Cambia la vida de un niño con tu apoyo mensual constante</p>
-          <a href="/apadrina" class="inline-flex items-center gap-2 text-primary-500 font-semibold hover:gap-4 transition-all">
-            Conocer más
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
-        </div>
+  <section class="section" data-strapi-section="donations.other-ways">
+    <div class="container">
+      <div class="section__heading">
+        <span class="section__eyebrow">Más maneras de apoyar</span>
+        <h2 class="section__title">Otras formas de ayudar</h2>
+        <p class="section__subtitle">
+          Puedes sumar tu talento, compartir la misión o vincular nuevos aliados. Cada gesto impulsa los
+          procesos comunitarios en Puerto Tejada y el Valle del Cauca.
+        </p>
+      </div>
 
-        <div class="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all border-t-4 border-sky-DEFAULT hover:-translate-y-2">
-          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-DEFAULT to-sky-light flex items-center justify-center text-4xl mb-4 transform group-hover:scale-110 transition-transform">
-            ⏰
-          </div>
-          <h4 class="font-display font-bold text-xl text-ocean mb-3">Voluntariado</h4>
-          <p class="text-gray-600 mb-4 leading-relaxed">Comparte tu tiempo y talento con nuestra comunidad</p>
-          <a href="/contacto" class="inline-flex items-center gap-2 text-primary-500 font-semibold hover:gap-4 transition-all">
-            Inscribirse
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
+      <div class="grid-3">
+        <article
+          class="card support-card"
+          *ngFor="let action of supportActions"
+          [attr.data-strapi-uid]="action.dataStrapiUid"
+        >
+          <div class="support-card__icon" [ngClass]="'support-card__icon--' + action.theme">{{ action.icon }}</div>
+          <h3 class="card__title">{{ action.title }}</h3>
+          <p class="card__text">{{ action.description }}</p>
+          <a
+            class="card__link"
+            *ngIf="action.href.startsWith('http')"
+            [href]="action.href"
+            target="_blank"
+            rel="noopener"
+          >
+            {{ action.linkLabel }}
+            <span aria-hidden="true">↗</span>
           </a>
-        </div>
-
-        <div class="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all border-t-4 border-rose-DEFAULT hover:-translate-y-2">
-          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-DEFAULT to-rose-light flex items-center justify-center text-4xl mb-4 transform group-hover:scale-110 transition-transform">
-            📢
-          </div>
-          <h4 class="font-display font-bold text-xl text-ocean mb-3">Comparte</h4>
-          <p class="text-gray-600 mb-4 leading-relaxed">Ayúdanos a llegar a más personas que quieran ayudar</p>
-          <a href="#" class="inline-flex items-center gap-2 text-primary-500 font-semibold hover:gap-4 transition-all">
-            Compartir
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
+          <a
+            class="card__link"
+            *ngIf="!action.href.startsWith('http')"
+            [routerLink]="action.href"
+          >
+            {{ action.linkLabel }}
           </a>
-        </div>
+        </article>
       </div>
     </div>
   </section>
