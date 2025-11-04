@@ -1,13 +1,48 @@
 import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 type DonationType = 'once' | 'monthly';
+
+interface DonationMetric {
+  value: string;
+  label: string;
+  dataStrapiUid: string;
+}
+
+interface DonationHighlight {
+  icon: string;
+  title: string;
+  description: string;
+  theme: 'teal' | 'blue' | 'sun' | 'rose';
+  dataStrapiUid: string;
+}
+
+interface DonationStory {
+  title: string;
+  description: string;
+  impact: string;
+  cover: string;
+  href: string;
+  strapiCollection: string;
+  strapiEntryId: string;
+}
+
+interface SupportAction {
+  icon: string;
+  title: string;
+  description: string;
+  href: string;
+  linkLabel: string;
+  theme: 'teal' | 'blue' | 'rose' | 'sun';
+  dataStrapiUid: string;
+}
 
 @Component({
   selector: 'app-donate',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './donate.component.html',
   styleUrls: ['./donate.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,6 +54,115 @@ export class DonateComponent {
     { value: 50000, label: '$50.000', icon: '📚', impact: 'Libros y lectura guiada' },
     { value: 100000, label: '$100.000', icon: '🍎', impact: 'Refrigerios de un taller' },
     { value: 200000, label: '$200.000', icon: '🚌', impact: 'Transporte a actividades' },
+  ];
+
+  readonly donationStats: DonationMetric[] = [
+    {
+      value: '+180',
+      label: 'Kits escolares entregados en 2023',
+      dataStrapiUid: 'donations.stats.kits',
+    },
+    {
+      value: '24',
+      label: 'Familias con acompañamiento nutricional',
+      dataStrapiUid: 'donations.stats.families',
+    },
+    {
+      value: '12',
+      label: 'Voluntarios articulados cada mes',
+      dataStrapiUid: 'donations.stats.volunteers',
+    },
+  ];
+
+  readonly donationHighlights: DonationHighlight[] = [
+    {
+      icon: '📚',
+      title: 'Educación accesible',
+      description: 'Materiales, tutorías y recursos digitales para niñas y niños afrocolombianos.',
+      theme: 'teal',
+      dataStrapiUid: 'donations.highlights.education',
+    },
+    {
+      icon: '🤝🏾',
+      title: 'Crecimiento comunitario',
+      description: 'Encuentros familiares, redes solidarias y acompañamiento psicoemocional.',
+      theme: 'blue',
+      dataStrapiUid: 'donations.highlights.community',
+    },
+    {
+      icon: '🌱',
+      title: 'Huerta y nutrición',
+      description: 'Huertas urbanas, soberanía alimentaria y formación en hábitos saludables.',
+      theme: 'sun',
+      dataStrapiUid: 'donations.highlights.garden',
+    },
+    {
+      icon: '🎶',
+      title: 'Arte y espiritualidad',
+      description: 'Laboratorios creativos, danza y espacios de fe que fortalecen la identidad.',
+      theme: 'rose',
+      dataStrapiUid: 'donations.highlights.art',
+    },
+  ];
+
+  readonly donationStories: DonationStory[] = [
+    {
+      title: 'Tutorías Profe en Casa',
+      description: 'Voluntariado pedagógico que refuerza lectura, matemáticas y tecnología desde el hogar.',
+      impact: 'Con $85.000 COP aseguras kits completos para un estudiante durante un trimestre.',
+      cover: 'https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1200&q=80',
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Tutor%C3%ADas',
+      strapiCollection: 'donaciones-historias',
+      strapiEntryId: 'tutorias-profe-en-casa',
+    },
+    {
+      title: 'Huerta comunitaria',
+      description: 'Familias siembran y aprenden sobre alimentación sostenible con apoyo de la fundación.',
+      impact: 'Una donación de $70.000 COP respalda canastas de alimentos para cuatro familias.',
+      cover: 'https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=1200&q=80',
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Huerta',
+      strapiCollection: 'donaciones-historias',
+      strapiEntryId: 'huerta-comunitaria',
+    },
+    {
+      title: 'Ruta Literaria María',
+      description: 'Clubes de lectura, escritura creativa y encuentros culturales que celebran la afrocolombianidad.',
+      impact: 'Con $45.000 COP apoyas la compra de libros y actividades para un círculo de lectura.',
+      cover: 'https://images.unsplash.com/photo-1529158062015-cad636e69505?auto=format&fit=crop&w=1200&q=80',
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Ruta%20Literaria',
+      strapiCollection: 'donaciones-historias',
+      strapiEntryId: 'ruta-literaria',
+    },
+  ];
+
+  readonly supportActions: SupportAction[] = [
+    {
+      icon: '🤝',
+      title: 'Apadrina un niño',
+      description: 'Acompaña el proceso educativo y emocional de una niña o un niño durante todo el año.',
+      href: '/apadrina',
+      linkLabel: 'Conocer más',
+      theme: 'sun',
+      dataStrapiUid: 'donations.actions.sponsor',
+    },
+    {
+      icon: '⏰',
+      title: 'Voluntariado activo',
+      description: 'Comparte tu tiempo en tutorías, logística de eventos y mentorías profesionales.',
+      href: '/contacto',
+      linkLabel: 'Inscribirme',
+      theme: 'teal',
+      dataStrapiUid: 'donations.actions.volunteer',
+    },
+    {
+      icon: '📢',
+      title: 'Comparte nuestra misión',
+      description: 'Multiplica el mensaje en redes sociales y vincula nuevos aliados solidarios.',
+      href: 'https://www.facebook.com/FundacionAfrocolombianaProfeEnCasa',
+      linkLabel: 'Compartir',
+      theme: 'rose',
+      dataStrapiUid: 'donations.actions.share',
+    },
   ];
 
   // Estado con señales
