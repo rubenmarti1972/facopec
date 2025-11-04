@@ -1,28 +1,50 @@
-<footer class="site-footer" style="background:linear-gradient(180deg, rgba(123,209,169,.15), rgba(135,196,235,.15));border-top:1px solid rgba(0,0,0,.04)">
-  <div class="container">
-    <div style="display:grid;grid-template-columns: repeat(auto-fit,minmax(200px,1fr));gap:18px">
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__brand">
+      <span class="site-footer__logo" aria-hidden="true">
+        <img src="assets/logo.png" alt="Logo de FACOPEC" loading="lazy" />
+      </span>
       <div>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <img src="assets/logo.png" alt="Logo" style="height:44px;width:44px;border-radius:50%">
-          <div>
-            <strong>Fundación Afrocolombiana Profe en Casa</strong>
-            <div class="small">“Una Misión con Sentido Social”</div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <h4>Contacto</h4>
-        <div class="small">Correo: contacto@fundacionprofeencasa.org</div>
-        <div class="small">WhatsApp: +57 000 000 0000</div>
-      </div>
-      <div>
-        <h4>Enlaces</h4>
-        <div class="small"><a routerLink="/about">Quiénes somos</a></div>
-        <div class="small"><a routerLink="/projects">Programas y proyectos</a></div>
-        <div class="small"><a routerLink="/donate">Donaciones</a></div>
+        <p class="site-footer__title">Fundación Afrocolombiana Profe en Casa</p>
+        <p class="site-footer__tagline">“Una misión con sentido social”</p>
       </div>
     </div>
-<div style="margin-top:12px;color:#777;font-size:.9rem">
-  © {{ year }} Fundación Afrocolombiana Profe en Casa
-</div>  </div>
+
+    <div class="site-footer__grid">
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="mailto:contacto@fundacionprofeencasa.org">contacto@fundacionprofeencasa.org</a></li>
+          <li><a href="tel:+575000000000">WhatsApp: +57 500 000 0000</a></li>
+          <li>Cartagena, Colombia</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Explora</h4>
+        <ul>
+          <li><a routerLink="/about">Quiénes somos</a></li>
+          <li><a routerLink="/projects">Programas y proyectos</a></li>
+          <li><a routerLink="/donate">Donaciones</a></li>
+          <li><a routerLink="/sponsor">Aliados y patrocinio</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Recursos</h4>
+        <ul>
+          <li><a routerLink="/literary-route">Ruta literaria</a></li>
+          <li><a routerLink="/newspaper">Periódico comunitario</a></li>
+          <li><a routerLink="/grants">Convocatorias y becas</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>© {{ year }} Fundación Afrocolombiana Profe en Casa. Todos los derechos reservados.</p>
+      <div class="site-footer__legal">
+        <a href="#privacidad">Aviso de privacidad</a>
+        <span aria-hidden="true">•</span>
+        <a href="#terminos">Términos de uso</a>
+      </div>
+    </div>
+  </div>
 </footer>
