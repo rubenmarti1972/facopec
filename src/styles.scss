@@ -10,27 +10,31 @@
 // ============================================================================
 
 :root {
-  // Colors inspired by logo palette
-  --color-primary: #1f9b7a;
-  --color-primary-light: #54c7a5;
-  --color-primary-dark: #0f5743;
+  // Colors
+  --color-primary: #7BD1A9;
+  --color-primary-light: #A3E3C5;
+  --color-primary-dark: #3A8B69;
 
-  --color-secondary: #13507a;
-  --color-secondary-light: #3d78a6;
-  --color-secondary-dark: #0a2a41;
+  --color-secondary: #0B3B5A;
+  --color-secondary-light: #2A5F86;
+  --color-secondary-dark: #052033;
 
-  --color-accent: #ff8c5a;
-  --color-accent-light: #ffb08d;
-  --color-accent-dark: #d9652f;
+  --color-accent: #F7A9C4;
+  --color-accent-light: #FBD0DE;
+  --color-accent-dark: #DB6F9C;
 
-  --color-sun: #f7c948;
-  --color-dark: #10243b;
-  --color-dark-gray: #2f4052;
-  --color-medium-gray: #5f6c7b;
-  --color-light-gray: #f5f7fb;
-  --color-surface: #ffffff;
-  --color-white: #ffffff;
-
+  --color-dark: #1C2A3A;
+  --color-dark-gray: #2F4052;
+  --color-medium-gray: #6B7C8A;
+  --color-light-gray: #F4F7FB;
+  --color-white: #FFFFFF;
+  
+  // Semantic colors
+  --color-success: #27AE60;
+  --color-warning: #F39C12;
+  --color-error: #E74C3C;
+  --color-info: #3498DB;
+  
   // Typography
   --font-family-primary: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   --font-family-mono: 'Courier New', Courier, monospace;
@@ -96,10 +100,10 @@ body {
   font-family: var(--font-family-primary);
   color: var(--color-dark);
   background-color: var(--color-light-gray);
-  background-image: radial-gradient(circle at top left, rgba(84, 199, 165, 0.15), transparent 45%),
-    radial-gradient(circle at 82% 2%, rgba(61, 120, 166, 0.16), transparent 55%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(245, 247, 251, 0.96));
-  line-height: 1.65;
+  background-image: radial-gradient(circle at top left, rgba(123, 209, 169, 0.2), transparent 45%),
+    radial-gradient(circle at 80% 0%, rgba(135, 196, 235, 0.18), transparent 50%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(244, 247, 251, 0.95));
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -108,6 +112,45 @@ img {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+// ============================================================================
+// TYPOGRAPHY
+// ============================================================================
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2.2rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+}
+
+h5 {
+  font-size: 1.1rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
 }
 
 a {

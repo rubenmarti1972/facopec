@@ -2,13 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
-interface HeaderLink {
-  label: string;
-  routerLink: string;
-  exact?: boolean;
-  dataStrapiUid: string;
-}
-
 @Component({
   selector: 'app-header',
   standalone: true,
