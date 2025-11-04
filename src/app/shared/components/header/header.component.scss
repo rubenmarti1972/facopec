@@ -1,0 +1,300 @@
+$primary: var(--color-primary, #D4A574);
+$secondary: var(--color-secondary, #1B1B4D);
+$accent: var(--color-accent, #E74C3C);
+$white: #FFFFFF;
+$dark-text: #2C3E50;
+$light-gray: #ECF0F1;
+
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: $secondary;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  transition: all 0.3s ease;
+
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0.5rem 2rem;
+    gap: 2rem;
+  }
+}
+
+// Logo Section
+.logo-section {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    .logo-image {
+      height: 60px;
+      width: auto;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+
+      .org-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: $primary;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .org-tagline {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: $white;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+}
+
+// Desktop Navigation
+.nav-desktop {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+
+  .nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .nav-item {
+    display: flex;
+
+    .nav-link {
+      padding: 0.75rem 1.25rem;
+      background: none;
+      border: none;
+      color: $white;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: relative;
+
+      &:hover {
+        color: $primary;
+      }
+
+      &.active {
+        color: $primary;
+        background-color: rgba($primary, 0.1);
+        border-radius: 4px;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 1.25rem;
+          right: 1.25rem;
+          height: 3px;
+          background-color: $accent;
+          border-radius: 2px 2px 0 0;
+        }
+      }
+    }
+  }
+}
+
+// Mobile Menu Button
+.mobile-menu-btn {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  gap: 0.4rem;
+
+  .hamburger {
+    width: 28px;
+    height: 3px;
+    background-color: $white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  &.active {
+    .hamburger {
+      &:nth-child(1) {
+        transform: rotate(45deg) translate(8px, 8px);
+      }
+
+      &:nth-child(2) {
+        opacity: 0;
+      }
+
+      &:nth-child(3) {
+        transform: rotate(-45deg) translate(8px, -8px);
+      }
+    }
+  }
+}
+
+// Mobile Navigation
+.nav-mobile {
+  display: none;
+  background-color: rgba($secondary, 0.98);
+  border-top: 1px solid rgba($white, 0.1);
+
+  .mobile-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-nav-item {
+    display: flex;
+
+    .mobile-nav-link {
+      width: 100%;
+      padding: 1rem 2rem;
+      background: none;
+      border: none;
+      color: $white;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      text-align: left;
+
+      &:hover {
+        color: $primary;
+        background-color: rgba($primary, 0.1);
+      }
+
+      &.active {
+        color: $primary;
+        background-color: rgba($primary, 0.15);
+        border-left: 4px solid $accent;
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1024px) {
+  .header-container {
+    padding: 0.5rem 1rem;
+    gap: 1rem;
+  }
+
+  .nav-desktop {
+    .nav-list {
+      gap: 0;
+    }
+
+    .nav-item {
+      .nav-link {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    flex-wrap: wrap;
+  }
+
+  .nav-desktop {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+    order: 2;
+  }
+
+  .nav-mobile {
+    display: block;
+    width: 100%;
+    order: 3;
+  }
+
+  .logo-section {
+    .logo {
+      gap: 0.5rem;
+
+      .logo-image {
+        height: 45px;
+      }
+
+      .logo-text {
+        .org-name {
+          font-size: 1rem;
+        }
+
+        .org-tagline {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .header-container {
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .logo-section {
+    .logo {
+      .logo-image {
+        height: 40px;
+      }
+
+      .logo-text {
+        .org-name {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+
+  .mobile-menu-btn {
+    .hamburger {
+      width: 24px;
+      height: 2px;
+    }
+  }
+}

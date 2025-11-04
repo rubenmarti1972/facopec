@@ -1,0 +1,54 @@
+$primary: var(--color-primary, #D4A574);
+$secondary: var(--color-secondary, #1B1B4D);
+$accent: var(--color-accent, #E74C3C);
+$dark: #2C3E50;
+$light-gray: #ECF0F1;
+$white: #FFFFFF;
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: $white;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+  margin-top: 80px; // Account for fixed header
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba($white, 0.3);
+    border-top-color: $primary;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive layout
+@media (max-width: 768px) {
+  .main-content {
+    margin-top: 70px;
+  }
+}

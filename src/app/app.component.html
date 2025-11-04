@@ -1,0 +1,21 @@
+<div class="app-container">
+  <!-- Header and Navigation -->
+
+  <p>
+    HJHHHHHHH
+  </p>
+  <app-header></app-header>
+
+  <!-- Main Content -->
+  <main class="main-content" role="main">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Footer -->
+  <app-footer></app-footer>
+
+  <!-- Loading Indicator -->
+  <div class="loading-overlay" *ngIf="isLoading" aria-label="Loading">
+    <div class="spinner"></div>
+  </div>
+</div>

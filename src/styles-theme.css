@@ -1,0 +1,37 @@
+
+/* Pastel theme from logo (60/30/10) */
+:root{
+  --brand-primary:#7BD1A9;
+  --brand-secondary:#87C4EB;
+  --brand-accent:#F7A9C4;
+  --brand-sun:#F9D44A;
+  --ink:#2C2C2C;
+  --ink-muted:#6E6E6E;
+  --bg:#FFF9F1;
+  --surface:#FFFFFF;
+  --radius-xl:20px;--radius-lg:14px;
+  --shadow-1: 0 10px 24px rgba(0,0,0,.08);
+  --shadow-2: 0 18px 44px rgba(0,0,0,.12);
+}
+.container{max-width:1120px;margin:0 auto;padding:clamp(16px,3vw,28px)}
+.section{padding:clamp(28px,6vw,64px) 0}
+.card{background:var(--surface);border-radius:var(--radius-xl);box-shadow:var(--shadow-1);padding:clamp(16px,2.2vw,28px)}
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.pills{display:flex;flex-wrap:wrap;gap:10px}
+.pill{background:rgba(135,196,235,.22);color:#0b3b5a;padding:.45rem .8rem;border-radius:999px;border:1px solid rgba(135,196,235,.5);font-weight:600}
+.small{color:var(--ink-muted);font-size:.95rem}
+.btn{display:inline-block;padding:.85rem 1.25rem;border-radius:999px;text-decoration:none;font-weight:600;transition:.2s ease all}
+.btn-primary{background:var(--brand-accent);color:#2e1d24;box-shadow:0 8px 20px rgba(247,169,196,.35)}
+.btn-primary:hover{transform:translateY(-1px)}
+.btn-ghost{background:transparent;border:2px solid var(--brand-primary);color:#1d3f34}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(16px,4vw,36px);align-items:center;margin-top:12px}
+.hero .badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(123,209,169,.18);border:1px solid rgba(123,209,169,.35);color:#1d3f34;padding:.35rem .7rem;border-radius:999px;font-weight:600}
+.hero h1{font-size:clamp(28px,3.4vw,46px);line-height:1.1;margin:.35rem 0}
+.hero p{font-size:clamp(16px,1.3vw,18px);color:var(--ink-muted)}
+.callout{background:linear-gradient(180deg, rgba(123,209,169,.22), rgba(247,169,196,.22));border:1px solid rgba(0,0,0,.05);border-radius:var(--radius-xl);padding:18px;box-shadow:var(--shadow-1)}
+.kpi{display:flex;gap:12px;align-items:center}
+.kpi .dot{width:12px;height:12px;border-radius:50%}
+.kpi .dot.green{background:var(--brand-primary)}
+.kpi .dot.blue{background:var(--brand-secondary)}
+.kpi .dot.pink{background:var(--brand-accent)}
