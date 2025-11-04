@@ -24,6 +24,13 @@ interface ActivityCard {
   dataStrapiUid: string;
 }
 
+interface IdentityValue {
+  title: string;
+  description: string;
+  icon: string;
+  dataStrapiUid: string;
+}
+
 interface ProgramCard {
   title: string;
   description: string;
@@ -51,6 +58,8 @@ interface GalleryItem {
   strapiCollection: string;
   strapiEntryId: string;
 }
+
+type IdentityCardKey = 'description' | 'mission' | 'vision';
 
 @Component({
   selector: 'app-home',
@@ -82,6 +91,32 @@ export class HomeComponent {
     }
   };
 
+  readonly identity = {
+    description:
+      'Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en comunidades negras, afrocolombianas, raizales y palenqueras. Desde el Valle del Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.',
+    dataStrapiUid: 'about.description',
+    values: <IdentityValue[]>[
+      {
+        title: 'Derechos humanos y dignidad',
+        description: 'Promovemos la defensa y reivindicación de los derechos de las comunidades negras, afrocolombianas, raizales y palenqueras.',
+        icon: '👐🏾',
+        dataStrapiUid: 'about.values.rights'
+      },
+      {
+        title: 'Educación transformadora',
+        description: 'Impulsamos procesos educativos, tecnológicos y culturales que potencian talentos y vocaciones.',
+        icon: '💡',
+        dataStrapiUid: 'about.values.education'
+      },
+      {
+        title: 'Fe, cultura y comunidad',
+        description: 'Fortalecemos el tejido comunitario desde la espiritualidad, la identidad cultural y el trabajo colaborativo.',
+        icon: '🤲🏾',
+        dataStrapiUid: 'about.values.community'
+      }
+    ]
+  };
+
   readonly impactHighlights = [
     {
       icon: '📚',
@@ -105,11 +140,17 @@ export class HomeComponent {
 
   readonly missionVision = {
     mission:
-      'Promover oportunidades educativas, culturales y espirituales que fortalezcan las familias afrocolombianas a través de procesos innovadores y acompañamiento integral desde el hogar.',
+      'La Fundación Afrocolombiana Profe en Casa | FACOPEC se dedica a captar y canalizar recursos a nivel local, nacional e internacional para desarrollar proyectos que promuevan y reivindiquen los derechos humanos de las comunidades negras, afrocolombianas, raizales y palenqueras. Trabajamos para empoderar a niños, niñas, adolescentes, jóvenes, hombres, mujeres y familias, potenciando sus capacidades y sueños mediante programas educativos, culturales, recreativos, y tecnológicos, entre otros, con el fin de maximizar su impacto positivo y fomentar su desarrollo como actores de cambio en sus comunidades.',
     vision:
-      'Ser una red comunitaria referente en el Valle del Cauca que potencia los sueños de la niñez y juventud afrodescendiente con programas de calidad, alianzas solidarias y tecnologías inclusivas.',
+      'Ser reconocidos como una fundación líder en la promoción de los derechos humanos y el desarrollo integral de las comunidades afrocolombianas, raizales y palenqueras. Aspiramos a crear un futuro donde estas comunidades puedan desplegar plenamente su potencial en ámbitos tecnológicos, educativos, culturales y sociales, contribuyendo activamente al progreso social, económico y ambiental de Colombia y el mundo.',
     dataStrapiUidMission: 'about.mission',
     dataStrapiUidVision: 'about.vision'
+  };
+
+  identityExpanded: Record<IdentityCardKey, boolean> = {
+    description: false,
+    mission: false,
+    vision: false
   };
 
   readonly activityCards: ActivityCard[] = [
@@ -224,4 +265,8 @@ export class HomeComponent {
       strapiEntryId: 'testimonio-video'
     }
   ];
+
+  toggleIdentityCard(key: IdentityCardKey): void {
+    this.identityExpanded[key] = !this.identityExpanded[key];
+  }
 }
