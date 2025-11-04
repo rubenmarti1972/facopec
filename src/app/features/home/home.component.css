@@ -62,16 +62,6 @@
   margin: 0;
 }
 
-.mission-grid .card {
-  position: relative;
-  overflow: hidden;
-}
-
-.mission-icon {
-  background: rgba(31, 155, 122, 0.14);
-  color: var(--brand-ink);
-}
-
 .activity-grid {
   gap: clamp(1.4rem, 3vw, 2.4rem);
 }
