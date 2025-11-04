@@ -9,13 +9,13 @@ $white: #FFFFFF;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: $white;
+  background: transparent;
 }
 
 .main-content {
   flex: 1;
   width: 100%;
-  margin-top: 80px; // Account for fixed header
+  margin-top: 96px; // Account for fixed header
 }
 
 .loading-overlay {
@@ -49,6 +49,6 @@ $white: #FFFFFF;
 // Responsive layout
 @media (max-width: 768px) {
   .main-content {
-    margin-top: 70px;
+    margin-top: 80px;
   }
 }
