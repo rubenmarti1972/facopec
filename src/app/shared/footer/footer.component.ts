@@ -2,21 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-interface FooterLink {
-  label: string;
-  href?: string;
-  routerLink?: string;
-  external?: boolean;
-  dataStrapiUid: string;
-}
-
-interface SocialLink {
-  label: string;
-  href: string;
-  icon: 'facebook' | 'instagram' | 'x' | 'youtube';
-  dataStrapiUid: string;
-}
-
 @Component({
   selector: 'app-footer',
   standalone: true,
