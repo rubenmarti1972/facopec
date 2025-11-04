@@ -1,78 +1,55 @@
-<section class="section">
+<section class="section" id="inicio" data-strapi-collection="home" data-strapi-section="hero">
   <div class="container hero">
     <div class="hero__content">
-      <span class="hero__badge">
-        <span aria-hidden="true">✨</span>
-        Misión con sentido social
-      </span>
+      <span class="hero__badge">{{ hero.eyebrow }}</span>
       <h1 class="hero__title">
-        <span>Transformamos vidas</span>
-        <span>a través de la educación y el cuidado</span>
+        <span *ngFor="let line of hero.title">{{ line }}</span>
       </h1>
-      <p class="hero__lead">
-        Somos la <strong>Fundación Afrocolombiana Profe en Casa</strong>. Desde 2020 acompañamos a
-        niñas, niños y adolescentes en Cartagena con programas educativos, culturales y de bienestar
-        que fortalecen sus sueños y a sus familias.
-      </p>
+      <p class="hero__lead">{{ hero.lead }}</p>
       <div class="hero__actions">
-        <a routerLink="/donate" class="btn btn-primary">Donar ahora</a>
-        <a routerLink="/projects" class="btn btn-secondary">Conoce nuestros proyectos</a>
+        <a
+          *ngFor="let action of hero.actions"
+          class="btn"
+          [ngClass]="{ 'btn-primary': action.variant === 'primary', 'btn-secondary': action.variant === 'secondary' }"
+          [routerLink]="action.routerLink || null"
+          [href]="action.href || null"
+          [attr.data-strapi-uid]="action.dataStrapiUid"
+          [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
+          [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
+        >
+          {{ action.label }}
+        </a>
       </div>
       <div class="hero__stats">
-        <article class="hero__stat">
-          <p class="hero__stat-value">+120</p>
-          <p class="hero__stat-label">Niños y niñas acompañados con tutorías semanales</p>
-        </article>
-        <article class="hero__stat">
-          <p class="hero__stat-value">5</p>
-          <p class="hero__stat-label">Años impulsando oportunidades en la comunidad</p>
-        </article>
-        <article class="hero__stat">
-          <p class="hero__stat-value">∞</p>
-          <p class="hero__stat-label">Compromiso con la cultura, la fe y la esperanza</p>
+        <article class="hero__stat" *ngFor="let stat of hero.stats" data-strapi-collection="hero.stats">
+          <p class="hero__stat-value">{{ stat.value }}</p>
+          <p class="hero__stat-label">{{ stat.label }}</p>
         </article>
       </div>
     </div>
 
     <div class="hero__visual">
-      <div class="callout">
-        <div class="callout__badge">Proverbios 3:13</div>
-        <p class="callout__title">“Feliz quien halla sabiduría”</p>
-        <p class="callout__text">
-          Creamos espacios seguros para aprender, compartir y crecer en comunidad. Creemos en el poder
-          de la lectura, el juego y la fe para transformar historias.
-        </p>
+      <div class="callout" data-strapi-collection="hero.verse">
+        <div class="callout__badge">{{ hero.verse.reference }}</div>
+        <p class="callout__title">{{ hero.verse.text }}</p>
+        <p class="callout__text">{{ hero.verse.description }}</p>
         <div class="callout__media" aria-hidden="true">
-          <img src="assets/logo.png" alt="Logo FACOPEC" />
+          <img src="assets/logo.png" alt="Logo FACOPEC" loading="lazy" />
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section">
+<section class="section" data-strapi-section="impact">
   <div class="container">
     <div class="impact-strip">
       <div class="impact-strip__items">
-        <div class="impact-strip__item">
-          <span class="impact-strip__icon">📚</span>
+        <div class="impact-strip__item" *ngFor="let item of impactHighlights" [attr.data-strapi-uid]="item.dataStrapiUid">
+          <span class="impact-strip__icon">{{ item.icon }}</span>
           <div>
-            <p class="impact-strip__title">Educación integral</p>
-            <p class="impact-strip__label">Tutorías, clubes de lectura y apoyo escolar</p>
-          </div>
-        </div>
-        <div class="impact-strip__item">
-          <span class="impact-strip__icon">🤝🏾</span>
-          <div>
-            <p class="impact-strip__title">Tejido comunitario</p>
-            <p class="impact-strip__label">Trabajo con familias, líderes y aliados</p>
-          </div>
-        </div>
-        <div class="impact-strip__item">
-          <span class="impact-strip__icon">🌱</span>
-          <div>
-            <p class="impact-strip__title">Valores y fe</p>
-            <p class="impact-strip__label">Formación espiritual y bienestar emocional</p>
+            <p class="impact-strip__title">{{ item.title }}</p>
+            <p class="impact-strip__label">{{ item.label }}</p>
           </div>
         </div>
       </div>
@@ -80,105 +57,184 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section" data-strapi-section="mission-vision">
   <div class="container">
     <div class="section__heading">
-      <span class="section__eyebrow">¿Qué hacemos?</span>
-      <h2 class="section__title">Programas que inspiran y acompañan</h2>
+      <span class="section__eyebrow">Nuestra esencia</span>
+      <h2 class="section__title">Misión y visión que inspiran esperanza</h2>
       <p class="section__subtitle">
-        Desarrollamos procesos educativos y culturales para que cada niño y niña descubra su potencial,
-        fortalezca sus talentos y construya proyectos de vida con propósito.
+        Acompañamos comunidades afrocolombianas desde el Valle del Cauca con procesos educativos, culturales y de fe que
+        fortalecen los sueños colectivos.
       </p>
     </div>
-
-    <div class="grid-3">
-      <article class="card">
-        <div class="card__icon" style="background:rgba(123,209,169,.25);color:#1d3f34">📖</div>
-        <h3 class="card__title">Acompañamiento escolar</h3>
-        <p class="card__text">
-          Tutorías personalizadas, apoyo en tareas, refuerzo en lectura y matemáticas, y seguimiento
-          cercano con las familias.
-        </p>
+    <div class="grid-2 mission-grid">
+      <article class="card" [attr.data-strapi-uid]="missionVision.dataStrapiUidMission">
+        <div class="card__icon mission-icon">🌟</div>
+        <h3 class="card__title">Misión</h3>
+        <p class="card__text">{{ missionVision.mission }}</p>
       </article>
-      <article class="card">
-        <div class="card__icon" style="background:rgba(91,169,217,.22);color:#0b3b5a">🎨</div>
-        <h3 class="card__title">Arte y cultura</h3>
-        <p class="card__text">
-          Clubes de lectura, ruta literaria María, expresión artística y encuentros para fortalecer la
-          identidad afrocolombiana.
-        </p>
-      </article>
-      <article class="card">
-        <div class="card__icon" style="background:rgba(247,169,196,.28);color:#8f3d60">💚</div>
-        <h3 class="card__title">Bienestar integral</h3>
-        <p class="card__text">
-          Acompañamiento psicoemocional, espacios de juego, liderazgo y formación espiritual para toda
-          la familia.
-        </p>
+      <article class="card" [attr.data-strapi-uid]="missionVision.dataStrapiUidVision">
+        <div class="card__icon mission-icon">🚀</div>
+        <h3 class="card__title">Visión</h3>
+        <p class="card__text">{{ missionVision.vision }}</p>
       </article>
     </div>
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="actividades" data-strapi-section="activities">
+  <div class="container">
+    <div class="section__heading">
+      <span class="section__eyebrow">Actividades</span>
+      <h2 class="section__title">Programas que se viven en comunidad</h2>
+      <p class="section__subtitle">
+        Conecta con nuestras actividades destacadas y descubre más detalles en el blog oficial de la fundación.
+      </p>
+    </div>
+    <div class="grid-2 activity-grid">
+      <article
+        class="card activity-card"
+        *ngFor="let activity of activityCards"
+        [attr.data-strapi-uid]="activity.dataStrapiUid"
+      >
+        <div class="activity-card__icon" [ngClass]="activity.theme">{{ activity.icon }}</div>
+        <h3 class="card__title">{{ activity.title }}</h3>
+        <p class="card__text">{{ activity.description }}</p>
+        <a class="card__link" [href]="activity.href" target="_blank" rel="noopener">
+          Ver más
+          <span aria-hidden="true">↗</span>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tinted" data-strapi-section="programs">
   <div class="container">
     <div class="section__heading">
       <span class="section__eyebrow">Proyectos destacados</span>
-      <h2 class="section__title">Historias que cambian comunidades</h2>
+      <h2 class="section__title">Historias que transforman el territorio</h2>
       <p class="section__subtitle">
-        Cada iniciativa nace de escuchar a la comunidad y sumar aliados que creen en la educación como
-        motor de transformación.
+        Cada iniciativa nace de escuchar a la comunidad y sumar aliados que creen en la educación como motor de cambio.
       </p>
     </div>
 
     <div class="grid-2">
-      <article class="card project-card">
-        <div class="project-card__media">
-          <img src="assets/logo.png" alt="Programa Ruta Literaria María" />
+      <article
+        class="card project-card"
+        *ngFor="let program of programCards"
+        [attr.data-strapi-collection]="program.strapiCollection"
+        [attr.data-strapi-entry]="program.strapiEntryId"
+      >
+        <div class="project-card__body">
+          <h3 class="project-card__title">{{ program.title }}</h3>
+          <p class="project-card__text">{{ program.description }}</p>
+          <div class="pill-row">
+            <span class="pill" *ngFor="let pill of program.highlights">{{ pill }}</span>
+          </div>
         </div>
-        <h3 class="project-card__title">Ruta literaria María</h3>
-        <p class="project-card__text">
-          Una travesía por la literatura afrodescendiente y popular que fortalece la lectura, la
-          escritura y la memoria de nuestras raíces.
-        </p>
-        <div class="pill-row">
-          <span class="pill">Lectura</span>
-          <span class="pill">Identidad</span>
-          <span class="pill">Familia</span>
-        </div>
-      </article>
-
-      <article class="card project-card">
-        <div class="project-card__media">
-          <img src="assets/logo.png" alt="Programa Semillero Digital" />
-        </div>
-        <h3 class="project-card__title">Semillero digital</h3>
-        <p class="project-card__text">
-          Talleres STEAM, alfabetización digital y exploración vocacional para que jóvenes accedan a
-          nuevas oportunidades educativas y laborales.
-        </p>
-        <div class="pill-row">
-          <span class="pill">Tecnología</span>
-          <span class="pill">Innovación</span>
-          <span class="pill">Mentorías</span>
-        </div>
+        <a class="card__link" [href]="program.href" target="_blank" rel="noopener">
+          Leer en el blog
+          <span aria-hidden="true">↗</span>
+        </a>
       </article>
     </div>
   </div>
 </section>
 
-<section class="section">
+<section class="section" data-strapi-section="gallery">
   <div class="container">
-    <div class="cta-panel">
-      <div>
-        <h2 class="cta-panel__title">Súmate y ayudemos a más familias a creer en su futuro</h2>
-        <p class="cta-panel__text">
-          Tu aporte permite ampliar becas, dotar bibliotecas comunitarias y sostener la alimentación de
-          los niños durante las jornadas de aprendizaje.
+    <div class="section__heading">
+      <span class="section__eyebrow">Memorias</span>
+      <h2 class="section__title">Fotografías y videos listos para Strapi</h2>
+      <p class="section__subtitle">
+        Organizamos el banco de recursos audiovisuales para que puedas gestionarlo fácilmente desde Strapi y compartirlo con tu
+        comunidad.
+      </p>
+    </div>
+    <div class="gallery-grid">
+      <article
+        class="gallery-card"
+        *ngFor="let item of galleryItems"
+        [attr.data-strapi-collection]="item.strapiCollection"
+        [attr.data-strapi-entry]="item.strapiEntryId"
+      >
+        <img [src]="item.cover" [alt]="item.title" loading="lazy" />
+        <div class="gallery-card__caption">
+          <p>{{ item.title }}</p>
+        </div>
+        <a class="gallery-card__overlay" [href]="item.href" target="_blank" rel="noopener">{{ item.description }}</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tinted" data-strapi-section="catalogo">
+  <div class="container">
+    <div class="section__heading">
+      <span class="section__eyebrow">Catálogo en WhatsApp</span>
+      <h2 class="section__title">Tu aporte suma esperanza</h2>
+      <p class="section__subtitle">
+        Selecciona una opción del catálogo y continúa la donación o compra solidaria directamente en WhatsApp.
+      </p>
+    </div>
+    <div class="catalog-grid">
+      <article
+        class="catalog-card"
+        *ngFor="let item of catalogItems"
+        [attr.data-strapi-collection]="item.strapiCollection"
+        [attr.data-strapi-entry]="item.strapiEntryId"
+      >
+        <h3 class="catalog-card__title">{{ item.title }}</h3>
+        <p class="catalog-card__description">{{ item.description }}</p>
+        <p class="catalog-card__price">{{ item.price }}</p>
+        <a class="catalog-card__button" [href]="item.href" target="_blank" rel="noopener">
+          Abrir en WhatsApp
+          <span aria-hidden="true">↗</span>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" data-strapi-section="contacto">
+  <div class="container">
+    <div class="grid-2 contact-grid">
+      <article class="contact-card" data-strapi-field="contact">
+        <h2>¿Quieres sumar tu talento?</h2>
+        <p>
+          Escríbenos y coordinemos alianzas, voluntariado o visitas. También puedes llamarnos o escribir por WhatsApp para conocer
+          más de nuestros programas.
         </p>
-      </div>
-      <div class="cta-panel__actions">
-        <a routerLink="/donate" class="btn btn-primary">Quiero apoyar</a>
+        <div class="contact-card__row">
+          <strong>Correo</strong>
+          <a href="mailto:contacto@facopec.org">contacto@facopec.org</a>
+        </div>
+        <div class="contact-card__row">
+          <strong>WhatsApp</strong>
+          <a href="https://wa.me/573215230283" target="_blank" rel="noopener">+57 321 523 0283</a>
+        </div>
+        <div class="contact-card__row">
+          <strong>Ubicación</strong>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Cra+22+%238-9,+Puerto+Tejada,+Cauca,+Colombia"
+            target="_blank"
+            rel="noopener"
+          >
+            Cra 22 #8-9, Puerto Tejada, Cauca, Colombia
+          </a>
+        </div>
+      </article>
+      <div class="map-embed" aria-label="Mapa de ubicación de la fundación">
+        <iframe
+          src="https://maps.google.com/maps?q=Cra%2022%20%238-9%20Puerto%20Tejada%20Cauca%20Colombia&t=&z=15&ie=UTF8&iwloc=&output=embed"
+          width="100%"
+          height="100%"
+          style="border:0;"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
       </div>
     </div>
   </div>

@@ -1,22 +1,32 @@
 <header class="site-header" role="banner">
   <div class="container site-header__inner">
-    <a class="site-header__brand" routerLink="/" aria-label="Fundación Afrocolombiana Profe en Casa - Inicio">
+    <a
+      class="site-header__brand"
+      routerLink="/"
+      aria-label="Fundación Afrocolombiana Profe en Casa - Inicio"
+      data-strapi-collection="global"
+      data-strapi-field="brand"
+    >
       <span class="site-header__logo" aria-hidden="true">
         <img src="assets/logo.png" alt="Logo de FACOPEC" loading="lazy" />
       </span>
       <span class="site-header__titles">
         <span class="site-header__title">Fundación Afrocolombiana Profe en Casa</span>
-        <span class="site-header__subtitle">Una misión con sentido social</span>
+        <span class="site-header__subtitle">Educación, cultura y fe en Valle del Cauca</span>
       </span>
     </a>
 
     <nav class="site-nav" aria-label="Navegación principal">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
-      <a routerLink="/projects" routerLinkActive="active">Proyectos</a>
-      <a routerLink="/literary-route" routerLinkActive="active">Ruta literaria</a>
-      <a routerLink="/newspaper" routerLinkActive="active">Periódico</a>
-      <a routerLink="/about" routerLinkActive="active">Nosotros</a>
-      <a routerLink="/donate" class="btn btn-primary">Donar</a>
+      <a
+        *ngFor="let link of navLinks"
+        [routerLink]="link.routerLink"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="link.exact ? { exact: true } : { exact: false }"
+        [attr.data-strapi-uid]="link.dataStrapiUid"
+      >
+        {{ link.label }}
+      </a>
+      <a routerLink="/donate" class="btn btn-donate" data-strapi-uid="navigation.donate">Donar</a>
     </nav>
   </div>
 </header>
