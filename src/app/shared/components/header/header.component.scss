@@ -27,7 +27,8 @@ $light-gray: #ECF0F1;
 }
 
 .header-shell {
-  width: min(1680px, 96vw);
+  width: min(100%, 96vw);
+  max-width: 1600px;
   margin-inline: auto;
   padding-inline: clamp(1rem, 4vw, 2.75rem);
 }
