@@ -88,7 +88,7 @@
 }
 
 html {
-  font-size: 16px;
+  font-size: clamp(16px, 0.6vw + 14.4px, 18px);
   scroll-behavior: smooth;
 }
 
@@ -96,12 +96,14 @@ body {
   font-family: var(--font-family-primary);
   color: var(--color-dark);
   background-color: var(--color-light-gray);
-  background-image: radial-gradient(circle at top left, rgba(84, 199, 165, 0.15), transparent 45%),
-    radial-gradient(circle at 82% 2%, rgba(61, 120, 166, 0.16), transparent 55%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(245, 247, 251, 0.96));
+  background-image: linear-gradient(160deg, rgba(31, 155, 122, 0.22) 0%, rgba(31, 155, 122, 0.12) 60%),
+    linear-gradient(220deg, rgba(19, 80, 122, 0.18) 10%, rgba(19, 80, 122, 0.05) 70%),
+    radial-gradient(circle at 12% 18%, rgba(247, 201, 72, 0.18) 0%, transparent 38%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(245, 247, 251, 0.98));
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: clamp(1.05rem, 0.35vw + 0.95rem, 1.18rem);
 }
 
 img {
@@ -124,8 +126,9 @@ a:focus {
 
 p {
   margin-bottom: 1rem;
-  line-height: 1.65;
-  color: var(--color-medium-gray);
+  line-height: 1.7;
+  color: rgba(16, 36, 59, 0.88);
+  font-size: 1.04em;
 }
 
 h1,
