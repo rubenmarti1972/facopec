@@ -37,7 +37,7 @@
 }
 
 .impact-strip {
-  background: linear-gradient(90deg, rgba(19, 80, 122, 0.92), rgba(31, 155, 122, 0.92));
+  background: linear-gradient(90deg, rgba(15, 106, 181, 0.92), rgba(18, 180, 140, 0.92));
   color: #f4fbff;
   border-radius: var(--radius-xl);
   padding: clamp(1.4rem, 3vw, 2.1rem);
@@ -85,7 +85,7 @@
 .activity-grid {
   gap: clamp(1.4rem, 3vw, 2.4rem);
   justify-content: center;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 320px));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
 .activity-card {
@@ -102,26 +102,26 @@
   align-items: center;
   justify-content: center;
   font-size: 1.9rem;
-  color: #0f5743;
+  color: #0f7257;
 }
 
 .activity-card__icon.teal {
-  background: rgba(31, 155, 122, 0.18);
+  background: rgba(18, 180, 140, 0.18);
 }
 
 .activity-card__icon.blue {
-  background: rgba(19, 80, 122, 0.18);
-  color: #13507a;
+  background: rgba(15, 106, 181, 0.18);
+  color: #0f6ab5;
 }
 
 .activity-card__icon.rose {
-  background: rgba(242, 108, 167, 0.22);
-  color: #9b2c5d;
+  background: rgba(255, 95, 157, 0.24);
+  color: #a3295b;
 }
 
 .activity-card__icon.gold {
-  background: rgba(247, 201, 72, 0.26);
-  color: #8b6507;
+  background: rgba(255, 221, 51, 0.28);
+  color: #8b6a08;
 }
 
 .project-card {
@@ -132,7 +132,7 @@
 
 .project-grid {
   justify-content: center;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 320px));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
 .project-card__body {
