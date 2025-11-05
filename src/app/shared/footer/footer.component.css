@@ -3,7 +3,7 @@
 }
 
 .site-footer {
-  background: linear-gradient(180deg, rgba(19, 80, 122, 0.12), rgba(31, 155, 122, 0.12));
+  background: linear-gradient(180deg, rgba(15, 106, 181, 0.12), rgba(18, 180, 140, 0.12));
   padding: clamp(2.5rem, 6vw, 4.5rem) 0;
   border-top: 1px solid rgba(16, 36, 59, 0.08);
   backdrop-filter: blur(12px);
