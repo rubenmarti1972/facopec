@@ -16,12 +16,26 @@
       </span>
     </a>
 
-    <nav class="site-nav" aria-label="Navegación principal">
-      <ul class="site-nav__list">
+    <button
+      class="site-header__toggle"
+      type="button"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="isMenuOpen"
+      aria-controls="primary-navigation"
+    >
+      <span class="sr-only">{{ isMenuOpen ? 'Cerrar menú' : 'Abrir menú' }}</span>
+      <span class="site-header__toggle-line" aria-hidden="true"></span>
+      <span class="site-header__toggle-line" aria-hidden="true"></span>
+      <span class="site-header__toggle-line" aria-hidden="true"></span>
+    </button>
+
+    <nav class="site-nav" aria-label="Navegación principal" [class.site-nav--open]="isMenuOpen" id="primary-navigation">
+      <ul class="site-nav__list" [class.site-nav__list--open]="isMenuOpen">
         <li
           class="site-nav__item"
-          *ngFor="let link of navLinks"
+          *ngFor="let link of navLinks; let i = index"
           [class.site-nav__item--has-children]="link.children?.length"
+          [class.site-nav__item--open]="isDropdownOpen(i)"
         >
           <a
             class="site-nav__link"
@@ -31,6 +45,7 @@
             routerLinkActive="active"
             [routerLinkActiveOptions]="link.exact ? { exact: true } : { exact: false }"
             [attr.data-strapi-uid]="link.dataStrapiUid"
+            (click)="closeMenu()"
           >
             {{ link.label }}
           </a>
@@ -44,12 +59,14 @@
             [routerLinkActiveOptions]="link.exact ? { exact: true } : { exact: false }"
             [attr.aria-haspopup]="'true'"
             [attr.data-strapi-uid]="link.dataStrapiUid"
+            [attr.aria-expanded]="isDropdownOpen(i)"
+            (click)="toggleDropdown(i, $event)"
           >
             {{ link.label }}
             <span class="site-nav__caret" aria-hidden="true">▾</span>
           </a>
 
-          <div class="site-nav__panel" *ngIf="link.children?.length">
+          <div class="site-nav__panel" *ngIf="link.children?.length" [class.site-nav__panel--open]="isDropdownOpen(i)">
             <div class="site-nav__group" *ngFor="let group of link.children" [attr.data-strapi-uid]="group.dataStrapiUid">
               <p class="site-nav__group-title">{{ group.title }}</p>
               <a
@@ -59,6 +76,7 @@
                 target="_blank"
                 rel="noopener"
                 [attr.data-strapi-uid]="child.dataStrapiUid"
+                (click)="closeMenu()"
               >
                 {{ child.label }}
               </a>
@@ -66,7 +84,7 @@
           </div>
         </li>
         <li class="site-nav__item site-nav__item--cta">
-          <a routerLink="/donate" class="btn btn-donate" data-strapi-uid="navigation.donate">Donar</a>
+          <a routerLink="/donate" class="btn btn-donate" data-strapi-uid="navigation.donate" (click)="closeMenu()">Donar</a>
         </li>
       </ul>
     </nav>

@@ -10,7 +10,10 @@
         <a
           *ngFor="let action of hero.actions"
           class="btn"
-          [ngClass]="{ 'btn-primary': action.variant === 'primary', 'btn-secondary': action.variant === 'secondary' }"
+          [ngClass]="{
+            'btn--primary': action.variant === 'primary',
+            'btn--secondary': action.variant === 'secondary'
+          }"
           [routerLink]="action.routerLink || null"
           [href]="action.href || null"
           [attr.data-strapi-uid]="action.dataStrapiUid"
@@ -29,6 +32,13 @@
     </div>
 
     <div class="hero__visual">
+      <figure class="hero__image" aria-hidden="true">
+        <img
+          src="https://images.unsplash.com/photo-1594727630108-5ddc3ed0921f?auto=format&fit=crop&w=960&q=70"
+          alt="Familia afrocolombiana sonriendo al aire libre"
+          loading="lazy"
+        />
+      </figure>
       <div class="callout" data-strapi-collection="hero.verse">
         <div class="callout__badge">{{ hero.verse.reference }}</div>
         <p class="callout__title">{{ hero.verse.text }}</p>
@@ -171,10 +181,10 @@
   </div>
 </section>
 
-<section class="section" id="actividades" data-strapi-section="activities">
+<section class="section" id="programas" data-strapi-section="activities">
   <div class="container">
     <div class="section__heading">
-      <span class="section__eyebrow">Actividades</span>
+      <span class="section__eyebrow">Programas</span>
       <h2 class="section__title">Programas que se viven en comunidad</h2>
       <p class="section__subtitle">
         Conecta con nuestras actividades destacadas y descubre más detalles en el blog oficial de la fundación.
@@ -198,7 +208,7 @@
   </div>
 </section>
 
-<section class="section section--tinted" id="programas" data-strapi-section="programs">
+<section class="section section--tinted" id="proyectos" data-strapi-section="programs">
   <div class="container">
     <div class="section__heading">
       <span class="section__eyebrow">Proyectos destacados</span>
