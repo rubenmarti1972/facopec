@@ -34,7 +34,7 @@ export class HeaderComponent {
   readonly navLinks: HeaderLink[] = [
     { label: 'Inicio', routerLink: '/', exact: true, dataStrapiUid: 'navigation.home' },
     {
-      label: 'Programas y actividades',
+      label: 'Programas',
       routerLink: '/projects',
       dataStrapiUid: 'navigation.activities',
       children: [
@@ -44,34 +44,24 @@ export class HeaderComponent {
           items: [
             {
               label: 'Talleres de Nivelación',
-              href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Talleres%20de%20Nivelaci%C3%B3n',
+              href: 'https://talleresdenivelacion.blogspot.com/',
               dataStrapiUid: 'navigation.activities.students.talleres'
             },
             {
               label: 'Salidas Pedagógicas',
-              href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Salidas%20Pedag%C3%B3gicas',
+              href: 'https://salidaspedagogicas-facopec.blogspot.com/',
               dataStrapiUid: 'navigation.activities.students.salidas'
             },
             {
               label: 'Personeros y Líderes Estudiantiles',
-              href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Personeros',
+              href: 'https://personerosestudiantilesylideres.blogspot.com/',
               dataStrapiUid: 'navigation.activities.students.personeros'
             },
             {
               label: 'Obra María | Jorge Isaacs',
-              href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Obra%20Mar%C3%ADa',
+              href: 'https://rutaliterariamaria.blogspot.com/',
               dataStrapiUid: 'navigation.activities.students.obraMaria'
             },
-            {
-              label: 'Plan Lector',
-              href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Plan%20Lector',
-              dataStrapiUid: 'navigation.activities.students.planLector'
-            },
-            {
-              label: 'Obra | La María | Jorge Isaacs',
-              href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/La%20Mar%C3%ADa',
-              dataStrapiUid: 'navigation.activities.students.obraLaMaria'
-            }
           ]
         },
         {
@@ -80,7 +70,7 @@ export class HeaderComponent {
           items: [
             {
               label: 'Regalos de corazón',
-              href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Regalos%20de%20coraz%C3%B3n',
+              href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/2025/08/regalos-de-corazon-fundacion.html',
               dataStrapiUid: 'navigation.activities.yearEnd.regalos'
             }
           ]
@@ -91,7 +81,7 @@ export class HeaderComponent {
           items: [
             {
               label: 'Escuela de Padres | Virtual',
-              href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Escuela%20de%20Padres',
+              href: 'https://consejosparapadresymadres.blogspot.com/',
               dataStrapiUid: 'navigation.activities.adults.escuelaPadres'
             },
             {
