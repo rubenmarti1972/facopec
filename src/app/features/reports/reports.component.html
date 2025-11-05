@@ -1,0 +1,210 @@
+<section class="section reports-hero">
+  <div class="container reports-hero__inner">
+    <header class="reports-hero__header">
+      <span class="section__eyebrow">Informes</span>
+      <h1 class="reports-hero__title">Transparencia financiera y social</h1>
+      <p class="reports-hero__subtitle">
+        Gestiona los reportes contables y el seguimiento de personas acompañadas en los programas de FACOPEC. Toda la
+        información queda organizada por mes para compartirla con aliados y la comunidad.
+      </p>
+    </header>
+
+    <div class="reports-hero__summary">
+      <article class="reports-hero__card">
+        <h2>Ingresos acumulados</h2>
+        <p class="reports-hero__value">{{ totalIngresos | currency:'COP':'symbol-narrow':'1.0-0':'es-CO' }}</p>
+        <p class="reports-hero__hint">Incluye donaciones, convenios y campañas activas.</p>
+      </article>
+      <article class="reports-hero__card">
+        <h2>Egresos acumulados</h2>
+        <p class="reports-hero__value reports-hero__value--expense">{{ totalEgresos | currency:'COP':'symbol-narrow':'1.0-0':'es-CO' }}</p>
+        <p class="reports-hero__hint">Gastos operativos y ejecución de programas.</p>
+      </article>
+      <article class="reports-hero__card">
+        <h2>Balance general</h2>
+        <p
+          class="reports-hero__value"
+          [ngClass]="{
+            'reports-hero__value--positive': balanceGeneral >= 0,
+            'reports-hero__value--expense': balanceGeneral < 0
+          }"
+        >
+          {{ balanceGeneral | currency:'COP':'symbol-narrow':'1.0-0':'es-CO' }}
+        </p>
+        <p class="reports-hero__hint">Disponible para nuevas iniciativas.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--muted" id="informe-contable">
+  <div class="container">
+    <div class="section__heading">
+      <span class="section__eyebrow">Informe contable</span>
+      <h2 class="section__title">Registra ingresos y egresos por programa</h2>
+      <p class="section__subtitle">
+        Diligencia cada movimiento contable y visualiza al instante los totales mensuales. Puedes separar la información por
+        programa para mantener un seguimiento detallado.
+      </p>
+    </div>
+
+    <div class="reports-grid">
+      <form class="card reports-form" (ngSubmit)="addFinancialRecord()" novalidate>
+        <h3 class="reports-form__title">Agregar movimiento</h3>
+        <div class="reports-form__row">
+          <label class="reports-form__field">
+            <span>Tipo</span>
+            <select name="type" [(ngModel)]="newFinancialRecord.type" required>
+              <option value="Ingreso">Ingreso</option>
+              <option value="Egreso">Egreso</option>
+            </select>
+          </label>
+          <label class="reports-form__field">
+            <span>Fecha</span>
+            <input type="date" name="date" [(ngModel)]="newFinancialRecord.date" required />
+          </label>
+        </div>
+        <label class="reports-form__field">
+          <span>Concepto</span>
+          <input type="text" name="concept" [(ngModel)]="newFinancialRecord.concept" required placeholder="Descripción del movimiento" />
+        </label>
+        <label class="reports-form__field">
+          <span>Monto</span>
+          <input type="number" name="amount" [(ngModel)]="newFinancialRecord.amount" min="0" step="1000" required placeholder="0" />
+        </label>
+        <label class="reports-form__field">
+          <span>Programa</span>
+          <input type="text" name="program" [(ngModel)]="newFinancialRecord.program" placeholder="Programa asociado" />
+        </label>
+        <label class="reports-form__field">
+          <span>Notas</span>
+          <textarea name="notes" rows="3" [(ngModel)]="newFinancialRecord.notes" placeholder="Detalles adicionales"></textarea>
+        </label>
+        <button type="submit" class="btn btn--primary">Guardar movimiento</button>
+        <p class="reports-form__error" *ngIf="financialFormError">{{ financialFormError }}</p>
+      </form>
+
+      <div class="reports-panel">
+        <h3 class="reports-panel__title">Movimientos recientes</h3>
+        <div class="reports-table" role="region" aria-live="polite">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Fecha</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Concepto</th>
+                <th scope="col">Programa</th>
+                <th scope="col" class="reports-table__amount">Monto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let record of financialRecords">
+                <td>{{ record.date | date:'dd/MM/yyyy' }}</td>
+                <td>
+                  <span class="badge" [ngClass]="{ 'badge--income': record.type === 'Ingreso', 'badge--expense': record.type === 'Egreso' }">
+                    {{ record.type }}
+                  </span>
+                </td>
+                <td>
+                  <strong>{{ record.concept }}</strong>
+                  <small *ngIf="record.notes">{{ record.notes }}</small>
+                </td>
+                <td>{{ record.program }}</td>
+                <td class="reports-table__amount">{{ record.amount | currency:'COP':'symbol-narrow':'1.0-0':'es-CO' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="reports-panel__subtitle">Resumen mensual</h3>
+        <div class="reports-table reports-table--compact">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Mes</th>
+                <th scope="col">Ingresos</th>
+                <th scope="col">Egresos</th>
+                <th scope="col">Balance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let summary of monthlyFinancialSummaries">
+                <td>{{ summary.label }}</td>
+                <td>{{ summary.ingresos | currency:'COP':'symbol-narrow':'1.0-0':'es-CO' }}</td>
+                <td>{{ summary.egresos | currency:'COP':'symbol-narrow':'1.0-0':'es-CO' }}</td>
+                <td [ngClass]="{ 'reports-table__positive': summary.balance >= 0, 'reports-table__negative': summary.balance < 0 }">
+                  {{ summary.balance | currency:'COP':'symbol-narrow':'1.0-0':'es-CO' }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="atencion-programas">
+  <div class="container">
+    <div class="section__heading">
+      <span class="section__eyebrow">Personas atendidas</span>
+      <h2 class="section__title">Seguimiento de participación por programa</h2>
+      <p class="section__subtitle">
+        Lleva un control mensual de las familias, niñas, niños y jóvenes acompañados. Los registros permiten analizar el alcance
+        de cada programa y proyectar nuevas metas.
+      </p>
+    </div>
+
+    <div class="reports-grid reports-grid--reverse">
+      <div class="reports-panel">
+        <h3 class="reports-panel__title">Resumen por programa</h3>
+        <ul class="reports-list">
+          <li *ngFor="let program of attendanceByProgram">
+            <span class="reports-list__label">{{ program.program }}</span>
+            <span class="reports-list__value">{{ program.participantes }} personas</span>
+          </li>
+        </ul>
+
+        <h3 class="reports-panel__subtitle">Participación mensual</h3>
+        <div class="reports-table reports-table--compact">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Mes</th>
+                <th scope="col">Personas atendidas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let summary of monthlyAttendanceSummaries">
+                <td>{{ summary.label }}</td>
+                <td>{{ summary.participantes }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <form class="card reports-form" (ngSubmit)="addAttendanceRecord()" novalidate>
+        <h3 class="reports-form__title">Registrar atención</h3>
+        <label class="reports-form__field">
+          <span>Programa</span>
+          <input type="text" name="attendanceProgram" [(ngModel)]="newAttendanceRecord.program" required placeholder="Nombre del programa" />
+        </label>
+        <label class="reports-form__field">
+          <span>Fecha</span>
+          <input type="date" name="attendanceDate" [(ngModel)]="newAttendanceRecord.date" required />
+        </label>
+        <label class="reports-form__field">
+          <span>Personas atendidas</span>
+          <input type="number" name="attendanceParticipants" [(ngModel)]="newAttendanceRecord.participants" min="0" required placeholder="0" />
+        </label>
+        <label class="reports-form__field">
+          <span>Notas</span>
+          <textarea name="attendanceNotes" rows="3" [(ngModel)]="newAttendanceRecord.notes" placeholder="Observaciones"></textarea>
+        </label>
+        <button type="submit" class="btn btn--secondary">Guardar registro</button>
+        <p class="reports-form__error" *ngIf="attendanceFormError">{{ attendanceFormError }}</p>
+      </form>
+    </div>
+  </div>
+</section>
