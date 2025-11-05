@@ -172,6 +172,29 @@
             </div>
           </div>
 
+          <div class="donation-form__group donation-form__gateways">
+            <h3 class="donation-form__title">Pasarelas de pago</h3>
+            <div class="donation-gateways">
+              <article
+                class="donation-gateway"
+                *ngFor="let gateway of paymentGateways"
+                [ngClass]="'donation-gateway--' + gateway.theme"
+              >
+                <span class="donation-gateway__badge">{{ gateway.badge }}</span>
+                <h4 class="donation-gateway__title">{{ gateway.name }}</h4>
+                <p class="donation-gateway__text">{{ gateway.description }}</p>
+                <a
+                  class="donation-gateway__action btn btn-primary"
+                  [href]="gateway.href"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {{ gateway.actionLabel }}
+                </a>
+              </article>
+            </div>
+          </div>
+
           <div class="donation-impact-note" *ngIf="selectedAmount() > 0">
             <strong>💚 Tu impacto:</strong>
             <span>{{ getImpactMessage() }}</span>
