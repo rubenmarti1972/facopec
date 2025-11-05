@@ -184,7 +184,7 @@
                 <h4 class="donation-gateway__title">{{ gateway.name }}</h4>
                 <p class="donation-gateway__text">{{ gateway.description }}</p>
                 <a
-                  class="donation-gateway__action btn btn-primary"
+                  class="donation-gateway__action btn btn--primary"
                   [href]="gateway.href"
                   target="_blank"
                   rel="noopener"
@@ -202,7 +202,7 @@
 
           <button
             type="button"
-            class="donation-submit btn btn-primary"
+            class="donation-submit btn btn--primary"
             (click)="processDonation()"
             [disabled]="selectedAmount() === 0"
           >
