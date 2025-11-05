@@ -1,4 +1,4 @@
-<footer class="relative bg-gradient-to-br from-ocean via-blue-700 to-ocean-dark text-white mt-20">
+<footer class="relative footer-surface text-white mt-20">
   <!-- Waves decoration mejorado -->
   <div class="relative">
     <svg class="w-full h-20" preserveAspectRatio="none" viewBox="0 0 1440 74" fill="none">
@@ -36,31 +36,43 @@
         <h4 class="font-display font-semibold text-lg mb-4 text-sunshine-light">Enlaces Rápidos</h4>
         <ul class="space-y-3">
           <li>
-            <a routerLink="/inicio" class="group flex items-center gap-2 text-gray-300 hover:text-white transition-all">
-              <span class="w-1.5 h-1.5 rounded-full bg-primary-400 group-hover:scale-150 transition-transform"></span>
-              <span>Inicio</span>
-            </a>
-          </li>
-          <li>
-            <a routerLink="/proyectos" class="group flex items-center gap-2 text-gray-300 hover:text-white transition-all">
+            <a routerLink="/proyectos" class="group flex items-center gap-2 text-gray-200 hover:text-white transition-all">
               <span class="w-1.5 h-1.5 rounded-full bg-sky-light group-hover:scale-150 transition-transform"></span>
               <span>Proyectos</span>
             </a>
           </li>
           <li>
-            <a routerLink="/donaciones" class="group flex items-center gap-2 text-gray-300 hover:text-white transition-all">
+            <a routerLink="/inicio" [fragment]="'programas'" class="group flex items-center gap-2 text-gray-200 hover:text-white transition-all">
+              <span class="w-1.5 h-1.5 rounded-full bg-primary-400 group-hover:scale-150 transition-transform"></span>
+              <span>Programas</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/inicio" [fragment]="'actividades'" class="group flex items-center gap-2 text-gray-200 hover:text-white transition-all">
+              <span class="w-1.5 h-1.5 rounded-full bg-sunshine-light group-hover:scale-150 transition-transform"></span>
+              <span>Actividades</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/inicio" class="group flex items-center gap-2 text-gray-200 hover:text-white transition-all">
+              <span class="w-1.5 h-1.5 rounded-full bg-white/60 group-hover:scale-150 transition-transform"></span>
+              <span>Inicio</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/donaciones" class="group flex items-center gap-2 text-gray-200 hover:text-white transition-all">
               <span class="w-1.5 h-1.5 rounded-full bg-rose-light group-hover:scale-150 transition-transform"></span>
               <span>Donaciones</span>
             </a>
           </li>
           <li>
-            <a routerLink="/apadrina" class="group flex items-center gap-2 text-gray-300 hover:text-white transition-all">
+            <a routerLink="/apadrina" class="group flex items-center gap-2 text-gray-200 hover:text-white transition-all">
               <span class="w-1.5 h-1.5 rounded-full bg-sunshine-light group-hover:scale-150 transition-transform"></span>
               <span>Apadrina</span>
             </a>
           </li>
           <li>
-            <a routerLink="/ruta-literaria-maria" class="group flex items-center gap-2 text-gray-300 hover:text-white transition-all">
+            <a routerLink="/ruta-literaria-maria" class="group flex items-center gap-2 text-gray-200 hover:text-white transition-all">
               <span class="w-1.5 h-1.5 rounded-full bg-grass group-hover:scale-150 transition-transform"></span>
               <span>Ruta Literaria María</span>
             </a>
