@@ -59,6 +59,13 @@ interface GalleryItem {
   strapiEntryId: string;
 }
 
+interface SupporterLogo {
+  src: string;
+  alt: string;
+  caption: string;
+  dataStrapiUid: string;
+}
+
 type IdentityCardKey = 'description' | 'mission' | 'vision';
 
 @Component({
@@ -206,6 +213,21 @@ export class HomeComponent {
       href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Familias',
       strapiCollection: 'programas',
       strapiEntryId: 'club-familias'
+    }
+  ];
+
+  readonly supporters: SupporterLogo[] = [
+    {
+      src: 'assets/supporters/icbf-logo.svg',
+      alt: 'Instituto Colombiano de Bienestar Familiar',
+      caption: 'Instituto Colombiano de Bienestar Familiar',
+      dataStrapiUid: 'supporters.icbf'
+    },
+    {
+      src: 'assets/supporters/pnud-logo.svg',
+      alt: 'Programa de las Naciones Unidas para el Desarrollo',
+      caption: 'Programa de las Naciones Unidas para el Desarrollo',
+      dataStrapiUid: 'supporters.pnud'
     }
   ];
 
