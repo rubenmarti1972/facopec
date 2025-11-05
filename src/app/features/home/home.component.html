@@ -10,7 +10,10 @@
         <a
           *ngFor="let action of hero.actions"
           class="btn"
-          [ngClass]="{ 'btn-primary': action.variant === 'primary', 'btn-secondary': action.variant === 'secondary' }"
+          [ngClass]="{
+            'btn--primary': action.variant === 'primary',
+            'btn--secondary': action.variant === 'secondary'
+          }"
           [routerLink]="action.routerLink || null"
           [href]="action.href || null"
           [attr.data-strapi-uid]="action.dataStrapiUid"
@@ -31,7 +34,7 @@
     <div class="hero__visual">
       <figure class="hero__image" aria-hidden="true">
         <img
-          src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1100&q=70"
+          src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=960&q=70"
           alt="Familias afrodescendientes sonriendo juntas"
           loading="lazy"
         />
