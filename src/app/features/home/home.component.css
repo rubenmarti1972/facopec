@@ -1,41 +1,202 @@
-/* Animaciones profesionales para Home */
+:host {
+  display: block;
+}
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.8rem, 2vw, 1.4rem);
+}
+
+.hero__visual {
+  display: flex;
+  justify-content: center;
+}
+
+.callout {
+  width: min(360px, 100%);
+}
+
+.impact-strip {
+  background: linear-gradient(90deg, rgba(19, 80, 122, 0.92), rgba(31, 155, 122, 0.92));
+  color: #f4fbff;
+  border-radius: var(--radius-xl);
+  padding: clamp(1.4rem, 3vw, 2.1rem);
+  box-shadow: var(--shadow-1);
+}
+
+.impact-strip__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1rem, 4vw, 2.5rem);
+  justify-content: center;
+  align-items: center;
+}
+
+.impact-strip__item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-align: left;
+}
+
+.impact-strip__icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.16);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+}
+
+.impact-strip__title {
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+}
+
+.impact-strip__label {
+  font-size: 1.08rem;
+  font-weight: 500;
+  margin: 0;
+  color: #ffffff;
+}
+
+.activity-grid {
+  gap: clamp(1.4rem, 3vw, 2.4rem);
+}
+
+.activity-card {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.activity-card__icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.9rem;
+  color: #0f5743;
+}
+
+.activity-card__icon.teal {
+  background: rgba(31, 155, 122, 0.18);
+}
+
+.activity-card__icon.blue {
+  background: rgba(19, 80, 122, 0.18);
+  color: #13507a;
+}
+
+.activity-card__icon.rose {
+  background: rgba(242, 108, 167, 0.22);
+  color: #9b2c5d;
+}
+
+.activity-card__icon.gold {
+  background: rgba(247, 201, 72, 0.26);
+  color: #8b6507;
+}
+
+.project-card {
+  display: grid;
+  gap: 1.1rem;
+  align-content: start;
+}
+
+.project-card__body {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.gallery-card {
+  position: relative;
+  min-height: 260px;
+}
+
+.gallery-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(16, 36, 59, 0.05), rgba(16, 36, 59, 0.6));
+  color: #f7fbff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 1.2rem;
+  opacity: 0;
+  display: flex;
+  align-items: flex-end;
+  transition: opacity var(--transition-base);
+  text-decoration: none;
+}
+
+.gallery-card:hover .gallery-card__overlay,
+.gallery-card:focus-within .gallery-card__overlay {
+  opacity: 1;
+}
+
+.gallery-card__caption {
+  pointer-events: none;
+}
+
+.catalog-card {
+  min-height: 220px;
+}
+
+.catalog-card__description {
+  color: var(--brand-ink-soft);
+  margin: 0;
+}
+
+.contact-grid {
+  align-items: stretch;
+  gap: clamp(1.4rem, 3vw, 2.4rem);
+}
+
+.contact-card h2 {
+  margin-bottom: 0.4rem;
+}
+
+.contact-card a {
+  color: var(--brand-secondary);
+}
+
+.map-embed iframe {
+  display: block;
+  min-height: 320px;
+}
+
+@media (max-width: 960px) {
+  .hero__content {
+    align-items: center;
+    text-align: center;
   }
-  50% {
-    transform: translateY(-15px);
+
+  .hero__stats {
+    text-align: left;
+  }
+
+  .callout {
+    text-align: center;
+    align-items: center;
+  }
+
+  .callout__badge {
+    margin-inline: auto;
   }
 }
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
+@media (max-width: 720px) {
+  .impact-strip__item {
+    justify-content: center;
+    text-align: center;
   }
-  50% {
-    opacity: 0.8;
+
+  .gallery-card__overlay {
+    font-size: 0.85rem;
   }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-/* Gradientes suaves */
-.gradient-text {
-  background: linear-gradient(135deg, #52D273 0%, #87CEEB 50%, #EC4899 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Hover effects profesionales */
-.card-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.card-hover:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }

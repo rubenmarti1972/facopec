@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title>FACOPEC</title>
+  <defs>
+    <linearGradient id="facopecGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f9b7a" />
+      <stop offset="100%" stop-color="#13507a" />
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="none" stroke="url(#facopecGradient)" stroke-width="8" />
+  <path
+    d="M20 41c0-8.5 5.5-14 12-14s12 5.5 12 14"
+    fill="none"
+    stroke="#1f9b7a"
+    stroke-width="6"
+    stroke-linecap="round"
+  />
+  <circle cx="24" cy="26" r="4" fill="#f7fbff" stroke="#13507a" stroke-width="3" />
+  <circle cx="40" cy="26" r="4" fill="#f7fbff" stroke="#13507a" stroke-width="3" />
+</svg>
