@@ -11,9 +11,9 @@
 
 :root {
   // Colors inspired by logo palette
-  --color-primary: #1f9b7a;
-  --color-primary-light: #54c7a5;
-  --color-primary-dark: #0f5743;
+  --color-primary: #12b48c;
+  --color-primary-light: #4cd6b7;
+  --color-primary-dark: #0f7257;
 
   // Intensified palette accents
   --color-primary-vivid: #12b48c;
@@ -21,15 +21,15 @@
   --color-accent-vivid: #ff6c2d;
   --color-sun-strong: #ffdd33;
 
-  --color-secondary: #13507a;
-  --color-secondary-light: #3d78a6;
-  --color-secondary-dark: #0a2a41;
+  --color-secondary: #0f6ab5;
+  --color-secondary-light: #4a8dd0;
+  --color-secondary-dark: #0a3f73;
 
-  --color-accent: #ff8c5a;
-  --color-accent-light: #ffb08d;
-  --color-accent-dark: #d9652f;
+  --color-accent: #ff6c2d;
+  --color-accent-light: #ff9461;
+  --color-accent-dark: #d45216;
 
-  --color-sun: #f7c948;
+  --color-sun: #ffdd33;
   --color-dark: #10243b;
   --color-dark-gray: #2f4052;
   --color-medium-gray: #5f6c7b;
@@ -116,12 +116,12 @@ body {
   background-color: var(--color-light-gray);
   background-image: linear-gradient(
     135deg,
-    rgba(31, 155, 122, 0.18) 0%,
-    rgba(31, 155, 122, 0.18) 58%,
-    rgba(31, 155, 122, 0.12) 60%,
-    rgba(19, 80, 122, 0.16) 82%,
-    rgba(19, 80, 122, 0.16) 90%,
-    rgba(255, 140, 90, 0.12) 100%
+    rgba(18, 180, 140, 0.22) 0%,
+    rgba(18, 180, 140, 0.22) 55%,
+    rgba(18, 180, 140, 0.12) 60%,
+    rgba(15, 106, 181, 0.2) 82%,
+    rgba(15, 106, 181, 0.2) 90%,
+    rgba(255, 108, 45, 0.14) 100%
   );
   background-attachment: fixed;
   line-height: 1.65;
