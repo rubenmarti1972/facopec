@@ -31,6 +31,11 @@ interface HeaderLink {
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+  private readonly mobileQuery = typeof window !== 'undefined' ? window.matchMedia('(max-width: 720px)') : null;
+
+  isMenuOpen = false;
+  private openDropdownIndex: number | null = null;
+
   readonly navLinks: HeaderLink[] = [
     { label: 'Inicio', routerLink: '/', exact: true, dataStrapiUid: 'navigation.home' },
     {
@@ -98,4 +103,29 @@ export class HeaderComponent {
     { label: 'Periódico', routerLink: '/newspaper', dataStrapiUid: 'navigation.newspaper' },
     { label: 'Nosotros', routerLink: '/about', dataStrapiUid: 'navigation.about' }
   ];
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+    if (!this.isMenuOpen) {
+      this.openDropdownIndex = null;
+    }
+  }
+
+  closeMenu(): void {
+    if (this.isMenuOpen) {
+      this.isMenuOpen = false;
+    }
+    this.openDropdownIndex = null;
+  }
+
+  toggleDropdown(index: number, event: MouseEvent): void {
+    if (this.mobileQuery?.matches) {
+      event.preventDefault();
+      this.openDropdownIndex = this.openDropdownIndex === index ? null : index;
+    }
+  }
+
+  isDropdownOpen(index: number): boolean {
+    return this.openDropdownIndex === index;
+  }
 }
