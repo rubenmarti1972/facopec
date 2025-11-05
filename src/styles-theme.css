@@ -441,16 +441,17 @@
 .hero__badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: rgba(31, 155, 122, 0.16);
-  border: 1px solid rgba(31, 155, 122, 0.28);
-  color: #0f5743;
-  padding: 0.5rem 0.9rem;
+  gap: 0.55rem;
+  background: rgba(31, 155, 122, 0.2);
+  border: 1px solid rgba(31, 155, 122, 0.32);
+  color: #0d4f3d;
+  padding: 0.65rem 1.15rem;
   border-radius: 999px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  font-size: clamp(0.82rem, 0.35vw + 0.78rem, 0.98rem);
+  box-shadow: 0 8px 18px rgba(15, 87, 67, 0.18);
 }
 
 .hero__title {
@@ -549,12 +550,14 @@
 .callout__media {
   display: grid;
   place-items: center;
+  background: none;
+  padding: 0;
 }
 
 .callout__media img {
   width: min(200px, 85%);
-  mix-blend-mode: multiply;
-  filter: drop-shadow(0 14px 28px rgba(16, 36, 59, 0.18));
+  mix-blend-mode: normal;
+  filter: none;
 }
 
 .highlight-card {

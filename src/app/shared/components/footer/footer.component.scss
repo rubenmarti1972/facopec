@@ -293,3 +293,25 @@ $dark: #2C3E50;
     }
   }
 }
+
+.footer-surface {
+  background: linear-gradient(165deg, rgba(10, 42, 65, 0.98) 0%, rgba(15, 87, 67, 0.94) 58%, rgba(217, 101, 47, 0.88) 100%);
+  color: #f8fafc;
+
+  .container {
+    max-width: min(1680px, 96vw);
+  }
+
+  h3,
+  h4 {
+    color: #fdfdfd;
+  }
+
+  .text-gray-200 {
+    color: rgba(241, 247, 253, 0.85);
+  }
+
+  .border-white\/20 {
+    border-color: rgba(255, 255, 255, 0.16) !important;
+  }
+}
