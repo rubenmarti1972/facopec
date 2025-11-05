@@ -96,6 +96,16 @@ body {
   font-family: var(--font-family-primary);
   color: var(--color-dark);
   background-color: var(--color-light-gray);
+  background-image: linear-gradient(
+    135deg,
+    rgba(31, 155, 122, 0.18) 0%,
+    rgba(31, 155, 122, 0.18) 58%,
+    rgba(31, 155, 122, 0.12) 60%,
+    rgba(19, 80, 122, 0.16) 82%,
+    rgba(19, 80, 122, 0.16) 90%,
+    rgba(255, 140, 90, 0.12) 100%
+  );
+  background-attachment: fixed;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
