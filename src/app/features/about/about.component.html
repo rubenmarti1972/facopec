@@ -1,8 +1,99 @@
-<section class="container section">
-  <h1>Quiénes somos</h1>
-  <p class="small">Fundación educativa y comunitaria que promueve el cuidado, la lectura y el aprendizaje.</p>
-  <div class="grid-2" style="margin-top:12px">
-    <div class="card"><h3>Misión</h3><p class="small">Crear oportunidades de aprendizaje, bienestar y cultura desde el hogar.</p></div>
-    <div class="card"><h3>Valores</h3><p class="small">Amor, respeto, comunidad, esperanza.</p></div>
+<section class="section" data-strapi-collection="about">
+  <div class="container">
+    <div class="about__intro">
+      <span class="section__eyebrow">Nosotros</span>
+      <h1 class="about__title">Fundación Afrocolombiana Profe en Casa</h1>
+      <p class="about__lead">
+        Somos un movimiento educativo y comunitario que articula fe, cultura y tecnología para crear oportunidades reales en el
+        Valle del Cauca y las comunidades afrocolombianas de Colombia.
+      </p>
+    </div>
+
+    <div class="identity__grid">
+      <div class="identity__column identity__column--about">
+        <article
+          class="card identity-card identity-card--description"
+          [class.identity-card--expanded]="identityExpanded.description"
+          [attr.data-strapi-uid]="identity.dataStrapiUid"
+        >
+          <h2 class="identity-card__title">Descripción de la fundación</h2>
+          <div class="identity-card__body" id="about-description">
+            <p>{{ identity.description }}</p>
+          </div>
+          <button
+            type="button"
+            class="identity-card__toggle"
+            (click)="toggleIdentityCard('description')"
+            [attr.aria-expanded]="identityExpanded.description"
+            aria-controls="about-description"
+          >
+            {{ identityExpanded.description ? 'Ver menos' : 'Leer más' }}
+          </button>
+        </article>
+
+        <article class="card values-card" data-strapi-uid="about.values">
+          <h2 class="identity-card__title">Valores que nos guían</h2>
+          <ul class="values-card__list">
+            <li
+              class="values-card__item"
+              *ngFor="let value of identity.values"
+              [attr.data-strapi-uid]="value.dataStrapiUid"
+            >
+              <span class="values-card__icon">{{ value.icon }}</span>
+              <div class="values-card__copy">
+                <p class="values-card__title">{{ value.title }}</p>
+                <p class="values-card__description">{{ value.description }}</p>
+              </div>
+            </li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="identity__column identity__column--purpose">
+        <div class="identity__pair">
+          <article
+            class="card identity-card"
+            [class.identity-card--expanded]="identityExpanded.mission"
+            [attr.data-strapi-uid]="missionVision.dataStrapiUidMission"
+          >
+            <div class="identity-card__icon">🌟</div>
+            <h2 class="identity-card__title">Misión</h2>
+            <div class="identity-card__body" id="about-mission">
+              <p>{{ missionVision.mission }}</p>
+            </div>
+            <button
+              type="button"
+              class="identity-card__toggle"
+              (click)="toggleIdentityCard('mission')"
+              [attr.aria-expanded]="identityExpanded.mission"
+              aria-controls="about-mission"
+            >
+              {{ identityExpanded.mission ? 'Ver menos' : 'Leer más' }}
+            </button>
+          </article>
+
+          <article
+            class="card identity-card"
+            [class.identity-card--expanded]="identityExpanded.vision"
+            [attr.data-strapi-uid]="missionVision.dataStrapiUidVision"
+          >
+            <div class="identity-card__icon">🚀</div>
+            <h2 class="identity-card__title">Visión</h2>
+            <div class="identity-card__body" id="about-vision">
+              <p>{{ missionVision.vision }}</p>
+            </div>
+            <button
+              type="button"
+              class="identity-card__toggle"
+              (click)="toggleIdentityCard('vision')"
+              [attr.aria-expanded]="identityExpanded.vision"
+              aria-controls="about-vision"
+            >
+              {{ identityExpanded.vision ? 'Ver menos' : 'Leer más' }}
+            </button>
+          </article>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
