@@ -88,7 +88,7 @@ export class HomeComponent {
     ],
     actions: <HeroAction[]>[
       { label: 'Donar ahora', routerLink: '/donate', variant: 'primary', dataStrapiUid: 'hero.actions.donate' },
-      { label: 'Ver actividades', href: '#actividades', variant: 'secondary', dataStrapiUid: 'hero.actions.activities' }
+      { label: 'Ver programas', href: '#programas', variant: 'secondary', dataStrapiUid: 'hero.actions.programs' }
     ],
     verse: {
       reference: 'Proverbios 3:13',
@@ -172,7 +172,7 @@ export class HomeComponent {
     {
       title: 'Ruta Literaria María',
       description: 'Lectura en voz alta, círculos literarios y creación de cuentos inspirados en nuestras raíces afro.',
-      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Ruta%20Literaria',
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Ruta%20Literaria%20Mar%C3%ADa',
       icon: '📖',
       theme: 'blue',
       dataStrapiUid: 'activities.rutaLiteraria'
