@@ -1,16 +1,20 @@
 import type { Core } from '@strapi/types';
 
-type ConfigParams = { env: typeof import('@strapi/utils').env };
+import type { ConfigParams } from './utils/env';
 
-const middlewaresConfig = ({ env }: ConfigParams) => ([
+type MiddlewaresConfig = Core.Config.Middlewares;
+
+const middlewaresConfig = ({ env }: ConfigParams): MiddlewaresConfig => [
   'strapi::errors',
   'strapi::security',
   {
     name: 'strapi::cors',
     config: {
-      origin: env.array('CORS_ORIGINS', ['http://localhost:4200', env('APP_URL')]).filter(Boolean),
-      credentials: true
-    }
+      origin: env
+        .array('CORS_ORIGINS', ['http://localhost:4200', env('APP_URL')])
+        .filter(Boolean),
+      credentials: true,
+    },
   },
   'strapi::poweredBy',
   'strapi::logger',
@@ -18,7 +22,7 @@ const middlewaresConfig = ({ env }: ConfigParams) => ([
   'strapi::body',
   'strapi::session',
   'strapi::favicon',
-  'strapi::public'
-]) satisfies Core.Config.Middlewares;
+  'strapi::public',
+];
 
 export default middlewaresConfig;
