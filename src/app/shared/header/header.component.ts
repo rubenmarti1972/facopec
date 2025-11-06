@@ -98,6 +98,35 @@ export class HeaderComponent {
         }
       ]
     },
+    {
+      label: 'Informes',
+      routerLink: '/reports',
+      dataStrapiUid: 'navigation.reports',
+      children: [
+        {
+          title: 'Gestión contable',
+          dataStrapiUid: 'navigation.reports.accounting',
+          items: [
+            {
+              label: 'Informe contable',
+              href: '/reports#informe-contable',
+              dataStrapiUid: 'navigation.reports.accounting.financial'
+            }
+          ]
+        },
+        {
+          title: 'Impacto social',
+          dataStrapiUid: 'navigation.reports.impact',
+          items: [
+            {
+              label: 'Personas atendidas por programas',
+              href: '/reports#atencion-programas',
+              dataStrapiUid: 'navigation.reports.impact.attendance'
+            }
+          ]
+        }
+      ]
+    },
     { label: 'Proyectos', routerLink: '/projects', dataStrapiUid: 'navigation.projects' },
     { label: 'Ruta literaria', routerLink: '/literary-route', dataStrapiUid: 'navigation.literaryRoute' },
     { label: 'Periódico', routerLink: '/newspaper', dataStrapiUid: 'navigation.newspaper' },
