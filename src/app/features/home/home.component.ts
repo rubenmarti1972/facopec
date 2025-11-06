@@ -141,19 +141,22 @@ export class HomeComponent implements OnInit {
       icon: '📚',
       title: 'Educación integral',
       label: 'Tutorías, clubes de lectura y acompañamiento pedagógico',
-      dataStrapiUid: 'impact.education'
+      dataStrapiUid: 'impact.education',
+      theme: 'teal'
     },
     {
       icon: '🤝🏾',
       title: 'Tejido comunitario',
       label: 'Trabajo con familias, líderes y aliados del territorio',
-      dataStrapiUid: 'impact.community'
+      dataStrapiUid: 'impact.community',
+      theme: 'blue'
     },
     {
       icon: '🌱',
       title: 'Valores y fe',
       label: 'Formación espiritual, bienestar emocional y liderazgo',
-      dataStrapiUid: 'impact.faith'
+      dataStrapiUid: 'impact.faith',
+      theme: 'rose'
     }
   ];
 
