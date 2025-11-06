@@ -38,13 +38,7 @@
 }
 
 .impact-strip {
-  background: linear-gradient(
-    90deg,
-    rgba(19, 80, 122, 0.92) 0%,
-    rgba(19, 80, 122, 0.92) 30%,
-    rgba(18, 180, 140, 0.92) 30%,
-    rgba(18, 180, 140, 0.92) 100%
-  );
+  background: var(--color-secondary);
   color: var(--color-white);
   border-radius: var(--radius-xl);
   padding: clamp(1.4rem, 3vw, 2.1rem);
@@ -113,22 +107,22 @@
 }
 
 .activity-card__icon.teal {
-  background: rgba(18, 180, 140, 0.18);
+  background: rgba(31, 155, 122, 0.16);
 }
 
 .activity-card__icon.blue {
-  background: rgba(19, 80, 122, 0.18);
+  background: rgba(19, 80, 122, 0.16);
   color: var(--color-secondary);
 }
 
 .activity-card__icon.rose {
-  background: var(--color-accent-soft);
+  background: rgba(255, 140, 90, 0.18);
   color: var(--color-accent-dark);
 }
 
 .activity-card__icon.gold {
-  background: var(--color-accent-soft);
-  color: var(--color-accent);
+  background: rgba(247, 201, 72, 0.2);
+  color: var(--color-sun);
 }
 
 .project-card {

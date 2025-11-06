@@ -88,7 +88,12 @@ export class HomeComponent {
     ],
     actions: <HeroAction[]>[
       { label: 'Donar ahora', routerLink: '/donate', variant: 'primary', dataStrapiUid: 'hero.actions.donate' },
-      { label: 'Ver programas', routerLink: '/projects', variant: 'secondary', dataStrapiUid: 'hero.actions.programs' }
+      {
+        label: 'Ver programas',
+        href: '/home#programas',
+        variant: 'secondary',
+        dataStrapiUid: 'hero.actions.programs'
+      }
     ],
     verse: {
       reference: 'Proverbios 3:13',

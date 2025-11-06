@@ -3,8 +3,7 @@
 }
 
 .reports-hero {
-  background: radial-gradient(circle at top right, rgba(18, 180, 140, 0.18), transparent 50%),
-    linear-gradient(135deg, rgba(19, 80, 122, 0.94), rgba(18, 180, 140, 0.88));
+  background: var(--color-secondary-dark);
   color: var(--color-white);
   padding-bottom: clamp(2.5rem, 6vw, 4rem);
 }
@@ -182,8 +181,8 @@
 }
 
 .reports-table thead {
-  background: rgba(18, 180, 140, 0.12);
-  color: var(--brand-secondary);
+  background: rgba(31, 155, 122, 0.12);
+  color: var(--color-secondary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 0.85rem;
@@ -219,12 +218,12 @@
 }
 
 .badge--income {
-  background: rgba(18, 180, 140, 0.18);
+  background: rgba(31, 155, 122, 0.18);
   color: var(--color-primary-dark);
 }
 
 .badge--expense {
-  background: rgba(255, 108, 45, 0.18);
+  background: rgba(255, 140, 90, 0.2);
   color: var(--color-accent-dark);
 }
 
