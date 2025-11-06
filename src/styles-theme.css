@@ -45,9 +45,9 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  background: rgba(18, 180, 140, 0.14);
-  border: 1px solid rgba(18, 180, 140, 0.3);
-  color: #0c4a3c;
+  background: rgba(31, 155, 122, 0.14);
+  border: 1px solid rgba(31, 155, 122, 0.22);
+  color: #0f5743;
   padding: 0.55rem 1.2rem;
   border-radius: 999px;
   font-weight: 700;
@@ -123,7 +123,7 @@
   width: 56px;
   height: 56px;
   border-radius: 18px;
-  background: rgba(18, 180, 140, 0.16);
+  background: rgba(31, 155, 122, 0.16);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -372,11 +372,11 @@
 }
 
 .pill {
-  background: rgba(15, 106, 181, 0.14);
+  background: rgba(19, 80, 122, 0.14);
   color: var(--brand-secondary);
   padding: 0.45rem 0.85rem;
   border-radius: 999px;
-  border: 1px solid rgba(15, 106, 181, 0.22);
+  border: 1px solid rgba(19, 80, 122, 0.22);
   font-weight: 600;
   font-size: 0.92rem;
 }
@@ -390,15 +390,20 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  padding: 0.65rem 1.4rem;
-  border-radius: var(--radius);
-  border: 1px solid transparent;
+  gap: 0.5rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  border: 2px solid transparent;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.2s ease;
   font-size: 1rem;
   cursor: pointer;
+}
+
+.btn:focus-visible {
+  outline: 3px solid rgba(19, 80, 122, 0.35);
+  outline-offset: 2px;
 }
 
 .btn--primary,
@@ -411,12 +416,6 @@
 .btn--primary:hover,
 .btn-primary:hover {
   filter: brightness(0.95);
-}
-
-.btn--primary:focus-visible,
-.btn-primary:focus-visible {
-  outline: 3px solid rgba(18, 180, 140, 0.35);
-  outline-offset: 2px;
 }
 
 .btn--secondary,
@@ -442,13 +441,14 @@
   color: var(--color-white);
 }
 
-.btn--accent:hover {
-  filter: brightness(0.95);
+.btn--accent {
+  background: var(--color-accent);
+  color: var(--color-white);
 }
 
-.btn--accent:focus-visible {
-  outline: 3px solid rgba(255, 108, 45, 0.35);
-  outline-offset: 2px;
+.btn--accent:hover {
+  transform: translateY(-2px);
+  background: var(--color-accent-dark);
 }
 
 .btn--ghost,
@@ -474,8 +474,8 @@
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  background: rgba(18, 180, 140, 0.24);
-  border: 1px solid rgba(18, 180, 140, 0.36);
+  background: rgba(31, 155, 122, 0.24);
+  border: 1px solid rgba(31, 155, 122, 0.36);
   color: #0b5642;
   padding: 0.75rem 1.35rem;
   border-radius: 999px;
@@ -672,7 +672,7 @@
 }
 
 .contact-card {
-  background: linear-gradient(150deg, rgba(18, 180, 140, 0.24), rgba(15, 106, 181, 0.18));
+  background: linear-gradient(150deg, rgba(31, 155, 122, 0.24), rgba(19, 80, 122, 0.18));
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-1);
   padding: clamp(1.6rem, 3vw, 2.6rem);
@@ -1039,7 +1039,7 @@
 }
 
 .donation-impact__card--blue {
-  background: linear-gradient(140deg, #0f6ab5, #4a8dd0);
+  background: linear-gradient(140deg, #13507a, #4a8dd0);
 }
 
 .donation-impact__card--sun {
@@ -1341,13 +1341,13 @@
 }
 
 .donation-gateway--pse {
-  border-color: rgba(15, 106, 181, 0.25);
-  background: linear-gradient(135deg, rgba(15, 106, 181, 0.08), rgba(18, 180, 140, 0.12));
+  border-color: rgba(19, 80, 122, 0.25);
+  background: linear-gradient(135deg, rgba(19, 80, 122, 0.08), rgba(31, 155, 122, 0.12));
 }
 
 .donation-gateway--international {
   border-color: rgba(242, 108, 167, 0.22);
-  background: linear-gradient(135deg, rgba(242, 108, 167, 0.08), rgba(18, 180, 140, 0.08));
+  background: linear-gradient(135deg, rgba(242, 108, 167, 0.08), rgba(31, 155, 122, 0.08));
 }
 
 .donation-gateway__badge {
@@ -1364,8 +1364,8 @@
 }
 
 .donation-gateway--pse .donation-gateway__badge {
-  background: rgba(15, 106, 181, 0.15);
-  color: #0f6ab5;
+  background: rgba(19, 80, 122, 0.15);
+  color: #13507a;
 }
 
 .donation-gateway--international .donation-gateway__badge {
