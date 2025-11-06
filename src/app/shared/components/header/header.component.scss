@@ -1,16 +1,16 @@
-$primary: var(--color-primary, #12b48c);
+$primary: var(--color-primary, #1f9b7a);
 $secondary: var(--color-secondary, #13507a);
-$accent: var(--color-accent, #ff6c2d);
+$accent: var(--color-accent, #ff8c5a);
 $white: var(--color-white, #ffffff);
 $dark-text: var(--color-dark, #10243b);
-$light-gray: var(--color-light-gray, #edf7f4);
+$light-gray: var(--color-light-gray, #f5f7fb);
 
 .app-header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background-color: $secondary;
+  background: var(--header-gradient);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   transition: all 0.3s ease;
@@ -114,23 +114,23 @@ $light-gray: var(--color-light-gray, #edf7f4);
       position: relative;
 
       &:hover {
-        color: $primary;
+        color: $accent;
       }
 
       &.active {
-        color: $primary;
-        background-color: rgba($primary, 0.1);
-        border-radius: 4px;
+        color: $white;
+        background: rgba($primary, 0.22);
+        border-radius: 999px;
 
         &::after {
           content: '';
           position: absolute;
-          bottom: 0;
+          bottom: 0.45rem;
           left: 1.25rem;
           right: 1.25rem;
           height: 3px;
-          background-color: $accent;
-          border-radius: 2px 2px 0 0;
+          background: rgba($accent, 0.9);
+          border-radius: 999px;
         }
       }
     }
@@ -175,7 +175,7 @@ $light-gray: var(--color-light-gray, #edf7f4);
 // Mobile Navigation
 .nav-mobile {
   display: none;
-  background-color: rgba($secondary, 0.98);
+  background: linear-gradient(160deg, rgba($secondary, 0.95), rgba($primary, 0.95));
   border-top: 1px solid rgba($white, 0.1);
 
   .mobile-nav-list {
