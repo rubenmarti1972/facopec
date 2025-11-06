@@ -1,12 +1,12 @@
 :root {
-  --brand-primary: #1f9b7a;
-  --brand-primary-soft: rgba(31, 155, 122, 0.12);
-  --brand-secondary: #13507a;
-  --brand-secondary-soft: rgba(19, 80, 122, 0.12);
-  --brand-accent: #ff8c5a;
-  --brand-accent-soft: rgba(255, 140, 90, 0.12);
-  --brand-rose: #f26ca7;
-  --brand-sun: #f7c948;
+  --brand-primary: #12b48c;
+  --brand-primary-soft: rgba(18, 180, 140, 0.16);
+  --brand-secondary: #0f6ab5;
+  --brand-secondary-soft: rgba(15, 106, 181, 0.16);
+  --brand-accent: #ff6c2d;
+  --brand-accent-soft: rgba(255, 108, 45, 0.16);
+  --brand-rose: #ff5f9d;
+  --brand-sun: #ffdd33;
   --brand-ink: #10243b;
   --brand-ink-soft: #5f6c7b;
   --brand-bg: #f5f7fb;
@@ -71,12 +71,13 @@
 }
 
 .card {
-  background: var(--surface);
+  background: linear-gradient(140deg, rgba(18, 180, 140, 0.22), rgba(15, 106, 181, 0.18));
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-1);
   padding: clamp(1.4rem, 2.4vw, 2.2rem);
-  border: 1px solid rgba(16, 36, 59, 0.06);
+  border: 1px solid rgba(16, 36, 59, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: var(--brand-ink);
 }
 
 .identity__intro {
@@ -358,7 +359,6 @@
 
 @media (min-width: 1200px) {
   .activity-grid,
-  .project-grid,
   .gallery-grid,
   .catalog-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
