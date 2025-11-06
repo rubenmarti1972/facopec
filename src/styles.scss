@@ -35,10 +35,21 @@
   --color-medium-gray: #5f6c7b;
   --color-light-gray: #f5f7fb;
   --color-surface: #ffffff;
-  --color-surface-primary: #f0f6f3;
-  --color-surface-secondary: #eef3f8;
-  --color-surface-accent: #fff2ea;
+  --color-surface-primary: #edf6f2;
+  --color-surface-secondary: #edf6f2;
+  --color-surface-accent: #edf6f2;
   --color-white: #ffffff;
+
+  /* Unified surfaces derived from brand palette */
+  --surface-card: #e3f1eb;
+  --surface-card-alt: #e2edf6;
+  --surface-card-accent: #ffe4d8;
+  --surface-card-gradient: linear-gradient(135deg, var(--surface-card), var(--surface-card-alt));
+  --surface-card-strong: linear-gradient(135deg, rgba(31, 155, 122, 0.22), rgba(19, 80, 122, 0.26));
+  --surface-card-text: var(--color-dark);
+  --surface-card-text-muted: rgba(16, 36, 59, 0.72);
+  --surface-card-border: rgba(19, 80, 122, 0.16);
+  --header-gradient: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
 
   // Typography
   --font-family-primary: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
