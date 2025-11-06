@@ -3,9 +3,9 @@
 }
 
 .reports-hero {
-  background: radial-gradient(circle at top right, rgba(18, 180, 140, 0.15), transparent 50%),
-    linear-gradient(135deg, rgba(12, 54, 90, 0.94), rgba(18, 180, 140, 0.88));
-  color: #f5fbff;
+  background: radial-gradient(circle at top right, rgba(18, 180, 140, 0.18), transparent 50%),
+    linear-gradient(135deg, rgba(19, 80, 122, 0.94), rgba(18, 180, 140, 0.88));
+  color: var(--color-white);
   padding-bottom: clamp(2.5rem, 6vw, 4rem);
 }
 
@@ -23,7 +23,7 @@
 .reports-hero__title {
   margin: 0;
   font-size: clamp(2.8rem, 5vw, 3.8rem);
-  color: #ffffff;
+  color: var(--color-white);
   line-height: 1.05;
 }
 
@@ -62,15 +62,15 @@
   margin: 0;
   font-size: clamp(1.9rem, 3.2vw, 2.6rem);
   font-weight: 700;
-  color: #ffffff;
+  color: var(--color-white);
 }
 
 .reports-hero__value--expense {
-  color: #ffb4b4;
+  color: var(--color-accent-light);
 }
 
 .reports-hero__value--positive {
-  color: #c2ffd5;
+  color: var(--color-primary-light);
 }
 
 .reports-hero__hint {
@@ -139,7 +139,7 @@
 
 .reports-form__error {
   margin: 0;
-  color: #b42318;
+  color: var(--color-accent-dark);
   font-weight: 600;
 }
 
@@ -195,12 +195,12 @@
 }
 
 .reports-table__positive {
-  color: #0f8a65;
+  color: var(--color-primary);
   font-weight: 600;
 }
 
 .reports-table__negative {
-  color: #b42318;
+  color: var(--color-accent-dark);
   font-weight: 600;
 }
 
@@ -220,12 +220,12 @@
 
 .badge--income {
   background: rgba(18, 180, 140, 0.18);
-  color: #0f7257;
+  color: var(--color-primary-dark);
 }
 
 .badge--expense {
   background: rgba(255, 108, 45, 0.18);
-  color: #c24a15;
+  color: var(--color-accent-dark);
 }
 
 .reports-list {

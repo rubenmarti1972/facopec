@@ -1,10 +1,10 @@
-$primary: var(--color-primary, #D4A574);
-$secondary: var(--color-secondary, #1B1B4D);
-$accent: var(--color-accent, #E74C3C);
-$white: #FFFFFF;
-$light-gray: #ECF0F1;
-$medium-gray: #7F8C8D;
-$dark: #2C3E50;
+$primary: var(--color-primary, #12b48c);
+$secondary: var(--color-secondary, #13507a);
+$accent: var(--color-accent, #ff6c2d);
+$white: var(--color-white, #ffffff);
+$light-gray: var(--color-light-gray, #edf7f4);
+$medium-gray: var(--color-medium-gray, #5f6c7b);
+$dark: var(--color-dark, #10243b);
 
 .app-footer {
   background-color: $secondary;
