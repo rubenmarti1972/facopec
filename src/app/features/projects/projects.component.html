@@ -1,9 +1,27 @@
-<section class="container section">
-  <h1>Programas y Proyectos</h1>
-  <p class="small">Iniciativas activas de apoyo escolar, cultura, lectura y comunidad.</p>
-  <div class="grid-3" style="margin-top:12px">
-    <div class="card"><h3>Apoyo Escolar</h3><p class="small">Refuerzos, lectura y juego.</p></div>
-    <div class="card"><h3>Ruta literaria “María”</h3><p class="small">Lectura en familia y creación.</p></div>
-    <div class="card"><h3>Bienestar familiar</h3><p class="small">Encuros y redes solidarias.</p></div>
+<section class="section section--muted">
+  <div class="container projects">
+    <header class="projects__header">
+      <span class="section__eyebrow">Proyectos</span>
+      <h1 class="projects__title">Proyectos</h1>
+      <p class="projects__subtitle">Iniciativas activas de apoyo escolar, cultura, lectura y comunidad.</p>
+    </header>
+
+    <div class="grid-3 projects__grid">
+      <a
+        *ngFor="let project of projects"
+        class="card projects__card"
+        [href]="project.href"
+        target="_blank"
+        rel="noopener"
+      >
+        <span class="projects__tag">{{ project.tag }}</span>
+        <h3 class="card__title">{{ project.title }}</h3>
+        <p class="card__text">{{ project.description }}</p>
+        <span class="card__link">
+          Ver programa
+          <span aria-hidden="true">↗</span>
+        </span>
+      </a>
+    </div>
   </div>
 </section>

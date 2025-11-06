@@ -39,6 +39,15 @@ interface SupportAction {
   dataStrapiUid: string;
 }
 
+interface PaymentGateway {
+  name: string;
+  description: string;
+  href: string;
+  actionLabel: string;
+  badge: string;
+  theme: 'pse' | 'international';
+}
+
 @Component({
   selector: 'app-donate',
   standalone: true,
@@ -129,7 +138,7 @@ export class DonateComponent {
       description: 'Clubes de lectura, escritura creativa y encuentros culturales que celebran la afrocolombianidad.',
       impact: 'Con $45.000 COP apoyas la compra de libros y actividades para un círculo de lectura.',
       cover: 'https://images.unsplash.com/photo-1529158062015-cad636e69505?auto=format&fit=crop&w=1200&q=80',
-      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Ruta%20Literaria',
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Ruta%20Literaria%20Mar%C3%ADa',
       strapiCollection: 'donaciones-historias',
       strapiEntryId: 'ruta-literaria',
     },
@@ -162,6 +171,27 @@ export class DonateComponent {
       linkLabel: 'Compartir',
       theme: 'rose',
       dataStrapiUid: 'donations.actions.share',
+    },
+  ];
+
+  readonly paymentGateways: PaymentGateway[] = [
+    {
+      name: 'Pagos PSE (Colombia)',
+      description:
+        'Conéctate con tu banco a través de la pasarela PSE y realiza transferencias seguras desde cualquier entidad nacional.',
+      href: 'https://www.pse.com.co/persona',
+      actionLabel: 'Donar con PSE',
+      badge: '🇨🇴 PSE',
+      theme: 'pse',
+    },
+    {
+      name: 'Pasarela internacional',
+      description:
+        'Haz tu aporte desde el exterior con tarjeta de crédito o cuenta PayPal en una plataforma segura para aliados globales.',
+      href: 'https://www.paypal.com/donate',
+      actionLabel: 'Donar desde el exterior',
+      badge: '🌍 Global',
+      theme: 'international',
     },
   ];
 
