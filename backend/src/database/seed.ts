@@ -1,28 +1,62 @@
 import { createStrapi } from '@strapi/strapi';
-import type { Strapi } from '@strapi/strapi';
-
+type StrapiApp = Awaited<ReturnType<typeof createStrapi>>;
+type EntityId = number | string;
 type EntityData = Record<string, unknown>;
 
-async function upsertSingleType(app: Strapi, uid: string, data: EntityData) {
-  const existing = await app.entityService.findMany(uid, {});
+type EntityService = {
+  findMany: (uid: string, params?: Record<string, unknown>) => Promise<unknown>;
+  create: (uid: string, params: { data: EntityData }) => Promise<unknown>;
+  update: (uid: string, entityId: EntityId, params: { data: EntityData }) => Promise<unknown>;
+};
+
+const getEntityService = (app: StrapiApp): EntityService =>
+  app.entityService as unknown as EntityService;
+
+const resolveEntityId = (entity: unknown): EntityId | null => {
+  if (entity && typeof entity === 'object' && 'id' in entity) {
+    const { id } = entity as { id?: EntityId };
+    return id ?? null;
+  }
+
+  return null;
+};
+
+async function upsertSingleType(app: StrapiApp, uid: string, data: EntityData) {
+  const entityService = getEntityService(app);
+  const existing = await entityService.findMany(uid, {});
 
   if (!existing) {
-    await app.entityService.create(uid, { data });
+    await entityService.create(uid, { data });
     return;
   }
 
   if (Array.isArray(existing)) {
     if (existing.length === 0) {
-      await app.entityService.create(uid, { data });
+      await entityService.create(uid, { data });
     } else {
-      await app.entityService.update(uid, existing[0].id, { data });
+      const entityId = resolveEntityId(existing[0]);
+
+      if (!entityId) {
+        await entityService.create(uid, { data });
+        return;
+      }
+
+      await entityService.update(uid, entityId, { data });
     }
-  } else if (typeof existing === 'object' && 'id' in existing && existing.id) {
-    await app.entityService.update(uid, (existing as { id: number }).id, { data });
+  } else if (typeof existing === 'object' && existing !== null) {
+    const entityId = resolveEntityId(existing);
+
+    if (!entityId) {
+      await entityService.create(uid, { data });
+      return;
+    }
+
+    await entityService.update(uid, entityId, { data });
   } else {
-    await app.entityService.create(uid, { data });
+    await entityService.create(uid, { data });
   }
 }
+
 
 async function seed() {
   const app = await createStrapi();
