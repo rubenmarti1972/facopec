@@ -1,6 +1,8 @@
-import type { Config } from '@strapi/strapi';
+import type { Core } from '@strapi/types';
 
-const middlewaresConfig: Config['middlewares'] = ({ env }) => ([
+type ConfigParams = { env: typeof import('@strapi/utils').env };
+
+const middlewaresConfig = ({ env }: ConfigParams) => ([
   'strapi::errors',
   'strapi::security',
   {
@@ -17,6 +19,6 @@ const middlewaresConfig: Config['middlewares'] = ({ env }) => ([
   'strapi::session',
   'strapi::favicon',
   'strapi::public'
-]);
+]) satisfies Core.Config.Middlewares;
 
 export default middlewaresConfig;
