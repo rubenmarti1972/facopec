@@ -1,22 +1,48 @@
-import type { Config } from '@strapi/strapi';
 import path from 'path';
+import type { Core } from '@strapi/types';
 
-const databaseConfig: Config['database'] = ({ env }) => {
-  const client = env('DATABASE_CLIENT', 'sqlite');
+import type { ConfigParams } from './utils/env';
+
+type DatabaseConfig = Core.Config.Database<'sqlite'> | Core.Config.Database<'postgres'>;
+
+type Client = 'sqlite' | 'postgres';
+
+const resolveClient = (): Client => {
+  const configured = (process.env.DATABASE_CLIENT ?? '').toLowerCase() as Client | '';
+
+  if (configured !== 'postgres') {
+    return 'sqlite';
+  }
+
+  const hasExplicitConnection = Boolean(
+    process.env.DATABASE_HOST && process.env.DATABASE_NAME && process.env.DATABASE_USERNAME,
+  );
+
+  if (hasExplicitConnection) {
+    return 'postgres';
+  }
+
+  return 'sqlite';
+};
+
+const databaseConfig = ({ env }: ConfigParams): DatabaseConfig => {
+  const client = resolveClient();
 
   if (client === 'sqlite') {
     return {
       connection: {
-        client: 'sqlite', // 👈 NO 'better-sqlite3'
+        client: 'sqlite',
         connection: {
           filename: path.join(__dirname, '..', '.tmp', 'data.db'),
         },
         useNullAsDefault: true,
       },
-    };
+    } satisfies DatabaseConfig;
   }
 
-  // PostgreSQL
+  const ssl = env.bool('DATABASE_SSL', false);
+  const schema = env('DATABASE_SCHEMA', 'public');
+
   return {
     connection: {
       client: 'postgres',
@@ -26,11 +52,11 @@ const databaseConfig: Config['database'] = ({ env }) => {
         database: env('DATABASE_NAME', 'strapi'),
         user: env('DATABASE_USERNAME', 'strapi'),
         password: env('DATABASE_PASSWORD', 'strapi'),
-        ssl: env.bool('DATABASE_SSL', false),
-        schema: env('DATABASE_SCHEMA', 'public'),
+        schema,
+        ssl,
       },
     },
-  };
+  } satisfies DatabaseConfig;
 };
 
 export default databaseConfig;
