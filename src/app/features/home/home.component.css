@@ -38,8 +38,14 @@
 }
 
 .impact-strip {
-  background: linear-gradient(90deg, rgba(15, 106, 181, 0.92), rgba(18, 180, 140, 0.92));
-  color: #f4fbff;
+  background: linear-gradient(
+    90deg,
+    rgba(19, 80, 122, 0.92) 0%,
+    rgba(19, 80, 122, 0.92) 30%,
+    rgba(18, 180, 140, 0.92) 30%,
+    rgba(18, 180, 140, 0.92) 100%
+  );
+  color: var(--color-white);
   border-radius: var(--radius-xl);
   padding: clamp(1.4rem, 3vw, 2.1rem);
   box-shadow: var(--shadow-1);
@@ -80,7 +86,7 @@
   font-size: 1.08rem;
   font-weight: 500;
   margin: 0;
-  color: #ffffff;
+  color: var(--color-white);
 }
 
 .activity-grid {
@@ -103,7 +109,7 @@
   align-items: center;
   justify-content: center;
   font-size: 1.9rem;
-  color: #0f7257;
+  color: var(--color-primary-dark);
 }
 
 .activity-card__icon.teal {
@@ -111,18 +117,18 @@
 }
 
 .activity-card__icon.blue {
-  background: rgba(15, 106, 181, 0.18);
-  color: #0f6ab5;
+  background: rgba(19, 80, 122, 0.18);
+  color: var(--color-secondary);
 }
 
 .activity-card__icon.rose {
-  background: rgba(255, 95, 157, 0.24);
-  color: #a3295b;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
 }
 
 .activity-card__icon.gold {
-  background: rgba(255, 221, 51, 0.28);
-  color: #8b6a08;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
 }
 
 .project-card {
@@ -150,7 +156,7 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, rgba(16, 36, 59, 0.05), rgba(16, 36, 59, 0.6));
-  color: #f7fbff;
+  color: var(--color-white);
   font-weight: 600;
   font-size: 0.95rem;
   padding: 1.2rem;

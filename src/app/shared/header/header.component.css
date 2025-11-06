@@ -7,7 +7,7 @@
   top: 0;
   z-index: var(--z-fixed);
   background: linear-gradient(130deg, var(--brand-secondary), var(--brand-primary));
-  color: #f1fbff;
+  color: var(--color-white);
   border-bottom: none;
   box-shadow: 0 16px 38px rgba(12, 50, 90, 0.28);
 }
@@ -58,7 +58,7 @@
 
 .site-header__title {
   font-weight: 700;
-  color: #ffffff;
+  color: var(--color-white);
   font-size: clamp(1.05rem, 2vw, 1.35rem);
 }
 
@@ -111,7 +111,7 @@
 
 .site-nav__link:hover,
 .site-nav__link.active {
-  color: #ffffff;
+  color: var(--color-white);
 }
 
 .site-nav__link:hover::after,
@@ -178,16 +178,16 @@
 }
 
 .btn-donate {
-  background: linear-gradient(135deg, var(--brand-sun), var(--brand-primary));
-  color: #fff;
+  background: linear-gradient(135deg, var(--brand-accent), var(--brand-primary));
+  color: var(--color-white);
   box-shadow: 0 18px 34px rgba(19, 80, 122, 0.26);
   border: none;
 }
 
 .btn-donate:hover,
 .btn-donate:focus {
-  background: linear-gradient(135deg, var(--brand-sun), #0f5743);
-  color: #fff;
+  background: linear-gradient(135deg, var(--color-accent-dark), var(--brand-primary-strong));
+  color: var(--color-white);
   transform: translateY(-2px);
 }
 

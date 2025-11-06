@@ -1,9 +1,9 @@
-$primary: var(--color-primary, #D4A574);
-$secondary: var(--color-secondary, #1B1B4D);
-$accent: var(--color-accent, #E74C3C);
-$white: #FFFFFF;
-$dark-text: #2C3E50;
-$light-gray: #ECF0F1;
+$primary: var(--color-primary, #12b48c);
+$secondary: var(--color-secondary, #13507a);
+$accent: var(--color-accent, #ff6c2d);
+$white: var(--color-white, #ffffff);
+$dark-text: var(--color-dark, #10243b);
+$light-gray: var(--color-light-gray, #edf7f4);
 
 .app-header {
   position: fixed;
