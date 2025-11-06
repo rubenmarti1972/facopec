@@ -1,5 +1,7 @@
 import { createStrapi } from '@strapi/strapi';
-import type { Strapi } from '@strapi/strapi';
+import type { Core } from '@strapi/types';
+
+type Strapi = Core.Strapi;
 
 type EntityData = Record<string, unknown>;
 

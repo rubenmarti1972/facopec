@@ -1,6 +1,6 @@
-import type { Config } from '@strapi/strapi';
+import type { Core } from '@strapi/types';
 
-const middlewaresConfig: Config['middlewares'] = ({ env }) => ([
+const middlewaresConfig: Core.Config.ConfigExport<Core.Config.Middlewares> = ({ env }) => ([
   'strapi::errors',
   'strapi::security',
   {
