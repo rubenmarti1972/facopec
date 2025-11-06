@@ -13,6 +13,16 @@ Requisitos previos:
 pnpm install
 ```
 
+Para el backend Strapi ubicado en `backend/`:
+
+```bash
+cd backend
+pnpm install
+cp .env.example .env # ajusta las variables sensibles
+pnpm seed # carga contenido y crea el superusuario facopec
+pnpm develop
+```
+
 ## Desarrollo
 
 ```bash
@@ -65,6 +75,10 @@ Edita `src/environments/environment.ts`:
 - PayPal Client ID
 - URLs de redes sociales
 - Datos bancarios
+
+## Backend Strapi
+
+El proyecto incluye un CMS Strapi v5 en la carpeta `backend/` con modelos para la página de inicio, donaciones, navegación global y proyectos. El script de semillas (`pnpm seed`) crea el superusuario **facopec / F4c0pec@2025** y carga contenido base listo para ser editado desde el panel.
 
 ---
 

@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_home_program_cards",
+  "info": {
+    "displayName": "Programa",
+    "icon": "tasks"
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "highlights": {
+      "type": "json"
+    },
+    "link": {
+      "type": "string"
+    },
+    "strapiCollection": {
+      "type": "string"
+    },
+    "strapiEntryId": {
+      "type": "string"
+    }
+  }
+}

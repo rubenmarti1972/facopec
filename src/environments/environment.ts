@@ -1,11 +1,12 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:3000',
-  strapiUrl: 'http://localhost:1337',
   appUrl: 'http://localhost:4200',
   strapi: {
-    apiKey: 'your-strapi-api-key-here',
-    bearerToken: 'your-strapi-bearer-token-here'
+    url: 'http://localhost:1337',
+    publicUrl: 'http://localhost:1337',
+    apiToken: 'your-strapi-api-token',
+    previewToken: 'your-strapi-preview-token'
   },
   paypal: {
     clientId: 'your-paypal-client-id-here',

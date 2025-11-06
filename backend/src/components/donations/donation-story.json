@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_donations_donation_stories",
+  "info": {
+    "displayName": "Historia de impacto",
+    "icon": "book-open"
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "impact": {
+      "type": "text"
+    },
+    "cover": {
+      "type": "media",
+      "multiple": false,
+      "required": true
+    },
+    "link": {
+      "type": "string"
+    },
+    "strapiCollection": {
+      "type": "string"
+    },
+    "strapiEntryId": {
+      "type": "string"
+    }
+  }
+}

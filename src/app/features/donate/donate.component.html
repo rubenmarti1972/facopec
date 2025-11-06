@@ -4,11 +4,11 @@
       <div class="donation-hero__content">
         <span class="donation-hero__badge">Fundación Afrocolombiana Profe en Casa</span>
         <h1 class="donation-hero__title">
-          Tu donación <span>cambia vidas</span>
+          {{ heroTitlePrimary }}
+          <span *ngIf="heroTitleHighlight">{{ heroTitleHighlight }}</span>
         </h1>
         <p class="donation-hero__text">
-          Con cada aporte fortalecemos procesos educativos, culturales y espirituales en el Valle del Cauca.
-          Acompañas a familias afrocolombianas para que sigan soñando con más oportunidades.
+          {{ heroDescription }}
         </p>
         <div class="donation-hero__stats">
           <div

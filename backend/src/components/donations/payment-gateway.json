@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_donations_payment_gateways",
+  "info": {
+    "displayName": "Pasarela de pago",
+    "icon": "credit-card"
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "link": {
+      "type": "string",
+      "required": true
+    },
+    "actionLabel": {
+      "type": "string"
+    },
+    "badge": {
+      "type": "string"
+    },
+    "theme": {
+      "type": "enumeration",
+      "enum": ["pse", "international"],
+      "default": "pse"
+    }
+  }
+}

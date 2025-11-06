@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_shared_highlights",
+  "info": {
+    "displayName": "Destacado",
+    "icon": "star"
+  },
+  "attributes": {
+    "icon": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "label": {
+      "type": "string"
+    },
+    "theme": {
+      "type": "enumeration",
+      "enum": ["teal", "blue", "rose", "gold", "sun"],
+      "default": "teal"
+    },
+    "dataUid": {
+      "type": "string"
+    }
+  }
+}
