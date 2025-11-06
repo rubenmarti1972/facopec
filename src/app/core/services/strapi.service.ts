@@ -18,7 +18,12 @@ import {
   Sponsor,
   StrapiResponse,
   StrapiError,
-  OrganizationInfo
+  OrganizationInfo,
+  MediaAsset,
+  HomePageContent,
+  DonationsPageContent,
+  GlobalSettings,
+  ProjectCardSummary
 } from '../models';
 import { environment } from '@environments/environment';
 
@@ -26,8 +31,10 @@ import { environment } from '@environments/environment';
   providedIn: 'root'
 })
 export class StrapiService {
-  private readonly apiUrl = environment.strapiUrl;
-  private readonly apiKey = environment.strapiApiKey;
+  private readonly apiUrl = environment.strapi?.url ?? (environment as unknown as { strapiUrl?: string }).strapiUrl ?? '';
+  private readonly publicUrl = environment.strapi?.publicUrl ?? this.apiUrl;
+  private readonly apiKey = environment.strapi?.apiToken ?? '';
+  private readonly previewToken = environment.strapi?.previewToken ?? '';
   
   // Cache management
   private cacheMap = new Map<string, Observable<unknown>>();
@@ -38,6 +45,27 @@ export class StrapiService {
   public errors$ = new BehaviorSubject<StrapiError | null>(null);
 
   constructor(private http: HttpClient) {}
+
+  /**
+   * Obtiene la configuración global (navegación, redes, etc.).
+   */
+  public getGlobalSettings(): Observable<GlobalSettings> {
+    return this.fetchSingleType<GlobalSettings>('global');
+  }
+
+  /**
+   * Obtiene el contenido de la página de inicio.
+   */
+  public getHomePage(): Observable<HomePageContent> {
+    return this.fetchSingleType<HomePageContent>('home-page');
+  }
+
+  /**
+   * Obtiene el contenido de la página de donaciones.
+   */
+  public getDonationsPage(): Observable<DonationsPageContent> {
+    return this.fetchSingleType<DonationsPageContent>('donations-page');
+  }
 
   /**
    * Get all projects with optional filters
@@ -67,6 +95,20 @@ export class StrapiService {
   }
 
   /**
+   * Obtiene tarjetas públicas de proyectos simplificadas
+   */
+  public getProjectSummaries(limit: number = 50): Observable<ProjectCardSummary[]> {
+    return this.getCachedData(
+      `project-summaries-${limit}`,
+      () =>
+        this.buildRequest<ProjectCardSummary>(
+          '/api/projects',
+          { populate: '*', sort: 'order:asc', 'pagination[pageSize]': limit }
+        ) as Observable<ProjectCardSummary[]>
+    );
+  }
+
+  /**
    * Get all media items
    */
   public getMediaItems(
@@ -93,10 +135,15 @@ export class StrapiService {
     formData.append('files', file);
     formData.append('metadata', JSON.stringify(metadata));
 
+    const headers = this.getHeaders({ contentType: undefined });
+    delete headers['Content-Type'];
+
+    const baseUrl = this.apiUrl || this.publicUrl || '';
+
     return this.http.post<StrapiResponse<MediaItem>>(
-      `${this.apiUrl}/api/upload`,
+      `${baseUrl}/api/upload`,
       formData,
-      { headers: { 'Authorization': `Bearer ${this.apiKey}` } }
+      { headers }
     ).pipe(
       map(response => Array.isArray(response.data) ? response.data[0] : response.data),
       catchError(error => this.handleError(error))
@@ -293,10 +340,11 @@ export class StrapiService {
 
   private buildRequest<T>(
     endpoint: string,
-    params?: Record<string, unknown>
+    params?: Record<string, unknown>,
+    options?: { usePreviewToken?: boolean }
   ): Observable<T | T[]> {
     let httpParams = new HttpParams();
-    
+
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
         if (value !== undefined && value !== null) {
@@ -305,19 +353,20 @@ export class StrapiService {
       });
     }
 
-    return this.http.get<StrapiResponse<T>>(
-      `${this.apiUrl}${endpoint}`,
-      { params: httpParams, headers: this.getHeaders() }
-    ).pipe(
-      map(response => response.data),
-      tap(data => {
-        if (!data) {
+    const headers = this.getHeaders({ usePreviewToken: options?.usePreviewToken });
+    const baseUrl = this.apiUrl || this.publicUrl || '';
+    const requestUrl = baseUrl ? `${baseUrl}${endpoint}` : endpoint;
+
+    return this.http
+      .get<StrapiResponse<T>>(requestUrl, { params: httpParams, headers })
+      .pipe(
+        map(response => this.normalizeResponse<T>(response.data)),
+        tap(() => {
           this.errors$.next(null);
-        }
-      }),
-      catchError(error => this.handleError(error)),
-      shareReplay(1)
-    );
+        }),
+        catchError(error => this.handleError(error)),
+        shareReplay(1)
+      );
   }
 
   private buildFilters(filters?: Record<string, unknown>): Record<string, unknown> {
@@ -334,11 +383,80 @@ export class StrapiService {
     return builtFilters;
   }
 
-  private getHeaders(): Record<string, string> {
-    return {
-      'Authorization': `Bearer ${this.apiKey}`,
-      'Content-Type': 'application/json'
-    };
+  private getHeaders(options?: { contentType?: string; usePreviewToken?: boolean }): Record<string, string> {
+    const headers: Record<string, string> = { Accept: 'application/json' };
+    const token = options?.usePreviewToken ? this.previewToken : this.apiKey;
+
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    const contentType = options?.contentType ?? 'application/json';
+    if (contentType) {
+      headers['Content-Type'] = contentType;
+    }
+
+    return headers;
+  }
+
+  private fetchSingleType<T>(uid: string, populate: string | string[] = 'deep'): Observable<T> {
+    const populateParam = this.buildPopulateParam(populate);
+    return this.getCachedData(
+      `single-${uid}-${populateParam ?? 'none'}`,
+      () =>
+        this.buildRequest<T>(`/api/${uid}`, populateParam ? { populate: populateParam } : undefined) as Observable<T>
+    );
+  }
+
+  private buildPopulateParam(populate?: string | string[]): string | undefined {
+    if (!populate) {
+      return undefined;
+    }
+    return Array.isArray(populate) ? populate.join(',') : populate;
+  }
+
+  private normalizeResponse<T>(data: unknown): T | T[] {
+    if (Array.isArray(data)) {
+      return data.map(item => this.normalizeEntity(item)) as T[];
+    }
+    return this.normalizeEntity(data) as T;
+  }
+
+  private normalizeEntity(entity: unknown): unknown {
+    if (Array.isArray(entity)) {
+      return entity.map(item => this.normalizeEntity(item));
+    }
+
+    if (entity && typeof entity === 'object') {
+      const record = entity as Record<string, unknown>;
+
+      if ('attributes' in record) {
+        const { id, attributes } = record as { id?: number; attributes?: Record<string, unknown> };
+        return {
+          id,
+          ...(this.normalizeEntity(attributes ?? {}) as Record<string, unknown>)
+        };
+      }
+
+      if ('data' in record && Object.keys(record).length === 1) {
+        const dataValue = record['data'];
+        if (Array.isArray(dataValue)) {
+          return dataValue.map(item => this.normalizeEntity(item));
+        }
+        if (dataValue === null) {
+          return null;
+        }
+        return this.normalizeEntity(dataValue as unknown);
+      }
+
+      const normalized: Record<string, unknown> = {};
+      Object.entries(record).forEach(([key, value]) => {
+        normalized[key] = this.normalizeEntity(value);
+      });
+      return normalized;
+    }
+
+    return entity;
   }
 
   private getCachedData<T>(
@@ -405,5 +523,18 @@ export class StrapiService {
       this.cacheMap.clear();
       this.cacheTimestamps.clear();
     }
+  }
+
+  public buildMediaUrl(media?: MediaAsset | null): string | null {
+    if (!media || !media.url) {
+      return null;
+    }
+
+    if (media.url.startsWith('http')) {
+      return media.url;
+    }
+
+    const baseUrl = this.publicUrl || this.apiUrl || '';
+    return baseUrl ? `${baseUrl}${media.url}` : media.url;
   }
 }

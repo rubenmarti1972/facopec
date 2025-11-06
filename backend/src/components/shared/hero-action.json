@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_shared_hero_actions",
+  "info": {
+    "displayName": "Acción del héroe",
+    "icon": "mouse-pointer"
+  },
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "url": {
+      "type": "string",
+      "required": true
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": ["primary", "secondary"],
+      "default": "primary"
+    },
+    "isInternal": {
+      "type": "boolean",
+      "default": true
+    },
+    "dataUid": {
+      "type": "string"
+    }
+  }
+}

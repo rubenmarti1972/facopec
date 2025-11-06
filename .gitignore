@@ -4,5 +4,6 @@ dist/
 coverage/
 *.log
 .DS_Store
+__MACOSX/
 .env
 .env.*

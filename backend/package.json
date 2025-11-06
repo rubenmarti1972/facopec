@@ -1,0 +1,43 @@
+{
+  "name": "facopec-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.12.3",
+  "engines": {
+    "node": ">=18.18.0 <=20.x",
+    "pnpm": ">=8.6.0"
+  },
+  "scripts": {
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "build": "strapi build",
+    "lint": "eslint ./src",
+    "seed": "ts-node src/database/seed.ts"
+  },
+  "dependencies": {
+    "@strapi/plugin-email": "5.4.1",
+    "@strapi/plugin-graphql": "5.4.1",
+    "@strapi/plugin-i18n": "5.4.1",
+    "@strapi/plugin-seo": "5.4.1",
+    "@strapi/plugin-upload": "5.4.1",
+    "@strapi/plugin-users-permissions": "5.4.1",
+    "@strapi/strapi": "5.4.1",
+    "date-fns": "^3.6.0",
+    "pg": "^8.13.1",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@strapi/types": "5.4.1",
+    "@types/node": "^20.14.11",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  },
+  "strapi": {
+    "uuid": "c74e21fa-4d0f-4719-a90b-34d981ed9f6a"
+  }
+}

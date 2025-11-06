@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_donations_support_actions",
+  "info": {
+    "displayName": "Acción de apoyo",
+    "icon": "hand-holding-heart"
+  },
+  "attributes": {
+    "icon": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "link": {
+      "type": "string"
+    },
+    "linkLabel": {
+      "type": "string"
+    },
+    "theme": {
+      "type": "enumeration",
+      "enum": ["teal", "blue", "rose", "sun"],
+      "default": "teal"
+    },
+    "dataUid": {
+      "type": "string"
+    }
+  }
+}

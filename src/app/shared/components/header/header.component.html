@@ -27,42 +27,17 @@
 
       <!-- Menu Desktop -->
       <ul class="hidden lg:flex items-center gap-2">
-        <li>
-          <a routerLink="/inicio" routerLinkActive="active-link" 
-             [routerLinkActiveOptions]="{exact: true}"
-             class="nav-link px-4 py-2 rounded-full font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 transition-all">
-            Inicio
-          </a>
-        </li>
-        <li>
-          <a routerLink="/proyectos" routerLinkActive="active-link"
-             class="nav-link px-4 py-2 rounded-full font-medium text-gray-700 hover:text-sky-DEFAULT hover:bg-sky-light/10 transition-all">
-            Proyectos
-          </a>
-        </li>
-        <li>
-          <a routerLink="/donaciones" routerLinkActive="active-link"
-             class="nav-link px-4 py-2 rounded-full font-medium text-gray-700 hover:text-rose-DEFAULT hover:bg-rose-light/10 transition-all">
-            Donaciones
-          </a>
-        </li>
-        <li>
-          <a routerLink="/apadrina" routerLinkActive="active-link"
-             class="nav-link px-4 py-2 rounded-full font-medium text-gray-700 hover:text-sunshine-DEFAULT hover:bg-sunshine-light/10 transition-all">
-            Apadrina
-          </a>
-        </li>
-        <li>
-          <a routerLink="/ruta-literaria-maria" routerLinkActive="active-link"
-             class="nav-link px-4 py-2 rounded-full font-medium text-gray-700 hover:text-grass hover:bg-grass/10 transition-all">
-            Ruta Literaria
-          </a>
-        </li>
-        <li>
-          <a routerLink="/nosotros" routerLinkActive="active-link"
-             class="nav-link px-4 py-2 rounded-full font-medium text-gray-700 hover:text-ocean hover:bg-blue-50 transition-all">
-            Nosotros
-          </a>
+        <li *ngFor="let item of navigationItems">
+          <a
+            class="nav-link px-4 py-2 rounded-full font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 transition-all"
+            [routerLink]="!isExternalLink(item.route) ? item.route : null"
+            [routerLinkActive]="!isExternalLink(item.route) ? 'active-link' : null"
+            [routerLinkActiveOptions]="{ exact: true }"
+            [href]="isExternalLink(item.route) ? item.route : null"
+            [attr.target]="isExternalLink(item.route) ? '_blank' : null"
+            [attr.rel]="isExternalLink(item.route) ? 'noopener' : null"
+            >{{ item.label }}</a
+          >
         </li>
       </ul>
 
@@ -87,46 +62,17 @@
     <!-- Menú móvil mejorado -->
     <div *ngIf="menuOpen()" class="lg:hidden pb-4 animate-slide-up">
       <ul class="space-y-2">
-        <li>
-          <a routerLink="/inicio" (click)="closeMenu()"
-             class="flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-primary-50 to-grass/10 text-ocean font-medium hover:bg-primary-100 transition-all">
-            <span class="text-2xl">🏠</span>
-            <span>Inicio</span>
-          </a>
-        </li>
-        <li>
-          <a routerLink="/proyectos" (click)="closeMenu()"
-             class="flex items-center gap-3 px-4 py-3 rounded-xl bg-sky-light/10 text-ocean font-medium hover:bg-sky-light/20 transition-all">
-            <span class="text-2xl">📚</span>
-            <span>Proyectos</span>
-          </a>
-        </li>
-        <li>
-          <a routerLink="/donaciones" (click)="closeMenu()"
-             class="flex items-center gap-3 px-4 py-3 rounded-xl bg-rose-light/10 text-ocean font-medium hover:bg-rose-light/20 transition-all">
-            <span class="text-2xl">💝</span>
-            <span>Donaciones</span>
-          </a>
-        </li>
-        <li>
-          <a routerLink="/apadrina" (click)="closeMenu()"
-             class="flex items-center gap-3 px-4 py-3 rounded-xl bg-sunshine-light/10 text-ocean font-medium hover:bg-sunshine-light/20 transition-all">
-            <span class="text-2xl">🤝</span>
-            <span>Apadrina</span>
-          </a>
-        </li>
-        <li>
-          <a routerLink="/ruta-literaria-maria" (click)="closeMenu()"
-             class="flex items-center gap-3 px-4 py-3 rounded-xl bg-grass/10 text-ocean font-medium hover:bg-grass/20 transition-all">
-            <span class="text-2xl">📖</span>
-            <span>Ruta Literaria María</span>
-          </a>
-        </li>
-        <li>
-          <a routerLink="/nosotros" (click)="closeMenu()"
-             class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary-50 text-ocean font-medium hover:bg-primary-100 transition-all">
-            <span class="text-2xl">ℹ️</span>
-            <span>Nosotros</span>
+        <li *ngFor="let item of navigationItems">
+          <a
+            [routerLink]="!isExternalLink(item.route) ? item.route : null"
+            [href]="isExternalLink(item.route) ? item.route : null"
+            (click)="closeMenu()"
+            [attr.target]="isExternalLink(item.route) ? '_blank' : null"
+            [attr.rel]="isExternalLink(item.route) ? 'noopener' : null"
+            class="flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-primary-50 to-grass/10 text-ocean font-medium hover:bg-primary-100 transition-all"
+          >
+            <span class="text-2xl">{{ item.icon || '🔹' }}</span>
+            <span>{{ item.label }}</span>
           </a>
         </li>
       </ul>
