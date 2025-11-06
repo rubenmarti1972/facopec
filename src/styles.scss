@@ -11,11 +11,11 @@
 
 :root {
   /* Logo-driven 60/30/10 palette */
-  --color-primary: #12b48c; /* 60% dominant teal */
-  --color-primary-dark: #0f7257;
-  --color-primary-light: #4cd6b7;
-  --color-primary-soft: #e6f6f1;
-  --color-primary-vivid: #0fa37c;
+  --color-primary: #1f9b7a; /* 60% dominant emerald */
+  --color-primary-dark: #0f5743;
+  --color-primary-light: #54c7a5;
+  --color-primary-soft: #e3f1eb;
+  --color-primary-vivid: #1b8566;
 
   --color-secondary: #13507a; /* 30% supporting navy */
   --color-secondary-dark: #0a2a41;
@@ -23,22 +23,33 @@
   --color-secondary-soft: #e2edf6;
   --color-secondary-vivid: #1f6ba3;
 
-  --color-accent: #ff6c2d; /* 10% highlight orange */
-  --color-accent-dark: #d45216;
-  --color-accent-light: #ff9461;
-  --color-accent-soft: #ffe8d9;
-  --color-accent-vivid: #ff7d43;
+  --color-accent: #ff8c5a; /* 10% highlight coral */
+  --color-accent-dark: #d9652f;
+  --color-accent-light: #ffb08d;
+  --color-accent-soft: #ffe4d8;
+  --color-accent-vivid: #ff9d74;
 
   --color-sun: #f7c948;
   --color-dark: #10243b;
   --color-dark-gray: #2f4052;
   --color-medium-gray: #5f6c7b;
-  --color-light-gray: #edf7f4;
+  --color-light-gray: #f5f7fb;
   --color-surface: #ffffff;
-  --color-surface-primary: var(--color-primary-soft);
-  --color-surface-secondary: var(--color-secondary-soft);
-  --color-surface-accent: var(--color-accent-soft);
+  --color-surface-primary: #edf6f2;
+  --color-surface-secondary: #edf6f2;
+  --color-surface-accent: #edf6f2;
   --color-white: #ffffff;
+
+  /* Unified surfaces derived from brand palette */
+  --surface-card: #e3f1eb;
+  --surface-card-alt: #e2edf6;
+  --surface-card-accent: #ffe4d8;
+  --surface-card-gradient: linear-gradient(135deg, var(--surface-card), var(--surface-card-alt));
+  --surface-card-strong: linear-gradient(135deg, rgba(31, 155, 122, 0.22), rgba(19, 80, 122, 0.26));
+  --surface-card-text: var(--color-dark);
+  --surface-card-text-muted: rgba(16, 36, 59, 0.72);
+  --surface-card-border: rgba(19, 80, 122, 0.16);
+  --header-gradient: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
 
   // Typography
   --font-family-primary: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -117,16 +128,6 @@ body {
   font-family: var(--font-family-primary);
   color: var(--color-dark);
   background-color: var(--color-surface-primary);
-  background-image: linear-gradient(
-    135deg,
-    rgba(18, 180, 140, 0.2) 0%,
-    rgba(18, 180, 140, 0.2) 60%,
-    rgba(19, 80, 122, 0.18) 60%,
-    rgba(19, 80, 122, 0.18) 90%,
-    rgba(255, 108, 45, 0.16) 90%,
-    rgba(255, 108, 45, 0.16) 100%
-  );
-  background-attachment: fixed;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

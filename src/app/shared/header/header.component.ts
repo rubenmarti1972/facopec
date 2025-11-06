@@ -19,6 +19,7 @@ interface HeaderLink {
   routerLink?: string;
   href?: string;
   exact?: boolean;
+  fragment?: string;
   dataStrapiUid: string;
   children?: HeaderLinkGroup[];
 }
@@ -37,10 +38,10 @@ export class HeaderComponent {
   private openDropdownIndex: number | null = null;
 
   readonly navLinks: HeaderLink[] = [
-    { label: 'Inicio', routerLink: '/', exact: true, dataStrapiUid: 'navigation.home' },
+    { label: 'Inicio', routerLink: '/home', exact: true, dataStrapiUid: 'navigation.home' },
     {
       label: 'Programas',
-      routerLink: '/projects',
+      href: '/home#programas',
       dataStrapiUid: 'navigation.activities',
       children: [
         {
@@ -98,6 +99,9 @@ export class HeaderComponent {
         }
       ]
     },
+    { label: 'Proyectos', routerLink: '/projects', dataStrapiUid: 'navigation.projects' },
+    { label: 'Ruta literaria', routerLink: '/literary-route', dataStrapiUid: 'navigation.literaryRoute' },
+    { label: 'Periódico', routerLink: '/newspaper', dataStrapiUid: 'navigation.newspaper' },
     {
       label: 'Informes',
       routerLink: '/reports',
@@ -126,11 +130,7 @@ export class HeaderComponent {
           ]
         }
       ]
-    },
-    { label: 'Proyectos', routerLink: '/projects', dataStrapiUid: 'navigation.projects' },
-    { label: 'Ruta literaria', routerLink: '/literary-route', dataStrapiUid: 'navigation.literaryRoute' },
-    { label: 'Periódico', routerLink: '/newspaper', dataStrapiUid: 'navigation.newspaper' },
-    { label: 'Nosotros', routerLink: '/about', dataStrapiUid: 'navigation.about' }
+    }
   ];
 
   toggleMenu(): void {
