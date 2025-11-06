@@ -11,7 +11,7 @@ const databaseConfig = ({ env }: ConfigParams): DatabaseConfig => {
   const client = env('DATABASE_CLIENT', 'sqlite') as Client;
 
   if (client === 'sqlite') {
-    return {
+    const config = {
       connection: {
         client: 'sqlite',
         connection: {

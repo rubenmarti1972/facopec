@@ -11,6 +11,6 @@ const serverConfig = ({ env }: ConfigParams): ServerConfig => ({
     keys: env.array('APP_KEYS', ['test-key-1', 'test-key-2', 'test-key-3', 'test-key-4']),
   },
   url: env('PUBLIC_URL'),
-});
+}) satisfies Core.Config.Server;
 
 export default serverConfig;
