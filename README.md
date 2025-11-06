@@ -4,14 +4,19 @@ Aplicación web profesional para la Fundación Afrocolombiana Pro Encasa
 
 ## Instalación
 
+Requisitos previos:
+
+- Node.js 22.x (usa `.nvmrc` para seleccionar la versión recomendada)
+- pnpm 9 o superior
+
 ```bash
-npm install
+pnpm install
 ```
 
 ## Desarrollo
 
 ```bash
-npm start
+pnpm start
 ```
 
 Abre http://localhost:4200
@@ -19,7 +24,7 @@ Abre http://localhost:4200
 ## Compilación
 
 ```bash
-npm run build:prod
+pnpm run build:prod
 ```
 
 ## Características

@@ -13,6 +13,11 @@
     "serve:prod": "ng serve --configuration production"
   },
   "private": true,
+  "packageManager": "pnpm@9.12.3",
+  "engines": {
+    "node": ">=22.0.0 <23",
+    "pnpm": ">=9.0.0"
+  },
   "dependencies": {
     "@angular/animations": "^20.3.8",
     "@angular/common": "^20.3.8",
