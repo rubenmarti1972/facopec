@@ -1,13 +1,18 @@
 import { createStrapi } from '@strapi/strapi';
-import type { Core, Modules, UID } from '@strapi/types';
-
-type Strapi = Core.Strapi;
-type ContentTypeUID = UID.ContentType;
-type EntityId = Modules.EntityService.Params.Attribute.ID;
-
+type StrapiApp = Awaited<ReturnType<typeof createStrapi>>;
+type EntityId = number | string;
 type EntityData = Record<string, unknown>;
 
-const getEntityId = (entity: unknown): EntityId | null => {
+type EntityService = {
+  findMany: (uid: string, params?: Record<string, unknown>) => Promise<unknown>;
+  create: (uid: string, params: { data: EntityData }) => Promise<unknown>;
+  update: (uid: string, entityId: EntityId, params: { data: EntityData }) => Promise<unknown>;
+};
+
+const getEntityService = (app: StrapiApp): EntityService =>
+  app.entityService as unknown as EntityService;
+
+const resolveEntityId = (entity: unknown): EntityId | null => {
   if (entity && typeof entity === 'object' && 'id' in entity) {
     const { id } = entity as { id?: EntityId };
     return id ?? null;
@@ -16,36 +21,44 @@ const getEntityId = (entity: unknown): EntityId | null => {
   return null;
 };
 
-async function upsertSingleType(app: Strapi, uid: ContentTypeUID, data: EntityData) {
-  const existing = await app.entityService.findMany(uid);
+async function upsertSingleType(app: StrapiApp, uid: string, data: EntityData) {
+  const entityService = getEntityService(app);
+  const existing = await entityService.findMany(uid, {});
 
   if (!existing) {
-    await app.entityService.create(uid, { data });
+    await entityService.create(uid, { data });
     return;
   }
 
   if (Array.isArray(existing)) {
-    const [first] = existing;
-    const entityId = getEntityId(first);
+    if (existing.length === 0) {
+      await entityService.create(uid, { data });
+    } else {
+      const entityId = resolveEntityId(existing[0]);
+
+      if (!entityId) {
+        await entityService.create(uid, { data });
+        return;
+      }
+
+      await entityService.update(uid, entityId, { data });
+    }
+  } else if (typeof existing === 'object' && existing !== null) {
+    const entityId = resolveEntityId(existing);
 
     if (!entityId) {
-      await app.entityService.create(uid, { data });
+      await entityService.create(uid, { data });
       return;
     }
 
-    await app.entityService.update(uid, entityId, { data });
-    return;
-  }
-
-  const entityId = getEntityId(existing);
-
-  if (!entityId) {
-    await app.entityService.create(uid, { data });
-    return;
+    await entityService.update(uid, entityId, { data });
+  } else {
+    await entityService.create(uid, { data });
   }
 
   await app.entityService.update(uid, entityId, { data });
 }
+
 
 async function seed() {
   const app = await createStrapi();
