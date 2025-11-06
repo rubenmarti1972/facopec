@@ -77,7 +77,7 @@ export class StrapiService {
   ): Observable<Project[]> {
     return this.getCachedData(
       `projects-${JSON.stringify(filters)}-${limit}-${start}`,
-      () => this.buildRequest<Project>(
+      () => this.buildRequest<Project[]>(
         '/api/projects',
         { populate: '*', limit, start, ...this.buildFilters(filters) }
       )
@@ -91,7 +91,7 @@ export class StrapiService {
     return this.getCachedData(
       `project-${id}`,
       () => this.buildRequest<Project>(`/api/projects/${id}`, { populate: '*' })
-    ) as Observable<Project>;
+    );
   }
 
   /**
@@ -101,10 +101,10 @@ export class StrapiService {
     return this.getCachedData(
       `project-summaries-${limit}`,
       () =>
-        this.buildRequest<ProjectCardSummary>(
+        this.buildRequest<ProjectCardSummary[]>(
           '/api/projects',
           { populate: '*', sort: 'order:asc', 'pagination[pageSize]': limit }
-        ) as Observable<ProjectCardSummary[]>
+        )
     );
   }
 
@@ -122,7 +122,7 @@ export class StrapiService {
         const filters: Record<string, unknown> = { limit, populate: '*' };
         if (category) filters['filters[category][$eq]'] = category;
         if (type) filters['filters[type][$eq]'] = type;
-        return this.buildRequest<MediaItem>('/api/media-items', filters);
+        return this.buildRequest<MediaItem[]>('/api/media-items', filters);
       }
     );
   }
@@ -159,7 +159,7 @@ export class StrapiService {
   ): Observable<Grant[]> {
     return this.getCachedData(
       `grants-${JSON.stringify(filters)}-${limit}`,
-      () => this.buildRequest<Grant>(
+      () => this.buildRequest<Grant[]>(
         '/api/grants',
         { populate: '*', limit, ...this.buildFilters(filters) }
       )
@@ -173,7 +173,7 @@ export class StrapiService {
     return this.getCachedData(
       `grant-${id}`,
       () => this.buildRequest<Grant>(`/api/grants/${id}`, { populate: '*' })
-    ) as Observable<Grant>;
+    );
   }
 
   /**
@@ -186,7 +186,7 @@ export class StrapiService {
         '/api/literary-route',
         { populate: 'deep' }
       )
-    ) as Observable<LiteraryRoute>;
+    );
   }
 
   /**
@@ -199,7 +199,7 @@ export class StrapiService {
   ): Observable<NewsArticle[]> {
     return this.getCachedData(
       `news-${limit}-${start}-${status}`,
-      () => this.buildRequest<NewsArticle>(
+      () => this.buildRequest<NewsArticle[]>(
         '/api/news-articles',
         {
           populate: '*',
@@ -216,7 +216,7 @@ export class StrapiService {
    * Get single news article
    */
   public getNewsArticle(slug: string): Observable<NewsArticle> {
-    return this.buildRequest<NewsArticle>(
+    return this.buildRequest<NewsArticle[]>(
       '/api/news-articles',
       {
         populate: '*',
@@ -224,8 +224,10 @@ export class StrapiService {
       }
     ).pipe(
       map(articles => {
-        if (Array.isArray(articles) && articles.length > 0) {
-          return articles[0];
+        const normalizedArticles = Array.isArray(articles) ? articles : [articles];
+        const [firstArticle] = normalizedArticles;
+        if (firstArticle) {
+          return firstArticle;
         }
         throw new Error('Article not found');
       }),
@@ -243,7 +245,7 @@ export class StrapiService {
         '/api/organization-info',
         { populate: 'deep' }
       )
-    ) as Observable<OrganizationInfo>;
+    );
   }
 
   /**
@@ -252,7 +254,7 @@ export class StrapiService {
   public getSponsors(): Observable<Sponsor[]> {
     return this.getCachedData(
       'sponsors',
-      () => this.buildRequest<Sponsor>(
+      () => this.buildRequest<Sponsor[]>(
         '/api/sponsors',
         { populate: '*', 'filters[active][$eq]': true }
       )
@@ -280,7 +282,7 @@ export class StrapiService {
     filters?: Record<string, unknown>,
     limit: number = 100
   ): Observable<Donation[]> {
-    return this.buildRequest<Donation>(
+    return this.buildRequest<Donation[]>(
       '/api/donations',
       { populate: '*', limit, ...filters }
     );
@@ -342,7 +344,7 @@ export class StrapiService {
     endpoint: string,
     params?: Record<string, unknown>,
     options?: { usePreviewToken?: boolean }
-  ): Observable<T | T[]> {
+  ): Observable<T> {
     let httpParams = new HttpParams();
 
     if (params) {
@@ -358,9 +360,9 @@ export class StrapiService {
     const requestUrl = baseUrl ? `${baseUrl}${endpoint}` : endpoint;
 
     return this.http
-      .get<StrapiResponse<T>>(requestUrl, { params: httpParams, headers })
+      .get<StrapiResponse<unknown>>(requestUrl, { params: httpParams, headers })
       .pipe(
-        map(response => this.normalizeResponse<T>(response.data)),
+        map(response => this.normalizeResponse(response.data) as T),
         tap(() => {
           this.errors$.next(null);
         }),
@@ -404,7 +406,7 @@ export class StrapiService {
     return this.getCachedData(
       `single-${uid}-${populateParam ?? 'none'}`,
       () =>
-        this.buildRequest<T>(`/api/${uid}`, populateParam ? { populate: populateParam } : undefined) as Observable<T>
+        this.buildRequest<T>(`/api/${uid}`, populateParam ? { populate: populateParam } : undefined)
     );
   }
 
@@ -415,11 +417,11 @@ export class StrapiService {
     return Array.isArray(populate) ? populate.join(',') : populate;
   }
 
-  private normalizeResponse<T>(data: unknown): T | T[] {
+  private normalizeResponse(data: unknown): unknown {
     if (Array.isArray(data)) {
-      return data.map(item => this.normalizeEntity(item)) as T[];
+      return data.map(item => this.normalizeEntity(item));
     }
-    return this.normalizeEntity(data) as T;
+    return this.normalizeEntity(data);
   }
 
   private normalizeEntity(entity: unknown): unknown {
@@ -499,8 +501,17 @@ export class StrapiService {
     } else if (typeof error === 'object' && error !== null) {
       const err = error as Record<string, unknown>;
       if (err['error']) {
-        errorData = err as StrapiError;
-        errorMessage = (err['error'] as Record<string, unknown>)['message'] as string ?? errorMessage;
+        const errorInfo = err['error'] as Record<string, unknown>;
+        errorData = {
+          data: null,
+          error: {
+            status: (errorInfo?.['status'] as number) ?? 500,
+            name: (errorInfo?.['name'] as string) ?? 'Error',
+            message: (errorInfo?.['message'] as string) ?? errorMessage,
+            details: (errorInfo?.['details'] as Record<string, unknown>) ?? undefined
+          }
+        } satisfies StrapiError;
+        errorMessage = errorData.error.message;
       }
     }
 
