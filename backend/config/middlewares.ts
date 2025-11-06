@@ -1,28 +1,62 @@
-import type { Core } from '@strapi/types';
+// backend/config/middlewares.ts
+const middlewares = ({ env }: any) => {
+  const isProd = env('NODE_ENV', 'development') === 'production';
 
-import type { ConfigParams } from './utils/env';
+  // Solo valores que realmente son orígenes (http/https)
+  const rawOrigins = [
+    'http://localhost:1337',
+    'http://127.0.0.1:1337',
+    'http://localhost:4200',   // Angular dev
+    'http://127.0.0.1:4200',
+    'http://localhost:5173',   // Vite
+    env('APP_URL'),
+    env('PUBLIC_URL'),
+    env('FRONTEND_URL'),       // por si lo usas
+  ];
 
-type MiddlewaresConfig = Core.Config.Middlewares;
+  const allowedOrigins = rawOrigins
+    .filter(Boolean)
+    .filter((o) => typeof o === 'string' && /^https?:\/\//i.test(o));
 
-const middlewaresConfig = ({ env }: ConfigParams): MiddlewaresConfig => [
-  'strapi::errors',
-  'strapi::security',
-  {
-    name: 'strapi::cors',
-    config: {
-      origin: env
-        .array('CORS_ORIGINS', ['http://localhost:4200', env('APP_URL')])
-        .filter(Boolean),
-      credentials: true,
+  return [
+    'strapi::errors',
+    {
+      name: 'strapi::security',
+      config: {
+        contentSecurityPolicy: {
+          useDefaults: true,
+          directives: {
+            'connect-src': [
+              "'self'",
+              'https:',
+              ...allowedOrigins,
+              'ws://localhost:1337',
+              'ws://127.0.0.1:1337',
+              'ws://localhost:4200',
+              'ws://127.0.0.1:4200',
+            ],
+          },
+        },
+      },
     },
-  },
-  'strapi::poweredBy',
-  'strapi::logger',
-  'strapi::query',
-  'strapi::body',
-  'strapi::session',
-  'strapi::favicon',
-  'strapi::public',
-];
+    {
+      name: 'strapi::cors',
+      config: {
+        origin: isProd ? allowedOrigins : ['*'],
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+        headers: ['Content-Type', 'Authorization', 'Origin', 'Accept', 'X-Requested-With'],
+        keepHeaderOnError: true,
+        credentials: true,
+      },
+    },
+    'strapi::poweredBy',
+    'strapi::logger',
+    'strapi::query',
+    'strapi::body',
+    'strapi::session',
+    'strapi::favicon',
+    'strapi::public',
+  ];
+};
 
-export default middlewaresConfig;
+export default middlewares;

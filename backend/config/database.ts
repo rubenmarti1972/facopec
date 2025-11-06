@@ -1,48 +1,27 @@
+// backend/config/database.ts
 import path from 'path';
 import type { Core } from '@strapi/types';
-
 import type { ConfigParams } from './utils/env';
 
 type DatabaseConfig = Core.Config.Database<'sqlite'> | Core.Config.Database<'postgres'>;
 
-type Client = 'sqlite' | 'postgres';
-
-const resolveClient = (): Client => {
-  const configured = (process.env.DATABASE_CLIENT ?? '').toLowerCase() as Client | '';
-
-  if (configured !== 'postgres') {
-    return 'sqlite';
-  }
-
-  const hasExplicitConnection = Boolean(
-    process.env.DATABASE_HOST && process.env.DATABASE_NAME && process.env.DATABASE_USERNAME,
-  );
-
-  if (hasExplicitConnection) {
-    return 'postgres';
-  }
-
-  return 'sqlite';
-};
-
 const databaseConfig = ({ env }: ConfigParams): DatabaseConfig => {
-  const client = resolveClient();
+  const client = (process.env.DATABASE_CLIENT ?? '').toLowerCase();
 
-  if (client === 'sqlite') {
-    const config = {
+  if (client !== 'postgres') {
+    // ✅ Apuntar SIEMPRE al root del proyecto, no a dist/
+    return {
       connection: {
         client: 'sqlite',
         connection: {
-          filename: path.join(__dirname, '..', '.tmp', 'data.db'),
+          filename: path.join(process.cwd(), '.tmp', 'data.db'),
         },
         useNullAsDefault: true,
       },
-    } satisfies DatabaseConfig;
+    } satisfies Core.Config.Database<'sqlite'>;
   }
 
-  const ssl = env.bool('DATABASE_SSL', false);
-  const schema = env('DATABASE_SCHEMA', 'public');
-
+  // ... tu config postgres aquí (igual a como la tienes)
   return {
     connection: {
       client: 'postgres',
@@ -52,11 +31,11 @@ const databaseConfig = ({ env }: ConfigParams): DatabaseConfig => {
         database: env('DATABASE_NAME', 'strapi'),
         user: env('DATABASE_USERNAME', 'strapi'),
         password: env('DATABASE_PASSWORD', 'strapi'),
-        schema,
-        ssl,
+        schema: env('DATABASE_SCHEMA', 'public'),
+        ssl: env.bool('DATABASE_SSL', false),
       },
     },
-  } satisfies DatabaseConfig;
+  } satisfies Core.Config.Database<'postgres'>;
 };
 
 export default databaseConfig;
