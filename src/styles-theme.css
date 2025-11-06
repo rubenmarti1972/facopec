@@ -1,13 +1,13 @@
 :root {
   --brand-primary: var(--color-primary);
   --brand-primary-strong: var(--color-primary-dark);
-  --brand-primary-soft: rgba(18, 180, 140, 0.16);
+  --brand-primary-soft: rgba(31, 155, 122, 0.16);
   --brand-secondary: var(--color-secondary);
   --brand-secondary-strong: var(--color-secondary-dark);
   --brand-secondary-soft: rgba(19, 80, 122, 0.16);
   --brand-accent: var(--color-accent);
   --brand-accent-strong: var(--color-accent-dark);
-  --brand-accent-soft: rgba(255, 108, 45, 0.18);
+  --brand-accent-soft: rgba(255, 140, 90, 0.18);
   --brand-ink: var(--color-dark);
   --brand-ink-soft: var(--color-medium-gray);
   --brand-bg: var(--color-surface-primary);
@@ -48,8 +48,8 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  background: rgba(18, 180, 140, 0.16);
-  border: 1px solid rgba(18, 180, 140, 0.28);
+  background: rgba(31, 155, 122, 0.18);
+  border: 1px solid rgba(31, 155, 122, 0.3);
   color: var(--brand-primary-strong);
   padding: 0.55rem 1.2rem;
   border-radius: 999px;
@@ -74,7 +74,7 @@
 }
 
 .card {
-  background: linear-gradient(140deg, rgba(18, 180, 140, 0.22), rgba(19, 80, 122, 0.18));
+  background: var(--surface);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-1);
   padding: clamp(1.4rem, 2.4vw, 2.2rem);
@@ -126,7 +126,7 @@
   width: 56px;
   height: 56px;
   border-radius: 18px;
-  background: rgba(18, 180, 140, 0.16);
+  background: rgba(31, 155, 122, 0.16);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -413,7 +413,7 @@
 .btn-primary {
   background: var(--color-primary-vivid);
   color: var(--color-white);
-  box-shadow: 0 12px 28px rgba(18, 180, 140, 0.28);
+  box-shadow: 0 12px 28px rgba(31, 155, 122, 0.28);
 }
 
 .btn--primary:hover,
@@ -442,7 +442,7 @@
 .btn--accent {
   background: var(--color-accent);
   color: var(--color-white);
-  box-shadow: 0 12px 28px rgba(255, 108, 45, 0.24);
+  box-shadow: 0 12px 28px rgba(255, 140, 90, 0.24);
 }
 
 .btn--accent:hover {
@@ -473,8 +473,8 @@
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  background: rgba(18, 180, 140, 0.24);
-  border: 1px solid rgba(18, 180, 140, 0.36);
+  background: rgba(31, 155, 122, 0.24);
+  border: 1px solid rgba(31, 155, 122, 0.36);
   color: var(--brand-primary-strong);
   padding: 0.75rem 1.35rem;
   border-radius: 999px;
@@ -518,7 +518,7 @@
 }
 
 .hero__stat {
-  background: linear-gradient(150deg, rgba(18, 180, 140, 0.22), rgba(19, 80, 122, 0.16));
+  background: linear-gradient(150deg, rgba(31, 155, 122, 0.22), rgba(19, 80, 122, 0.16));
   border-radius: var(--radius-lg);
   padding: 1.1rem 1.35rem;
   box-shadow: var(--shadow-1);
@@ -538,7 +538,7 @@
 }
 
 .callout {
-  background: linear-gradient(140deg, rgba(18, 180, 140, 0.22), rgba(19, 80, 122, 0.2));
+  background: linear-gradient(140deg, rgba(31, 155, 122, 0.22), rgba(19, 80, 122, 0.2));
   border: 1px solid rgba(16, 36, 59, 0.1);
   border-radius: var(--radius-xl);
   padding: clamp(1.4rem, 2.6vw, 2.2rem);
@@ -611,7 +611,7 @@
 }
 
 .catalog-card {
-  background: linear-gradient(150deg, rgba(15, 106, 181, 0.16), rgba(18, 180, 140, 0.18));
+  background: linear-gradient(150deg, rgba(15, 106, 181, 0.16), rgba(31, 155, 122, 0.18));
   border-radius: var(--radius-lg);
   padding: 1.4rem;
   border: 1px solid rgba(16, 36, 59, 0.08);
@@ -627,7 +627,7 @@
 }
 
 .catalog-card__button {
-  background: rgba(18, 180, 140, 0.1);
+  background: rgba(31, 155, 122, 0.1);
   color: var(--brand-secondary);
   border-radius: 999px;
   padding: 0.5rem 1rem;
@@ -857,7 +857,7 @@
 }
 
 .donation-hero {
-  background: linear-gradient(120deg, rgba(18, 180, 140, 0.12), rgba(15, 106, 181, 0.08));
+  background: linear-gradient(120deg, rgba(31, 155, 122, 0.12), rgba(15, 106, 181, 0.08));
   position: relative;
   overflow: hidden;
 }
@@ -866,7 +866,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 20% 20%, rgba(255, 108, 45, 0.18), transparent 55%),
+  background: radial-gradient(circle at 20% 20%, rgba(255, 140, 90, 0.18), transparent 55%),
     radial-gradient(circle at 82% 8%, rgba(19, 80, 122, 0.18), transparent 50%);
   pointer-events: none;
 }
@@ -895,8 +895,8 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  background: rgba(18, 180, 140, 0.16);
-  border: 1px solid rgba(18, 180, 140, 0.28);
+  background: rgba(31, 155, 122, 0.16);
+  border: 1px solid rgba(31, 155, 122, 0.28);
   padding: 0.55rem 1.1rem;
   border-radius: 999px;
   font-weight: 600;
@@ -938,7 +938,7 @@
   border-radius: var(--radius-lg);
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(6px);
-  border: 1px solid rgba(18, 180, 140, 0.16);
+  border: 1px solid rgba(31, 155, 122, 0.16);
   box-shadow: var(--shadow-1);
 }
 
@@ -1034,7 +1034,7 @@
 }
 
 .donation-impact__card--teal {
-  background: linear-gradient(140deg, #12b48c, #2db48f);
+  background: linear-gradient(140deg, #1f9b7a, #54c7a5);
 }
 
 .donation-impact__card--blue {
@@ -1204,15 +1204,15 @@
 }
 
 .donation-option:hover {
-  border-color: rgba(18, 180, 140, 0.4);
+  border-color: rgba(31, 155, 122, 0.4);
   transform: translateY(-4px);
   box-shadow: var(--shadow-1);
 }
 
 .donation-option--active {
   border-color: var(--brand-primary);
-  box-shadow: 0 0 0 3px rgba(18, 180, 140, 0.25);
-  background: rgba(18, 180, 140, 0.08);
+  box-shadow: 0 0 0 3px rgba(31, 155, 122, 0.25);
+  background: rgba(31, 155, 122, 0.08);
 }
 
 .donation-option__icon {
@@ -1307,7 +1307,7 @@
   padding: 1rem 1.2rem;
   border-left: 4px solid var(--brand-primary);
   border-radius: var(--radius-md);
-  background: rgba(18, 180, 140, 0.08);
+  background: rgba(31, 155, 122, 0.08);
   color: var(--brand-ink);
   font-size: 0.98rem;
 }
@@ -1345,8 +1345,8 @@
 }
 
 .donation-gateway--international {
-  border-color: rgba(255, 108, 45, 0.22);
-  background: linear-gradient(135deg, rgba(255, 108, 45, 0.08), rgba(18, 180, 140, 0.08));
+  border-color: rgba(255, 140, 90, 0.22);
+  background: linear-gradient(135deg, rgba(255, 140, 90, 0.08), rgba(31, 155, 122, 0.08));
 }
 
 .donation-gateway__badge {
@@ -1368,7 +1368,7 @@
 }
 
 .donation-gateway--international .donation-gateway__badge {
-  background: rgba(255, 108, 45, 0.16);
+  background: rgba(255, 140, 90, 0.16);
   color: var(--color-accent);
 }
 
@@ -1455,7 +1455,7 @@
 }
 
 .support-card__icon--teal {
-  background: rgba(18, 180, 140, 0.18);
+  background: rgba(31, 155, 122, 0.18);
   color: var(--brand-primary-strong);
 }
 
