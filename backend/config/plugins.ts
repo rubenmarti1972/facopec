@@ -1,6 +1,8 @@
 import type { Core } from '@strapi/types';
 
-const pluginsConfig: Core.Config.ConfigExport<Core.Config.Plugin> = ({ env }) => ({
+type ConfigParams = { env: typeof import('@strapi/utils').env };
+
+const pluginsConfig = ({ env }: ConfigParams) => ({
   /* seo: {
     enabled: true
   }, */
@@ -43,6 +45,6 @@ const pluginsConfig: Core.Config.ConfigExport<Core.Config.Plugin> = ({ env }) =>
       }
     }
   }
-});
+}) satisfies Core.Config.Plugin;
 
 export default pluginsConfig;

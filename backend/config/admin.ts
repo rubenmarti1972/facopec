@@ -1,6 +1,8 @@
 import type { Core } from '@strapi/types';
 
-const adminConfig: Core.Config.ConfigExport<Core.Config.Admin> = ({ env }) => ({
+type ConfigParams = { env: typeof import('@strapi/utils').env };
+
+const adminConfig = ({ env }: ConfigParams) => ({
   auth: {
     secret: env('ADMIN_JWT_SECRET', 'replace-me')
   },
@@ -14,6 +16,6 @@ const adminConfig: Core.Config.ConfigExport<Core.Config.Admin> = ({ env }) => ({
   },
   watchIgnoreFiles: ['**/src/database/seed.ts'],
   url: env('ADMIN_URL'),
-});
+}) satisfies Core.Config.Admin;
 
 export default adminConfig;
