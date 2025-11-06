@@ -1,6 +1,6 @@
-import type { Config } from '@strapi/strapi';
+import type { Core } from '@strapi/types';
 
-const serverConfig: Config['server'] = ({ env }) => ({
+const serverConfig: Core.Config.ConfigExport<Core.Config.Server> = ({ env }) => ({
   host: env('HOST', '0.0.0.0'),
   port: env.int('PORT', 1337),
   app: {

@@ -1,6 +1,6 @@
-import type { Config } from '@strapi/strapi';
+import type { Core } from '@strapi/types';
 
-const adminConfig: Config['admin'] = ({ env }) => ({
+const adminConfig: Core.Config.ConfigExport<Core.Config.Admin> = ({ env }) => ({
   auth: {
     secret: env('ADMIN_JWT_SECRET', 'replace-me')
   },

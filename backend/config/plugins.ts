@@ -1,6 +1,6 @@
-import type { Config } from '@strapi/strapi';
+import type { Core } from '@strapi/types';
 
-const pluginsConfig: Config['plugins'] = ({ env }) => ({
+const pluginsConfig: Core.Config.ConfigExport<Core.Config.Plugin> = ({ env }) => ({
   /* seo: {
     enabled: true
   }, */
