@@ -31,6 +31,11 @@ interface HeaderLink {
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+  private readonly mobileQuery = typeof window !== 'undefined' ? window.matchMedia('(max-width: 720px)') : null;
+
+  isMenuOpen = false;
+  private openDropdownIndex: number | null = null;
+
   readonly navLinks: HeaderLink[] = [
     { label: 'Inicio', routerLink: '/', exact: true, dataStrapiUid: 'navigation.home' },
     {
@@ -93,9 +98,63 @@ export class HeaderComponent {
         }
       ]
     },
+    {
+      label: 'Informes',
+      routerLink: '/reports',
+      dataStrapiUid: 'navigation.reports',
+      children: [
+        {
+          title: 'Gestión contable',
+          dataStrapiUid: 'navigation.reports.accounting',
+          items: [
+            {
+              label: 'Informe contable',
+              href: '/reports#informe-contable',
+              dataStrapiUid: 'navigation.reports.accounting.financial'
+            }
+          ]
+        },
+        {
+          title: 'Impacto social',
+          dataStrapiUid: 'navigation.reports.impact',
+          items: [
+            {
+              label: 'Personas atendidas por programas',
+              href: '/reports#atencion-programas',
+              dataStrapiUid: 'navigation.reports.impact.attendance'
+            }
+          ]
+        }
+      ]
+    },
     { label: 'Proyectos', routerLink: '/projects', dataStrapiUid: 'navigation.projects' },
     { label: 'Ruta literaria', routerLink: '/literary-route', dataStrapiUid: 'navigation.literaryRoute' },
     { label: 'Periódico', routerLink: '/newspaper', dataStrapiUid: 'navigation.newspaper' },
     { label: 'Nosotros', routerLink: '/about', dataStrapiUid: 'navigation.about' }
   ];
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+    if (!this.isMenuOpen) {
+      this.openDropdownIndex = null;
+    }
+  }
+
+  closeMenu(): void {
+    if (this.isMenuOpen) {
+      this.isMenuOpen = false;
+    }
+    this.openDropdownIndex = null;
+  }
+
+  toggleDropdown(index: number, event: MouseEvent): void {
+    if (this.mobileQuery?.matches) {
+      event.preventDefault();
+      this.openDropdownIndex = this.openDropdownIndex === index ? null : index;
+    }
+  }
+
+  isDropdownOpen(index: number): boolean {
+    return this.openDropdownIndex === index;
+  }
 }
