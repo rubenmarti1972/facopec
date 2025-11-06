@@ -29,7 +29,7 @@
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
     "sqlite3": "^5.1.7",
-    "strapi-provider-email-smtp": "file:./providers/strapi-provider-email-smtp",
+    "@strapi/provider-email-smtp": "file:./providers/@strapi/provider-email-smtp",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {
