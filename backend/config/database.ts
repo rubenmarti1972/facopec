@@ -1,11 +1,13 @@
-import type { Config } from '@strapi/strapi';
+import type { Core } from '@strapi/types';
 import path from 'path';
 
-const databaseConfig: Config['database'] = ({ env }) => {
-  const client = env('DATABASE_CLIENT', 'sqlite');
+type ConfigParams = { env: typeof import('@strapi/utils').env };
+
+const databaseConfig = ({ env }: ConfigParams) => {
+  const client = env('DATABASE_CLIENT', 'sqlite') as 'sqlite' | 'postgres';
 
   if (client === 'sqlite') {
-    return {
+    const config = {
       connection: {
         client: 'sqlite', // 👈 NO 'better-sqlite3'
         connection: {
@@ -13,11 +15,13 @@ const databaseConfig: Config['database'] = ({ env }) => {
         },
         useNullAsDefault: true,
       },
-    };
+    } satisfies Core.Config.Database<'sqlite'>;
+
+    return config;
   }
 
   // PostgreSQL
-  return {
+  const config = {
     connection: {
       client: 'postgres',
       connection: {
@@ -30,7 +34,9 @@ const databaseConfig: Config['database'] = ({ env }) => {
         schema: env('DATABASE_SCHEMA', 'public'),
       },
     },
-  };
+  } satisfies Core.Config.Database<'postgres'>;
+
+  return config;
 };
 
 export default databaseConfig;

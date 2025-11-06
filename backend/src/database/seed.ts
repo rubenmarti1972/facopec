@@ -1,10 +1,23 @@
 import { createStrapi } from '@strapi/strapi';
-import type { Strapi } from '@strapi/strapi';
+import type { Core, Modules, UID } from '@strapi/types';
+
+type Strapi = Core.Strapi;
+type ContentTypeUID = UID.ContentType;
+type EntityId = Modules.EntityService.Params.Attribute.ID;
 
 type EntityData = Record<string, unknown>;
 
-async function upsertSingleType(app: Strapi, uid: string, data: EntityData) {
-  const existing = await app.entityService.findMany(uid, {});
+const getEntityId = (entity: unknown): EntityId | null => {
+  if (entity && typeof entity === 'object' && 'id' in entity) {
+    const { id } = entity as { id?: EntityId };
+    return id ?? null;
+  }
+
+  return null;
+};
+
+async function upsertSingleType(app: Strapi, uid: ContentTypeUID, data: EntityData) {
+  const existing = await app.entityService.findMany(uid);
 
   if (!existing) {
     await app.entityService.create(uid, { data });
@@ -12,16 +25,26 @@ async function upsertSingleType(app: Strapi, uid: string, data: EntityData) {
   }
 
   if (Array.isArray(existing)) {
-    if (existing.length === 0) {
+    const [first] = existing;
+    const entityId = getEntityId(first);
+
+    if (!entityId) {
       await app.entityService.create(uid, { data });
-    } else {
-      await app.entityService.update(uid, existing[0].id, { data });
+      return;
     }
-  } else if (typeof existing === 'object' && 'id' in existing && existing.id) {
-    await app.entityService.update(uid, (existing as { id: number }).id, { data });
-  } else {
-    await app.entityService.create(uid, { data });
+
+    await app.entityService.update(uid, entityId, { data });
+    return;
   }
+
+  const entityId = getEntityId(existing);
+
+  if (!entityId) {
+    await app.entityService.create(uid, { data });
+    return;
+  }
+
+  await app.entityService.update(uid, entityId, { data });
 }
 
 async function seed() {
