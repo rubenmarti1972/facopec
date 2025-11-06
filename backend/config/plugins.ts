@@ -1,9 +1,9 @@
 import type { Config } from '@strapi/strapi';
 
 const pluginsConfig: Config['plugins'] = ({ env }) => ({
-  seo: {
+  /* seo: {
     enabled: true
-  },
+  }, */
   i18n: {
     enabled: true,
     config: {
