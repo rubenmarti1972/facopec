@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_shared_supporter_logos",
+  "info": {
+    "displayName": "Logo aliado",
+    "icon": "handshake"
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": true
+    },
+    "caption": {
+      "type": "string"
+    },
+    "link": {
+      "type": "string"
+    },
+    "dataUid": {
+      "type": "string"
+    }
+  }
+}

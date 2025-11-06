@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_shared_gallery_items",
+  "info": {
+    "displayName": "Galería",
+    "icon": "image"
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "media": {
+      "type": "media",
+      "multiple": false,
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["image", "video"],
+      "default": "image"
+    },
+    "link": {
+      "type": "string"
+    },
+    "strapiCollection": {
+      "type": "string"
+    },
+    "strapiEntryId": {
+      "type": "string"
+    }
+  }
+}

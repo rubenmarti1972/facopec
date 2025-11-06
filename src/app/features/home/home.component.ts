@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { StrapiService } from '@core/services/strapi.service';
+import { HomePageContent, HighlightContent, SupporterLogoContent, MediaAsset } from '@core/models';
 
 interface HeroStat {
   label: string;
@@ -75,8 +77,13 @@ type IdentityCardKey = 'description' | 'mission' | 'vision';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
-  readonly hero = {
+export class HomeComponent implements OnInit {
+  private readonly strapiService = inject(StrapiService);
+
+  loading = true;
+  error: string | null = null;
+
+  hero = {
     eyebrow: 'Misión con sentido social',
     title: ['Transformamos vidas', 'a través de la educación y el cuidado'],
     lead:
@@ -103,7 +110,7 @@ export class HomeComponent {
     }
   };
 
-  readonly identity = {
+  identity = {
     description:
       'Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en comunidades negras, afrocolombianas, raizales y palenqueras. Desde el Valle del Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.',
     dataStrapiUid: 'about.description',
@@ -129,7 +136,7 @@ export class HomeComponent {
     ]
   };
 
-  readonly impactHighlights = [
+  impactHighlights = [
     {
       icon: '📚',
       title: 'Educación integral',
@@ -150,7 +157,7 @@ export class HomeComponent {
     }
   ];
 
-  readonly missionVision = {
+  missionVision = {
     mission:
       'La Fundación Afrocolombiana Profe en Casa | FACOPEC se dedica a captar y canalizar recursos a nivel local, nacional e internacional para desarrollar proyectos que promuevan y reivindiquen los derechos humanos de las comunidades negras, afrocolombianas, raizales y palenqueras. Trabajamos para empoderar a niños, niñas, adolescentes, jóvenes, hombres, mujeres y familias, potenciando sus capacidades y sueños mediante programas educativos, culturales, recreativos, y tecnológicos, entre otros, con el fin de maximizar su impacto positivo y fomentar su desarrollo como actores de cambio en sus comunidades.',
     vision:
@@ -165,7 +172,7 @@ export class HomeComponent {
     vision: false
   };
 
-  readonly activityCards: ActivityCard[] = [
+  activityCards: ActivityCard[] = [
     {
       title: 'Tutorías Profe en Casa',
       description: 'Refuerzo escolar personalizado, acompañamiento en tareas y aprendizaje basado en proyectos.',
@@ -200,7 +207,7 @@ export class HomeComponent {
     }
   ];
 
-  readonly programCards: ProgramCard[] = [
+  programCards: ProgramCard[] = [
     {
       title: 'Semillero Digital',
       description:
@@ -221,7 +228,7 @@ export class HomeComponent {
     }
   ];
 
-  readonly supporters: SupporterLogo[] = [
+  supporters: SupporterLogo[] = [
     {
       src: 'assets/supporters/icbf-logo.svg',
       alt: 'Instituto Colombiano de Bienestar Familiar',
@@ -236,7 +243,7 @@ export class HomeComponent {
     }
   ];
 
-  readonly catalogItems: CatalogItem[] = [
+  catalogItems: CatalogItem[] = [
     {
       title: 'Kit escolar completo',
       description: 'Útiles, lecturas y materiales artísticos para un estudiante durante un trimestre.',
@@ -263,7 +270,7 @@ export class HomeComponent {
     }
   ];
 
-  readonly galleryItems: GalleryItem[] = [
+  galleryItems: GalleryItem[] = [
     {
       title: 'Laboratorio de lectura',
       description: 'Niños y niñas viven experiencias literarias en la biblioteca comunitaria.',
@@ -293,7 +300,201 @@ export class HomeComponent {
     }
   ];
 
+  ngOnInit(): void {
+    this.loadContent();
+  }
+
   toggleIdentityCard(key: IdentityCardKey): void {
     this.identityExpanded[key] = !this.identityExpanded[key];
+  }
+
+  private loadContent(): void {
+    this.strapiService.getHomePage().subscribe({
+      next: content => this.applyHomeContent(content),
+      error: error => {
+        console.error('Error loading home page content', error);
+        this.error = error instanceof Error ? error.message : 'No se pudo cargar el contenido desde Strapi.';
+        this.loading = false;
+      }
+    });
+  }
+
+  private applyHomeContent(content: HomePageContent): void {
+    const fallbackSupporters = [...this.supporters];
+    const fallbackGalleryCover = this.galleryItems[0]?.cover ?? '';
+
+    if (content.hero) {
+      const hero = content.hero;
+      this.hero = {
+        eyebrow: hero.eyebrow ?? this.hero.eyebrow,
+        title: hero.titleLines?.map(line => line.line).filter(Boolean) ?? this.hero.title,
+        lead: hero.lead ?? this.hero.lead,
+        stats:
+          hero.stats?.map(stat => ({
+            label: stat.label ?? '',
+            value: stat.value ?? ''
+          })).filter(stat => stat.label && stat.value) ?? this.hero.stats,
+        actions:
+          hero.actions?.map(action => {
+            const url = action.url ?? '';
+            const isInternal = action.isInternal ?? url.startsWith('/');
+            return {
+              label: action.label,
+              variant: action.variant ?? 'primary',
+              routerLink: isInternal ? url : undefined,
+              href: !isInternal ? url : undefined,
+              dataStrapiUid: action.dataUid ?? ''
+            } satisfies HeroAction;
+          }).filter(action => !!action.label && (!!action.routerLink || !!action.href)) ?? this.hero.actions,
+        verse: {
+          reference: hero.verse?.reference ?? this.hero.verse.reference,
+          text: hero.verse?.text ?? this.hero.verse.text,
+          description: hero.verse?.description ?? this.hero.verse.description
+        }
+      };
+    }
+
+    if (content.impactHighlights?.length) {
+      const mapped = this.mapHighlights(content.impactHighlights);
+      if (mapped.length) {
+        this.impactHighlights = mapped;
+      }
+    }
+
+    if (content.identity) {
+      this.identity = {
+        description: content.identity.description ?? this.identity.description,
+        dataStrapiUid: content.identity.dataUid ?? this.identity.dataStrapiUid,
+        values:
+          content.identity.values?.map(value => ({
+            title: value.title,
+            description: value.description ?? '',
+            icon: value.icon ?? '✨',
+            dataStrapiUid: value.dataUid ?? ''
+          })).filter(value => !!value.title) ?? this.identity.values
+      };
+    }
+
+    if (content.missionVision) {
+      this.missionVision = {
+        mission: content.missionVision.mission ?? this.missionVision.mission,
+        vision: content.missionVision.vision ?? this.missionVision.vision,
+        dataStrapiUidMission: content.missionVision.missionUid ?? this.missionVision.dataStrapiUidMission,
+        dataStrapiUidVision: content.missionVision.visionUid ?? this.missionVision.dataStrapiUidVision
+      };
+    }
+
+    if (content.activities?.length) {
+      const mapped = content.activities
+        .map(activity => ({
+          title: activity.title,
+          description: activity.description ?? '',
+          href: activity.link ?? '#',
+          icon: activity.icon ?? '⭐',
+          theme: (activity.theme as ActivityCard['theme']) ?? 'teal',
+          dataStrapiUid: activity.dataUid ?? ''
+        }))
+        .filter(activity => !!activity.title);
+
+      if (mapped.length) {
+        this.activityCards = mapped;
+      }
+    }
+
+    if (content.programs?.length) {
+      const mapped = content.programs
+        .map(program => ({
+          title: program.title,
+          description: program.description ?? '',
+          highlights: program.highlights?.filter(Boolean) ?? [],
+          href: program.link ?? '#',
+          strapiCollection: program.strapiCollection ?? '',
+          strapiEntryId: program.strapiEntryId ?? ''
+        }))
+        .filter(program => !!program.title);
+
+      if (mapped.length) {
+        this.programCards = mapped;
+      }
+    }
+
+    if (content.supporters?.length) {
+      const mapped = content.supporters
+        .map((supporter, index) => this.mapSupporter(supporter, fallbackSupporters[index]))
+        .filter((supporter): supporter is SupporterLogo => supporter !== null);
+
+      if (mapped.length) {
+        this.supporters = mapped;
+      }
+    }
+
+    if (content.catalog?.length) {
+      const mapped = content.catalog
+        .map(item => ({
+          title: item.title,
+          description: item.description ?? '',
+          price: item.price ?? '',
+          href: item.link ?? '#',
+          strapiCollection: item.strapiCollection ?? '',
+          strapiEntryId: item.strapiEntryId ?? ''
+        }))
+        .filter(item => !!item.title);
+
+      if (mapped.length) {
+        this.catalogItems = mapped;
+      }
+    }
+
+    if (content.gallery?.length) {
+      const mapped = content.gallery
+        .map(item => ({
+          title: item.title,
+          description: item.description ?? '',
+          cover: this.resolveMediaUrl(item.media) ?? fallbackGalleryCover,
+          type: (item.type as GalleryItem['type']) ?? 'image',
+          href: item.link ?? '#',
+          strapiCollection: item.strapiCollection ?? '',
+          strapiEntryId: item.strapiEntryId ?? ''
+        }))
+        .filter(item => !!item.title && !!item.cover);
+
+      if (mapped.length) {
+        this.galleryItems = mapped;
+      }
+    }
+
+    this.loading = false;
+  }
+
+  private mapHighlights(highlights: HighlightContent[]): typeof this.impactHighlights {
+    return highlights
+      .map(highlight => ({
+        icon: highlight.icon ?? '✨',
+        title: highlight.title,
+        label: highlight.label ?? highlight.description ?? '',
+        dataStrapiUid: highlight.dataUid ?? '',
+        theme: (highlight.theme as (typeof this.impactHighlights)[number]['theme']) ?? 'teal'
+      }))
+      .filter(highlight => !!highlight.title);
+  }
+
+  private mapSupporter(supporter: SupporterLogoContent, fallback?: SupporterLogo): SupporterLogo | null {
+    const mediaUrl = this.resolveMediaUrl(supporter.logo) ?? fallback?.src;
+    const caption = supporter.caption ?? supporter.name ?? fallback?.caption ?? '';
+
+    if (!mediaUrl && !supporter.name) {
+      return null;
+    }
+
+    return {
+      src: mediaUrl ?? '',
+      alt: supporter.name ?? fallback?.alt ?? 'Aliado FACOPEC',
+      caption,
+      dataStrapiUid: supporter.dataUid ?? fallback?.dataStrapiUid ?? ''
+    } satisfies SupporterLogo;
+  }
+
+  private resolveMediaUrl(media?: MediaAsset | null): string | null {
+    return this.strapiService.buildMediaUrl(media);
   }
 }

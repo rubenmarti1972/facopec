@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { StrapiService } from '@core/services/strapi.service';
+import { ProjectCardSummary } from '@core/models';
 
 interface ProjectLink {
   title: string;
@@ -15,8 +17,13 @@ interface ProjectLink {
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css']
 })
-export class ProjectsComponent {
-  readonly projects: ProjectLink[] = [
+export class ProjectsComponent implements OnInit {
+  private readonly strapiService = inject(StrapiService);
+
+  loading = true;
+  error: string | null = null;
+
+  projects: ProjectLink[] = [
     {
       title: 'Apoyo escolar Profe en Casa',
       description: 'Refuerzos escolares, lectura guiada y clubes creativos para niñas, niños y adolescentes.',
@@ -42,4 +49,30 @@ export class ProjectsComponent {
       href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Huerta'
     }
   ];
+
+  ngOnInit(): void {
+    this.strapiService.getProjectSummaries().subscribe({
+      next: projects => this.applyProjects(projects),
+      error: error => {
+        console.error('Error loading projects from Strapi', error);
+        this.error = error instanceof Error ? error.message : 'No se pudieron cargar los proyectos.';
+        this.loading = false;
+      }
+    });
+  }
+
+  private applyProjects(projects: ProjectCardSummary[]): void {
+    if (projects.length) {
+      this.projects = projects
+        .map(project => ({
+          title: project.title,
+          description: project.description ?? '',
+          tag: project.tag ?? '',
+          href: project.link ?? '#'
+        }))
+        .filter(project => !!project.title && !!project.href);
+    }
+
+    this.loading = false;
+  }
 }

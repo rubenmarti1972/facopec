@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_home_title_lines",
+  "info": {
+    "displayName": "Línea de título",
+    "icon": "text"
+  },
+  "attributes": {
+    "line": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

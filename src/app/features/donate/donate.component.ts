@@ -1,7 +1,9 @@
-import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { StrapiService } from '@core/services/strapi.service';
+import { DonationsPageContent, MediaAsset } from '@core/models';
 
 type DonationType = 'once' | 'monthly';
 
@@ -56,7 +58,17 @@ interface PaymentGateway {
   styleUrls: ['./donate.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DonateComponent {
+export class DonateComponent implements OnInit {
+  private readonly strapiService = inject(StrapiService);
+
+  loading = true;
+  error: string | null = null;
+
+  heroTitlePrimary = 'Tu donación';
+  heroTitleHighlight = 'cambia vidas';
+  heroDescription =
+    'Con cada aporte fortalecemos procesos educativos, culturales y espirituales en el Valle del Cauca. Acompañas a familias afrocolombianas para que sigan soñando con más oportunidades.';
+
   // UI model
   donationAmounts = [
     { value: 20000, label: '$20.000', icon: '🎒', impact: 'Útiles para un niño' },
@@ -65,7 +77,7 @@ export class DonateComponent {
     { value: 200000, label: '$200.000', icon: '🚌', impact: 'Transporte a actividades' },
   ];
 
-  readonly donationStats: DonationMetric[] = [
+  donationStats: DonationMetric[] = [
     {
       value: '+180',
       label: 'Kits escolares entregados en 2023',
@@ -83,7 +95,7 @@ export class DonateComponent {
     },
   ];
 
-  readonly donationHighlights: DonationHighlight[] = [
+  donationHighlights: DonationHighlight[] = [
     {
       icon: '📚',
       title: 'Educación accesible',
@@ -114,7 +126,7 @@ export class DonateComponent {
     },
   ];
 
-  readonly donationStories: DonationStory[] = [
+  donationStories: DonationStory[] = [
     {
       title: 'Tutorías Profe en Casa',
       description: 'Voluntariado pedagógico que refuerza lectura, matemáticas y tecnología desde el hogar.',
@@ -144,7 +156,7 @@ export class DonateComponent {
     },
   ];
 
-  readonly supportActions: SupportAction[] = [
+  supportActions: SupportAction[] = [
     {
       icon: '🤝',
       title: 'Apadrina un niño',
@@ -174,7 +186,7 @@ export class DonateComponent {
     },
   ];
 
-  readonly paymentGateways: PaymentGateway[] = [
+  paymentGateways: PaymentGateway[] = [
     {
       name: 'Pagos PSE (Colombia)',
       description:
@@ -194,6 +206,10 @@ export class DonateComponent {
       theme: 'international',
     },
   ];
+
+  ngOnInit(): void {
+    this.loadContent();
+  }
 
   // Estado con señales
   readonly selectedAmount = signal<number>(0);
@@ -252,6 +268,134 @@ export class DonateComponent {
     // this.router.navigate(['/gracias']);  // si usas Router
     // o muestra un modal/toast de éxito
     alert('¡Gracias por tu donación! Procesaremos el pago a continuación.');
+  }
+
+  private loadContent(): void {
+    this.strapiService.getDonationsPage().subscribe({
+      next: content => this.applyDonationsContent(content),
+      error: error => {
+        console.error('Error loading donations page content', error);
+        this.error = error instanceof Error ? error.message : 'No se pudo cargar el contenido de donaciones.';
+        this.loading = false;
+      }
+    });
+  }
+
+  private applyDonationsContent(content: DonationsPageContent): void {
+    if (content.heroTitle) {
+      const parts = content.heroTitle.split('|').map(part => part.trim()).filter(Boolean);
+      this.heroTitlePrimary = parts[0] ?? content.heroTitle;
+      this.heroTitleHighlight = parts[1] ?? this.heroTitleHighlight;
+    }
+
+    if (content.heroSubtitle) {
+      this.heroDescription = content.heroSubtitle;
+    }
+
+    if (content.donationAmounts?.length) {
+      const mapped = content.donationAmounts
+        .map(amount => ({
+          value: amount.value ?? 0,
+          label: amount.label ?? '',
+          icon: amount.icon ?? '🎁',
+          impact: amount.impact ?? ''
+        }))
+        .filter(amount => amount.value > 0 && !!amount.label);
+
+      if (mapped.length) {
+        this.donationAmounts = mapped;
+      }
+    }
+
+    if (content.metrics?.length) {
+      const mapped = content.metrics
+        .map(metric => ({
+          value: metric.value,
+          label: metric.label,
+          dataStrapiUid: metric.dataUid ?? ''
+        }))
+        .filter(metric => !!metric.value && !!metric.label);
+
+      if (mapped.length) {
+        this.donationStats = mapped;
+      }
+    }
+
+    if (content.highlights?.length) {
+      const mapped = content.highlights
+        .map(highlight => ({
+          icon: highlight.icon ?? '✨',
+          title: highlight.title,
+          description: highlight.description ?? '',
+          theme: (highlight.theme as DonationHighlight['theme']) ?? 'teal',
+          dataStrapiUid: highlight.dataUid ?? ''
+        }))
+        .filter(highlight => !!highlight.title);
+
+      if (mapped.length) {
+        this.donationHighlights = mapped;
+      }
+    }
+
+    const fallbackStories = [...this.donationStories];
+    if (content.stories?.length) {
+      const mapped = content.stories
+        .map((story, index) => ({
+          title: story.title,
+          description: story.description ?? '',
+          impact: story.impact ?? '',
+          cover: this.resolveMediaUrl(story.cover) ?? fallbackStories[index]?.cover ?? fallbackStories[0]?.cover ?? '',
+          href: story.link ?? '#',
+          strapiCollection: story.strapiCollection ?? '',
+          strapiEntryId: story.strapiEntryId ?? ''
+        }))
+        .filter(story => !!story.title && !!story.cover);
+
+      if (mapped.length) {
+        this.donationStories = mapped;
+      }
+    }
+
+    if (content.supportActions?.length) {
+      const mapped = content.supportActions
+        .map(action => ({
+          icon: action.icon ?? '🤝',
+          title: action.title,
+          description: action.description ?? '',
+          href: action.link ?? '#',
+          linkLabel: action.linkLabel ?? 'Conocer más',
+          theme: (action.theme as SupportAction['theme']) ?? 'teal',
+          dataStrapiUid: action.dataUid ?? ''
+        }))
+        .filter(action => !!action.title && !!action.href);
+
+      if (mapped.length) {
+        this.supportActions = mapped;
+      }
+    }
+
+    if (content.paymentGateways?.length) {
+      const mapped = content.paymentGateways
+        .map(gateway => ({
+          name: gateway.name,
+          description: gateway.description ?? '',
+          href: gateway.link ?? '#',
+          actionLabel: gateway.actionLabel ?? 'Donar',
+          badge: gateway.badge ?? '',
+          theme: (gateway.theme as PaymentGateway['theme']) ?? 'pse'
+        }))
+        .filter(gateway => !!gateway.name && !!gateway.href);
+
+      if (mapped.length) {
+        this.paymentGateways = mapped;
+      }
+    }
+
+    this.loading = false;
+  }
+
+  private resolveMediaUrl(media?: MediaAsset | null): string | null {
+    return this.strapiService.buildMediaUrl(media);
   }
 }
 

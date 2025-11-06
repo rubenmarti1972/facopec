@@ -3,10 +3,12 @@
  * Displays main navigation tabs and branding
  */
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BRAND_COLORS } from '@core/design-system/brand-colors';
+import { StrapiService } from '@core/services/strapi.service';
+import { GlobalSettings } from '@core/models';
 
 interface NavigationItem {
   id: string;
@@ -26,11 +28,15 @@ interface NavigationItem {
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   brandColors = BRAND_COLORS;
+  private readonly strapiService = inject(StrapiService);
 
   /** Estado del menú móvil */
   private _mobileMenuOpen = false;
   /** Ruta actual (para lógica adicional si la necesitas) */
   currentRoute = '';
+
+  loading = true;
+  error: string | null = null;
 
   /** Si en algún lugar usas este arreglo, lo dejo; el HTML actual usa routerLink directo */
   navigationItems: NavigationItem[] = [
@@ -57,6 +63,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this._mobileMenuOpen = false; // cierra menú al navegar
       }
     });
+
+    this.loadNavigation();
   }
 
   ngOnDestroy(): void {
@@ -89,5 +97,41 @@ export class HeaderComponent implements OnInit, OnDestroy {
   /** Utilidad: check activo (si prefieres en vez de routerLinkActive) */
   isActive(route: string): boolean {
     return this.currentRoute === route || this.currentRoute.startsWith(route + '/');
+  }
+
+  private loadNavigation(): void {
+    this.strapiService.getGlobalSettings().subscribe({
+      next: settings => this.applyNavigation(settings),
+      error: error => {
+        console.error('Error loading navigation from Strapi', error);
+        this.error = error instanceof Error ? error.message : 'No se pudo cargar la navegación dinámica.';
+        this.loading = false;
+      }
+    });
+  }
+
+  private applyNavigation(settings: GlobalSettings): void {
+    if (settings.navigation?.length) {
+      const mapped = settings.navigation
+        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+        .map((item, index) => ({
+          id: item.label?.toLowerCase().replace(/\s+/g, '-') || `nav-${index}`,
+          label: item.label,
+          route: item.url,
+          description: item.description ?? '',
+          icon: item.icon ?? '🔹'
+        }))
+        .filter(item => !!item.label && !!item.route);
+
+      if (mapped.length) {
+        this.navigationItems = mapped;
+      }
+    }
+
+    this.loading = false;
+  }
+
+  isExternalLink(route: string): boolean {
+    return /^https?:\/\//i.test(route);
   }
 }

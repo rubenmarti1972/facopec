@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_home_identities",
+  "info": {
+    "displayName": "Identidad",
+    "icon": "users"
+  },
+  "attributes": {
+    "eyebrow": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "subtitle": {
+      "type": "text"
+    },
+    "description": {
+      "type": "text"
+    },
+    "dataUid": {
+      "type": "string"
+    },
+    "values": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.value"
+    }
+  }
+}

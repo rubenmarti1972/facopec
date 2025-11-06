@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_home_verses",
+  "info": {
+    "displayName": "Versículo",
+    "icon": "book"
+  },
+  "attributes": {
+    "reference": {
+      "type": "string"
+    },
+    "text": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}
