@@ -1,7 +1,7 @@
-import type { Config } from '@strapi/strapi';
+import type { Core } from '@strapi/types';
 import path from 'path';
 
-const databaseConfig: Config['database'] = ({ env }) => {
+const databaseConfig: Core.Config.ConfigExport<Core.Config.Database> = ({ env }) => {
   const client = env('DATABASE_CLIENT', 'sqlite');
 
   if (client === 'sqlite') {
