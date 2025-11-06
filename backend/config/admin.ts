@@ -1,10 +1,4 @@
-import type { Core } from '@strapi/types';
-
-import type { ConfigParams } from './utils/env';
-
-type AdminConfig = Core.Config.Admin & { watchIgnoreFiles?: string[] };
-
-const adminConfig = ({ env }: ConfigParams): AdminConfig => ({
+const adminConfig = ({ env }: any) => ({
   auth: {
     secret: env('ADMIN_JWT_SECRET', 'replace-me'),
   },
@@ -16,8 +10,7 @@ const adminConfig = ({ env }: ConfigParams): AdminConfig => ({
       salt: env('TRANSFER_TOKEN_SALT', 'replace-me-transfer-token'),
     },
   },
-  watchIgnoreFiles: ['**/src/database/seed.ts'],
-  url: env('ADMIN_URL'),
-}) satisfies Core.Config.Admin;
+  url: env('ADMIN_URL', '/admin'),
+});
 
 export default adminConfig;

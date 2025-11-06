@@ -56,7 +56,6 @@ async function upsertSingleType(app: StrapiApp, uid: string, data: EntityData) {
     await entityService.create(uid, { data });
   }
 
-  await app.entityService.update(uid, entityId, { data });
 }
 
 
