@@ -49,7 +49,12 @@
   --surface-card-text: var(--color-dark);
   --surface-card-text-muted: rgba(16, 36, 59, 0.72);
   --surface-card-border: rgba(19, 80, 122, 0.16);
-  --header-gradient: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+  --header-gradient: linear-gradient(
+    135deg,
+    rgba(19, 80, 122, 0.98) 0%,
+    rgba(26, 110, 155, 0.96) 42%,
+    rgba(31, 155, 122, 0.94) 100%
+  );
 
   // Typography
   --font-family-primary: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
