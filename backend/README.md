@@ -22,7 +22,9 @@ Duplica `.env.example` y crea `.env`.
 cp .env.example .env
 ```
 
-Ajusta los valores de `APP_KEYS`, `API_TOKEN_SALT`, `ADMIN_JWT_SECRET`, `TRANSFER_TOKEN_SALT` y `JWT_SECRET` con cadenas seguras. Si vas a usar PostgreSQL o un proveedor externo de archivos, actualiza las variables correspondientes.
+Ajusta los valores de `APP_KEYS`, `API_TOKEN_SALT`, `ADMIN_JWT_SECRET`, `TRANSFER_TOKEN_SALT` y `JWT_SECRET` con cadenas seguras.
+
+Por defecto el proyecto arranca con SQLite, por lo que no necesitas ningún servicio adicional para el entorno local. Si prefieres PostgreSQL, completa las variables `DATABASE_HOST`, `DATABASE_NAME`, `DATABASE_USERNAME` y `DATABASE_PASSWORD` y asegúrate de tener la base de datos en ejecución antes de iniciar Strapi.
 
 ## Scripts disponibles
 

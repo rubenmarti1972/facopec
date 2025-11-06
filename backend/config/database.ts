@@ -7,8 +7,26 @@ type DatabaseConfig = Core.Config.Database<'sqlite'> | Core.Config.Database<'pos
 
 type Client = 'sqlite' | 'postgres';
 
+const resolveClient = (): Client => {
+  const configured = (process.env.DATABASE_CLIENT ?? '').toLowerCase() as Client | '';
+
+  if (configured !== 'postgres') {
+    return 'sqlite';
+  }
+
+  const hasExplicitConnection = Boolean(
+    process.env.DATABASE_HOST && process.env.DATABASE_NAME && process.env.DATABASE_USERNAME,
+  );
+
+  if (hasExplicitConnection) {
+    return 'postgres';
+  }
+
+  return 'sqlite';
+};
+
 const databaseConfig = ({ env }: ConfigParams): DatabaseConfig => {
-  const client = env('DATABASE_CLIENT', 'sqlite') as Client;
+  const client = resolveClient();
 
   if (client === 'sqlite') {
     const config = {
@@ -19,8 +37,11 @@ const databaseConfig = ({ env }: ConfigParams): DatabaseConfig => {
         },
         useNullAsDefault: true,
       },
-    } as DatabaseConfig;
+    } satisfies DatabaseConfig;
   }
+
+  const ssl = env.bool('DATABASE_SSL', false);
+  const schema = env('DATABASE_SCHEMA', 'public');
 
   return {
     connection: {
@@ -31,11 +52,11 @@ const databaseConfig = ({ env }: ConfigParams): DatabaseConfig => {
         database: env('DATABASE_NAME', 'strapi'),
         user: env('DATABASE_USERNAME', 'strapi'),
         password: env('DATABASE_PASSWORD', 'strapi'),
-        ssl: env.bool('DATABASE_SSL', false),
-        schema: env('DATABASE_SCHEMA', 'public'),
+        schema,
+        ssl,
       },
     },
-  } as DatabaseConfig;
+  } satisfies DatabaseConfig;
 };
 
 export default databaseConfig;

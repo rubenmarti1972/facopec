@@ -26,7 +26,7 @@ const pluginsConfig = ({ env }: ConfigParams): PluginsConfig => ({
   },
   email: {
     enabled: true,
-    resolve: '@strapi/provider-email-smtp',
+    resolve: './providers/@strapi/provider-email-smtp',
     config: {
       provider: (() => {
         const provider = env('EMAIL_PROVIDER', 'smtp');

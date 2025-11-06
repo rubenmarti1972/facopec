@@ -16,14 +16,6 @@ const adminConfig = ({ env }: ConfigParams): AdminConfig => ({
       salt: env('TRANSFER_TOKEN_SALT', 'replace-me-transfer-token'),
     },
   },
-  apiToken: {
-    salt: env('API_TOKEN_SALT', 'replace-me-api-token')
-  },
-  transfer: {
-    token: {
-      salt: env('TRANSFER_TOKEN_SALT', 'replace-me-transfer-token')
-    }
-  },
   watchIgnoreFiles: ['**/src/database/seed.ts'],
   url: env('ADMIN_URL'),
 }) satisfies Core.Config.Admin;
