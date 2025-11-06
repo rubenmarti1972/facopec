@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_donations_donation_amounts",
+  "info": {
+    "displayName": "Monto sugerido",
+    "icon": "coins"
+  },
+  "attributes": {
+    "value": {
+      "type": "integer",
+      "required": true
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "icon": {
+      "type": "string"
+    },
+    "impact": {
+      "type": "string"
+    }
+  }
+}

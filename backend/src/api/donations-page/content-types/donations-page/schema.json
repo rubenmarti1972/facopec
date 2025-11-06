@@ -1,0 +1,50 @@
+{
+  "kind": "singleType",
+  "collectionName": "donations_pages",
+  "info": {
+    "singularName": "donations-page",
+    "pluralName": "donations-pages",
+    "displayName": "Página de donaciones"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "heroTitle": {
+      "type": "string"
+    },
+    "heroSubtitle": {
+      "type": "text"
+    },
+    "donationAmounts": {
+      "type": "component",
+      "repeatable": true,
+      "component": "donations.donation-amount"
+    },
+    "metrics": {
+      "type": "component",
+      "repeatable": true,
+      "component": "donations.donation-metric"
+    },
+    "highlights": {
+      "type": "component",
+      "repeatable": true,
+      "component": "donations.donation-highlight"
+    },
+    "stories": {
+      "type": "component",
+      "repeatable": true,
+      "component": "donations.donation-story"
+    },
+    "supportActions": {
+      "type": "component",
+      "repeatable": true,
+      "component": "donations.support-action"
+    },
+    "paymentGateways": {
+      "type": "component",
+      "repeatable": true,
+      "component": "donations.payment-gateway"
+    }
+  }
+}

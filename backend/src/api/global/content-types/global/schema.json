@@ -1,0 +1,35 @@
+{
+  "kind": "singleType",
+  "collectionName": "globals",
+  "info": {
+    "singularName": "global",
+    "pluralName": "globals",
+    "displayName": "Configuración global"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "siteName": {
+      "type": "string",
+      "default": "FACOPEC"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false
+    },
+    "navigation": {
+      "type": "component",
+      "repeatable": true,
+      "component": "global.navigation-link"
+    },
+    "socialLinks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "global.social-link"
+    },
+    "appUrl": {
+      "type": "string"
+    }
+  }
+}

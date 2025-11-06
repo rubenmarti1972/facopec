@@ -7,13 +7,14 @@ export const environment = {
   
   // Base URLs - Use environment variables or CI/CD provided values
   apiUrl: process.env['API_URL'] || 'https://api.fundacionafro.org',
-  strapiUrl: process.env['STRAPI_URL'] || 'https://cms.fundacionafro.org',
   appUrl: process.env['APP_URL'] || 'https://www.fundacionafro.org',
   
   // Strapi Configuration
   strapi: {
-    apiKey: process.env['STRAPI_API_KEY'] || '',
-    bearerToken: process.env['STRAPI_BEARER_TOKEN'] || ''
+    url: process.env['STRAPI_URL'] || 'https://cms.fundacionafro.org',
+    publicUrl: process.env['STRAPI_PUBLIC_URL'] || process.env['STRAPI_URL'] || 'https://cms.fundacionafro.org',
+    apiToken: process.env['STRAPI_API_KEY'] || '',
+    previewToken: process.env['STRAPI_PREVIEW_TOKEN'] || ''
   },
   
   // PayPal Configuration

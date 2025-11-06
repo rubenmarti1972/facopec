@@ -1,0 +1,38 @@
+{
+  "collectionName": "components_home_heroes",
+  "info": {
+    "displayName": "Sección héroe",
+    "icon": "address-card"
+  },
+  "attributes": {
+    "eyebrow": {
+      "type": "string"
+    },
+    "titleLines": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.title-line"
+    },
+    "lead": {
+      "type": "text"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false
+    },
+    "stats": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.stat"
+    },
+    "actions": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.hero-action"
+    },
+    "verse": {
+      "type": "component",
+      "component": "home.verse"
+    }
+  }
+}

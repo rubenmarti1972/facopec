@@ -388,6 +388,248 @@ export interface SocialMediaLinks {
 }
 
 // ============================================================================
+// CMS VIEW MODELS (STRAPI SINGLE TYPES)
+// ============================================================================
+
+export interface MediaAsset {
+  id?: number;
+  url?: string;
+  alternativeText?: string;
+  caption?: string;
+  mime?: string;
+  formats?: Record<string, unknown>;
+}
+
+export interface NavigationLink {
+  id?: number;
+  label: string;
+  url: string;
+  description?: string;
+  icon?: string;
+  order?: number;
+}
+
+export interface SocialLink {
+  id?: number;
+  platform: string;
+  url: string;
+  label?: string;
+}
+
+export interface HeroActionContent {
+  id?: number;
+  label: string;
+  url: string;
+  variant?: 'primary' | 'secondary';
+  isInternal?: boolean;
+  dataUid?: string;
+}
+
+export interface HeroStatContent {
+  id?: number;
+  label: string;
+  value: string;
+}
+
+export interface HeroSectionContent {
+  eyebrow?: string;
+  titleLines?: { line: string }[];
+  lead?: string;
+  stats?: HeroStatContent[];
+  actions?: HeroActionContent[];
+  verse?: {
+    reference?: string;
+    text?: string;
+    description?: string;
+  };
+  image?: MediaAsset;
+}
+
+export interface HighlightContent {
+  id?: number;
+  icon?: string;
+  title: string;
+  description?: string;
+  label?: string;
+  theme?: string;
+  dataUid?: string;
+}
+
+export interface IdentityValueContent {
+  id?: number;
+  title: string;
+  description?: string;
+  icon?: string;
+  dataUid?: string;
+}
+
+export interface IdentityContent {
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  dataUid?: string;
+  values?: IdentityValueContent[];
+}
+
+export interface MissionVisionContent {
+  mission?: string;
+  missionUid?: string;
+  vision?: string;
+  visionUid?: string;
+}
+
+export interface ActivityCardContent {
+  id?: number;
+  title: string;
+  description?: string;
+  icon?: string;
+  theme?: string;
+  link?: string;
+  dataUid?: string;
+}
+
+export interface ProgramCardContent {
+  id?: number;
+  title: string;
+  description?: string;
+  highlights?: string[];
+  link?: string;
+  strapiCollection?: string;
+  strapiEntryId?: string;
+}
+
+export interface SupporterLogoContent {
+  id?: number;
+  name?: string;
+  caption?: string;
+  link?: string;
+  logo?: MediaAsset;
+  dataUid?: string;
+}
+
+export interface CatalogItemContent {
+  id?: number;
+  title: string;
+  description?: string;
+  price?: string;
+  link?: string;
+  strapiCollection?: string;
+  strapiEntryId?: string;
+}
+
+export interface GalleryItemContent {
+  id?: number;
+  title: string;
+  description?: string;
+  type?: 'image' | 'video';
+  link?: string;
+  media?: MediaAsset;
+  strapiCollection?: string;
+  strapiEntryId?: string;
+}
+
+export interface HomePageContent {
+  id?: number;
+  hero?: HeroSectionContent;
+  impactHighlights?: HighlightContent[];
+  identity?: IdentityContent;
+  missionVision?: MissionVisionContent;
+  activities?: ActivityCardContent[];
+  programs?: ProgramCardContent[];
+  supporters?: SupporterLogoContent[];
+  catalog?: CatalogItemContent[];
+  gallery?: GalleryItemContent[];
+}
+
+export interface DonationMetricContent {
+  id?: number;
+  value: string;
+  label: string;
+  dataUid?: string;
+}
+
+export interface DonationHighlightContent {
+  id?: number;
+  icon?: string;
+  title: string;
+  description?: string;
+  theme?: string;
+  dataUid?: string;
+}
+
+export interface DonationStoryContent {
+  id?: number;
+  title: string;
+  description?: string;
+  impact?: string;
+  link?: string;
+  cover?: MediaAsset;
+  strapiCollection?: string;
+  strapiEntryId?: string;
+}
+
+export interface SupportActionContent {
+  id?: number;
+  icon?: string;
+  title: string;
+  description?: string;
+  link?: string;
+  linkLabel?: string;
+  theme?: string;
+  dataUid?: string;
+}
+
+export interface PaymentGatewayContent {
+  id?: number;
+  name: string;
+  description?: string;
+  link?: string;
+  actionLabel?: string;
+  badge?: string;
+  theme?: string;
+}
+
+export interface DonationAmount {
+  id?: number;
+  value: number;
+  label: string;
+  icon?: string;
+  impact?: string;
+}
+
+export interface DonationsPageContent {
+  id?: number;
+  heroTitle?: string;
+  heroSubtitle?: string;
+  donationAmounts?: DonationAmount[];
+  metrics?: DonationMetricContent[];
+  highlights?: DonationHighlightContent[];
+  stories?: DonationStoryContent[];
+  supportActions?: SupportActionContent[];
+  paymentGateways?: PaymentGatewayContent[];
+}
+
+export interface GlobalSettings {
+  id?: number;
+  siteName?: string;
+  appUrl?: string;
+  logo?: MediaAsset;
+  navigation?: NavigationLink[];
+  socialLinks?: SocialLink[];
+}
+
+export interface ProjectCardSummary {
+  id?: number;
+  title: string;
+  description?: string;
+  tag?: string;
+  link?: string;
+  order?: number;
+  cover?: MediaAsset;
+}
+
+// ============================================================================
 // STRAPI RESPONSE INTERFACES
 // ============================================================================
 

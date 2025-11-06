@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_shared_values",
+  "info": {
+    "displayName": "Valor",
+    "icon": "heart"
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "dataUid": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "kind": "singleType",
+  "collectionName": "organization_infos",
+  "info": {
+    "singularName": "organization-info",
+    "pluralName": "organization-infos",
+    "displayName": "Información de la organización"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "mission": {
+      "type": "text"
+    },
+    "vision": {
+      "type": "text"
+    },
+    "history": {
+      "type": "richtext"
+    },
+    "values": {
+      "type": "json"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false
+    },
+    "banner": {
+      "type": "media",
+      "multiple": false
+    },
+    "contactEmail": {
+      "type": "string"
+    },
+    "contactPhone": {
+      "type": "string"
+    },
+    "address": {
+      "type": "json"
+    },
+    "hours": {
+      "type": "json"
+    },
+    "socialLinks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "global.social-link"
+    }
+  }
+}

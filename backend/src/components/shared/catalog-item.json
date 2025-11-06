@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_shared_catalog_items",
+  "info": {
+    "displayName": "Catálogo WhatsApp",
+    "icon": "shopping-cart"
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "price": {
+      "type": "string"
+    },
+    "link": {
+      "type": "string",
+      "required": true
+    },
+    "strapiCollection": {
+      "type": "string"
+    },
+    "strapiEntryId": {
+      "type": "string"
+    }
+  }
+}

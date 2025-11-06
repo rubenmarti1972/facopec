@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_home_mission_visions",
+  "info": {
+    "displayName": "Misión y visión",
+    "icon": "bullseye"
+  },
+  "attributes": {
+    "mission": {
+      "type": "text"
+    },
+    "missionUid": {
+      "type": "string"
+    },
+    "vision": {
+      "type": "text"
+    },
+    "visionUid": {
+      "type": "string"
+    }
+  }
+}

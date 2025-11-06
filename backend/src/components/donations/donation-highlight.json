@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_donations_donation_highlights",
+  "info": {
+    "displayName": "Destacado de donación",
+    "icon": "lightbulb"
+  },
+  "attributes": {
+    "icon": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "theme": {
+      "type": "enumeration",
+      "enum": ["teal", "blue", "sun", "rose"],
+      "default": "teal"
+    },
+    "dataUid": {
+      "type": "string"
+    }
+  }
+}

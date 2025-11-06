@@ -1,0 +1,56 @@
+{
+  "kind": "singleType",
+  "collectionName": "home_pages",
+  "info": {
+    "singularName": "home-page",
+    "pluralName": "home-pages",
+    "displayName": "Página de inicio"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "hero": {
+      "type": "component",
+      "component": "home.hero"
+    },
+    "impactHighlights": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.highlight"
+    },
+    "identity": {
+      "type": "component",
+      "component": "home.identity"
+    },
+    "missionVision": {
+      "type": "component",
+      "component": "home.mission-vision"
+    },
+    "activities": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.activity-card"
+    },
+    "programs": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.program-card"
+    },
+    "supporters": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.supporter-logo"
+    },
+    "catalog": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.catalog-item"
+    },
+    "gallery": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.gallery-item"
+    }
+  }
+}
