@@ -18,6 +18,6 @@ const adminConfig = ({ env }: ConfigParams): AdminConfig => ({
   },
   watchIgnoreFiles: ['**/src/database/seed.ts'],
   url: env('ADMIN_URL'),
-});
+}) satisfies Core.Config.Admin;
 
 export default adminConfig;
