@@ -1,6 +1,6 @@
-import type { Config } from '@strapi/strapi';
+import type { Core } from '@strapi/types';
 
-const pluginsConfig: Config['plugins'] = ({ env }) => ({
+const pluginsConfig: Core.Config.ConfigExport<Core.Config.Plugin> = ({ env }) => ({
   /* seo: {
     enabled: true
   }, */
@@ -21,7 +21,13 @@ const pluginsConfig: Config['plugins'] = ({ env }) => ({
   },
   email: {
     config: {
-      provider: env('EMAIL_PROVIDER', 'smtp'),
+      provider: (() => {
+        const provider = env('EMAIL_PROVIDER', 'smtp');
+        if (provider.toLowerCase() === 'nodemailer') {
+          return 'smtp';
+        }
+        return provider;
+      })(),
       providerOptions: {
         host: env('EMAIL_SMTP_HOST'),
         port: env.int('EMAIL_SMTP_PORT', 465),
