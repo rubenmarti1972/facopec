@@ -102,6 +102,7 @@ export class HeaderComponent {
     { label: 'Proyectos', routerLink: '/projects', dataStrapiUid: 'navigation.projects' },
     { label: 'Ruta literaria', routerLink: '/literary-route', dataStrapiUid: 'navigation.literaryRoute' },
     { label: 'Periódico', routerLink: '/newspaper', dataStrapiUid: 'navigation.newspaper' },
+    { label: 'Quiénes somos', routerLink: '/about', dataStrapiUid: 'navigation.about' },
     {
       label: 'Informes',
       routerLink: '/reports',
