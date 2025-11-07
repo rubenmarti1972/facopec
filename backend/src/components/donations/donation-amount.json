@@ -6,12 +6,10 @@
   },
   "attributes": {
     "value": {
-      "type": "integer",
-      "required": true
+      "type": "integer"
     },
     "label": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "icon": {
       "type": "string"
