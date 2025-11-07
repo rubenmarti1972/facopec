@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { StrapiService } from '@core/services/strapi.service';
+import { HomePageContent } from '@core/models';
 
 interface IdentityValue {
   title: string;
@@ -17,8 +19,13 @@ type IdentityCardKey = 'description' | 'mission' | 'vision';
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css']
 })
-export class AboutComponent {
-  readonly identity = {
+export class AboutComponent implements OnInit {
+  private readonly strapiService = inject(StrapiService);
+
+  loading = true;
+  error: string | null = null;
+
+  identity = {
     description:
       'Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en comunidades negras, afrocolombianas, raizales y palenqueras. Desde el Valle del Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.',
     dataStrapiUid: 'about.description',
@@ -45,7 +52,7 @@ export class AboutComponent {
     ]
   };
 
-  readonly missionVision = {
+  missionVision = {
     mission:
       'La Fundación Afrocolombiana Profe en Casa | FACOPEC se dedica a captar y canalizar recursos a nivel local, nacional e internacional para desarrollar proyectos que promuevan y reivindiquen los derechos humanos de las comunidades negras, afrocolombianas, raizales y palenqueras. Trabajamos para empoderar a niños, niñas, adolescentes, jóvenes, hombres, mujeres y familias, potenciando sus capacidades y sueños mediante programas educativos, culturales, recreativos, y tecnológicos, entre otros, con el fin de maximizar su impacto positivo y fomentar su desarrollo como actores de cambio en sus comunidades.',
     vision:
@@ -60,7 +67,50 @@ export class AboutComponent {
     vision: false
   };
 
+  ngOnInit(): void {
+    this.loadContent();
+  }
+
   toggleIdentityCard(key: IdentityCardKey): void {
     this.identityExpanded[key] = !this.identityExpanded[key];
+  }
+
+  private loadContent(): void {
+    this.strapiService.getHomePage().subscribe({
+      next: content => this.applyContent(content),
+      error: error => {
+        console.error('Error loading about content from Strapi', error);
+        this.error = error instanceof Error ? error.message : 'No se pudo cargar el contenido institucional.';
+        this.loading = false;
+      }
+    });
+  }
+
+  private applyContent(content: HomePageContent): void {
+    if (content.identity) {
+      const fallbackValues = [...this.identity.values];
+      this.identity = {
+        description: content.identity.description ?? this.identity.description,
+        dataStrapiUid: content.identity.dataUid ?? this.identity.dataStrapiUid,
+        values:
+          content.identity.values?.map((value, index) => ({
+            title: value.title,
+            description: value.description ?? fallbackValues[index]?.description ?? '',
+            icon: value.icon ?? fallbackValues[index]?.icon ?? '✨',
+            dataStrapiUid: value.dataUid ?? fallbackValues[index]?.dataStrapiUid ?? ''
+          })).filter(value => !!value.title) ?? fallbackValues
+      };
+    }
+
+    if (content.missionVision) {
+      this.missionVision = {
+        mission: content.missionVision.mission ?? this.missionVision.mission,
+        vision: content.missionVision.vision ?? this.missionVision.vision,
+        dataStrapiUidMission: content.missionVision.missionUid ?? this.missionVision.dataStrapiUidMission,
+        dataStrapiUidVision: content.missionVision.visionUid ?? this.missionVision.dataStrapiUidVision
+      };
+    }
+
+    this.loading = false;
   }
 }
