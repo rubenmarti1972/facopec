@@ -4,7 +4,7 @@ Proyecto Strapi 4.24.x (versión estable) que sirve como backend CMS para el sit
 
 ## Requisitos
 
-- Node.js 20 LTS
+- Node.js 18.18.2 (usa `.nvmrc` para fijar la versión recomendada)
 - pnpm 9+
 
 ## Instalación
