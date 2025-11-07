@@ -21,6 +21,7 @@ npm install
 cp .env.example .env # ajusta las variables sensibles
 npm run seed # carga contenido y crea el superusuario facopec
 npm run develop
+# si necesitas reestablecer la instalación, ejecuta node upgrade-strapi-to-stable.mjs usando Node 18.18.2 (nvm use)
 ```
 
 ## Desarrollo

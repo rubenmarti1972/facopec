@@ -39,7 +39,7 @@ Todas las dependencias `@strapi/*` están fijadas explícitamente a la versión 
 
 1. Elimina cualquier instalación previa (`rm -rf node_modules .cache build`) y ejecuta `npm install` para descargar la versión estable.
 2. Corre `npm run build` para reconstruir el panel de administración. En la cabecera del CMS debe mostrarse `Strapi v4.24.6` sin la etiqueta **beta**.
-3. Si prefieres automatizar el proceso, puedes usar `node upgrade-strapi-to-stable.mjs`, que ahora borra `node_modules`, crea un respaldo de la base SQLite y vuelve a activar los permisos del Content Manager. Al finalizar el script mostrará la versión de Strapi instalada para que confirmes que estás en la rama estable.
+3. Si prefieres automatizar el proceso, puedes usar `node upgrade-strapi-to-stable.mjs`, que ahora borra `node_modules`, crea un respaldo de la base SQLite y vuelve a activar los permisos del Content Manager. El script se asegurará de que estés usando Node.js 18.18.2+ (y menor a 19); si detecta otra versión abortará con un mensaje indicando que ejecutes `nvm use` dentro de `backend/`. Al finalizar mostrará la versión de Strapi instalada para que confirmes que estás en la rama estable.
 
 ## Superusuario preconfigurado
 

@@ -14,6 +14,44 @@ async function pathExists(filePath) {
 }
 
 const TARGET_STRAPI_VERSION = '4.24.6';
+const MIN_NODE_VERSION = { major: 18, minor: 18, patch: 2 };
+const MAX_NODE_MAJOR = 18;
+
+function parseNodeVersion(versionString) {
+  const normalized = versionString.startsWith('v') ? versionString.slice(1) : versionString;
+  const [majorStr = '0', minorStr = '0', patchStr = '0'] = normalized.split('.');
+  return {
+    major: Number.parseInt(majorStr, 10),
+    minor: Number.parseInt(minorStr, 10),
+    patch: Number.parseInt(patchStr, 10),
+  };
+}
+
+function isVersionLower(a, b) {
+  if (a.major !== b.major) {
+    return a.major < b.major;
+  }
+  if (a.minor !== b.minor) {
+    return a.minor < b.minor;
+  }
+  return a.patch < b.patch;
+}
+
+function assertNodeVersion() {
+  const current = parseNodeVersion(process.versions.node);
+
+  if (current.major > MAX_NODE_MAJOR) {
+    throw new Error(
+      `Este script debe ejecutarse con Node.js 18.x. Detectado ${process.version}. Usa "nvm use" dentro de backend/.`
+    );
+  }
+
+  if (isVersionLower(current, MIN_NODE_VERSION)) {
+    throw new Error(
+      `Node.js ${process.version} es demasiado antiguo. Usa al menos v${MIN_NODE_VERSION.major}.${MIN_NODE_VERSION.minor}.${MIN_NODE_VERSION.patch}.`
+    );
+  }
+}
 
 async function detectPackageManager() {
   const npmLock = path.join(cwd, 'package-lock.json');
@@ -208,6 +246,7 @@ function runCommand(command, args) {
 }
 
 async function main() {
+  assertNodeVersion();
   console.log('Detectando gestor de paquetes...');
   const managerInfo = await detectPackageManager();
   console.log(`Gestor detectado: ${managerInfo.manager}`);
