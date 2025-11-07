@@ -4,7 +4,6 @@ import fs from 'fs/promises';
 
 type Strapi = Core.Strapi;
 
-type EntityId = number | string;
 type EntityData = Record<string, unknown>;
 
 type UploadedFile = {
@@ -25,15 +24,6 @@ const MIME_TYPES: Record<string, string> = {
   '.jpeg': 'image/jpeg',
   '.svg': 'image/svg+xml',
   '.webp': 'image/webp',
-};
-
-const resolveEntityId = (entity: unknown): EntityId | null => {
-  if (entity && typeof entity === 'object' && 'id' in entity) {
-    const { id } = entity as { id?: EntityId };
-    return id ?? null;
-  }
-
-  return null;
 };
 
 const ensureMimeType = (filePath: string): string => {
@@ -88,38 +78,50 @@ async function uploadFileFromAssets(
 }
 
 async function upsertSingleType(strapi: Strapi, uid: string, data: EntityData) {
-  const typedUid = uid as Parameters<typeof strapi.entityService.findMany>[0];
-  const existing = await strapi.entityService.findMany(typedUid, {});
+  const typedUid = uid as Parameters<typeof strapi.documents>[0];
+  const documentsService = strapi.documents(typedUid);
 
-  if (!existing) {
-    await strapi.entityService.create(typedUid, { data });
-    return;
+  const [draftDocuments, publishedDocuments] = await Promise.all([
+    documentsService.findMany({ status: 'draft', sort: 'id:asc' }),
+    documentsService.findMany({ status: 'published', sort: 'id:asc' }),
+  ]);
+
+  const allDocuments = [...draftDocuments, ...publishedDocuments];
+  const documentIds = Array.from(new Set(allDocuments.map(document => document.documentId).filter(Boolean)));
+  const [primaryDocumentId, ...duplicateDocumentIds] = documentIds;
+
+  for (const duplicateDocumentId of duplicateDocumentIds) {
+    try {
+      await documentsService.delete({ documentId: duplicateDocumentId });
+      strapi.log.warn(`Removed duplicate document ${duplicateDocumentId} from single type ${uid}.`);
+    } catch (error) {
+      strapi.log.error(`Failed to remove duplicate document ${duplicateDocumentId} from ${uid}:`, error);
+    }
   }
 
-  if (Array.isArray(existing)) {
-    if (existing.length === 0) {
-      await strapi.entityService.create(typedUid, { data });
-    } else {
-      const entityId = resolveEntityId(existing[0]);
+  let targetDocumentId = primaryDocumentId ?? null;
 
-      if (!entityId) {
-        await strapi.entityService.create(typedUid, { data });
-        return;
-      }
-
-      await strapi.entityService.update(typedUid, entityId, { data });
-    }
-  } else if (typeof existing === 'object' && existing !== null) {
-    const entityId = resolveEntityId(existing);
-
-    if (!entityId) {
-      await strapi.entityService.create(typedUid, { data });
-      return;
-    }
-
-    await strapi.entityService.update(typedUid, entityId, { data });
+  if (!targetDocumentId) {
+    const created = await documentsService.create({ data });
+    targetDocumentId = created.documentId;
+    strapi.log.info(`Created single type entry for ${uid}.`);
   } else {
-    await strapi.entityService.create(typedUid, { data });
+    await documentsService.update({ documentId: targetDocumentId, data });
+    strapi.log.info(`Updated single type entry ${targetDocumentId} for ${uid}.`);
+  }
+
+  if (targetDocumentId) {
+    const publishDocument = documentsService.publish as
+      | ((params: { documentId: string }) => Promise<unknown>)
+      | undefined;
+
+    if (typeof publishDocument === 'function') {
+      try {
+        await publishDocument({ documentId: targetDocumentId });
+      } catch (error) {
+        strapi.log.warn(`Failed to publish document ${targetDocumentId} for ${uid}:`, error);
+      }
+    }
   }
 }
 
