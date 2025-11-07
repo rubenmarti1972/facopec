@@ -214,6 +214,45 @@ export interface HomeActivityCard extends Struct.ComponentSchema {
   };
 }
 
+export interface GlobalSocialLink extends Struct.ComponentSchema {
+  collectionName: 'components_global_social_links';
+  info: {
+    displayName: 'Red social';
+    icon: 'share';
+  };
+  attributes: {
+    platform: Schema.Attribute.Enumeration<
+      [
+        'facebook',
+        'instagram',
+        'x',
+        'youtube',
+        'whatsapp',
+        'linkedin',
+        'tiktok',
+      ]
+    > &
+      Schema.Attribute.Required;
+    url: Schema.Attribute.String & Schema.Attribute.Required;
+    label: Schema.Attribute.String;
+  };
+}
+
+export interface GlobalNavigationLink extends Struct.ComponentSchema {
+  collectionName: 'components_global_navigation_links';
+  info: {
+    displayName: 'Enlace de navegaci\u00F3n';
+    icon: 'link';
+  };
+  attributes: {
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    description: Schema.Attribute.String;
+    url: Schema.Attribute.String & Schema.Attribute.Required;
+    icon: Schema.Attribute.String;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+  };
+}
+
 export interface DonationsSupportAction extends Struct.ComponentSchema {
   collectionName: 'components_donations_support_actions';
   info: {
@@ -309,45 +348,6 @@ export interface DonationsDonationAmount extends Struct.ComponentSchema {
   };
 }
 
-export interface GlobalSocialLink extends Struct.ComponentSchema {
-  collectionName: 'components_global_social_links';
-  info: {
-    displayName: 'Red social';
-    icon: 'share';
-  };
-  attributes: {
-    platform: Schema.Attribute.Enumeration<
-      [
-        'facebook',
-        'instagram',
-        'x',
-        'youtube',
-        'whatsapp',
-        'linkedin',
-        'tiktok',
-      ]
-    > &
-      Schema.Attribute.Required;
-    url: Schema.Attribute.String & Schema.Attribute.Required;
-    label: Schema.Attribute.String;
-  };
-}
-
-export interface GlobalNavigationLink extends Struct.ComponentSchema {
-  collectionName: 'components_global_navigation_links';
-  info: {
-    displayName: 'Enlace de navegaci\u00F3n';
-    icon: 'link';
-  };
-  attributes: {
-    label: Schema.Attribute.String & Schema.Attribute.Required;
-    description: Schema.Attribute.String;
-    url: Schema.Attribute.String & Schema.Attribute.Required;
-    icon: Schema.Attribute.String;
-    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
-  };
-}
-
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
@@ -365,14 +365,14 @@ declare module '@strapi/strapi' {
       'home.identity': HomeIdentity;
       'home.hero': HomeHero;
       'home.activity-card': HomeActivityCard;
+      'global.social-link': GlobalSocialLink;
+      'global.navigation-link': GlobalNavigationLink;
       'donations.support-action': DonationsSupportAction;
       'donations.payment-gateway': DonationsPaymentGateway;
       'donations.donation-story': DonationsDonationStory;
       'donations.donation-metric': DonationsDonationMetric;
       'donations.donation-highlight': DonationsDonationHighlight;
       'donations.donation-amount': DonationsDonationAmount;
-      'global.social-link': GlobalSocialLink;
-      'global.navigation-link': GlobalNavigationLink;
     }
   }
 }
