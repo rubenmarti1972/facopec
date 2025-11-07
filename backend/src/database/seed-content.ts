@@ -1,8 +1,8 @@
-import type { Core, UID } from '@strapi/types';
+import type { UID } from '@strapi/types';
+import type { Strapi } from '@strapi/types/dist/core';
+import grantSuperAdminAll from '../../config/utils/grant-super-admin-all';
 import path from 'path';
 import fs from 'fs/promises';
-
-type Strapi = Core.Strapi;
 
 type EntityData = Record<string, unknown>;
 
@@ -136,18 +136,7 @@ export async function seedDefaultContent(strapi: Strapi) {
     .query('admin::role')
     .findOne({ where: { code: 'strapi-super-admin' } });
 
-  const adminRoleService = strapi.service('admin::role') as
-    | { resetSuperAdminPermissions?: () => Promise<unknown> }
-    | undefined;
-
-  if (adminRoleService?.resetSuperAdminPermissions) {
-    await adminRoleService.resetSuperAdminPermissions();
-    strapi.log.info('Permisos de superadministrador sincronizados con todas las acciones disponibles.');
-  } else {
-    strapi.log.warn(
-      'No se pudo sincronizar automáticamente los permisos del superadministrador; servicio admin::role no disponible.'
-    );
-  }
+  await grantSuperAdminAll(strapi);
   if (!superAdminRole) {
     strapi.log.warn(
       'No se encontró el rol de super administrador; omitiendo la creación automática del usuario facopec.'
