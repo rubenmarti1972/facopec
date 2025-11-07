@@ -47,6 +47,13 @@ pnpm seed
 
 > ⚠️ Ejecuta `pnpm seed` únicamente en entornos de desarrollo o inicialización. Si ya existe un usuario con el correo configurado, el script no lo modificará.
 
+## Validaciones flexibles en el Content Manager
+
+Todos los componentes y tipos de contenido vienen ahora sin campos obligatorios. Esto te permite guardar los documentos aunque dejes títulos, enlaces o imágenes vacíos mientras decides la versión final del contenido.
+
+- Si quieres ocultar una tarjeta o elemento específico, simplemente elimina el bloque desde el editor o deja sus campos vacíos; el frontend ignorará automáticamente los registros incompletos.
+- Si necesitas volver a exigir algún dato (por ejemplo, que una tarjeta tenga título), puedes marcarlo como obligatorio desde **Settings → Content Manager → Configuración** dentro del panel de Strapi.
+
 ## Endpoints clave
 
 - `GET /api/home-page?populate=deep` – Contenido de la página de inicio.
