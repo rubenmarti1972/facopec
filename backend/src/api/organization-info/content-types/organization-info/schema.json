@@ -24,7 +24,9 @@
       "type": "richtext"
     },
     "values": {
-      "type": "json"
+      "type": "component",
+      "repeatable": true,
+      "component": "global.value-item"
     },
     "logo": {
       "type": "media",
@@ -41,10 +43,12 @@
       "type": "string"
     },
     "address": {
-      "type": "json"
+      "type": "component",
+      "component": "global.address"
     },
     "hours": {
-      "type": "json"
+      "type": "component",
+      "component": "global.hours"
     },
     "socialLinks": {
       "type": "component",

@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_global_value_items",
+  "info": {
+    "displayName": "Elemento de valor",
+    "icon": "star"
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "dataUid": {
+      "type": "string"
+    }
+  }
+}

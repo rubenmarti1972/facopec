@@ -325,50 +325,27 @@ export interface Comment {
 // ORGANIZATION INFO INTERFACES
 // ============================================================================
 
-export interface OrganizationInfo {
-  id: string;
-  name: string;
-  mission: string;
-  vision: string;
-  history: string;
-  values: string[];
-  team: TeamMember[];
-  contactInfo: ContactInfo;
-  socialMedia: SocialMediaLinks;
-  logo: string;
-  banner: string;
+export interface OrganizationValueItem {
+  id?: number;
+  title?: string;
+  description?: string;
+  icon?: string;
+  dataUid?: string;
 }
 
-export interface TeamMember {
-  id: string;
-  name: string;
-  role: string;
-  bio: string;
-  email: string;
-  photograph: string;
-  socialMedia?: SocialMediaLinks;
-  department: string;
-}
-
-export interface ContactInfo {
-  email: string;
-  phone: string;
-  phoneAlternate?: string;
-  address: Address;
-  hours: BusinessHours;
-}
-
-export interface Address {
-  street: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
+export interface OrganizationAddress {
+  id?: number;
+  street?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  country?: string;
   latitude?: number;
   longitude?: number;
 }
 
-export interface BusinessHours {
+export interface OrganizationHours {
+  id?: number;
   monday?: string;
   tuesday?: string;
   wednesday?: string;
@@ -378,6 +355,13 @@ export interface BusinessHours {
   sunday?: string;
 }
 
+export interface OrganizationSocialLink {
+  id?: number;
+  platform?: string;
+  url?: string;
+  label?: string;
+}
+
 export interface SocialMediaLinks {
   facebook?: string;
   instagram?: string;
@@ -385,6 +369,44 @@ export interface SocialMediaLinks {
   linkedIn?: string;
   youtube?: string;
   tiktok?: string;
+}
+
+export interface TeamMember {
+  id?: string;
+  name?: string;
+  role?: string;
+  bio?: string;
+  email?: string;
+  photograph?: string;
+  socialMedia?: SocialMediaLinks;
+  department?: string;
+}
+
+export interface ContactInfo {
+  email?: string;
+  phone?: string;
+  phoneAlternate?: string;
+  address?: OrganizationAddress;
+  hours?: OrganizationHours;
+}
+
+export interface OrganizationInfo {
+  id?: number | string;
+  name?: string;
+  mission?: string;
+  vision?: string;
+  history?: string;
+  values?: OrganizationValueItem[];
+  team?: TeamMember[];
+  contactInfo?: ContactInfo;
+  socialMedia?: SocialMediaLinks;
+  logo?: MediaAsset | string | null;
+  banner?: MediaAsset | string | null;
+  contactEmail?: string;
+  contactPhone?: string;
+  address?: OrganizationAddress | null;
+  hours?: OrganizationHours | null;
+  socialLinks?: OrganizationSocialLink[];
 }
 
 // ============================================================================
