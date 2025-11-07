@@ -1,9 +1,9 @@
 // backend/config/database.ts
 import path from 'path';
-import type { Core } from '@strapi/types';
+import type { Config } from '@strapi/types/dist/core';
 import type { ConfigParams } from './utils/env';
 
-type DatabaseConfig = Core.Config.Database<'sqlite'> | Core.Config.Database<'postgres'>;
+type DatabaseConfig = Config.Database<'sqlite'> | Config.Database<'postgres'>;
 
 const databaseConfig = ({ env }: ConfigParams): DatabaseConfig => {
   const client = (process.env.DATABASE_CLIENT ?? '').toLowerCase();
@@ -18,7 +18,7 @@ const databaseConfig = ({ env }: ConfigParams): DatabaseConfig => {
         },
         useNullAsDefault: true,
       },
-    } satisfies Core.Config.Database<'sqlite'>;
+    } satisfies Config.Database<'sqlite'>;
   }
 
   // ... tu config postgres aquí (igual a como la tienes)
@@ -35,7 +35,7 @@ const databaseConfig = ({ env }: ConfigParams): DatabaseConfig => {
         ssl: env.bool('DATABASE_SSL', false),
       },
     },
-  } satisfies Core.Config.Database<'postgres'>;
+  } satisfies Config.Database<'postgres'>;
 };
 
 export default databaseConfig;

@@ -1,8 +1,8 @@
-import type { Core } from '@strapi/types';
+import type { UID } from '@strapi/types';
+import type { Strapi } from '@strapi/types/dist/core';
+import grantSuperAdminAll from '../../config/utils/grant-super-admin-all';
 import path from 'path';
 import fs from 'fs/promises';
-
-type Strapi = Core.Strapi;
 
 type EntityData = Record<string, unknown>;
 
@@ -77,52 +77,50 @@ async function uploadFileFromAssets(
   }
 }
 
-async function upsertSingleType(strapi: Strapi, uid: string, data: EntityData) {
-  const typedUid = uid as Parameters<typeof strapi.documents>[0];
-  const documentsService = strapi.documents(typedUid);
+const ensurePublished = (strapi: Strapi, uid: UID.ContentType, data: EntityData): EntityData => {
+  const contentType = strapi.contentTypes?.[uid];
+  if (contentType?.options?.draftAndPublish === false) {
+    return data;
+  }
 
-  const [draftDocuments, publishedDocuments] = await Promise.all([
-    documentsService.findMany({ status: 'draft', sort: 'id:asc' }),
-    documentsService.findMany({ status: 'published', sort: 'id:asc' }),
-  ]);
+  if (Object.prototype.hasOwnProperty.call(data, 'publishedAt')) {
+    return data;
+  }
 
-  const allDocuments = [...draftDocuments, ...publishedDocuments];
-  const documentIds = Array.from(new Set(allDocuments.map(document => document.documentId).filter(Boolean)));
-  const [primaryDocumentId, ...duplicateDocumentIds] = documentIds;
+  return { ...data, publishedAt: new Date().toISOString() };
+};
 
-  for (const duplicateDocumentId of duplicateDocumentIds) {
+async function upsertSingleType(strapi: Strapi, uid: UID.ContentType, data: EntityData) {
+  const query = strapi.db.query(uid);
+  const existingEntries = await query.findMany({ select: ['id'] });
+  const [primaryEntry, ...duplicateEntries] = existingEntries;
+
+  for (const duplicate of duplicateEntries) {
+    const duplicateId = duplicate.id as number | string | undefined;
+    if (!duplicateId) {
+      continue;
+    }
+
     try {
-      await documentsService.delete({ documentId: duplicateDocumentId });
-      strapi.log.warn(`Removed duplicate document ${duplicateDocumentId} from single type ${uid}.`);
+      await query.delete({ where: { id: duplicateId } });
+      strapi.log.warn(`Removed duplicate entry ${duplicateId} from single type ${uid}.`);
     } catch (error) {
-      strapi.log.error(`Failed to remove duplicate document ${duplicateDocumentId} from ${uid}:`, error);
+      strapi.log.error(`Failed to remove duplicate entry ${duplicateId} from ${uid}:`, error);
     }
   }
 
-  let targetDocumentId = primaryDocumentId ?? null;
+  const payload = ensurePublished(strapi, uid, data);
 
-  if (!targetDocumentId) {
-    const created = await documentsService.create({ data });
-    targetDocumentId = created.documentId;
+  const entryId = primaryEntry?.id as number | string | undefined;
+
+  if (!entryId) {
+    await strapi.entityService.create(uid, { data: payload });
     strapi.log.info(`Created single type entry for ${uid}.`);
-  } else {
-    await documentsService.update({ documentId: targetDocumentId, data });
-    strapi.log.info(`Updated single type entry ${targetDocumentId} for ${uid}.`);
+    return;
   }
 
-  if (targetDocumentId) {
-    const publishDocument = documentsService.publish as
-      | ((params: { documentId: string }) => Promise<unknown>)
-      | undefined;
-
-    if (typeof publishDocument === 'function') {
-      try {
-        await publishDocument({ documentId: targetDocumentId });
-      } catch (error) {
-        strapi.log.warn(`Failed to publish document ${targetDocumentId} for ${uid}:`, error);
-      }
-    }
-  }
+  await strapi.entityService.update(uid, entryId, { data: payload });
+  strapi.log.info(`Updated single type entry ${entryId} for ${uid}.`);
 }
 
 export async function seedDefaultContent(strapi: Strapi) {
@@ -130,12 +128,15 @@ export async function seedDefaultContent(strapi: Strapi) {
 
   strapi.log.info('Seeding Strapi CMS with default FACOPEC content...');
 
-  const adminEmail = 'facopec@facopec.org';
-  const adminPassword = 'F4c0pec@2025';
+  const adminUsername = process.env.SEED_ADMIN_USERNAME || 'facopec';
+  const adminEmail = process.env.SEED_ADMIN_EMAIL || 'facopec@facopec.org';
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD || 'F4c0pec@2025';
 
   const superAdminRole = await strapi.db
     .query('admin::role')
     .findOne({ where: { code: 'strapi-super-admin' } });
+
+  await grantSuperAdminAll(strapi);
   if (!superAdminRole) {
     strapi.log.warn(
       'No se encontró el rol de super administrador; omitiendo la creación automática del usuario facopec.'
@@ -150,7 +151,7 @@ export async function seedDefaultContent(strapi: Strapi) {
     if (superAdminRole) {
       await strapi.admin.services.user.create({
         data: {
-          username: 'facopec',
+          username: adminUsername,
           email: adminEmail,
           password: adminPassword,
           firstname: 'FACOPEC',
@@ -160,14 +161,16 @@ export async function seedDefaultContent(strapi: Strapi) {
         },
       });
 
-      strapi.log.info('Superusuario facopec creado con contraseña F4c0pec@2025');
+      strapi.log.info(
+        `Superusuario ${adminUsername} creado con correo ${adminEmail}. Usa las variables de entorno SEED_ADMIN_* para personalizarlo.`
+      );
     } else {
       strapi.log.warn(
         'Superusuario facopec no creado automáticamente porque no existe el rol strapi-super-admin aún.'
       );
     }
   } else {
-    strapi.log.info('Superusuario facopec ya existe.');
+    strapi.log.info(`Superusuario ${adminUsername} ya existe.`);
   }
 
   const heroImage = await uploadFileFromAssets(strapi, frontendAssetsDir, 'ninos.jpg', {
