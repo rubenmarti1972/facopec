@@ -48,6 +48,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     { id: 'about',     label: 'NOSOTROS',               route: '/nosotros',               description: 'Información de la fundación' },
   ];
 
+  logoUrl = 'assets/logo.png';
+  logoAlt = 'Logo FACOPEC';
+  siteNamePrimary = 'Fundación Afrocolombiana';
+  siteNameSecondary = 'Profe en Casa';
+
   private sub?: Subscription;
 
   constructor(private router: Router) {}
@@ -126,6 +131,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (mapped.length) {
         this.navigationItems = mapped;
       }
+    }
+
+    if (settings.siteName) {
+      const parts = settings.siteName.split('|').map(part => part.trim()).filter(Boolean);
+      if (parts.length >= 2) {
+        [this.siteNamePrimary, this.siteNameSecondary] = [parts[0], parts[1]];
+      } else {
+        this.siteNamePrimary = settings.siteName;
+        this.siteNameSecondary = '';
+      }
+    }
+
+    const mediaUrl = this.strapiService.buildMediaUrl(settings.logo);
+    if (mediaUrl) {
+      this.logoUrl = mediaUrl;
+      this.logoAlt = settings.logo?.alternativeText ?? settings.logo?.caption ?? this.logoAlt;
     }
 
     this.loading = false;
