@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_global_hours",
+  "info": {
+    "displayName": "Horario de atención",
+    "icon": "clock"
+  },
+  "attributes": {
+    "monday": {
+      "type": "string"
+    },
+    "tuesday": {
+      "type": "string"
+    },
+    "wednesday": {
+      "type": "string"
+    },
+    "thursday": {
+      "type": "string"
+    },
+    "friday": {
+      "type": "string"
+    },
+    "saturday": {
+      "type": "string"
+    },
+    "sunday": {
+      "type": "string"
+    }
+  }
+}
