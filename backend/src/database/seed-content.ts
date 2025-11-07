@@ -27,9 +27,6 @@ const MIME_TYPES: Record<string, string> = {
   '.webp': 'image/webp',
 };
 
-const repoRoot = path.resolve(__dirname, '../../..');
-const frontendAssetsDir = path.join(repoRoot, 'src', 'assets');
-
 const resolveEntityId = (entity: unknown): EntityId | null => {
   if (entity && typeof entity === 'object' && 'id' in entity) {
     const { id } = entity as { id?: EntityId };
@@ -46,10 +43,11 @@ const ensureMimeType = (filePath: string): string => {
 
 async function uploadFileFromAssets(
   strapi: Strapi,
+  assetsRoot: string,
   relativePath: string,
   metadata: UploadMetadata
 ): Promise<UploadedFile | null> {
-  const absolutePath = path.join(frontendAssetsDir, relativePath);
+  const absolutePath = path.join(assetsRoot, relativePath);
 
   try {
     const stats = await fs.stat(absolutePath);
@@ -126,6 +124,8 @@ async function upsertSingleType(strapi: Strapi, uid: string, data: EntityData) {
 }
 
 export async function seedDefaultContent(strapi: Strapi) {
+  const frontendAssetsDir = path.resolve(strapi.dirs.app.root, '..', 'src', 'assets');
+
   strapi.log.info('Seeding Strapi CMS with default FACOPEC content...');
 
   const adminEmail = 'facopec@facopec.org';
@@ -135,7 +135,9 @@ export async function seedDefaultContent(strapi: Strapi) {
     .query('admin::role')
     .findOne({ where: { code: 'strapi-super-admin' } });
   if (!superAdminRole) {
-    throw new Error('No se encontró el rol de super administrador');
+    strapi.log.warn(
+      'No se encontró el rol de super administrador; omitiendo la creación automática del usuario facopec.'
+    );
   }
 
   const existingAdmin = await strapi.db
@@ -143,29 +145,35 @@ export async function seedDefaultContent(strapi: Strapi) {
     .findOne({ where: { email: adminEmail } });
 
   if (!existingAdmin) {
-    await strapi.admin.services.user.create({
-      data: {
-        username: 'facopec',
-        email: adminEmail,
-        password: adminPassword,
-        firstname: 'FACOPEC',
-        lastname: 'Administrador',
-        isActive: true,
-        roles: [superAdminRole.id],
-      },
-    });
+    if (superAdminRole) {
+      await strapi.admin.services.user.create({
+        data: {
+          username: 'facopec',
+          email: adminEmail,
+          password: adminPassword,
+          firstname: 'FACOPEC',
+          lastname: 'Administrador',
+          isActive: true,
+          roles: [superAdminRole.id],
+        },
+      });
 
-    strapi.log.info('Superusuario facopec creado con contraseña F4c0pec@2025');
+      strapi.log.info('Superusuario facopec creado con contraseña F4c0pec@2025');
+    } else {
+      strapi.log.warn(
+        'Superusuario facopec no creado automáticamente porque no existe el rol strapi-super-admin aún.'
+      );
+    }
   } else {
     strapi.log.info('Superusuario facopec ya existe.');
   }
 
-  const heroImage = await uploadFileFromAssets(strapi, 'ninos.jpg', {
+  const heroImage = await uploadFileFromAssets(strapi, frontendAssetsDir, 'ninos.jpg', {
     alternativeText: 'Niñas y niños participan en actividades educativas de FACOPEC',
     caption: 'Actividades educativas de FACOPEC',
   });
 
-  const foundationLogo = await uploadFileFromAssets(strapi, 'logo.png', {
+  const foundationLogo = await uploadFileFromAssets(strapi, frontendAssetsDir, 'logo.png', {
     alternativeText: 'Logo de la Fundación Afrocolombiana Profe en Casa',
     caption: 'Logo FACOPEC',
   });
@@ -188,7 +196,7 @@ export async function seedDefaultContent(strapi: Strapi) {
   const supporterLogos = new Map<string, UploadedFile>();
 
   for (const supporter of supportersAssets) {
-    const uploaded = await uploadFileFromAssets(strapi, supporter.path, {
+    const uploaded = await uploadFileFromAssets(strapi, frontendAssetsDir, supporter.path, {
       alternativeText: supporter.alt,
       caption: supporter.caption,
     });
