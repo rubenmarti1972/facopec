@@ -1,4 +1,4 @@
-import type { Core } from '@strapi/types';
+import type { Core, UID } from '@strapi/types';
 import path from 'path';
 import fs from 'fs/promises';
 
@@ -77,52 +77,50 @@ async function uploadFileFromAssets(
   }
 }
 
-async function upsertSingleType(strapi: Strapi, uid: string, data: EntityData) {
-  const typedUid = uid as Parameters<typeof strapi.documents>[0];
-  const documentsService = strapi.documents(typedUid);
+const ensurePublished = (strapi: Strapi, uid: UID.ContentType, data: EntityData): EntityData => {
+  const contentType = strapi.contentTypes?.[uid];
+  if (contentType?.options?.draftAndPublish === false) {
+    return data;
+  }
 
-  const [draftDocuments, publishedDocuments] = await Promise.all([
-    documentsService.findMany({ status: 'draft', sort: 'id:asc' }),
-    documentsService.findMany({ status: 'published', sort: 'id:asc' }),
-  ]);
+  if (Object.prototype.hasOwnProperty.call(data, 'publishedAt')) {
+    return data;
+  }
 
-  const allDocuments = [...draftDocuments, ...publishedDocuments];
-  const documentIds = Array.from(new Set(allDocuments.map(document => document.documentId).filter(Boolean)));
-  const [primaryDocumentId, ...duplicateDocumentIds] = documentIds;
+  return { ...data, publishedAt: new Date().toISOString() };
+};
 
-  for (const duplicateDocumentId of duplicateDocumentIds) {
+async function upsertSingleType(strapi: Strapi, uid: UID.ContentType, data: EntityData) {
+  const query = strapi.db.query(uid);
+  const existingEntries = await query.findMany({ select: ['id'] });
+  const [primaryEntry, ...duplicateEntries] = existingEntries;
+
+  for (const duplicate of duplicateEntries) {
+    const duplicateId = duplicate.id as number | string | undefined;
+    if (!duplicateId) {
+      continue;
+    }
+
     try {
-      await documentsService.delete({ documentId: duplicateDocumentId });
-      strapi.log.warn(`Removed duplicate document ${duplicateDocumentId} from single type ${uid}.`);
+      await query.delete({ where: { id: duplicateId } });
+      strapi.log.warn(`Removed duplicate entry ${duplicateId} from single type ${uid}.`);
     } catch (error) {
-      strapi.log.error(`Failed to remove duplicate document ${duplicateDocumentId} from ${uid}:`, error);
+      strapi.log.error(`Failed to remove duplicate entry ${duplicateId} from ${uid}:`, error);
     }
   }
 
-  let targetDocumentId = primaryDocumentId ?? null;
+  const payload = ensurePublished(strapi, uid, data);
 
-  if (!targetDocumentId) {
-    const created = await documentsService.create({ data });
-    targetDocumentId = created.documentId;
+  const entryId = primaryEntry?.id as number | string | undefined;
+
+  if (!entryId) {
+    await strapi.entityService.create(uid, { data: payload });
     strapi.log.info(`Created single type entry for ${uid}.`);
-  } else {
-    await documentsService.update({ documentId: targetDocumentId, data });
-    strapi.log.info(`Updated single type entry ${targetDocumentId} for ${uid}.`);
+    return;
   }
 
-  if (targetDocumentId) {
-    const publishDocument = documentsService.publish as
-      | ((params: { documentId: string }) => Promise<unknown>)
-      | undefined;
-
-    if (typeof publishDocument === 'function') {
-      try {
-        await publishDocument({ documentId: targetDocumentId });
-      } catch (error) {
-        strapi.log.warn(`Failed to publish document ${targetDocumentId} for ${uid}:`, error);
-      }
-    }
-  }
+  await strapi.entityService.update(uid, entryId, { data: payload });
+  strapi.log.info(`Updated single type entry ${entryId} for ${uid}.`);
 }
 
 export async function seedDefaultContent(strapi: Strapi) {

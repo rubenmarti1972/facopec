@@ -1,6 +1,6 @@
-# FACOPEC CMS (Strapi v5.2.x)
+# FACOPEC CMS (Strapi v4.24.x)
 
-Proyecto Strapi 5.2.x (versión estable) que sirve como backend CMS para el sitio de la Fundación Afrocolombiana Profe en Casa.
+Proyecto Strapi 4.24.x (versión estable) que sirve como backend CMS para el sitio de la Fundación Afrocolombiana Profe en Casa.
 
 ## Requisitos
 
@@ -33,12 +33,12 @@ Por defecto el proyecto arranca con SQLite, por lo que no necesitas ningún serv
 - `pnpm build`: compila el panel de administración.
 - `pnpm seed`: ejecuta el script de siembra inicial (`src/database/seed.ts`).
 
-## Actualización a Strapi 5.2.2 estable
+## Actualización a Strapi 4.24.6 estable
 
-Todas las dependencias `@strapi/*` están fijadas a la serie estable `^5.2.2`. Después de hacer pull de estos cambios:
+Todas las dependencias `@strapi/*` están fijadas a la serie estable `^4.24.6` para salir definitivamente de la versión beta 5.0.0. Después de hacer pull de estos cambios:
 
-1. Ejecuta `pnpm install` para descargar las nuevas versiones estables (si tienes restos de versiones beta, borra `node_modules`, `.cache` y `build` antes de instalar).
-2. Corre `pnpm build` para reconstruir el panel de administración. En la cabecera del CMS ya no debe aparecer la etiqueta **beta**; debería mostrarse algo como `Strapi v5.2.x`.
+1. Elimina cualquier instalación previa (`rm -rf node_modules .cache build`) y ejecuta `pnpm install` para descargar las versiones 4.24.x.
+2. Corre `pnpm build` para reconstruir el panel de administración. En la cabecera del CMS debe mostrarse `Strapi v4.24.x` sin la etiqueta **beta**.
 3. Si prefieres automatizar el proceso, puedes usar `node upgrade-strapi-to-stable.mjs`, que también crea un respaldo de la base SQLite y vuelve a activar los permisos del Content Manager.
 
 ## Superusuario preconfigurado
