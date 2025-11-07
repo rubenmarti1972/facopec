@@ -1,17 +1,17 @@
-# FACOPEC CMS (Strapi v5)
+# FACOPEC CMS (Strapi v4.24.x)
 
-Proyecto Strapi v5 que sirve como backend CMS para el sitio de la Fundación Afrocolombiana Profe en Casa.
+Proyecto Strapi 4.24.x (versión estable) que sirve como backend CMS para el sitio de la Fundación Afrocolombiana Profe en Casa.
 
 ## Requisitos
 
-- Node.js 20 LTS
-- pnpm 9+
+- Node.js 18.18.2 (usa `.nvmrc` dentro de `backend/` para fijar la versión recomendada)
+- npm 10+
 
 ## Instalación
 
 ```bash
 cd backend
-pnpm install
+npm install
 ```
 
 ## Variables de entorno
@@ -28,26 +28,39 @@ Por defecto el proyecto arranca con SQLite, por lo que no necesitas ningún serv
 
 ## Scripts disponibles
 
-- `pnpm develop`: inicia Strapi en modo desarrollo con recarga en caliente.
-- `pnpm start`: ejecuta Strapi en modo producción (requiere `pnpm build`).
-- `pnpm build`: compila el panel de administración.
-- `pnpm seed`: ejecuta el script de siembra inicial (`src/database/seed.ts`).
+- `npm run develop`: inicia Strapi en modo desarrollo con recarga en caliente.
+- `npm run start`: ejecuta Strapi en modo producción (requiere `npm run build`).
+- `npm run build`: compila el panel de administración.
+- `npm run seed`: ejecuta el script de siembra inicial (`src/database/seed.ts`).
+
+## Actualización a Strapi 4.24.6 estable
+
+Todas las dependencias `@strapi/*` están fijadas explícitamente a la versión estable `4.24.6` para salir definitivamente de la versión beta 5.0.0. Después de hacer pull de estos cambios:
+
+1. Elimina cualquier instalación previa (`rm -rf node_modules .cache build`) y ejecuta `npm install` para descargar la versión estable.
+2. Corre `npm run build` para reconstruir el panel de administración. En la cabecera del CMS debe mostrarse `Strapi v4.24.6` sin la etiqueta **beta**.
+3. Si prefieres automatizar el proceso, puedes usar `node upgrade-strapi-to-stable.mjs`, que ahora borra `node_modules`, crea un respaldo de la base SQLite y vuelve a activar los permisos del Content Manager. Al finalizar el script mostrará la versión de Strapi instalada para que confirmes que estás en la rama estable.
 
 ## Superusuario preconfigurado
 
-El script de semillas crea automáticamente el superusuario principal:
-
-- **Usuario**: `facopec`
-- **Correo**: `facopec@facopec.org`
-- **Contraseña**: `F4c0pec@2025`
+El script de semillas crea automáticamente el superusuario principal utilizando las variables de entorno
+`SEED_ADMIN_USERNAME`, `SEED_ADMIN_EMAIL` y `SEED_ADMIN_PASSWORD`. Si no se especifican en `.env`, Strapi usará los
+valores predeterminados `facopec`, `facopec@facopec.org` y `F4c0pec@2025` respectivamente.
 
 Puedes regenerarlo ejecutando:
 
 ```bash
-pnpm seed
+npm run seed
 ```
 
-> ⚠️ Ejecuta `pnpm seed` únicamente en entornos de desarrollo o inicialización. Si ya existe un usuario con el correo configurado, el script no lo modificará.
+> ⚠️ Ejecuta `npm run seed` únicamente en entornos de desarrollo o inicialización. Si ya existe un usuario con el correo configurado, el script no lo modificará.
+
+## Validaciones flexibles en el Content Manager
+
+Todos los componentes y tipos de contenido vienen ahora sin campos obligatorios. Esto te permite guardar los documentos aunque dejes títulos, enlaces o imágenes vacíos mientras decides la versión final del contenido.
+
+- Si quieres ocultar una tarjeta o elemento específico, simplemente elimina el bloque desde el editor o deja sus campos vacíos; el frontend ignorará automáticamente los registros incompletos.
+- Si necesitas volver a exigir algún dato (por ejemplo, que una tarjeta tenga título), puedes marcarlo como obligatorio desde **Settings → Content Manager → Configuración** dentro del panel de Strapi.
 
 ## Endpoints clave
 
@@ -61,9 +74,9 @@ Todas las rutas exponen datos listos para ser consumidos por el frontend Angular
 
 ## Flujo recomendado de despliegue
 
-1. Ejecuta `pnpm install` y `pnpm build`.
-2. Corre `pnpm seed` para cargar el contenido base y el superusuario.
-3. Inicia el servidor con `pnpm develop` (desarrollo) o `pnpm start` (producción).
+1. Ejecuta `npm install` y `npm run build`.
+2. Corre `npm run seed` para cargar el contenido base y el superusuario.
+3. Inicia el servidor con `npm run develop` (desarrollo) o `npm run start` (producción).
 4. Configura las variables de entorno del frontend (`environment.ts`) apuntando a la URL pública de Strapi y un token API válido.
 
 ## Licencia

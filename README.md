@@ -4,23 +4,23 @@ Aplicación web profesional para la Fundación Afrocolombiana Pro Encasa
 
 ## Instalación
 
-Requisitos previos:
+Requisitos previos (frontend Angular):
 
-- Node.js 22.x (usa `.nvmrc` para seleccionar la versión recomendada)
+- Node.js 22.11.0 (usa `.nvmrc` en la raíz para seleccionar la versión recomendada)
 - pnpm 9 o superior
 
 ```bash
 pnpm install
 ```
 
-Para el backend Strapi ubicado en `backend/`:
+Para el backend Strapi estable (v4.24.6) ubicado en `backend/` utiliza su propio `.nvmrc` (Node.js 18.18.2) y npm:
 
 ```bash
 cd backend
-pnpm install
+npm install
 cp .env.example .env # ajusta las variables sensibles
-pnpm seed # carga contenido y crea el superusuario facopec
-pnpm develop
+npm run seed # carga contenido y crea el superusuario facopec
+npm run develop
 ```
 
 ## Desarrollo
@@ -78,7 +78,7 @@ Edita `src/environments/environment.ts`:
 
 ## Backend Strapi
 
-El proyecto incluye un CMS Strapi v5 en la carpeta `backend/` con modelos para la página de inicio, donaciones, navegación global y proyectos. El script de semillas (`pnpm seed`) crea el superusuario **facopec / F4c0pec@2025** y carga contenido base listo para ser editado desde el panel.
+El proyecto incluye un CMS Strapi v4.24.6 (estable, sin etiquetas beta) en la carpeta `backend/` con modelos para la página de inicio, donaciones, navegación global y proyectos. El script de semillas (`npm run seed`) crea el superusuario definido en las variables de entorno `SEED_ADMIN_USERNAME`, `SEED_ADMIN_EMAIL` y `SEED_ADMIN_PASSWORD` (por defecto `facopec / facopec@facopec.org / F4c0pec@2025`) y carga contenido base listo para ser editado desde el panel. Si necesitas reinstalar el CMS o comprobar la versión, ejecuta `node upgrade-strapi-to-stable.mjs` dentro de `backend/`; el script actualizará dependencias, limpiará `node_modules` y reportará la versión final instalada (debe indicar 4.24.6).
 
 ---
 
