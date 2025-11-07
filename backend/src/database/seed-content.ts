@@ -130,8 +130,9 @@ export async function seedDefaultContent(strapi: Strapi) {
 
   strapi.log.info('Seeding Strapi CMS with default FACOPEC content...');
 
-  const adminEmail = 'facopec@facopec.org';
-  const adminPassword = 'F4c0pec@2025';
+  const adminUsername = process.env.SEED_ADMIN_USERNAME || 'facopec';
+  const adminEmail = process.env.SEED_ADMIN_EMAIL || 'facopec@facopec.org';
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD || 'F4c0pec@2025';
 
   const superAdminRole = await strapi.db
     .query('admin::role')
@@ -150,7 +151,7 @@ export async function seedDefaultContent(strapi: Strapi) {
     if (superAdminRole) {
       await strapi.admin.services.user.create({
         data: {
-          username: 'facopec',
+          username: adminUsername,
           email: adminEmail,
           password: adminPassword,
           firstname: 'FACOPEC',
@@ -160,14 +161,16 @@ export async function seedDefaultContent(strapi: Strapi) {
         },
       });
 
-      strapi.log.info('Superusuario facopec creado con contraseña F4c0pec@2025');
+      strapi.log.info(
+        `Superusuario ${adminUsername} creado con correo ${adminEmail}. Usa las variables de entorno SEED_ADMIN_* para personalizarlo.`
+      );
     } else {
       strapi.log.warn(
         'Superusuario facopec no creado automáticamente porque no existe el rol strapi-super-admin aún.'
       );
     }
   } else {
-    strapi.log.info('Superusuario facopec ya existe.');
+    strapi.log.info(`Superusuario ${adminUsername} ya existe.`);
   }
 
   const heroImage = await uploadFileFromAssets(strapi, frontendAssetsDir, 'ninos.jpg', {

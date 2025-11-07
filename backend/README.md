@@ -35,11 +35,9 @@ Por defecto el proyecto arranca con SQLite, por lo que no necesitas ningún serv
 
 ## Superusuario preconfigurado
 
-El script de semillas crea automáticamente el superusuario principal:
-
-- **Usuario**: `facopec`
-- **Correo**: `facopec@facopec.org`
-- **Contraseña**: `F4c0pec@2025`
+El script de semillas crea automáticamente el superusuario principal utilizando las variables de entorno
+`SEED_ADMIN_USERNAME`, `SEED_ADMIN_EMAIL` y `SEED_ADMIN_PASSWORD`. Si no se especifican en `.env`, Strapi usará los
+valores predeterminados `facopec`, `facopec@facopec.org` y `F4c0pec@2025` respectivamente.
 
 Puedes regenerarlo ejecutando:
 
