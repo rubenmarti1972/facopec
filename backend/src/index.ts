@@ -1,7 +1,5 @@
-import type { Core } from '@strapi/types';
+import type { Strapi } from '@strapi/types/dist/core';
 import { seedDefaultContent } from './database/seed-content';
-
-type Strapi = Core.Strapi;
 
 export default {
   register() {},

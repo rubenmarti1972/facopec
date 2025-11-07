@@ -6,16 +6,14 @@
   },
   "attributes": {
     "title": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "description": {
       "type": "text"
     },
     "media": {
       "type": "media",
-      "multiple": false,
-      "required": true
+      "multiple": false
     },
     "type": {
       "type": "enumeration",
