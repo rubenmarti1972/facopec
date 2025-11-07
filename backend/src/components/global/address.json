@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_global_addresses",
+  "info": {
+    "displayName": "Dirección",
+    "icon": "map"
+  },
+  "attributes": {
+    "street": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "postalCode": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "latitude": {
+      "type": "decimal"
+    },
+    "longitude": {
+      "type": "decimal"
+    }
+  }
+}
