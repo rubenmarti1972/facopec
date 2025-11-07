@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { StrapiService } from '@core/services/strapi.service';
-import { HomePageContent, HighlightContent, SupporterLogoContent, MediaAsset } from '@core/models';
+import { HomePageContent, HighlightContent, SupporterLogoContent, MediaAsset, GlobalSettings } from '@core/models';
 
 interface HeroStat {
   label: string;
@@ -15,6 +15,23 @@ interface HeroAction {
   href?: string;
   variant: 'primary' | 'secondary';
   dataStrapiUid: string;
+}
+
+interface HeroVerse {
+  reference: string;
+  text: string;
+  description: string;
+}
+
+interface HeroContent {
+  eyebrow: string;
+  title: string[];
+  lead: string;
+  stats: HeroStat[];
+  actions: HeroAction[];
+  verse: HeroVerse;
+  image: string;
+  imageAlt: string;
 }
 
 interface ActivityCard {
@@ -83,7 +100,7 @@ export class HomeComponent implements OnInit {
   loading = true;
   error: string | null = null;
 
-  hero = {
+  hero: HeroContent = {
     eyebrow: 'Misión con sentido social',
     title: ['Transformamos vidas', 'a través de la educación y el cuidado'],
     lead:
@@ -107,8 +124,13 @@ export class HomeComponent implements OnInit {
       text: '“Feliz quien halla sabiduría”',
       description:
         'Creamos espacios seguros para aprender, compartir y crecer en comunidad. Creemos en el poder de la lectura, la tecnología y la fe para transformar historias.'
-    }
+    },
+    image: 'assets/ninos.jpg',
+    imageAlt: 'Familia afrocolombiana abrazada y sonriendo'
   };
+
+  globalLogoUrl = 'assets/logo.png';
+  globalLogoAlt = 'Logo FACOPEC';
 
   identity = {
     description:
@@ -305,6 +327,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadContent();
+    this.loadGlobalBranding();
   }
 
   toggleIdentityCard(key: IdentityCardKey): void {
@@ -328,6 +351,8 @@ export class HomeComponent implements OnInit {
 
     if (content.hero) {
       const hero = content.hero;
+      const heroMediaUrl = this.resolveMediaUrl(hero.image);
+      const heroAltText = hero.image?.alternativeText ?? hero.image?.caption ?? this.hero.imageAlt;
       this.hero = {
         eyebrow: hero.eyebrow ?? this.hero.eyebrow,
         title: hero.titleLines?.map(line => line.line).filter(Boolean) ?? this.hero.title,
@@ -353,7 +378,9 @@ export class HomeComponent implements OnInit {
           reference: hero.verse?.reference ?? this.hero.verse.reference,
           text: hero.verse?.text ?? this.hero.verse.text,
           description: hero.verse?.description ?? this.hero.verse.description
-        }
+        },
+        image: heroMediaUrl ?? this.hero.image,
+        imageAlt: heroAltText ?? this.hero.imageAlt
       };
     }
 
@@ -467,6 +494,21 @@ export class HomeComponent implements OnInit {
     }
 
     this.loading = false;
+  }
+
+  private loadGlobalBranding(): void {
+    this.strapiService.getGlobalSettings().subscribe({
+      next: (settings: GlobalSettings) => {
+        const logoUrl = this.strapiService.buildMediaUrl(settings.logo);
+        if (logoUrl) {
+          this.globalLogoUrl = logoUrl;
+          this.globalLogoAlt = settings.logo?.alternativeText ?? settings.logo?.caption ?? this.globalLogoAlt;
+        }
+      },
+      error: error => {
+        console.warn('No se pudo cargar el logo global desde Strapi.', error);
+      }
+    });
   }
 
   private mapHighlights(highlights: HighlightContent[]): typeof this.impactHighlights {

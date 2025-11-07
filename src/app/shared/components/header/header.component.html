@@ -15,12 +15,15 @@
       <!-- Logo -->
       <a routerLink="/inicio" class="flex items-center gap-3 group">
         <div class="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-grass shadow-lg flex items-center justify-center transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
-          <span class="text-2xl">🏠</span>
+          <img [src]="logoUrl" [alt]="logoAlt" class="w-10 h-10 object-contain" />
         </div>
         <div class="hidden md:block">
           <h1 class="text-base font-display font-bold text-ocean leading-tight transition-colors">
-            Fundación Afrocolombiana<br>
-            <span class="text-primary-500">Profe en Casa</span>
+            {{ siteNamePrimary }}
+            <ng-container *ngIf="siteNameSecondary">
+              <br />
+              <span class="text-primary-500">{{ siteNameSecondary }}</span>
+            </ng-container>
           </h1>
         </div>
       </a>
