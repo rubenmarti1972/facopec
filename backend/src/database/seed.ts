@@ -1,4 +1,6 @@
 import { createStrapi } from '@strapi/strapi';
+import path from 'path';
+import fs from 'fs/promises';
 type StrapiApp = Awaited<ReturnType<typeof createStrapi>>;
 type EntityId = number | string;
 type EntityData = Record<string, unknown>;
@@ -8,6 +10,29 @@ type EntityService = {
   create: (uid: string, params: { data: EntityData }) => Promise<unknown>;
   update: (uid: string, entityId: EntityId, params: { data: EntityData }) => Promise<unknown>;
 };
+
+type UploadedFile = {
+  id: number;
+  url: string;
+  alternativeText?: string | null;
+  caption?: string | null;
+};
+
+type UploadMetadata = {
+  alternativeText?: string;
+  caption?: string;
+};
+
+const MIME_TYPES: Record<string, string> = {
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.svg': 'image/svg+xml',
+  '.webp': 'image/webp',
+};
+
+const repoRoot = path.resolve(__dirname, '../../..');
+const frontendAssetsDir = path.join(repoRoot, 'src', 'assets');
 
 const getEntityService = (app: StrapiApp): EntityService =>
   app.entityService as unknown as EntityService;
@@ -65,6 +90,57 @@ async function seed() {
 
   console.log('Seeding Strapi CMS with default FACOPEC content...');
 
+  const ensureMimeType = (filePath: string): string => {
+    const ext = path.extname(filePath).toLowerCase();
+    return MIME_TYPES[ext] ?? 'application/octet-stream';
+  };
+
+  const uploadFileFromAssets = async (
+    relativePath: string,
+    metadata: UploadMetadata
+  ): Promise<UploadedFile | null> => {
+    const absolutePath = path.join(frontendAssetsDir, relativePath);
+
+    try {
+      const stats = await fs.stat(absolutePath);
+      if (!stats.isFile()) {
+        console.warn(`Asset ${relativePath} is not a file, skipping upload.`);
+        return null;
+      }
+
+      const fileName = path.basename(absolutePath);
+      const existing = await app.db
+        .query('plugin::upload.file')
+        .findOne({ where: { name: fileName } });
+
+      if (existing) {
+        return existing as UploadedFile;
+      }
+
+      const buffer = await fs.readFile(absolutePath);
+      const uploadService = app.plugin('upload').service('upload');
+      const uploaded = await uploadService.upload({
+        data: metadata,
+        files: {
+          path: absolutePath,
+          name: fileName,
+          type: ensureMimeType(absolutePath),
+          size: stats.size,
+          buffer,
+        },
+      });
+
+      if (Array.isArray(uploaded) && uploaded.length > 0) {
+        return uploaded[0] as UploadedFile;
+      }
+
+      return null;
+    } catch (error) {
+      console.error(`Failed to upload asset ${relativePath}:`, error);
+      return null;
+    }
+  };
+
   const adminEmail = 'facopec@facopec.org';
   const adminPassword = 'F4c0pec@2025';
 
@@ -92,9 +168,48 @@ async function seed() {
     console.log('Superusuario facopec ya existe.');
   }
 
+  const heroImage = await uploadFileFromAssets('ninos.jpg', {
+    alternativeText: 'Niñas y niños participan en actividades educativas de FACOPEC',
+    caption: 'Actividades educativas de FACOPEC',
+  });
+
+  const foundationLogo = await uploadFileFromAssets('logo.png', {
+    alternativeText: 'Logo de la Fundación Afrocolombiana Profe en Casa',
+    caption: 'Logo FACOPEC',
+  });
+
+  const supportersAssets: Array<{ key: string; path: string; alt: string; caption: string }> = [
+    {
+      key: 'icbf',
+      path: path.join('supporters', 'icbf-logo.svg'),
+      alt: 'Logo del Instituto Colombiano de Bienestar Familiar',
+      caption: 'Aliado: Instituto Colombiano de Bienestar Familiar',
+    },
+    {
+      key: 'pnud',
+      path: path.join('supporters', 'pnud-logo.svg'),
+      alt: 'Logo del Programa de las Naciones Unidas para el Desarrollo',
+      caption: 'Aliado: Programa de las Naciones Unidas para el Desarrollo',
+    },
+  ];
+
+  const supporterLogos = new Map<string, UploadedFile>();
+
+  for (const supporter of supportersAssets) {
+    const uploaded = await uploadFileFromAssets(supporter.path, {
+      alternativeText: supporter.alt,
+      caption: supporter.caption,
+    });
+
+    if (uploaded) {
+      supporterLogos.set(supporter.key, uploaded);
+    }
+  }
+
   await upsertSingleType(app, 'api::global.global', {
     siteName: 'Fundación Afrocolombiana Profe en Casa',
     appUrl: 'https://facopec.web.app',
+    logo: foundationLogo?.id,
     navigation: [
       { label: 'Inicio', description: 'Página principal', url: '/inicio', order: 1 },
       { label: 'Proyectos', description: 'Nuestros proyectos', url: '/proyectos', order: 2 },
@@ -120,10 +235,27 @@ async function seed() {
     history:
       '<p>Desde Puerto Tejada, en el Valle del Cauca, acompañamos a niñas, niños, adolescentes y sus familias con programas educativos, culturales y espirituales que transforman vidas.</p>',
     values: [
-      'Derechos humanos y dignidad',
-      'Educación transformadora',
-      'Fe, cultura y comunidad'
+      {
+        title: 'Derechos humanos y dignidad',
+        description: 'Promovemos la defensa y reivindicación de los derechos de las comunidades negras, afrocolombianas, raizales y palenqueras.',
+        icon: '👐🏾',
+        dataUid: 'about.values.rights',
+      },
+      {
+        title: 'Educación transformadora',
+        description: 'Impulsamos procesos educativos, tecnológicos y culturales que potencian talentos y vocaciones.',
+        icon: '💡',
+        dataUid: 'about.values.education',
+      },
+      {
+        title: 'Fe, cultura y comunidad',
+        description: 'Fortalecemos el tejido comunitario desde la espiritualidad, la identidad cultural y el trabajo colaborativo.',
+        icon: '🤲🏾',
+        dataUid: 'about.values.community',
+      }
     ],
+    logo: foundationLogo?.id,
+    banner: heroImage?.id,
     contactEmail: 'contacto@facopec.org',
     contactPhone: '+57 321 523 0283',
     address: {
@@ -154,6 +286,7 @@ async function seed() {
       ],
       lead:
         'Somos la Fundación Afrocolombiana Profe en Casa. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Valle del Cauca.',
+      image: heroImage?.id,
       stats: [
         { value: '+180', label: 'Estudiantes acompañados con tutorías y mentorías' },
         { value: '35', label: 'Voluntarios activos en programas comunitarios' },
@@ -269,13 +402,15 @@ async function seed() {
         name: 'Instituto Colombiano de Bienestar Familiar',
         caption: 'Instituto Colombiano de Bienestar Familiar',
         link: 'https://www.icbf.gov.co',
-        dataUid: 'supporters.icbf'
+        dataUid: 'supporters.icbf',
+        logo: supporterLogos.get('icbf')?.id,
       },
       {
         name: 'Programa de las Naciones Unidas para el Desarrollo',
         caption: 'Programa de las Naciones Unidas para el Desarrollo',
         link: 'https://www.undp.org',
-        dataUid: 'supporters.pnud'
+        dataUid: 'supporters.pnud',
+        logo: supporterLogos.get('pnud')?.id,
       }
     ],
     catalog: [
