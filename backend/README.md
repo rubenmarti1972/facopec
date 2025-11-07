@@ -35,11 +35,9 @@ Por defecto el proyecto arranca con SQLite, por lo que no necesitas ningún serv
 
 ## Superusuario preconfigurado
 
-El script de semillas crea automáticamente el superusuario principal:
-
-- **Usuario**: `facopec`
-- **Correo**: `facopec@facopec.org`
-- **Contraseña**: `F4c0pec@2025`
+El script de semillas crea automáticamente el superusuario principal utilizando las variables de entorno
+`SEED_ADMIN_USERNAME`, `SEED_ADMIN_EMAIL` y `SEED_ADMIN_PASSWORD`. Si no se especifican en `.env`, Strapi usará los
+valores predeterminados `facopec`, `facopec@facopec.org` y `F4c0pec@2025` respectivamente.
 
 Puedes regenerarlo ejecutando:
 
@@ -48,6 +46,13 @@ pnpm seed
 ```
 
 > ⚠️ Ejecuta `pnpm seed` únicamente en entornos de desarrollo o inicialización. Si ya existe un usuario con el correo configurado, el script no lo modificará.
+
+## Validaciones flexibles en el Content Manager
+
+Todos los componentes y tipos de contenido vienen ahora sin campos obligatorios. Esto te permite guardar los documentos aunque dejes títulos, enlaces o imágenes vacíos mientras decides la versión final del contenido.
+
+- Si quieres ocultar una tarjeta o elemento específico, simplemente elimina el bloque desde el editor o deja sus campos vacíos; el frontend ignorará automáticamente los registros incompletos.
+- Si necesitas volver a exigir algún dato (por ejemplo, que una tarjeta tenga título), puedes marcarlo como obligatorio desde **Settings → Content Manager → Configuración** dentro del panel de Strapi.
 
 ## Endpoints clave
 
