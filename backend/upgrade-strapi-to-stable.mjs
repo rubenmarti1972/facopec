@@ -50,7 +50,11 @@ function updateStrapiDependencies(section = {}) {
   let updated = false;
   for (const [depName, version] of Object.entries(section)) {
     if (depName.startsWith('@strapi/')) {
-      if (version !== '^5.2.2') {
+      const versionStr = String(version);
+      if (versionStr.startsWith('file:') || versionStr.startsWith('link:') || versionStr.startsWith('workspace:')) {
+        continue;
+      }
+      if (versionStr !== '^5.2.2') {
         section[depName] = '^5.2.2';
         updated = true;
       }
