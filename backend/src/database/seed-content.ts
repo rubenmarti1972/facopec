@@ -137,6 +137,19 @@ export async function seedDefaultContent(strapi: Strapi) {
   const superAdminRole = await strapi.db
     .query('admin::role')
     .findOne({ where: { code: 'strapi-super-admin' } });
+
+  const adminRoleService = strapi.service('admin::role') as
+    | { resetSuperAdminPermissions?: () => Promise<unknown> }
+    | undefined;
+
+  if (adminRoleService?.resetSuperAdminPermissions) {
+    await adminRoleService.resetSuperAdminPermissions();
+    strapi.log.info('Permisos de superadministrador sincronizados con todas las acciones disponibles.');
+  } else {
+    strapi.log.warn(
+      'No se pudo sincronizar automáticamente los permisos del superadministrador; servicio admin::role no disponible.'
+    );
+  }
   if (!superAdminRole) {
     strapi.log.warn(
       'No se encontró el rol de super administrador; omitiendo la creación automática del usuario facopec.'
