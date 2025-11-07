@@ -35,11 +35,11 @@ Por defecto el proyecto arranca con SQLite, por lo que no necesitas ningún serv
 
 ## Actualización a Strapi 4.24.6 estable
 
-Todas las dependencias `@strapi/*` están fijadas a la serie estable `^4.24.6` para salir definitivamente de la versión beta 5.0.0. Después de hacer pull de estos cambios:
+Todas las dependencias `@strapi/*` están fijadas explícitamente a la versión estable `4.24.6` para salir definitivamente de la versión beta 5.0.0. Después de hacer pull de estos cambios:
 
-1. Elimina cualquier instalación previa (`rm -rf node_modules .cache build`) y ejecuta `pnpm install` para descargar las versiones 4.24.x.
-2. Corre `pnpm build` para reconstruir el panel de administración. En la cabecera del CMS debe mostrarse `Strapi v4.24.x` sin la etiqueta **beta**.
-3. Si prefieres automatizar el proceso, puedes usar `node upgrade-strapi-to-stable.mjs`, que también crea un respaldo de la base SQLite y vuelve a activar los permisos del Content Manager.
+1. Elimina cualquier instalación previa (`rm -rf node_modules .cache build`) y ejecuta `pnpm install` para descargar la versión estable.
+2. Corre `pnpm build` para reconstruir el panel de administración. En la cabecera del CMS debe mostrarse `Strapi v4.24.6` sin la etiqueta **beta**.
+3. Si prefieres automatizar el proceso, puedes usar `node upgrade-strapi-to-stable.mjs`, que ahora borra `node_modules`, crea un respaldo de la base SQLite y vuelve a activar los permisos del Content Manager. Al finalizar el script mostrará la versión de Strapi instalada para que confirmes que estás en la rama estable.
 
 ## Superusuario preconfigurado
 

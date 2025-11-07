@@ -13,7 +13,7 @@ async function pathExists(filePath) {
   }
 }
 
-const TARGET_STRAPI_VERSION = '^4.24.6';
+const TARGET_STRAPI_VERSION = '4.24.6';
 
 async function detectPackageManager() {
   const pnpmLock = path.join(cwd, 'pnpm-lock.yaml');
@@ -166,12 +166,28 @@ async function ensureAdminSettings() {
 }
 
 async function removeDirectories() {
-  const targets = ['.cache', 'build'];
+  const targets = ['.cache', 'build', 'node_modules'];
   for (const dir of targets) {
     const fullPath = path.join(cwd, dir);
     await fs.rm(fullPath, { recursive: true, force: true });
   }
-  console.log('Directorios .cache y build eliminados (si existían).');
+  console.log('Directorios .cache, build y node_modules eliminados (si existían).');
+}
+
+async function verifyInstalledVersion() {
+  const packageJsonPath = path.join(cwd, 'node_modules', '@strapi', 'strapi', 'package.json');
+  if (!(await pathExists(packageJsonPath))) {
+    console.warn('No se pudo verificar la versión instalada de Strapi (node_modules no está disponible).');
+    return;
+  }
+
+  try {
+    const raw = await fs.readFile(packageJsonPath, 'utf8');
+    const pkg = JSON.parse(raw);
+    console.log(`Strapi instalado: ${pkg.version}`);
+  } catch (error) {
+    console.warn('No se pudo leer la versión instalada de Strapi:', error);
+  }
 }
 
 function runCommand(command, args) {
@@ -206,6 +222,8 @@ async function main() {
 
   console.log('Construyendo la aplicación...');
   await runCommand(...managerInfo.buildCmd);
+
+  await verifyInstalledVersion();
 
   const backupLine = backupName ? `.tmp/${backupName}` : '.tmp/data.backup.<timestamp>.db';
   const developCommand = managerInfo.manager === 'npm' ? 'npm run develop' : `${managerInfo.manager} develop`;
