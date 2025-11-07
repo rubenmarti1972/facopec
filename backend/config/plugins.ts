@@ -1,8 +1,8 @@
-import type { Core } from '@strapi/types';
+import type { Config } from '@strapi/types/dist/core';
 
 import type { ConfigParams } from './utils/env';
 
-type PluginsConfig = Core.Config.Plugin;
+type PluginsConfig = Config.Plugin;
 
 const pluginsConfig = ({ env }: ConfigParams): PluginsConfig => ({
   /* seo: {
