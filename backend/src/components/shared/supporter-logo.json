@@ -6,13 +6,11 @@
   },
   "attributes": {
     "name": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "logo": {
       "type": "media",
-      "multiple": false,
-      "required": true
+      "multiple": false
     },
     "caption": {
       "type": "string"
