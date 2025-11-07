@@ -6,12 +6,10 @@
   },
   "attributes": {
     "value": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "label": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "dataUid": {
       "type": "string"
