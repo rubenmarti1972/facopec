@@ -6,15 +6,13 @@
   },
   "attributes": {
     "label": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "description": {
       "type": "string"
     },
     "url": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "icon": {
       "type": "string"
