@@ -214,6 +214,20 @@ export interface HomeActivityCard extends Struct.ComponentSchema {
   };
 }
 
+export interface GlobalValueItem extends Struct.ComponentSchema {
+  collectionName: 'components_global_value_items';
+  info: {
+    displayName: 'Elemento de valor';
+    icon: 'star';
+  };
+  attributes: {
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    description: Schema.Attribute.Text;
+    icon: Schema.Attribute.String;
+    dataUid: Schema.Attribute.String;
+  };
+}
+
 export interface GlobalSocialLink extends Struct.ComponentSchema {
   collectionName: 'components_global_social_links';
   info: {
@@ -250,6 +264,40 @@ export interface GlobalNavigationLink extends Struct.ComponentSchema {
     url: Schema.Attribute.String & Schema.Attribute.Required;
     icon: Schema.Attribute.String;
     order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+  };
+}
+
+export interface GlobalHours extends Struct.ComponentSchema {
+  collectionName: 'components_global_hours';
+  info: {
+    displayName: 'Horario de atenci\u00F3n';
+    icon: 'clock';
+  };
+  attributes: {
+    monday: Schema.Attribute.String;
+    tuesday: Schema.Attribute.String;
+    wednesday: Schema.Attribute.String;
+    thursday: Schema.Attribute.String;
+    friday: Schema.Attribute.String;
+    saturday: Schema.Attribute.String;
+    sunday: Schema.Attribute.String;
+  };
+}
+
+export interface GlobalAddress extends Struct.ComponentSchema {
+  collectionName: 'components_global_addresses';
+  info: {
+    displayName: 'Direcci\u00F3n';
+    icon: 'map';
+  };
+  attributes: {
+    street: Schema.Attribute.String;
+    city: Schema.Attribute.String;
+    state: Schema.Attribute.String;
+    postalCode: Schema.Attribute.String;
+    country: Schema.Attribute.String;
+    latitude: Schema.Attribute.Decimal;
+    longitude: Schema.Attribute.Decimal;
   };
 }
 
@@ -365,8 +413,11 @@ declare module '@strapi/strapi' {
       'home.identity': HomeIdentity;
       'home.hero': HomeHero;
       'home.activity-card': HomeActivityCard;
+      'global.value-item': GlobalValueItem;
       'global.social-link': GlobalSocialLink;
       'global.navigation-link': GlobalNavigationLink;
+      'global.hours': GlobalHours;
+      'global.address': GlobalAddress;
       'donations.support-action': DonationsSupportAction;
       'donations.payment-gateway': DonationsPaymentGateway;
       'donations.donation-story': DonationsDonationStory;

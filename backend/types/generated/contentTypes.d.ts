@@ -561,13 +561,13 @@ export interface ApiOrganizationInfoOrganizationInfo
     mission: Schema.Attribute.Text;
     vision: Schema.Attribute.Text;
     history: Schema.Attribute.RichText;
-    values: Schema.Attribute.JSON;
+    values: Schema.Attribute.Component<'global.value-item', true>;
     logo: Schema.Attribute.Media;
     banner: Schema.Attribute.Media;
     contactEmail: Schema.Attribute.String;
     contactPhone: Schema.Attribute.String;
-    address: Schema.Attribute.JSON;
-    hours: Schema.Attribute.JSON;
+    address: Schema.Attribute.Component<'global.address', false>;
+    hours: Schema.Attribute.Component<'global.hours', false>;
     socialLinks: Schema.Attribute.Component<'global.social-link', true>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
