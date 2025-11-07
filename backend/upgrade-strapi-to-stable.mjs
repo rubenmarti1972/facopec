@@ -13,6 +13,8 @@ async function pathExists(filePath) {
   }
 }
 
+const TARGET_STRAPI_VERSION = '^4.24.6';
+
 async function detectPackageManager() {
   const pnpmLock = path.join(cwd, 'pnpm-lock.yaml');
   if (await pathExists(pnpmLock)) {
@@ -54,8 +56,8 @@ function updateStrapiDependencies(section = {}) {
       if (versionStr.startsWith('file:') || versionStr.startsWith('link:') || versionStr.startsWith('workspace:')) {
         continue;
       }
-      if (versionStr !== '^5.2.2') {
-        section[depName] = '^5.2.2';
+      if (versionStr !== TARGET_STRAPI_VERSION) {
+        section[depName] = TARGET_STRAPI_VERSION;
         updated = true;
       }
     }
@@ -72,7 +74,7 @@ async function updatePackageJson() {
 
   if (depsChanged || devDepsChanged) {
     await fs.writeFile(packageJsonPath, `${JSON.stringify(pkg, null, 2)}\n`, 'utf8');
-    console.log('package.json actualizado con @strapi/* -> ^5.2.2');
+    console.log(`package.json actualizado con @strapi/* -> ${TARGET_STRAPI_VERSION}`);
     return true;
   }
 
@@ -206,8 +208,10 @@ async function main() {
   await runCommand(...managerInfo.buildCmd);
 
   const backupLine = backupName ? `.tmp/${backupName}` : '.tmp/data.backup.<timestamp>.db';
+  const developCommand = managerInfo.manager === 'npm' ? 'npm run develop' : `${managerInfo.manager} develop`;
+
   console.log('\nActualización lista ✅');
-  console.log('Ejecuta: npm run develop');
+  console.log(`Ejecuta: ${developCommand}`);
   console.log('Luego ve a: Settings → Content Manager → Permissions');
   console.log('Habilita Read + Update en home-page, organization-info, donations-page y sus componentes.');
   console.log(`Si algo sale mal: restaura ${backupLine} y haz git reset --hard.`);
