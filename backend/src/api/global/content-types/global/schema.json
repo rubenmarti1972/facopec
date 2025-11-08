@@ -21,7 +21,7 @@
     "navigation": {
       "type": "component",
       "repeatable": true,
-      "component": "global.navigation-link"
+      "component": "global.navigation-item"
     },
     "socialLinks": {
       "type": "component",

@@ -1,25 +1,26 @@
-/* const adminConfig = ({ env }: any) => ({
+import type { ConfigParams } from './utils/env';
+
+interface AdminConfig {
   auth: {
-    secret: env('ADMIN_JWT_SECRET', 'replace-me'),
-  },
+    secret: string;
+  };
   apiToken: {
-    salt: env('API_TOKEN_SALT', 'replace-me-api-token'),
-  },
+    salt: string;
+  };
   transfer: {
     token: {
-      salt: env('TRANSFER_TOKEN_SALT', 'replace-me-transfer-token'),
-    },
-  },
-  url: env('ADMIN_URL', '/admin'),
-});
+      salt: string;
+    };
+  };
+  url: string;
+  settings: {
+    contentManager: {
+      enablePermissions: boolean;
+    };
+  };
+}
 
-
-
-export default adminConfig;
- */
-
-// config/admin.ts
-const adminConfig = ({ env }: any) => ({
+const adminConfig = ({ env }: ConfigParams): AdminConfig => ({
   auth: {
     secret: env('ADMIN_JWT_SECRET', 'replace-me'),
   },
