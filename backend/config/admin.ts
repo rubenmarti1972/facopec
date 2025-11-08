@@ -1,6 +1,26 @@
-import type { Config } from '@strapi/types';
+type EnvFn = <T = string>(key: string, defaultValue?: T) => T;
 
-const adminConfig = ({ env }: Parameters<Config.Admin>[0]) => ({
+interface AdminConfig {
+  auth: {
+    secret: string;
+  };
+  apiToken: {
+    salt: string;
+  };
+  transfer: {
+    token: {
+      salt: string;
+    };
+  };
+  url: string;
+  settings: {
+    contentManager: {
+      enablePermissions: boolean;
+    };
+  };
+}
+
+const adminConfig = ({ env }: { env: EnvFn }): AdminConfig => ({
   auth: {
     secret: env('ADMIN_JWT_SECRET', 'replace-me'),
   },

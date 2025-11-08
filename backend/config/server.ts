@@ -1,6 +1,21 @@
-import type { Config } from '@strapi/types';
+type EnvFn = {
+  (key: string, defaultValue?: string): string;
+  int(key: string, defaultValue?: number): number;
+  bool(key: string, defaultValue?: boolean): boolean;
+  json<T = unknown>(key: string, defaultValue?: T): T;
+  array(key: string, defaultValue?: string[]): string[];
+};
 
-const serverConfig = ({ env }: Parameters<Config.Server>[0]) => ({
+interface ServerConfig {
+  host: string;
+  port: number;
+  url: string;
+  app: {
+    keys: string[];
+  };
+}
+
+const serverConfig = ({ env }: { env: EnvFn }): ServerConfig => ({
   host: env('HOST', '0.0.0.0'),
   port: env.int('PORT', 1337),
   url: env('PUBLIC_URL', 'http://localhost:1337'),
