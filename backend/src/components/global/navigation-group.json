@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_global_navigation_groups",
+  "info": {
+    "displayName": "Grupo de navegación",
+    "icon": "layer-group"
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "dataUid": {
+      "type": "string"
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "global.navigation-link"
+    }
+  }
+}

@@ -56,6 +56,10 @@ pnpm seed
 
 > ⚠️ Ejecuta `pnpm seed` únicamente en entornos de desarrollo o inicialización. Si ya existe un usuario con el correo configurado, el script no lo modificará.
 
+## Permisos públicos para el frontend Angular
+
+El script de siembra (`pnpm seed`) ahora también sincroniza el rol **public** del plugin `users-permissions` para exponer en modo lectura los contenidos de `global`, `home-page`, `donations-page`, `organization-info` y `project`, además de los ficheros servidos por el plugin **Upload**. Esto permite que el frontend en Angular consulte los endpoints REST publicados sin depender de un token administrativo. Si modificas los permisos manualmente desde el panel, vuelve a ejecutar `pnpm seed` para restablecer la configuración sugerida.
+
 ## Validaciones flexibles en el Content Manager
 
 Todos los componentes y tipos de contenido vienen ahora sin campos obligatorios. Esto te permite guardar los documentos aunque dejes títulos, enlaces o imágenes vacíos mientras decides la versión final del contenido.
@@ -72,6 +76,10 @@ Todos los componentes y tipos de contenido vienen ahora sin campos obligatorios.
 - `GET /api/organization-info?populate=deep` – Información institucional y redes sociales.
 
 Todas las rutas exponen datos listos para ser consumidos por el frontend Angular.
+
+## Navegación administrable
+
+La single type `global` incorpora ahora componentes anidados para construir la navegación principal (niveles, grupos e ítems secundarios) desde el CMS. Cada enlace admite `dataUid` para rastrear elementos desde el frontend y los seeds iniciales cargan la misma estructura usada en la SPA. Desde el editor puedes reordenar, ocultar o crear nuevas secciones sin tocar código.
 
 ## Flujo recomendado de despliegue
 
