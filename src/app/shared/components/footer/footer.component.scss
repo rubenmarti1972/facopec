@@ -67,7 +67,7 @@ $dark: var(--color-dark, #10243b);
       transition: all 0.3s ease;
 
       &:hover {
-        color: lighten($primary, 10%);
+        color: color-mix(in srgb, $primary 85%, $white 15%);
         text-decoration: underline;
       }
     }
