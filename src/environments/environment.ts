@@ -6,7 +6,8 @@ export const environment = {
     url: 'http://localhost:1337',
     publicUrl: 'http://localhost:1337',
     apiToken: 'your-strapi-api-token',
-    previewToken: 'your-strapi-preview-token'
+    previewToken: 'your-strapi-preview-token',
+    cacheDurationMs: 0
   },
   paypal: {
     clientId: 'your-paypal-client-id-here',
