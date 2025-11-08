@@ -39,7 +39,11 @@ export class StrapiService {
   // Cache management
   private cacheMap = new Map<string, Observable<unknown>>();
   private cacheTimestamps = new Map<string, number>();
-  private readonly CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+  private readonly cacheDurationMs = Math.max(
+    0,
+    Number(environment.strapi?.cacheDurationMs ?? (environment.production ? 5 * 60 * 1000 : 0))
+  );
+  private readonly cacheEnabled = Number.isFinite(this.cacheDurationMs) && this.cacheDurationMs > 0;
   
   // Error handling
   public errors$ = new BehaviorSubject<StrapiError | null>(null);
@@ -469,18 +473,26 @@ export class StrapiService {
     const cachedData = this.cacheMap.get(cacheKey);
     const cacheTime = this.cacheTimestamps.get(cacheKey) || 0;
 
-    if (cachedData && (now - cacheTime) < this.CACHE_DURATION) {
+    if (this.cacheEnabled && cachedData && now - cacheTime < this.cacheDurationMs) {
       return cachedData as Observable<T>;
     }
 
     const data$ = dataFn().pipe(
       tap(() => {
-        this.cacheTimestamps.set(cacheKey, now);
+        if (this.cacheEnabled) {
+          this.cacheTimestamps.set(cacheKey, Date.now());
+        }
       }),
       shareReplay(1)
     );
 
-    this.cacheMap.set(cacheKey, data$);
+    if (this.cacheEnabled) {
+      this.cacheMap.set(cacheKey, data$);
+    } else {
+      this.cacheMap.delete(cacheKey);
+      this.cacheTimestamps.delete(cacheKey);
+    }
+
     return data$;
   }
 

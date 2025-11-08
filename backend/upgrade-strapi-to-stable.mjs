@@ -13,7 +13,7 @@ async function pathExists(filePath) {
   }
 }
 
-const TARGET_STRAPI_VERSION = '4.24.6';
+const TARGET_STRAPI_VERSION = '5.0.0';
 
 async function detectPackageManager() {
   const pnpmLock = path.join(cwd, 'pnpm-lock.yaml');
