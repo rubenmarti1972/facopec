@@ -33,9 +33,8 @@ const adminConfig = ({ env }: ConfigParams): AdminConfig => ({
     },
   },
   url: env('ADMIN_URL', '/admin'),
-
-  // 👇 HABILITA el menú Settings → Content Manager → Permissions
   settings: {
+    // 👇 HABILITA el menú Settings → Content Manager → Permissions
     contentManager: {
       enablePermissions: true,
     },

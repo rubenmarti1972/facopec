@@ -14,16 +14,6 @@ async function pathExists(filePath) {
 }
 
 const TARGET_STRAPI_VERSION = '5.0.0';
-const STRAPI_PACKAGES = [
-  '@strapi/plugin-email',
-  '@strapi/plugin-graphql',
-  '@strapi/plugin-i18n',
-  '@strapi/plugin-upload',
-  '@strapi/plugin-users-permissions',
-  '@strapi/strapi',
-  '@strapi/types',
-  '@strapi/typescript-utils',
-];
 
 async function detectPackageManager() {
   const pnpmLock = path.join(cwd, 'pnpm-lock.yaml');

@@ -1,6 +1,6 @@
-# FACOPEC CMS (Strapi v5.0.x)
+# FACOPEC CMS (Strapi v5.0.0)
 
-Proyecto Strapi 5.0.x (versión estable) que sirve como backend CMS para el sitio de la Fundación Afrocolombiana Profe en Casa.
+Proyecto Strapi 5.0.0 (versión estable) que sirve como backend CMS para el sitio de la Fundación Afrocolombiana Profe en Casa.
 
 ## Requisitos
 
@@ -36,11 +36,11 @@ Por defecto el proyecto arranca con SQLite, por lo que no necesitas ningún serv
 
 ## Actualización a Strapi 5.0.0 estable
 
-Todas las dependencias `@strapi/*` y las bibliotecas de soporte (React, base de datos, ESLint, etc.) están fijadas explícitamente a versiones estables compatibles con Strapi 5.0.0 para salir definitivamente de cualquier versión beta previa. Después de hacer pull de estos cambios:
+Todas las dependencias `@strapi/*` están fijadas explícitamente a la versión estable `5.0.0` para salir definitivamente de la serie beta. Después de hacer pull de estos cambios:
 
 1. Elimina cualquier instalación previa (`rm -rf node_modules .cache build`) y ejecuta `pnpm install` para descargar la versión estable.
 2. Corre `pnpm build` para reconstruir el panel de administración. En la cabecera del CMS debe mostrarse `Strapi v5.0.0` sin la etiqueta **beta**.
-3. Si prefieres automatizar el proceso, puedes usar `pnpm upgrade:stable` (o `node upgrade-strapi-to-stable.mjs`), que ahora borra `node_modules`, recrea el lockfile con la versión estable, crea un respaldo de la base SQLite y vuelve a activar los permisos del Content Manager. Al finalizar el script mostrará la versión de Strapi instalada para que confirmes que estás en la rama estable.
+3. Si prefieres automatizar el proceso, puedes usar `node upgrade-strapi-to-stable.mjs`, que ahora borra `node_modules`, crea un respaldo de la base SQLite y vuelve a activar los permisos del Content Manager. Al finalizar el script mostrará la versión de Strapi instalada para que confirmes que estás en la rama estable.
 
 ## Superusuario preconfigurado
 
