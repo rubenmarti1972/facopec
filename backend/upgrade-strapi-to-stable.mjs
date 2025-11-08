@@ -82,6 +82,66 @@ async function updatePackageJson() {
   return false;
 }
 
+async function syncPnpmLockfile() {
+  const lockfilePath = path.join(cwd, 'pnpm-lock.yaml');
+  if (!(await pathExists(lockfilePath))) {
+    console.warn('No se encontró pnpm-lock.yaml para sincronizar.');
+    return false;
+  }
+
+  const raw = await fs.readFile(lockfilePath, 'utf8');
+  const lines = raw.split('\n');
+  let currentPackage = null;
+  let changed = false;
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index];
+    const packageMatch = line.match(/^\s+['\"]([^'\"]+)['\"]:\s*$/);
+    if (packageMatch) {
+      const packageName = packageMatch[1];
+      currentPackage = STRAPI_PACKAGES.includes(packageName) ? packageName : null;
+      continue;
+    }
+
+    if (!currentPackage) {
+      continue;
+    }
+
+    if (/specifier:\s*file:/.test(line) || /version:\s*file:/.test(line)) {
+      // Proveedores locales no dependen de la versión objetivo
+      currentPackage = null;
+      continue;
+    }
+
+    if (line.includes('specifier:')) {
+      if (!line.includes(TARGET_STRAPI_VERSION)) {
+        const indent = line.match(/^\s*/)?.[0] ?? '';
+        lines[index] = `${indent}specifier: ${TARGET_STRAPI_VERSION}`;
+        changed = true;
+      }
+      continue;
+    }
+
+    if (line.includes('version:')) {
+      if (!line.includes(TARGET_STRAPI_VERSION)) {
+        const indent = line.match(/^\s*/)?.[0] ?? '';
+        lines[index] = `${indent}version: ${TARGET_STRAPI_VERSION}`;
+        changed = true;
+      }
+      currentPackage = null;
+    }
+  }
+
+  if (!changed) {
+    console.log('pnpm-lock.yaml ya usa @strapi/* = 5.0.0');
+    return false;
+  }
+
+  await fs.writeFile(lockfilePath, `${lines.join('\n')}\n`, 'utf8');
+  console.log(`pnpm-lock.yaml sincronizado con @strapi/* -> ${TARGET_STRAPI_VERSION}`);
+  return true;
+}
+
 function findBlock(content, keyword) {
   const index = content.indexOf(keyword);
   if (index === -1) {
@@ -214,6 +274,7 @@ async function main() {
   const backupName = await backupDatabase();
 
   await updatePackageJson();
+  await syncPnpmLockfile();
   await ensureAdminSettings();
   await removeDirectories();
 

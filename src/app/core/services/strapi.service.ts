@@ -35,7 +35,14 @@ export class StrapiService {
   private readonly publicUrl = environment.strapi?.publicUrl ?? this.apiUrl;
   private readonly apiKey = environment.strapi?.apiToken ?? '';
   private readonly previewToken = environment.strapi?.previewToken ?? '';
-  
+  private readonly cacheDurationMs = Math.max(
+    0,
+    Number(
+      environment.strapi?.cacheDurationMs ?? (environment.production ? 5 * 60 * 1000 : 0)
+    )
+  );
+  private readonly cacheEnabled = Number.isFinite(this.cacheDurationMs) && this.cacheDurationMs > 0;
+
   // Cache management
   private cacheMap = new Map<string, Observable<unknown>>();
   private cacheTimestamps = new Map<string, number>();
@@ -469,6 +476,10 @@ export class StrapiService {
     cacheKey: string,
     dataFn: () => Observable<T>
   ): Observable<T> {
+    if (!this.cacheEnabled) {
+      return dataFn();
+    }
+
     const now = Date.now();
     const cachedData = this.cacheMap.get(cacheKey);
     const cacheTime = this.cacheTimestamps.get(cacheKey) || 0;

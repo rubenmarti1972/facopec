@@ -1,6 +1,7 @@
 import type { UID } from '@strapi/types';
 import type { Strapi } from '@strapi/types/dist/core';
 import grantSuperAdminAll from '../../config/utils/grant-super-admin-all';
+import syncPublicPermissions from '../../config/utils/sync-public-permissions';
 import path from 'path';
 import fs from 'fs/promises';
 
@@ -137,6 +138,7 @@ export async function seedDefaultContent(strapi: Strapi) {
     .findOne({ where: { code: 'strapi-super-admin' } });
 
   await grantSuperAdminAll(strapi);
+  await syncPublicPermissions(strapi);
   if (!superAdminRole) {
     strapi.log.warn(
       'No se encontró el rol de super administrador; omitiendo la creación automática del usuario facopec.'
@@ -212,22 +214,145 @@ export async function seedDefaultContent(strapi: Strapi) {
   }
 
   await upsertSingleType(strapi, 'api::global.global', {
-    siteName: 'Fundación Afrocolombiana Profe en Casa',
-    appUrl: 'https://facopec.web.app',
+    siteName: 'Fundación Afrocolombiana | Profe en Casa',
+    appUrl: 'https://www.fundacionafro.org',
     logo: foundationLogo?.id,
     navigation: [
-      { label: 'Inicio', description: 'Página principal', url: '/inicio', order: 1 },
-      { label: 'Proyectos', description: 'Nuestros proyectos', url: '/proyectos', order: 2 },
-      { label: 'Donaciones', description: 'Apoya nuestra misión', url: '/donaciones', order: 3 },
-      { label: 'Apadrina', description: 'Programa de apadrinamiento', url: '/apadrina', order: 4 },
-      { label: 'Ruta Literaria', description: 'Ruta literaria María', url: '/ruta-literaria-maria', order: 5 },
-      { label: 'Nosotros', description: 'Conoce la fundación', url: '/nosotros', order: 6 },
+      {
+        label: 'Inicio',
+        description: 'Página principal',
+        url: '/inicio',
+        order: 1,
+        exact: true,
+        dataUid: 'navigation.home',
+      },
+      {
+        label: 'Programas',
+        description: 'Programas y actividades destacadas',
+        url: '/inicio',
+        fragment: 'programas',
+        order: 2,
+        dataUid: 'navigation.programs',
+        children: [
+          {
+            title: 'Para estudiantes',
+            dataUid: 'navigation.programs.students',
+            items: [
+              {
+                label: 'Talleres de Nivelación',
+                url: 'https://talleresdenivelacion.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.students.talleres',
+              },
+              {
+                label: 'Salidas Pedagógicas',
+                url: 'https://salidaspedagogicas-facopec.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.students.salidas',
+              },
+              {
+                label: 'Personeros y Líderes',
+                url: 'https://personerosestudiantilesylideres.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.students.personeros',
+              },
+              {
+                label: 'Obra María | Jorge Isaacs',
+                url: 'https://rutaliterariamaria.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.students.obraMaria',
+              },
+            ],
+          },
+          {
+            title: 'Para fin de año 2025',
+            dataUid: 'navigation.programs.yearEnd',
+            items: [
+              {
+                label: 'Regalos de corazón',
+                url: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/2025/08/regalos-de-corazon-fundacion.html',
+                target: '_blank',
+                dataUid: 'navigation.programs.yearEnd.regalos',
+              },
+            ],
+          },
+          {
+            title: 'Para adultos',
+            dataUid: 'navigation.programs.adults',
+            items: [
+              {
+                label: 'Escuela de Padres | Virtual',
+                url: 'https://consejosparapadresymadres.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.adults.parents',
+              },
+              {
+                label: 'Empleabilidad',
+                url: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Empleabilidad',
+                target: '_blank',
+                dataUid: 'navigation.programs.adults.jobs',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        label: 'Proyectos',
+        description: 'Nuestros proyectos activos',
+        url: '/proyectos',
+        order: 3,
+        dataUid: 'navigation.projects',
+      },
+      {
+        label: 'Donaciones',
+        description: 'Apoya nuestra misión',
+        url: '/donaciones',
+        order: 4,
+        dataUid: 'navigation.donations',
+      },
+      {
+        label: 'Apadrina',
+        description: 'Programa de apadrinamiento',
+        url: '/apadrina',
+        order: 5,
+        dataUid: 'navigation.sponsor',
+      },
+      {
+        label: 'Ruta literaria',
+        description: 'Ruta Literaria María',
+        url: '/ruta-literaria-maria',
+        order: 6,
+        dataUid: 'navigation.literaryRoute',
+      },
+      {
+        label: 'Nosotros',
+        description: 'Conoce la fundación',
+        url: '/nosotros',
+        order: 7,
+        dataUid: 'navigation.about',
+      },
     ],
     socialLinks: [
-      { platform: 'facebook', url: 'https://www.facebook.com/FundacionAfrocolombianaProfeEnCasa' },
-      { platform: 'instagram', url: 'https://www.instagram.com/fundacion_profeencasa' },
-      { platform: 'youtube', url: 'https://www.youtube.com/@fundacionprofeencasa' },
-      { platform: 'whatsapp', url: 'https://wa.me/573215230283' },
+      {
+        platform: 'facebook',
+        url: 'https://www.facebook.com/FundacionAfrocolombianaProfeEnCasa',
+        dataUid: 'social.facebook',
+      },
+      {
+        platform: 'instagram',
+        url: 'https://www.instagram.com/fundacion_profeencasa',
+        dataUid: 'social.instagram',
+      },
+      {
+        platform: 'youtube',
+        url: 'https://www.youtube.com/@fundacionprofeencasa',
+        dataUid: 'social.youtube',
+      },
+      {
+        platform: 'whatsapp',
+        url: 'https://wa.me/573215230283',
+        dataUid: 'social.whatsapp',
+      },
     ],
   });
 
@@ -277,8 +402,26 @@ export async function seedDefaultContent(strapi: Strapi) {
       friday: '8:00 - 17:00',
     },
     socialLinks: [
-      { platform: 'facebook', url: 'https://www.facebook.com/FundacionAfrocolombianaProfeEnCasa' },
-      { platform: 'instagram', url: 'https://www.instagram.com/fundacion_profeencasa' },
+      {
+        platform: 'facebook',
+        url: 'https://www.facebook.com/FundacionAfrocolombianaProfeEnCasa',
+        dataUid: 'organization.social.facebook',
+      },
+      {
+        platform: 'instagram',
+        url: 'https://www.instagram.com/fundacion_profeencasa',
+        dataUid: 'organization.social.instagram',
+      },
+      {
+        platform: 'youtube',
+        url: 'https://www.youtube.com/@fundacionprofeencasa',
+        dataUid: 'organization.social.youtube',
+      },
+      {
+        platform: 'whatsapp',
+        url: 'https://wa.me/573215230283',
+        dataUid: 'organization.social.whatsapp',
+      },
     ],
   });
 

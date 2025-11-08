@@ -422,13 +422,37 @@ export interface MediaAsset {
   formats?: Record<string, unknown>;
 }
 
-export interface NavigationLink {
+export interface NavigationChildLink {
   id?: number;
   label: string;
-  url: string;
+  url?: string;
+  fragment?: string;
   description?: string;
   icon?: string;
   order?: number;
+  target?: '_self' | '_blank';
+  dataUid?: string;
+}
+
+export interface NavigationGroup {
+  id?: number;
+  title?: string;
+  dataUid?: string;
+  items?: NavigationChildLink[];
+}
+
+export interface NavigationEntry {
+  id?: number;
+  label: string;
+  url?: string;
+  description?: string;
+  icon?: string;
+  order?: number;
+  exact?: boolean;
+  fragment?: string;
+  target?: '_self' | '_blank';
+  dataUid?: string;
+  children?: NavigationGroup[];
 }
 
 export interface SocialLink {
@@ -436,6 +460,7 @@ export interface SocialLink {
   platform: string;
   url: string;
   label?: string;
+  dataUid?: string;
 }
 
 export interface HeroActionContent {
@@ -637,7 +662,7 @@ export interface GlobalSettings {
   siteName?: string;
   appUrl?: string;
   logo?: MediaAsset;
-  navigation?: NavigationLink[];
+  navigation?: NavigationEntry[];
   socialLinks?: SocialLink[];
 }
 
