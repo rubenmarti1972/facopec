@@ -40,6 +40,6 @@ const adminConfig = ({ env }: { env: EnvFn }): AdminConfig => ({
       enablePermissions: true,
     },
   },
-});
+}) satisfies Config.Admin;
 
 export default adminConfig;
