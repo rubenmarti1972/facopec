@@ -1,7 +1,7 @@
 import 'ts-node/register/transpile-only';
 import path from 'node:path';
 import fs from 'node:fs/promises';
-import createStrapi from '@strapi/strapi';
+import { createStrapi } from '@strapi/strapi';
 import tsUtils from '@strapi/typescript-utils';
 import { seedDefaultContent } from './seed-content';
 

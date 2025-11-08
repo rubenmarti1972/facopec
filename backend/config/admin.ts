@@ -1,6 +1,6 @@
-import type { Config } from '@strapi/types/dist/core';
+import type { Config } from '@strapi/types';
 
-const adminConfig: Config.Admin = ({ env }) => ({
+const adminConfig = ({ env }: Parameters<Config.Admin>[0]) => ({
   auth: {
     secret: env('ADMIN_JWT_SECRET', 'replace-me'),
   },
@@ -20,6 +20,6 @@ const adminConfig: Config.Admin = ({ env }) => ({
       enablePermissions: true,
     },
   },
-});
+}) satisfies Config.Admin;
 
 export default adminConfig;
