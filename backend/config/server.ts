@@ -1,5 +1,15 @@
-// backend/config/server.ts
-const serverConfig = ({ env }: any) => ({
+import type { ConfigParams } from './utils/env';
+
+interface ServerConfig {
+  host: string;
+  port: number;
+  url: string;
+  app: {
+    keys: string[];
+  };
+}
+
+const serverConfig = ({ env }: ConfigParams): ServerConfig => ({
   host: env('HOST', '0.0.0.0'),
   port: env.int('PORT', 1337),
   url: env('PUBLIC_URL', 'http://localhost:1337'),

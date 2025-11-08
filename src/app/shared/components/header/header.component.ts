@@ -1,71 +1,200 @@
 /**
  * Header and Navigation Component
- * Displays main navigation tabs and branding
+ * Consumes Strapi global settings to build the public navigation
  */
 
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BRAND_COLORS } from '@core/design-system/brand-colors';
 import { StrapiService } from '@core/services/strapi.service';
-import { GlobalSettings } from '@core/models';
+import { GlobalSettings, NavigationEntry, NavigationGroup, NavigationChildLink } from '@core/models';
 
-interface NavigationItem {
+interface NavigationChildView {
+  label: string;
+  routerLink?: string;
+  href?: string;
+  fragment?: string;
+  target?: '_self' | '_blank';
+  dataStrapiUid?: string;
+}
+
+interface NavigationGroupView {
+  title?: string;
+  dataStrapiUid?: string;
+  items: NavigationChildView[];
+}
+
+interface NavigationItemView {
   id: string;
   label: string;
-  route: string;
+  routerLink?: string;
+  href?: string;
+  fragment?: string;
+  target?: '_self' | '_blank';
+  exact?: boolean;
   icon?: string;
-  description: string;
+  description?: string;
+  dataStrapiUid?: string;
+  children?: NavigationGroupView[];
+}
+
+interface PrimaryCtaLink {
+  label: string;
+  routerLink?: string;
+  href?: string;
+  target?: '_self' | '_blank';
+  dataStrapiUid: string;
 }
 
 @Component({
   selector: 'app-header',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
-  // Si este componente fuera standalone, agrega:
-  // standalone: true,
-  // imports: [CommonModule, RouterModule],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   brandColors = BRAND_COLORS;
   private readonly strapiService = inject(StrapiService);
 
-  /** Estado del menú móvil */
-  private _mobileMenuOpen = false;
-  /** Ruta actual (para lógica adicional si la necesitas) */
-  currentRoute = '';
-
-  loading = true;
-  error: string | null = null;
-
-  /** Si en algún lugar usas este arreglo, lo dejo; el HTML actual usa routerLink directo */
-  navigationItems: NavigationItem[] = [
-    { id: 'home',      label: 'INICIO',                 route: '/inicio',                 description: 'Página de inicio' },
-    { id: 'projects',  label: 'PROYECTOS',              route: '/proyectos',              description: 'Nuestros proyectos' },
-    { id: 'donations', label: 'DONACIONES',             route: '/donaciones',             description: 'Apoya nuestra misión' },
-    { id: 'sponsor',   label: 'APADRINA',               route: '/apadrina',               description: 'Programa de apadrinamiento' },
-    { id: 'literary',  label: 'RUTA LITERARIA MARÍA',   route: '/ruta-literaria-maria',   description: 'Iniciativa literaria' },
-    { id: 'about',     label: 'NOSOTROS',               route: '/nosotros',               description: 'Información de la fundación' },
+  navigationItems: NavigationItemView[] = [
+    {
+      id: 'navigation.home',
+      label: 'Inicio',
+      routerLink: '/inicio',
+      exact: true,
+      dataStrapiUid: 'navigation.home'
+    },
+    {
+      id: 'navigation.programs',
+      label: 'Programas',
+      routerLink: '/inicio',
+      fragment: 'programas',
+      dataStrapiUid: 'navigation.programs',
+      children: [
+        {
+          title: 'Para estudiantes',
+          dataStrapiUid: 'navigation.programs.students',
+          items: [
+            {
+              label: 'Talleres de Nivelación',
+              href: 'https://talleresdenivelacion.blogspot.com/',
+              target: '_blank',
+              dataStrapiUid: 'navigation.programs.students.talleres'
+            },
+            {
+              label: 'Salidas Pedagógicas',
+              href: 'https://salidaspedagogicas-facopec.blogspot.com/',
+              target: '_blank',
+              dataStrapiUid: 'navigation.programs.students.salidas'
+            },
+            {
+              label: 'Personeros y Líderes',
+              href: 'https://personerosestudiantilesylideres.blogspot.com/',
+              target: '_blank',
+              dataStrapiUid: 'navigation.programs.students.personeros'
+            },
+            {
+              label: 'Obra María | Jorge Isaacs',
+              href: 'https://rutaliterariamaria.blogspot.com/',
+              target: '_blank',
+              dataStrapiUid: 'navigation.programs.students.obraMaria'
+            }
+          ]
+        },
+        {
+          title: 'Para fin de año 2025',
+          dataStrapiUid: 'navigation.programs.yearEnd',
+          items: [
+            {
+              label: 'Regalos de corazón',
+              href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/2025/08/regalos-de-corazon-fundacion.html',
+              target: '_blank',
+              dataStrapiUid: 'navigation.programs.yearEnd.regalos'
+            }
+          ]
+        },
+        {
+          title: 'Para adultos',
+          dataStrapiUid: 'navigation.programs.adults',
+          items: [
+            {
+              label: 'Escuela de Padres | Virtual',
+              href: 'https://consejosparapadresymadres.blogspot.com/',
+              target: '_blank',
+              dataStrapiUid: 'navigation.programs.adults.parents'
+            },
+            {
+              label: 'Empleabilidad',
+              href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Empleabilidad',
+              target: '_blank',
+              dataStrapiUid: 'navigation.programs.adults.jobs'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'navigation.projects',
+      label: 'Proyectos',
+      routerLink: '/proyectos',
+      dataStrapiUid: 'navigation.projects'
+    },
+    {
+      id: 'navigation.donations',
+      label: 'Donaciones',
+      routerLink: '/donaciones',
+      dataStrapiUid: 'navigation.donations'
+    },
+    {
+      id: 'navigation.sponsor',
+      label: 'Apadrina',
+      routerLink: '/apadrina',
+      dataStrapiUid: 'navigation.sponsor'
+    },
+    {
+      id: 'navigation.literaryRoute',
+      label: 'Ruta literaria',
+      routerLink: '/ruta-literaria-maria',
+      dataStrapiUid: 'navigation.literaryRoute'
+    },
+    {
+      id: 'navigation.about',
+      label: 'Nosotros',
+      routerLink: '/nosotros',
+      dataStrapiUid: 'navigation.about'
+    }
   ];
+
+  cta: PrimaryCtaLink = {
+    label: 'Donar',
+    routerLink: '/donaciones',
+    dataStrapiUid: 'navigation.donate'
+  };
 
   logoUrl = 'assets/logo.png';
   logoAlt = 'Logo FACOPEC';
   siteNamePrimary = 'Fundación Afrocolombiana';
   siteNameSecondary = 'Profe en Casa';
 
+  loading = true;
+  error: string | null = null;
+  mobileMenuOpen = false;
+  private dropdownIndex: number | null = null;
+  currentRoute = '';
+
   private sub?: Subscription;
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    // Captura la ruta inicial
     this.currentRoute = this.router.url;
-
-    // Actualiza currentRoute en cada navegación (útil si usas isActive personalizado)
-    this.sub = this.router.events.subscribe((e) => {
-      if (e instanceof NavigationEnd) {
-        this.currentRoute = e.urlAfterRedirects || e.url;
-        this._mobileMenuOpen = false; // cierra menú al navegar
+    this.sub = this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.currentRoute = event.urlAfterRedirects || event.url;
+        this.closeMenu();
       }
     });
 
@@ -76,32 +205,68 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.sub?.unsubscribe();
   }
 
-  /** === Métodos que el HTML espera === */
-
-  /** Botón hamburguesa */
   toggleMenu(): void {
-    this._mobileMenuOpen = !this._mobileMenuOpen;
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+    if (!this.mobileMenuOpen) {
+      this.dropdownIndex = null;
+    }
   }
 
-  /** Cerrar menú móvil (al hacer click en una opción) */
   closeMenu(): void {
-    this._mobileMenuOpen = false;
+    this.mobileMenuOpen = false;
+    this.dropdownIndex = null;
   }
 
-  /** Usado en *ngIf="menuOpen()" */
   menuOpen(): boolean {
-    return this._mobileMenuOpen;
+    return this.mobileMenuOpen;
   }
 
-  /** Navegación programática si la necesitas desde TS */
-  navigate(route: string): void {
-    this.router.navigate([route]);
-    this.closeMenu();
+  toggleDropdown(index: number, event: Event): void {
+    event.preventDefault();
+    if (this.dropdownIndex === index) {
+      this.dropdownIndex = null;
+    } else {
+      this.dropdownIndex = index;
+    }
   }
 
-  /** Utilidad: check activo (si prefieres en vez de routerLinkActive) */
-  isActive(route: string): boolean {
-    return this.currentRoute === route || this.currentRoute.startsWith(route + '/');
+  openDropdown(index: number): void {
+    if (this.mobileMenuOpen) {
+      return;
+    }
+    this.dropdownIndex = index;
+  }
+
+  closeDropdown(index?: number): void {
+    if (this.mobileMenuOpen) {
+      return;
+    }
+    if (index === undefined || this.dropdownIndex === index) {
+      this.dropdownIndex = null;
+    }
+  }
+
+  isDropdownOpen(index: number): boolean {
+    return this.dropdownIndex === index;
+  }
+
+  isExternalHref(href?: string | null, target?: string | null): boolean {
+    if (!href) {
+      return target === '_blank';
+    }
+    return /^https?:\/\//i.test(href);
+  }
+
+  isActive(item: NavigationItemView): boolean {
+    if (item.routerLink) {
+      const normalizedRoute = item.routerLink.endsWith('/') ? item.routerLink.slice(0, -1) : item.routerLink;
+      const current = this.currentRoute.endsWith('/') ? this.currentRoute.slice(0, -1) : this.currentRoute;
+      if (item.exact) {
+        return current === normalizedRoute;
+      }
+      return current.startsWith(normalizedRoute);
+    }
+    return false;
   }
 
   private loadNavigation(): void {
@@ -117,30 +282,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private applyNavigation(settings: GlobalSettings): void {
     if (settings.navigation?.length) {
-      const mapped = settings.navigation
-        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-        .map((item, index) => ({
-          id: item.label?.toLowerCase().replace(/\s+/g, '-') || `nav-${index}`,
-          label: item.label,
-          route: item.url,
-          description: item.description ?? '',
-          icon: item.icon ?? '🔹'
-        }))
-        .filter(item => !!item.label && !!item.route);
-
+      const mapped = this.mapNavigation(settings.navigation);
       if (mapped.length) {
         this.navigationItems = mapped;
+
+        const donateEntry = mapped.find(item =>
+          ['navigation.donate', 'navigation.donations'].includes(item.dataStrapiUid ?? '')
+        );
+
+        if (donateEntry) {
+          this.cta = {
+            label: donateEntry.label,
+            routerLink: donateEntry.routerLink,
+            href: donateEntry.href,
+            target: donateEntry.target,
+            dataStrapiUid: donateEntry.dataStrapiUid ?? 'navigation.donate'
+          } satisfies PrimaryCtaLink;
+        }
       }
     }
 
     if (settings.siteName) {
-      const parts = settings.siteName.split('|').map(part => part.trim()).filter(Boolean);
-      if (parts.length >= 2) {
-        [this.siteNamePrimary, this.siteNameSecondary] = [parts[0], parts[1]];
-      } else {
-        this.siteNamePrimary = settings.siteName;
-        this.siteNameSecondary = '';
-      }
+      const [primary, secondary] = settings.siteName.split('|').map(part => part.trim()).filter(Boolean);
+      this.siteNamePrimary = primary ?? this.siteNamePrimary;
+      this.siteNameSecondary = secondary ?? '';
     }
 
     const mediaUrl = this.strapiService.buildMediaUrl(settings.logo);
@@ -152,7 +317,140 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.loading = false;
   }
 
-  isExternalLink(route: string): boolean {
-    return /^https?:\/\//i.test(route);
+  private mapNavigation(entries: NavigationEntry[]): NavigationItemView[] {
+    return entries
+      .slice()
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+      .map((entry, index) => {
+        const id = entry.dataUid ?? `nav-${index}`;
+        const link = this.normalizeLink(entry.url, entry.fragment, entry.target);
+        const children = this.mapGroups(entry.children);
+        return {
+          id,
+          label: entry.label ?? id,
+          routerLink: link.routerLink,
+          href: link.href,
+          fragment: link.fragment,
+          target: link.target,
+          exact: entry.exact ?? false,
+          icon: entry.icon ?? undefined,
+          description: entry.description ?? undefined,
+          dataStrapiUid: entry.dataUid ?? undefined,
+          children
+        } satisfies NavigationItemView;
+      })
+      .filter(item => !!item.label && (item.routerLink || item.href || item.children?.length));
+  }
+
+  private mapGroups(groups?: NavigationGroup[] | null): NavigationGroupView[] | undefined {
+    if (!groups?.length) {
+      return undefined;
+    }
+
+    const mapped = groups
+      .map(group => {
+        const items = this.mapChildLinks(group.items);
+        if (!items.length) {
+          return undefined;
+        }
+        const entry: NavigationGroupView = {
+          title: group.title ?? undefined,
+          dataStrapiUid: group.dataUid ?? undefined,
+          items
+        };
+        return entry;
+      })
+      .filter((group): group is NavigationGroupView => !!group);
+
+    return mapped.length ? mapped : undefined;
+  }
+
+  private mapChildLinks(items?: NavigationChildLink[] | null): NavigationChildView[] {
+    if (!items?.length) {
+      return [];
+    }
+
+    return items
+      .map(item => {
+        const link = this.normalizeLink(item.url, item.fragment, item.target);
+        return {
+          label: item.label,
+          routerLink: link.routerLink,
+          href: link.href,
+          fragment: link.fragment,
+          target: link.target,
+          dataStrapiUid: item.dataUid ?? undefined
+        } satisfies NavigationChildView;
+      })
+      .filter(child => !!child.label && (child.routerLink || child.href));
+  }
+
+  private coerceTarget(target?: string | null): '_self' | '_blank' | undefined {
+    if (target === '_blank' || target === '_self') {
+      return target;
+    }
+    return undefined;
+  }
+
+  private normalizeLink(
+    url?: string | null,
+    fragment?: string | null,
+    target?: string | null
+  ): { routerLink?: string; href?: string; fragment?: string; target?: '_self' | '_blank' } {
+    const normalizedTarget = this.coerceTarget(target);
+
+    if (!url) {
+      return normalizedTarget ? { target: normalizedTarget } : {};
+    }
+
+    const trimmed = url.trim();
+    const isAbsolute = /^https?:\/\//i.test(trimmed);
+    const hasHash = trimmed.includes('#');
+    const [pathPart, hashPart] = hasHash ? trimmed.split('#', 2) : [trimmed, undefined];
+    const resolvedFragment = fragment ?? hashPart ?? undefined;
+    const resolvedTarget = normalizedTarget ?? (isAbsolute ? '_blank' : undefined);
+
+    if (isAbsolute) {
+      return {
+        href: trimmed,
+        fragment: resolvedFragment,
+        target: resolvedTarget
+      };
+    }
+
+    if (trimmed.startsWith('/')) {
+      const result: { routerLink: string; fragment?: string; target?: '_self' | '_blank' } = {
+        routerLink: pathPart || '/'
+      };
+      if (resolvedFragment) {
+        result.fragment = resolvedFragment;
+      }
+      if (resolvedTarget) {
+        result.target = resolvedTarget;
+      }
+      return result;
+    }
+
+    if (trimmed.startsWith('#')) {
+      const result: { routerLink: string; fragment?: string; target?: '_self' | '_blank' } = {
+        routerLink: '/'
+      };
+      result.fragment = trimmed.slice(1);
+      if (resolvedTarget) {
+        result.target = resolvedTarget;
+      }
+      return result;
+    }
+
+    const result: { href: string; fragment?: string; target?: '_self' | '_blank' } = {
+      href: trimmed
+    };
+    if (resolvedFragment) {
+      result.fragment = resolvedFragment;
+    }
+    if (resolvedTarget) {
+      result.target = resolvedTarget;
+    }
+    return result;
   }
 }

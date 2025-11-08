@@ -1,22 +1,21 @@
-import { FooterComponent } from './shared/footer/footer.component';
-import { HeaderComponent } from './shared/header/header.component';
-import { RouterOutlet } from '@angular/router';
-import { CommonModule } from '@angular/common';
 /**
  * Root Application Component
  * Main layout container with navigation and routing
  */
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
+import { HeaderComponent } from '@shared/components/header/header.component';
+import { FooterComponent } from '@shared/components/footer/footer.component';
 import { Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 import { BRAND_COLORS } from '@core/design-system/brand-colors';
 
 @Component({
-  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
-  standalone: true,
   selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
