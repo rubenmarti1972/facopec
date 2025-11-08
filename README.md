@@ -13,7 +13,7 @@ Requisitos previos:
 pnpm install
 ```
 
-Para el backend Strapi estable (v4.24.6) ubicado en `backend/`:
+Para el backend Strapi estable (v5.0.0) ubicado en `backend/`:
 
 ```bash
 cd backend
@@ -78,7 +78,7 @@ Edita `src/environments/environment.ts`:
 
 ## Backend Strapi
 
-El proyecto incluye un CMS Strapi v4.24.6 (estable, sin etiquetas beta) en la carpeta `backend/` con modelos para la página de inicio, donaciones, navegación global y proyectos. El script de semillas (`pnpm seed`) crea el superusuario definido en las variables de entorno `SEED_ADMIN_USERNAME`, `SEED_ADMIN_EMAIL` y `SEED_ADMIN_PASSWORD` (por defecto `facopec / facopec@facopec.org / F4c0pec@2025`) y carga contenido base listo para ser editado desde el panel. Si necesitas reinstalar el CMS o comprobar la versión, ejecuta `node upgrade-strapi-to-stable.mjs` dentro de `backend/`; el script actualizará dependencias, limpiará `node_modules` y reportará la versión final instalada (debe indicar 4.24.6).
+El proyecto incluye un CMS Strapi v5.0.0 (estable, sin etiquetas beta) en la carpeta `backend/` con modelos para la página de inicio, donaciones, navegación global y proyectos. El script de semillas (`pnpm seed`) crea el superusuario definido en las variables de entorno `SEED_ADMIN_USERNAME`, `SEED_ADMIN_EMAIL` y `SEED_ADMIN_PASSWORD` (por defecto `facopec / facopec@facopec.org / F4c0pec@2025`) y carga contenido base listo para ser editado desde el panel. Si necesitas reinstalar el CMS o comprobar la versión, ejecuta `node upgrade-strapi-to-stable.mjs` dentro de `backend/`; el script actualizará dependencias, limpiará `node_modules` y reportará la versión final instalada (debe indicar 5.0.0).
 
 ---
 

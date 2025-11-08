@@ -13,7 +13,7 @@ async function pathExists(filePath) {
   }
 }
 
-const TARGET_STRAPI_VERSION = '4.24.6';
+const TARGET_STRAPI_VERSION = '5.0.0';
 const STRAPI_PACKAGES = [
   '@strapi/plugin-email',
   '@strapi/plugin-graphql',
@@ -143,7 +143,7 @@ async function syncPnpmLockfile() {
   }
 
   if (!changed) {
-    console.log('pnpm-lock.yaml ya usa @strapi/* = 4.24.6');
+    console.log('pnpm-lock.yaml ya usa @strapi/* = 5.0.0');
     return false;
   }
 

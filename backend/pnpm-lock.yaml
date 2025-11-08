@@ -9,29 +9,29 @@ importers:
   .:
     dependencies:
       '@strapi/plugin-email':
-        specifier: 4.24.6
-        version: 4.24.6
+        specifier: 5.0.0
+        version: 5.0.0
       '@strapi/plugin-graphql':
-        specifier: 4.24.6
-        version: 4.24.6
+        specifier: 5.0.0
+        version: 5.0.0
       '@strapi/plugin-i18n':
-        specifier: 4.24.6
-        version: 4.24.6
+        specifier: 5.0.0
+        version: 5.0.0
       '@strapi/plugin-upload':
-        specifier: 4.24.6
-        version: 4.24.6
+        specifier: 5.0.0
+        version: 5.0.0
       '@strapi/plugin-users-permissions':
-        specifier: 4.24.6
-        version: 4.24.6
+        specifier: 5.0.0
+        version: 5.0.0
       '@strapi/provider-email-smtp':
         specifier: file:./providers/@strapi/provider-email-smtp
         version: file:./providers/@strapi/provider-email-smtp
       '@strapi/strapi':
-        specifier: 4.24.6
-        version: 4.24.6
+        specifier: 5.0.0
+        version: 5.0.0
       '@strapi/types':
-        specifier: 4.24.6
-        version: 4.24.6
+        specifier: 5.0.0
+        version: 5.0.0
       better-sqlite3:
         specifier: 12.4.1
         version: 12.4.1
@@ -58,8 +58,8 @@ importers:
         version: 5.3.11
     devDependencies:
       '@strapi/typescript-utils':
-        specifier: 4.24.6
-        version: 4.24.6
+        specifier: 5.0.0
+        version: 5.0.0
       '@types/node':
         specifier: 20.14.11
         version: 20.14.11
