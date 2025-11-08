@@ -1,4 +1,4 @@
-type EnvFn = <T = string>(key: string, defaultValue?: T) => T;
+import type { ConfigParams } from './utils/env';
 
 interface AdminConfig {
   auth: {
@@ -20,7 +20,7 @@ interface AdminConfig {
   };
 }
 
-const adminConfig = ({ env }: { env: EnvFn }): AdminConfig => ({
+const adminConfig = ({ env }: ConfigParams): AdminConfig => ({
   auth: {
     secret: env('ADMIN_JWT_SECRET', 'replace-me'),
   },
