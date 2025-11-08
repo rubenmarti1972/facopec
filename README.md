@@ -28,6 +28,7 @@ pnpm develop
 - Configura un **API Token** desde *Settings → API Tokens* en Strapi y colócalo en `environment.ts` (`environment.strapi.apiToken`). El frontend lo usará automáticamente para consumir los single types y colecciones.
 - Después de cada `pnpm seed`, el rol público queda habilitado para leer `global`, `home-page`, `donations-page`, `organization-info`, `project` y los archivos del plugin Upload, por lo que los visitantes anónimos verán el contenido actualizado sin pasos adicionales.
 - La navegación principal del sitio (header) ahora se construye íntegramente desde la single type `global`. Puedes reordenar o crear enlaces, grupos y subgrupos desde el editor y los cambios aparecerán en el sitio inmediatamente tras publicar.
+- El frontend invalida el caché de Strapi automáticamente en desarrollo. En producción puedes ajustar la caducidad con la variable de entorno `STRAPI_CACHE_MS` (valor por defecto: 300000 ms ≈ 5 minutos) o sobrescribir `environment.strapi.cacheDurationMs`.
 
 ## Desarrollo
 
