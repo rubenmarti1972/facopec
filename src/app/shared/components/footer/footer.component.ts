@@ -4,6 +4,8 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { OrganizationInfo, SocialMediaLinks, MediaAsset } from '@core/models';
 import { StrapiService } from '@core/services/strapi.service';
 import { BRAND_COLORS } from '@core/design-system/brand-colors';
@@ -11,6 +13,8 @@ import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-footer',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss']
 })
