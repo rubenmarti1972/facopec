@@ -22,6 +22,6 @@ const serverConfig = ({ env }: { env: EnvFn }): ServerConfig => ({
   app: {
     keys: env.array('APP_KEYS', ['a', 'b', 'c', 'd']),
   },
-});
+}) satisfies Config.Server;
 
 export default serverConfig;
