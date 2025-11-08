@@ -1,10 +1,4 @@
-type EnvFn = {
-  (key: string, defaultValue?: string): string;
-  int(key: string, defaultValue?: number): number;
-  bool(key: string, defaultValue?: boolean): boolean;
-  json<T = unknown>(key: string, defaultValue?: T): T;
-  array(key: string, defaultValue?: string[]): string[];
-};
+import type { ConfigParams } from './utils/env';
 
 interface ServerConfig {
   host: string;
@@ -15,7 +9,7 @@ interface ServerConfig {
   };
 }
 
-const serverConfig = ({ env }: { env: EnvFn }): ServerConfig => ({
+const serverConfig = ({ env }: ConfigParams): ServerConfig => ({
   host: env('HOST', '0.0.0.0'),
   port: env.int('PORT', 1337),
   url: env('PUBLIC_URL', 'http://localhost:1337'),
