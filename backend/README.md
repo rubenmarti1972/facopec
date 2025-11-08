@@ -32,14 +32,15 @@ Por defecto el proyecto arranca con SQLite, por lo que no necesitas ningún serv
 - `pnpm start`: ejecuta Strapi en modo producción (requiere `pnpm build`).
 - `pnpm build`: compila el panel de administración.
 - `pnpm seed`: ejecuta el script de siembra inicial (`src/database/seed.ts`).
+- `pnpm upgrade:stable`: ejecuta `upgrade-strapi-to-stable.mjs` para reinstalar Strapi 4.24.6 desde cero.
 
 ## Actualización a Strapi 4.24.6 estable
 
-Todas las dependencias `@strapi/*` están fijadas explícitamente a la versión estable `4.24.6` para salir definitivamente de la versión beta 5.0.0. Después de hacer pull de estos cambios:
+Todas las dependencias `@strapi/*` y las bibliotecas de soporte (React, base de datos, ESLint, etc.) están fijadas explícitamente a versiones estables compatibles con Strapi 4.24.6 para salir definitivamente de la versión beta 5.0.0. Después de hacer pull de estos cambios:
 
 1. Elimina cualquier instalación previa (`rm -rf node_modules .cache build`) y ejecuta `pnpm install` para descargar la versión estable.
 2. Corre `pnpm build` para reconstruir el panel de administración. En la cabecera del CMS debe mostrarse `Strapi v4.24.6` sin la etiqueta **beta**.
-3. Si prefieres automatizar el proceso, puedes usar `node upgrade-strapi-to-stable.mjs`, que ahora borra `node_modules`, crea un respaldo de la base SQLite y vuelve a activar los permisos del Content Manager. Al finalizar el script mostrará la versión de Strapi instalada para que confirmes que estás en la rama estable.
+3. Si prefieres automatizar el proceso, puedes usar `pnpm upgrade:stable` (o `node upgrade-strapi-to-stable.mjs`), que ahora borra `node_modules`, recrea el lockfile con la versión estable, crea un respaldo de la base SQLite y vuelve a activar los permisos del Content Manager. Al finalizar el script mostrará la versión de Strapi instalada para que confirmes que estás en la rama estable.
 
 ## Superusuario preconfigurado
 
