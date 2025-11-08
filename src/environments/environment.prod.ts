@@ -15,7 +15,7 @@ export const environment = {
     publicUrl: process.env['STRAPI_PUBLIC_URL'] || process.env['STRAPI_URL'] || 'https://cms.fundacionafro.org',
     apiToken: process.env['STRAPI_API_KEY'] || '',
     previewToken: process.env['STRAPI_PREVIEW_TOKEN'] || '',
-    cacheDurationMs: Number(process.env['STRAPI_CACHE_MS'] || 300000)
+    cacheDurationMs: Number(process.env['STRAPI_CACHE_MS'] ?? 300000)
   },
   
   // PayPal Configuration

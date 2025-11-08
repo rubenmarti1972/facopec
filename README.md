@@ -80,6 +80,7 @@ src/
 
 Edita `src/environments/environment.ts`:
 - Strapi URL y API Key
+- Duración de caché opcional (`cacheDurationMs` en los environments o `STRAPI_CACHE_MS` en producción)
 - PayPal Client ID
 - URLs de redes sociales
 - Datos bancarios
