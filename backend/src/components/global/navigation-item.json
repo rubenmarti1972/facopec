@@ -1,8 +1,8 @@
 {
-  "collectionName": "components_global_navigation_links",
+  "collectionName": "components_global_navigation_items",
   "info": {
-    "displayName": "Enlace de navegación",
-    "icon": "link"
+    "displayName": "Elemento de navegación",
+    "icon": "bars"
   },
   "attributes": {
     "label": {
@@ -10,7 +10,7 @@
       "required": true
     },
     "description": {
-      "type": "string"
+      "type": "text"
     },
     "url": {
       "type": "string"
@@ -25,6 +25,10 @@
       "type": "integer",
       "default": 0
     },
+    "exact": {
+      "type": "boolean",
+      "default": false
+    },
     "target": {
       "type": "enumeration",
       "enum": ["_self", "_blank"],
@@ -32,6 +36,11 @@
     },
     "dataUid": {
       "type": "string"
+    },
+    "children": {
+      "type": "component",
+      "repeatable": true,
+      "component": "global.navigation-group"
     }
   }
 }
