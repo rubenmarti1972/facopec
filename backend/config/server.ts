@@ -1,5 +1,6 @@
-// backend/config/server.ts
-const serverConfig = ({ env }: any) => ({
+import type { Config } from '@strapi/types/dist/core';
+
+const serverConfig: Config.Server = ({ env }) => ({
   host: env('HOST', '0.0.0.0'),
   port: env.int('PORT', 1337),
   url: env('PUBLIC_URL', 'http://localhost:1337'),
