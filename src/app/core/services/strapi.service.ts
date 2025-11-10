@@ -349,7 +349,7 @@ export class StrapiService {
   private buildRequest<T>(
     endpoint: string,
     params?: Record<string, unknown>,
-    options?: { usePreviewToken?: boolean }
+    options?: { usePreviewToken?: boolean; skipCache?: boolean }
   ): Observable<T> {
     let httpParams = new HttpParams();
 
@@ -361,7 +361,15 @@ export class StrapiService {
       });
     }
 
-    const headers = this.getHeaders({ usePreviewToken: options?.usePreviewToken });
+    // Add cache busting parameter if skipCache is enabled
+    if (options?.skipCache) {
+      httpParams = httpParams.set('_t', Date.now().toString());
+    }
+
+    const headers = this.getHeaders({
+      usePreviewToken: options?.usePreviewToken,
+      skipCache: options?.skipCache
+    });
     const baseUrl = this.apiUrl || this.publicUrl || '';
     const requestUrl = baseUrl ? `${baseUrl}${endpoint}` : endpoint;
 
@@ -373,7 +381,8 @@ export class StrapiService {
           this.errors$.next(null);
         }),
         catchError(error => this.handleError(error)),
-        shareReplay(1)
+        // Only use shareReplay when caching is enabled
+        options?.skipCache ? tap() : shareReplay(1)
       );
   }
 
@@ -391,7 +400,7 @@ export class StrapiService {
     return builtFilters;
   }
 
-  private getHeaders(options?: { contentType?: string; usePreviewToken?: boolean }): Record<string, string> {
+  private getHeaders(options?: { contentType?: string; usePreviewToken?: boolean; skipCache?: boolean }): Record<string, string> {
     const headers: Record<string, string> = { Accept: 'application/json' };
     const token = options?.usePreviewToken ? this.previewToken : this.apiKey;
 
@@ -404,11 +413,28 @@ export class StrapiService {
       headers['Content-Type'] = contentType;
     }
 
+    // Add cache control headers to prevent browser caching when skipCache is true
+    if (options?.skipCache) {
+      headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
+      headers['Pragma'] = 'no-cache';
+      headers['Expires'] = '0';
+    }
+
     return headers;
   }
 
-  private fetchSingleType<T>(uid: string, populate: string | string[] = 'deep'): Observable<T> {
+  private fetchSingleType<T>(uid: string, populate: string | string[] = 'deep', skipCache = false): Observable<T> {
     const populateParam = this.buildPopulateParam(populate);
+
+    if (skipCache) {
+      // Force fresh data by skipping cache completely
+      return this.buildRequest<T>(
+        `/api/${uid}`,
+        populateParam ? { populate: populateParam } : undefined,
+        { skipCache: true }
+      );
+    }
+
     return this.getCachedData(
       `single-${uid}-${populateParam ?? 'none'}`,
       () =>
@@ -559,7 +585,7 @@ export class StrapiService {
    */
   public refreshGlobalSettings(): Observable<GlobalSettings> {
     this.clearCache('single-global-deep');
-    return this.getGlobalSettings();
+    return this.fetchSingleType<GlobalSettings>('global', 'deep', true);
   }
 
   /**
@@ -567,7 +593,7 @@ export class StrapiService {
    */
   public refreshHomePage(): Observable<HomePageContent> {
     this.clearCache('single-home-page-deep');
-    return this.getHomePage();
+    return this.fetchSingleType<HomePageContent>('home-page', 'deep', true);
   }
 
   /**
@@ -575,7 +601,7 @@ export class StrapiService {
    */
   public refreshDonationsPage(): Observable<DonationsPageContent> {
     this.clearCache('single-donations-page-deep');
-    return this.getDonationsPage();
+    return this.fetchSingleType<DonationsPageContent>('donations-page', 'deep', true);
   }
 
   /**
@@ -583,7 +609,11 @@ export class StrapiService {
    */
   public refreshOrganizationInfo(): Observable<OrganizationInfo> {
     this.clearCache('org-info');
-    return this.getOrganizationInfo();
+    return this.buildRequest<OrganizationInfo>(
+      '/api/organization-info',
+      { populate: 'deep' },
+      { skipCache: true }
+    );
   }
 
   /**
