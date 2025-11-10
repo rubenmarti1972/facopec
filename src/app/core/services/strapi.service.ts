@@ -554,6 +554,45 @@ export class StrapiService {
     }
   }
 
+  /**
+   * Force refresh of global settings by clearing cache and refetching
+   */
+  public refreshGlobalSettings(): Observable<GlobalSettings> {
+    this.clearCache('single-global-deep');
+    return this.getGlobalSettings();
+  }
+
+  /**
+   * Force refresh of home page content by clearing cache and refetching
+   */
+  public refreshHomePage(): Observable<HomePageContent> {
+    this.clearCache('single-home-page-deep');
+    return this.getHomePage();
+  }
+
+  /**
+   * Force refresh of donations page content by clearing cache and refetching
+   */
+  public refreshDonationsPage(): Observable<DonationsPageContent> {
+    this.clearCache('single-donations-page-deep');
+    return this.getDonationsPage();
+  }
+
+  /**
+   * Force refresh of organization info by clearing cache and refetching
+   */
+  public refreshOrganizationInfo(): Observable<OrganizationInfo> {
+    this.clearCache('org-info');
+    return this.getOrganizationInfo();
+  }
+
+  /**
+   * Force refresh all single types
+   */
+  public refreshAllContent(): void {
+    this.clearCache();
+  }
+
   public buildMediaUrl(media?: MediaAsset | null): string | null {
     if (!media || !media.url) {
       return null;

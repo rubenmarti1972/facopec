@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit, inject, signal, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -60,6 +60,7 @@ interface PaymentGateway {
 })
 export class DonateComponent implements OnInit {
   private readonly strapiService = inject(StrapiService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   loading = true;
   error: string | null = null;
@@ -209,6 +210,7 @@ export class DonateComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadContent();
+    this.setupAutoRefresh();
   }
 
   // Estado con señales
@@ -396,6 +398,40 @@ export class DonateComponent implements OnInit {
 
   private resolveMediaUrl(media?: MediaAsset | null): string | null {
     return this.strapiService.buildMediaUrl(media);
+  }
+
+  /**
+   * Setup auto-refresh when window regains focus
+   */
+  private setupAutoRefresh(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    let lastLoadTime = Date.now();
+
+    const handleVisibilityChange = (): void => {
+      if (document.visibilityState === 'visible') {
+        const timeSinceLastLoad = Date.now() - lastLoadTime;
+        const refreshThreshold = 60000; // 1 minute
+
+        if (timeSinceLastLoad > refreshThreshold) {
+          console.log('Auto-refreshing donations content after tab became visible');
+          this.strapiService.refreshDonationsPage().subscribe({
+            next: content => {
+              this.applyDonationsContent(content);
+              this.cdr.markForCheck();
+              lastLoadTime = Date.now();
+            },
+            error: error => {
+              console.error('Error refreshing donations content', error);
+            }
+          });
+        }
+      }
+    };
+
+    window.addEventListener('visibilitychange', handleVisibilityChange);
   }
 }
 

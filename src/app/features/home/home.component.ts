@@ -328,6 +328,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.loadContent();
     this.loadGlobalBranding();
+    this.setupAutoRefresh();
   }
 
   toggleIdentityCard(key: IdentityCardKey): void {
@@ -541,5 +542,52 @@ export class HomeComponent implements OnInit {
 
   private resolveMediaUrl(media?: MediaAsset | null): string | null {
     return this.strapiService.buildMediaUrl(media);
+  }
+
+  /**
+   * Setup auto-refresh when window regains focus
+   * This ensures content is updated when user returns to the page
+   */
+  private setupAutoRefresh(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    let lastLoadTime = Date.now();
+
+    const handleVisibilityChange = (): void => {
+      if (document.visibilityState === 'visible') {
+        const timeSinceLastLoad = Date.now() - lastLoadTime;
+        const refreshThreshold = 60000; // 1 minute
+
+        if (timeSinceLastLoad > refreshThreshold) {
+          console.log('Auto-refreshing content after tab became visible');
+          this.strapiService.refreshHomePage().subscribe({
+            next: content => {
+              this.applyHomeContent(content);
+              lastLoadTime = Date.now();
+            },
+            error: error => {
+              console.error('Error refreshing home page content', error);
+            }
+          });
+
+          this.strapiService.refreshGlobalSettings().subscribe({
+            next: (settings: GlobalSettings) => {
+              const logoUrl = this.strapiService.buildMediaUrl(settings.logo);
+              if (logoUrl) {
+                this.globalLogoUrl = logoUrl;
+                this.globalLogoAlt = settings.logo?.alternativeText ?? settings.logo?.caption ?? this.globalLogoAlt;
+              }
+            },
+            error: error => {
+              console.warn('Error refreshing global settings', error);
+            }
+          });
+        }
+      }
+    };
+
+    window.addEventListener('visibilitychange', handleVisibilityChange);
   }
 }
