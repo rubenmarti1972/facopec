@@ -2,13 +2,24 @@ import { factories } from '@strapi/strapi';
 
 export default factories.createCoreController('api::global.global', ({ strapi }) => ({
   async find(ctx) {
-    // Populate all fields including dynamic zones and components
-    ctx.query = {
-      ...ctx.query,
-      populate: 'deep',
-    };
+    // Populate all components and media
+    const entity = await strapi.entityService.findMany('api::global.global', {
+      populate: {
+        logo: true,
+        navigation: {
+          populate: {
+            links: true,
+            groups: {
+              populate: {
+                links: true,
+              },
+            },
+          },
+        },
+        socialLinks: true,
+      },
+    });
 
-    const { data, meta } = await super.find(ctx);
-    return { data, meta };
+    return { data: entity };
   },
 }));
