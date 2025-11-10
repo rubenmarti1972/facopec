@@ -558,7 +558,7 @@ export class HomeComponent implements OnInit {
     const handleVisibilityChange = (): void => {
       if (document.visibilityState === 'visible') {
         const timeSinceLastLoad = Date.now() - lastLoadTime;
-        const refreshThreshold = 60000; // 1 minute
+        const refreshThreshold = 10000; // 10 seconds (reduced for faster updates)
 
         if (timeSinceLastLoad > refreshThreshold) {
           console.log('Auto-refreshing content after tab became visible');

@@ -3,11 +3,12 @@
  * Main layout container with navigation and routing
  */
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '@shared/components/header/header.component';
 import { FooterComponent } from '@shared/components/footer/footer.component';
+import { StrapiService } from '@core/services/strapi.service';
 import { Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 import { BRAND_COLORS } from '@core/design-system/brand-colors';
@@ -21,6 +22,7 @@ import { BRAND_COLORS } from '@core/design-system/brand-colors';
 })
 export class AppComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
+  private readonly strapiService = inject(StrapiService);
   isLoading = false;
   currentRoute: string = '';
   brandColors = BRAND_COLORS;
@@ -68,5 +70,20 @@ export class AppComponent implements OnInit, OnDestroy {
     root.style.setProperty('--color-accent', this.brandColors.accent);
     root.style.setProperty('--color-accent-light', this.brandColors.accentLight);
     root.style.setProperty('--color-accent-dark', this.brandColors.accentDark);
+  }
+
+  /**
+   * Listen for Ctrl+Shift+R or Cmd+Shift+R to force refresh content
+   * This bypasses all caches (browser, Angular, RxJS)
+   */
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    // Ctrl+Shift+R (Windows/Linux) or Cmd+Shift+R (Mac)
+    if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'R') {
+      event.preventDefault();
+      console.log('🔄 Forcing content refresh (all caches cleared)...');
+      this.strapiService.refreshAllContent();
+      window.location.reload();
+    }
   }
 }
