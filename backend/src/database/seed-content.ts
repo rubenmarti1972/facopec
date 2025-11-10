@@ -133,17 +133,33 @@ export async function seedDefaultContent(strapi: Strapi) {
   const adminEmail = process.env.SEED_ADMIN_EMAIL || 'facopec@facopec.org';
   const adminPassword = process.env.SEED_ADMIN_PASSWORD || 'F4c0pec@2025';
 
-  const superAdminRole = await strapi.db
+  let superAdminRole = await strapi.db
     .query('admin::role')
     .findOne({ where: { code: 'strapi-super-admin' } });
 
+  if (!superAdminRole) {
+    try {
+      superAdminRole = await strapi.db.query('admin::role').create({
+        data: {
+          name: 'Super Admin',
+          code: 'strapi-super-admin',
+          description: 'Super Admins can access and manage all features.',
+        },
+      });
+
+      strapi.log.warn(
+        'No se encontró el rol de super administrador; se creó automáticamente el rol strapi-super-admin.'
+      );
+    } catch (error) {
+      strapi.log.error(
+        'No se pudo crear automáticamente el rol strapi-super-admin; omitiendo la creación automática del usuario facopec.',
+        error
+      );
+    }
+  }
+
   await grantSuperAdminAll(strapi);
   await syncPublicPermissions(strapi);
-  if (!superAdminRole) {
-    strapi.log.warn(
-      'No se encontró el rol de super administrador; omitiendo la creación automática del usuario facopec.'
-    );
-  }
 
   const existingAdmin = await strapi.db
     .query('admin::user')
