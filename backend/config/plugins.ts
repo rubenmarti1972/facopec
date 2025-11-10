@@ -24,29 +24,18 @@ const pluginsConfig = ({ env }: ConfigParams): PluginsConfig => ({
       },
     },
   },
-  email: {
-    enabled: true,
-    resolve: './providers/@strapi/provider-email-smtp',
-    config: {
-      provider: (() => {
-        const provider = env('EMAIL_PROVIDER', 'smtp');
-        return provider.toLowerCase() === 'nodemailer' ? 'smtp' : provider;
-      })(),
-      providerOptions: {
-        host: env('EMAIL_SMTP_HOST'),
-        port: env.int('EMAIL_SMTP_PORT', 465),
-        secure: env.bool('EMAIL_SMTP_SECURE', true),
-        auth: {
-          user: env('EMAIL_SMTP_USERNAME'),
-          pass: env('EMAIL_SMTP_PASSWORD'),
-        },
-      },
-      settings: {
-        defaultFrom: env('EMAIL_DEFAULT_FROM', 'no-reply@facopec.org'),
-        defaultReplyTo: env('EMAIL_DEFAULT_REPLY_TO', 'contacto@facopec.org'),
-      },
-    },
-  },
+  // Email plugin disabled for now - enable when SMTP is configured
+  // email: {
+  //   enabled: true,
+  //   config: {
+  //     provider: 'sendmail',
+  //     providerOptions: {},
+  //     settings: {
+  //       defaultFrom: env('EMAIL_DEFAULT_FROM', 'no-reply@facopec.org'),
+  //       defaultReplyTo: env('EMAIL_DEFAULT_REPLY_TO', 'contacto@facopec.org'),
+  //     },
+  //   },
+  // },
 });
 
 export default pluginsConfig;
