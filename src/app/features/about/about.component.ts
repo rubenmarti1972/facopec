@@ -69,6 +69,7 @@ export class AboutComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadContent();
+    this.setupAutoRefresh();
   }
 
   toggleIdentityCard(key: IdentityCardKey): void {
@@ -112,5 +113,38 @@ export class AboutComponent implements OnInit {
     }
 
     this.loading = false;
+  }
+
+  /**
+   * Setup auto-refresh when window regains focus
+   */
+  private setupAutoRefresh(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    let lastLoadTime = Date.now();
+
+    const handleVisibilityChange = (): void => {
+      if (document.visibilityState === 'visible') {
+        const timeSinceLastLoad = Date.now() - lastLoadTime;
+        const refreshThreshold = 60000; // 1 minute
+
+        if (timeSinceLastLoad > refreshThreshold) {
+          console.log('Auto-refreshing about content after tab became visible');
+          this.strapiService.refreshHomePage().subscribe({
+            next: content => {
+              this.applyContent(content);
+              lastLoadTime = Date.now();
+            },
+            error: error => {
+              console.error('Error refreshing about content', error);
+            }
+          });
+        }
+      }
+    };
+
+    window.addEventListener('visibilitychange', handleVisibilityChange);
   }
 }
