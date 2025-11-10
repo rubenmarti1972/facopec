@@ -93,7 +93,7 @@ const ensurePublished = (strapi: Strapi, uid: UID.ContentType, data: EntityData)
 
 async function upsertSingleType(strapi: Strapi, uid: UID.ContentType, data: EntityData) {
   const query = strapi.db.query(uid);
-  const existingEntries = await query.findMany({ select: ['id'] });
+  const existingEntries = await query.findMany({ select: ['id', 'publishedAt'] });
   const [primaryEntry, ...duplicateEntries] = existingEntries;
 
   for (const duplicate of duplicateEntries) {
@@ -110,18 +110,48 @@ async function upsertSingleType(strapi: Strapi, uid: UID.ContentType, data: Enti
     }
   }
 
-  const payload = ensurePublished(strapi, uid, data);
-
   const entryId = primaryEntry?.id as number | string | undefined;
+  const contentType = strapi.contentTypes?.[uid];
+  const hasDraftAndPublish = contentType?.options?.draftAndPublish !== false;
 
   if (!entryId) {
-    await strapi.entityService.create(uid, { data: payload });
-    strapi.log.info(`Created single type entry for ${uid}.`);
+    // Create new entry
+    const created = await strapi.entityService.create(uid, { data });
+
+    // Publish if draft & publish is enabled
+    if (hasDraftAndPublish && created && typeof created === 'object' && 'id' in created) {
+      try {
+        await strapi.db.query(uid).update({
+          where: { id: created.id },
+          data: { publishedAt: new Date() },
+        });
+        strapi.log.info(`Created and published single type entry for ${uid}.`);
+      } catch (error) {
+        strapi.log.warn(`Created but failed to publish ${uid}:`, error);
+      }
+    } else {
+      strapi.log.info(`Created single type entry for ${uid}.`);
+    }
     return;
   }
 
-  await strapi.entityService.update(uid, entryId, { data: payload });
-  strapi.log.info(`Updated single type entry ${entryId} for ${uid}.`);
+  // Update existing entry
+  await strapi.entityService.update(uid, entryId, { data });
+
+  // Ensure it's published if draft & publish is enabled
+  if (hasDraftAndPublish && !primaryEntry?.publishedAt) {
+    try {
+      await strapi.db.query(uid).update({
+        where: { id: entryId },
+        data: { publishedAt: new Date() },
+      });
+      strapi.log.info(`Updated and published single type entry ${entryId} for ${uid}.`);
+    } catch (error) {
+      strapi.log.warn(`Updated but failed to publish ${uid}:`, error);
+    }
+  } else {
+    strapi.log.info(`Updated single type entry ${entryId} for ${uid}.`);
+  }
 }
 
 export async function seedDefaultContent(strapi: Strapi) {
