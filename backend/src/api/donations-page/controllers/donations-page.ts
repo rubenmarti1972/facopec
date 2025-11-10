@@ -2,13 +2,26 @@ import { factories } from '@strapi/strapi';
 
 export default factories.createCoreController('api::donations-page.donations-page', ({ strapi }) => ({
   async find(ctx) {
-    // Populate all fields including dynamic zones and components
-    ctx.query = {
-      ...ctx.query,
-      populate: 'deep',
-    };
+    // Populate all components
+    const entity = await strapi.entityService.findMany('api::donations-page.donations-page', {
+      populate: {
+        donationAmounts: true,
+        metrics: true,
+        highlights: true,
+        stories: {
+          populate: {
+            image: true,
+          },
+        },
+        supportActions: true,
+        paymentGateways: {
+          populate: {
+            logo: true,
+          },
+        },
+      },
+    });
 
-    const { data, meta } = await super.find(ctx);
-    return { data, meta };
+    return { data: entity };
   },
 }));
