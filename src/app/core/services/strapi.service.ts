@@ -423,7 +423,7 @@ export class StrapiService {
     return headers;
   }
 
-  private fetchSingleType<T>(uid: string, populate: string | string[] = 'deep', skipCache = false): Observable<T> {
+  private fetchSingleType<T>(uid: string, populate?: string | string[], skipCache = false): Observable<T> {
     const populateParam = this.buildPopulateParam(populate);
 
     if (skipCache) {
@@ -584,24 +584,24 @@ export class StrapiService {
    * Force refresh of global settings by clearing cache and refetching
    */
   public refreshGlobalSettings(): Observable<GlobalSettings> {
-    this.clearCache('single-global-deep');
-    return this.fetchSingleType<GlobalSettings>('global', 'deep', true);
+    this.clearCache('single-global-none');
+    return this.fetchSingleType<GlobalSettings>('global', undefined, true);
   }
 
   /**
    * Force refresh of home page content by clearing cache and refetching
    */
   public refreshHomePage(): Observable<HomePageContent> {
-    this.clearCache('single-home-page-deep');
-    return this.fetchSingleType<HomePageContent>('home-page', 'deep', true);
+    this.clearCache('single-home-page-none');
+    return this.fetchSingleType<HomePageContent>('home-page', undefined, true);
   }
 
   /**
    * Force refresh of donations page content by clearing cache and refetching
    */
   public refreshDonationsPage(): Observable<DonationsPageContent> {
-    this.clearCache('single-donations-page-deep');
-    return this.fetchSingleType<DonationsPageContent>('donations-page', 'deep', true);
+    this.clearCache('single-donations-page-none');
+    return this.fetchSingleType<DonationsPageContent>('donations-page', undefined, true);
   }
 
   /**
@@ -611,7 +611,7 @@ export class StrapiService {
     this.clearCache('org-info');
     return this.buildRequest<OrganizationInfo>(
       '/api/organization-info',
-      { populate: 'deep' },
+      undefined,
       { skipCache: true }
     );
   }
