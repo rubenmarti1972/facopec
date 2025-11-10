@@ -13,7 +13,18 @@ async function pathExists(filePath) {
   }
 }
 
-const TARGET_STRAPI_VERSION = '5.0.0';
+const TARGET_STRAPI_VERSION = '5.30.1';
+
+const STRAPI_PACKAGES = [
+  '@strapi/strapi',
+  '@strapi/plugin-users-permissions',
+  '@strapi/plugin-i18n',
+  '@strapi/plugin-upload',
+  '@strapi/plugin-graphql',
+  '@strapi/plugin-email',
+  '@strapi/types',
+  '@strapi/typescript-utils',
+];
 
 async function detectPackageManager() {
   const pnpmLock = path.join(cwd, 'pnpm-lock.yaml');
