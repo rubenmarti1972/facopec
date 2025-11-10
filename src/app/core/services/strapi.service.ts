@@ -46,12 +46,7 @@ export class StrapiService {
   // Cache management
   private cacheMap = new Map<string, Observable<unknown>>();
   private cacheTimestamps = new Map<string, number>();
-  private readonly cacheDurationMs = Math.max(
-    0,
-    Number(environment.strapi?.cacheDurationMs ?? (environment.production ? 5 * 60 * 1000 : 0))
-  );
-  private readonly cacheEnabled = Number.isFinite(this.cacheDurationMs) && this.cacheDurationMs > 0;
-  
+
   // Error handling
   public errors$ = new BehaviorSubject<StrapiError | null>(null);
 

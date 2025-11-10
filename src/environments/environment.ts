@@ -5,9 +5,9 @@ export const environment = {
   strapi: {
     url: 'http://localhost:1337',
     publicUrl: 'http://localhost:1337',
-    apiToken: 'your-strapi-api-token',
-    previewToken: 'your-strapi-preview-token',
-    cacheDurationMs: 0
+    apiToken: '', // Not required for public APIs
+    previewToken: '', // Only needed for draft/preview content
+    cacheDurationMs: 0 // Cache disabled in development
   },
   paypal: {
     clientId: 'your-paypal-client-id-here',
