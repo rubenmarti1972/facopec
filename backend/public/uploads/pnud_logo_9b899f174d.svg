@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title">
+  <title>Programa de las Naciones Unidas para el Desarrollo</title>
+  <rect x="20" y="12" width="120" height="136" rx="18" fill="#0b4fa3" />
+  <g fill="#f7fbff" font-family="'Poppins', 'Helvetica Neue', Arial, sans-serif" font-weight="600">
+    <text font-size="48" letter-spacing="0.08em" x="50%" y="72" text-anchor="middle">PN</text>
+    <text font-size="48" letter-spacing="0.08em" x="50%" y="124" text-anchor="middle">UD</text>
+  </g>
+  <circle cx="80" cy="38" r="14" fill="#f7fbff" opacity="0.18" />
+  <path
+    fill="#f7fbff"
+    d="M80 28c-5.9 0-10.7 4.8-10.7 10.7 0 5.9 4.8 10.7 10.7 10.7 5.9 0 10.7-4.8 10.7-10.7C90.7 32.8 85.9 28 80 28zm0 4.8c3.3 0 5.9 2.7 5.9 5.9 0 3.3-2.7 5.9-5.9 5.9-3.3 0-5.9-2.7-5.9-5.9 0-3.2 2.6-5.9 5.9-5.9z"
+  />
+</svg>
