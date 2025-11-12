@@ -9,24 +9,13 @@ import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BRAND_COLORS } from '@core/design-system/brand-colors';
 import { StrapiService } from '@core/services/strapi.service';
-import { GlobalSettings, NavigationEntry, NavigationGroup, NavigationChildLink } from '@core/models';
+import { NavigationEntry } from '@core/models';
 
-interface NavigationChildView {
-  label: string;
-  routerLink?: string;
-  href?: string;
-  fragment?: string;
-  target?: '_self' | '_blank';
-  dataStrapiUid?: string;
-}
-
-interface NavigationGroupView {
-  title?: string;
-  dataStrapiUid?: string;
-  items: NavigationChildView[];
-}
-
-interface NavigationItemView {
+/**
+ * Interfaz legacy para backward compatibility
+ * @deprecated Usa NavigationEntry en su lugar
+ */
+interface NavigationItem {
   id: string;
   label: string;
   routerLink?: string;
@@ -59,146 +48,89 @@ export class HeaderComponent implements OnInit, OnDestroy {
   brandColors = BRAND_COLORS;
   private readonly strapiService = inject(StrapiService);
 
-  navigationItems: NavigationItemView[] = [
-    {
-      id: 'navigation.home',
-      label: 'Inicio',
-      routerLink: '/inicio',
-      exact: true,
-      dataStrapiUid: 'navigation.home'
-    },
-    {
-      id: 'navigation.programs',
-      label: 'Programas',
-      routerLink: '/inicio',
-      fragment: 'programas',
-      dataStrapiUid: 'navigation.programs',
-      children: [
-        {
-          title: 'Para estudiantes',
-          dataStrapiUid: 'navigation.programs.students',
-          items: [
-            {
-              label: 'Talleres de Nivelación',
-              href: 'https://talleresdenivelacion.blogspot.com/',
-              target: '_blank',
-              dataStrapiUid: 'navigation.programs.students.talleres'
-            },
-            {
-              label: 'Salidas Pedagógicas',
-              href: 'https://salidaspedagogicas-facopec.blogspot.com/',
-              target: '_blank',
-              dataStrapiUid: 'navigation.programs.students.salidas'
-            },
-            {
-              label: 'Personeros y Líderes',
-              href: 'https://personerosestudiantilesylideres.blogspot.com/',
-              target: '_blank',
-              dataStrapiUid: 'navigation.programs.students.personeros'
-            },
-            {
-              label: 'Obra María | Jorge Isaacs',
-              href: 'https://rutaliterariamaria.blogspot.com/',
-              target: '_blank',
-              dataStrapiUid: 'navigation.programs.students.obraMaria'
-            }
-          ]
-        },
-        {
-          title: 'Para fin de año 2025',
-          dataStrapiUid: 'navigation.programs.yearEnd',
-          items: [
-            {
-              label: 'Regalos de corazón',
-              href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/2025/08/regalos-de-corazon-fundacion.html',
-              target: '_blank',
-              dataStrapiUid: 'navigation.programs.yearEnd.regalos'
-            }
-          ]
-        },
-        {
-          title: 'Para adultos',
-          dataStrapiUid: 'navigation.programs.adults',
-          items: [
-            {
-              label: 'Escuela de Padres | Virtual',
-              href: 'https://consejosparapadresymadres.blogspot.com/',
-              target: '_blank',
-              dataStrapiUid: 'navigation.programs.adults.parents'
-            },
-            {
-              label: 'Empleabilidad',
-              href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Empleabilidad',
-              target: '_blank',
-              dataStrapiUid: 'navigation.programs.adults.jobs'
-            }
-          ]
-        }
-      ]
-    },
-    {
-      id: 'navigation.projects',
-      label: 'Proyectos',
-      routerLink: '/proyectos',
-      dataStrapiUid: 'navigation.projects'
-    },
-    {
-      id: 'navigation.donations',
-      label: 'Donaciones',
-      routerLink: '/donaciones',
-      dataStrapiUid: 'navigation.donations'
-    },
-    {
-      id: 'navigation.sponsor',
-      label: 'Apadrina',
-      routerLink: '/apadrina',
-      dataStrapiUid: 'navigation.sponsor'
-    },
-    {
-      id: 'navigation.literaryRoute',
-      label: 'Ruta literaria',
-      routerLink: '/ruta-literaria-maria',
-      dataStrapiUid: 'navigation.literaryRoute'
-    },
-    {
-      id: 'navigation.about',
-      label: 'Nosotros',
-      routerLink: '/nosotros',
-      dataStrapiUid: 'navigation.about'
-    }
+  /** Estado del menú móvil */
+  private _mobileMenuOpen = false;
+  /** Ruta actual (para lógica adicional si la necesitas) */
+  currentRoute = '';
+
+  /** Items de navegación cargados desde el backend */
+  navigationItems: NavigationEntry[] = [];
+
+  /** Navegación por defecto (fallback si no hay datos del backend) */
+  private readonly defaultNavigationItems: NavigationItem[] = [
+    { id: 'home',      label: 'INICIO',                 route: '/inicio',                 description: 'Página de inicio' },
+    { id: 'projects',  label: 'PROYECTOS',              route: '/proyectos',              description: 'Nuestros proyectos' },
+    { id: 'donations', label: 'DONACIONES',             route: '/donaciones',             description: 'Apoya nuestra misión' },
+    { id: 'sponsor',   label: 'APADRINA',               route: '/apadrina',               description: 'Programa de apadrinamiento' },
+    { id: 'literary',  label: 'RUTA LITERARIA MARÍA',   route: '/ruta-literaria-maria',   description: 'Iniciativa literaria' },
+    { id: 'about',     label: 'NOSOTROS',               route: '/nosotros',               description: 'Información de la fundación' },
   ];
 
-  cta: PrimaryCtaLink = {
-    label: 'Donar',
-    routerLink: '/donaciones',
-    dataStrapiUid: 'navigation.donate'
-  };
-
-  logoUrl = 'assets/logo.png';
-  logoAlt = 'Logo FACOPEC';
-  siteNamePrimary = 'Fundación Afrocolombiana';
-  siteNameSecondary = 'Profe en Casa';
-
-  loading = true;
-  error: string | null = null;
-  mobileMenuOpen = false;
-  private dropdownIndex: number | null = null;
-  currentRoute = '';
+  /** Estado de submenú abierto (para desktop dropdowns) */
+  activeSubmenuId: string | null = null;
 
   private sub?: Subscription;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private strapiService: StrapiService
+  ) {}
 
   ngOnInit(): void {
     this.currentRoute = this.router.url;
-    this.sub = this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.currentRoute = event.urlAfterRedirects || event.url;
-        this.closeMenu();
+
+    // Cargar navegación desde el backend
+    this.loadNavigationFromBackend();
+
+    // Actualiza currentRoute en cada navegación (útil si usas isActive personalizado)
+    this.sub = this.router.events.subscribe((e) => {
+      if (e instanceof NavigationEnd) {
+        this.currentRoute = e.urlAfterRedirects || e.url;
+        this._mobileMenuOpen = false; // cierra menú al navegar
+        this.activeSubmenuId = null; // cierra submenú al navegar
       }
     });
 
     this.loadNavigation();
+  }
+
+  /**
+   * Carga la navegación desde el backend de Strapi
+   * Si falla o no hay datos, usa la navegación por defecto
+   */
+  private loadNavigationFromBackend(): void {
+    this.strapiService.getGlobalSettings().subscribe({
+      next: (settings) => {
+        if (settings.navigation && settings.navigation.length > 0) {
+          // Ordenar por el campo order si existe
+          this.navigationItems = settings.navigation.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+        } else {
+          // Fallback a navegación por defecto
+          this.navigationItems = this.convertLegacyToNavigationEntry(this.defaultNavigationItems);
+        }
+      },
+      error: (err) => {
+        console.warn('Error cargando navegación desde el backend, usando navegación por defecto:', err);
+        // Fallback a navegación por defecto
+        this.navigationItems = this.convertLegacyToNavigationEntry(this.defaultNavigationItems);
+      }
+    });
+  }
+
+  /**
+   * Convierte items legacy a NavigationEntry para backward compatibility
+   */
+  private convertLegacyToNavigationEntry(items: NavigationItem[]): NavigationEntry[] {
+    return items.map((item, index) => ({
+      id: index,
+      label: item.label,
+      url: item.route,
+      description: item.description,
+      icon: item.icon,
+      order: index,
+      exact: item.id === 'home', // Solo home es exact
+      dataUid: item.id
+    }));
   }
 
   ngOnDestroy(): void {
@@ -452,5 +384,45 @@ export class HeaderComponent implements OnInit, OnDestroy {
       result.target = resolvedTarget;
     }
     return result;
+  }
+
+  /** Alternar submenú (para desktop dropdowns) */
+  toggleSubmenu(itemId: string | number | undefined): void {
+    const id = itemId?.toString() ?? null;
+    this.activeSubmenuId = this.activeSubmenuId === id ? null : id;
+  }
+
+  /** Verificar si un submenú está abierto */
+  isSubmenuOpen(itemId: string | number | undefined): boolean {
+    return this.activeSubmenuId === itemId?.toString();
+  }
+
+  /** Cerrar todos los submenús */
+  closeAllSubmenus(): void {
+    this.activeSubmenuId = null;
+  }
+
+  /** Navegación para items con fragment */
+  navigateWithFragment(url: string | undefined, fragment: string | undefined): void {
+    if (!url) return;
+
+    if (fragment) {
+      this.router.navigate([url], { fragment });
+    } else {
+      this.router.navigate([url]);
+    }
+
+    this.closeMenu();
+    this.closeAllSubmenus();
+  }
+
+  /** Obtener URL completa para un item de navegación */
+  getNavigationUrl(item: NavigationEntry): string {
+    return item.url || '#';
+  }
+
+  /** Verificar si un item tiene hijos */
+  hasChildren(item: NavigationEntry): boolean {
+    return !!item.children && item.children.length > 0;
   }
 }
