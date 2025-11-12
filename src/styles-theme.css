@@ -77,7 +77,9 @@
   box-shadow: var(--shadow-1);
   padding: clamp(1.4rem, 2.4vw, 2.2rem);
   border: 1px solid rgba(16, 36, 59, 0.06);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.3s ease;
 }
 
 .identity__intro {
@@ -361,6 +363,7 @@
 .card:hover {
   transform: translateY(-6px);
   box-shadow: var(--shadow-2);
+  border-color: rgba(31, 155, 122, 0.2);
 }
 
 .card__icon {
