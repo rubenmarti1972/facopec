@@ -3,3 +3,6 @@ build
 .tmp
 dist
 .env
+
+# Strapi uploads (user-generated content)
+public/uploads/
