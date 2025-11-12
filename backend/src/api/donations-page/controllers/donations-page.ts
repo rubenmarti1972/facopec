@@ -14,11 +14,7 @@ export default factories.createCoreController('api::donations-page.donations-pag
           },
         },
         supportActions: true,
-        paymentGateways: {
-          populate: {
-            logo: true,
-          },
-        },
+        paymentGateways: true,
       },
     });
 
