@@ -60,6 +60,26 @@
   </div>
 </section>
 
+<section class="section section--attended" data-strapi-section="attended-persons" *ngIf="attendedPersons.length">
+  <div class="container">
+    <div class="section__header">
+      <span class="section__eyebrow">Nuestro impacto</span>
+      <h2 class="section__title">Personas atendidas</h2>
+      <p class="section__subtitle">Estos son los datos de nuestra comunidad a lo largo del año</p>
+    </div>
+    <div class="attended-grid">
+      <article class="card attended-card attended-card--{{ person.theme }}" *ngFor="let person of attendedPersons">
+        <div class="attended-card__icon">{{ person.icon }}</div>
+        <div class="attended-card__content">
+          <h3 class="attended-card__program">{{ person.program }}</h3>
+          <p class="attended-card__count">{{ person.count }}</p>
+          <p class="attended-card__description">{{ person.description }}</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
 <section class="section" data-strapi-section="impact">
   <div class="container">
     <div class="impact-strip">
@@ -246,6 +266,45 @@
           <span aria-hidden="true">↗</span>
         </a>
       </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--calendar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
+  <div class="container">
+    <div class="calendar-layout">
+      <div class="calendar-intro">
+        <span class="section__eyebrow">Próximas actividades</span>
+        <h2 class="section__title">Calendario de eventos</h2>
+        <p class="section__subtitle">
+          Únete a nuestras actividades programadas. Todos son bienvenidos a participar y fortalecer nuestra comunidad.
+        </p>
+      </div>
+      <div class="calendar-events">
+        <article
+          class="calendar-event"
+          *ngFor="let event of eventCalendar"
+          [class.calendar-event--highlighted]="event.isHighlighted"
+          [class.calendar-event--{{ event.color }}]="event.color"
+        >
+          <div class="calendar-event__date">
+            <span class="calendar-event__day">{{ event.eventDate | date: 'dd' }}</span>
+            <span class="calendar-event__month">{{ event.eventDate | date: 'MMM' }}</span>
+          </div>
+          <div class="calendar-event__content">
+            <h3 class="calendar-event__title">{{ event.title }}</h3>
+            <p class="calendar-event__description" *ngIf="event.description">{{ event.description }}</p>
+            <div class="calendar-event__meta">
+              <span *ngIf="event.location" class="calendar-event__location">📍 {{ event.location }}</span>
+              <span class="calendar-event__time">🕐 {{ event.eventDate | date: 'shortTime' }}</span>
+            </div>
+            <span class="calendar-event__category">{{ event.category }}</span>
+          </div>
+          <a *ngIf="event.link" class="calendar-event__link" [href]="event.link" target="_blank" rel="noopener">
+            Ver más
+          </a>
+        </article>
+      </div>
     </div>
   </div>
 </section>

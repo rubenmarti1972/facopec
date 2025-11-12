@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { StrapiService } from '@core/services/strapi.service';
-import { HomePageContent, HighlightContent, SupporterLogoContent, MediaAsset, GlobalSettings } from '@core/models';
+import { HomePageContent, HighlightContent, SupporterLogoContent, MediaAsset, GlobalSettings, AttendedPersonCardContent, EventCalendarItemContent } from '@core/models';
 
 interface HeroStat {
   label: string;
@@ -325,6 +325,66 @@ export class HomeComponent implements OnInit {
     }
   ];
 
+  attendedPersons: AttendedPersonCardContent[] = [
+    {
+      program: 'Tutorías Profe en Casa',
+      count: 120,
+      description: 'Estudiantes en refuerzo escolar',
+      icon: '🧠',
+      theme: 'teal'
+    },
+    {
+      program: 'Ruta Literaria María',
+      count: 65,
+      description: 'Participantes en círculos de lectura',
+      icon: '📖',
+      theme: 'blue'
+    },
+    {
+      program: 'Semillero Digital',
+      count: 45,
+      description: 'Jóvenes en talleres STEAM',
+      icon: '💻',
+      theme: 'purple'
+    },
+    {
+      program: 'Club Familias',
+      count: 80,
+      description: 'Familias acompañadas',
+      icon: '👨‍👩‍👧‍👦',
+      theme: 'rose'
+    }
+  ];
+
+  eventCalendar: EventCalendarItemContent[] = [
+    {
+      title: 'Taller de lectura en voz alta',
+      description: 'Círculo literario con familias',
+      eventDate: '2025-12-15T15:00:00',
+      location: 'Biblioteca Comunitaria',
+      category: 'taller',
+      color: 'blue',
+      isHighlighted: true
+    },
+    {
+      title: 'Reunión Club Familias',
+      description: 'Escuela de padres mensual',
+      eventDate: '2025-12-20T17:00:00',
+      location: 'Sede FACOPEC',
+      category: 'reunion',
+      color: 'rose'
+    },
+    {
+      title: 'Celebración Fin de Año',
+      description: 'Cierre de actividades 2025',
+      eventDate: '2025-12-22T14:00:00',
+      location: 'Parque Central',
+      category: 'celebracion',
+      color: 'gold',
+      isHighlighted: true
+    }
+  ];
+
   ngOnInit(): void {
     this.loadContent();
     this.loadGlobalBranding();
@@ -491,6 +551,44 @@ export class HomeComponent implements OnInit {
 
       if (mapped.length) {
         this.galleryItems = mapped;
+      }
+    }
+
+    if (content.attendedPersons?.length) {
+      const mapped = content.attendedPersons
+        .map(person => ({
+          id: person.id,
+          program: person.program,
+          count: person.count ?? 0,
+          description: person.description ?? '',
+          icon: person.icon ?? '👥',
+          theme: person.theme ?? 'teal'
+        }))
+        .filter(person => !!person.program);
+
+      if (mapped.length) {
+        this.attendedPersons = mapped;
+      }
+    }
+
+    if (content.eventCalendar?.length) {
+      const mapped = content.eventCalendar
+        .map(event => ({
+          id: event.id,
+          title: event.title,
+          description: event.description ?? '',
+          eventDate: event.eventDate,
+          endDate: event.endDate,
+          location: event.location ?? '',
+          category: event.category ?? 'evento',
+          color: event.color ?? 'teal',
+          isHighlighted: event.isHighlighted ?? false,
+          link: event.link
+        }))
+        .filter(event => !!event.title && !!event.eventDate);
+
+      if (mapped.length) {
+        this.eventCalendar = mapped;
       }
     }
 

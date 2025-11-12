@@ -576,6 +576,28 @@ export interface GalleryItemContent {
   strapiEntryId?: string;
 }
 
+export interface AttendedPersonCardContent {
+  id?: number;
+  program: string;
+  count: number;
+  description?: string;
+  icon?: string;
+  theme?: 'teal' | 'blue' | 'rose' | 'gold' | 'purple' | 'green';
+}
+
+export interface EventCalendarItemContent {
+  id?: number;
+  title: string;
+  description?: string;
+  eventDate: string;
+  endDate?: string;
+  location?: string;
+  category?: 'taller' | 'reunion' | 'evento' | 'actividad' | 'formacion' | 'celebracion';
+  color?: 'teal' | 'blue' | 'rose' | 'gold' | 'purple' | 'green';
+  isHighlighted?: boolean;
+  link?: string;
+}
+
 export interface HomePageContent {
   id?: number;
   hero?: HeroSectionContent;
@@ -587,6 +609,8 @@ export interface HomePageContent {
   supporters?: SupporterLogoContent[];
   catalog?: CatalogItemContent[];
   gallery?: GalleryItemContent[];
+  attendedPersons?: AttendedPersonCardContent[];
+  eventCalendar?: EventCalendarItemContent[];
 }
 
 export interface DonationMetricContent {

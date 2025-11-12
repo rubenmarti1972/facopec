@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_home_attended_person_cards",
+  "info": {
+    "displayName": "Attended Person Card",
+    "description": "Card showing information about attended persons by program",
+    "icon": "users"
+  },
+  "options": {},
+  "attributes": {
+    "program": {
+      "type": "string",
+      "required": true
+    },
+    "count": {
+      "type": "integer",
+      "required": true,
+      "default": 0
+    },
+    "description": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string",
+      "default": "👥"
+    },
+    "theme": {
+      "type": "enumeration",
+      "enum": ["teal", "blue", "rose", "gold", "purple", "green"],
+      "default": "teal"
+    }
+  }
+}
