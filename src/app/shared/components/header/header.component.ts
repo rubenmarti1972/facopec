@@ -230,11 +230,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         exact: true
       },
       {
-        id: 'nav-about',
-        label: 'Nosotros',
-        routerLink: '/about'
-      },
-      {
         id: 'nav-programs',
         label: 'Programas',
         routerLink: '/home',
@@ -326,6 +321,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
         id: 'nav-contact',
         label: 'Contacto',
         routerLink: '/contact'
+      },
+      {
+        id: 'nav-about',
+        label: 'Nosotros',
+        routerLink: '/about'
       }
     ];
 
