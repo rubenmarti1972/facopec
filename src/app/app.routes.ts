@@ -8,65 +8,76 @@ import { Routes } from '@angular/router';
 export const APP_ROUTES: Routes = [
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/inicio',
     pathMatch: 'full'
   },
   {
-    path: 'home',
+    path: 'inicio',
     loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent),
-    data: { title: 'Home - Fundación Afrocolombiana Pro Encasa' }
+    data: { title: 'Inicio - Fundación Afrocolombiana Pro Encasa' }
   },
   {
-    path: 'projects',
+    path: 'proyectos',
     loadComponent: () => import('./features/projects/projects.component').then(m => m.ProjectsComponent),
-    data: { title: 'Projects - Fundación Afrocolombiana Pro Encasa' }
+    data: { title: 'Proyectos - Fundación Afrocolombiana Pro Encasa' }
   },
   {
-    path: 'reports',
+    path: 'reportes',
     loadComponent: () => import('./features/reports/reports.component').then(m => m.ReportsComponent),
-    data: { title: 'Reports - Fundación Afrocolombiana Pro Encasa' }
+    data: { title: 'Reportes - Fundación Afrocolombiana Pro Encasa' }
   },
   {
-    path: 'sponsor',
+    path: 'apadrina',
     loadComponent: () => import('./features/sponsor/sponsor.component').then(m => m.SponsorComponent),
-    data: { title: 'Sponsorship - Fundación Afrocolombiana Pro Encasa' }
+    data: { title: 'Apadrinamiento - Fundación Afrocolombiana Pro Encasa' }
   },
   {
-    path: 'about',
+    path: 'nosotros',
     loadComponent: () => import('./features/about/about.component').then(m => m.AboutComponent),
-    data: { title: 'About Us - Fundación Afrocolombiana Pro Encasa' }
+    data: { title: 'Nosotros - Fundación Afrocolombiana Pro Encasa' }
   },
   {
-    path: 'grants',
+    path: 'becas',
     loadComponent: () => import('./features/grants/grants.component').then(m => m.GrantsComponent),
-    data: { title: 'Grants - Fundación Afrocolombiana Pro Encasa' }
+    data: { title: 'Becas - Fundación Afrocolombiana Pro Encasa' }
   },
   {
-    path: 'literary-route',
+    path: 'ruta-literaria-maria',
     loadComponent: () => import('./features/literary-route/literary-route.component').then(m => m.LiteraryRouteComponent),
-    data: { title: 'Literary Route María - Fundación Afrocolombiana Pro Encasa' }
+    data: { title: 'Ruta Literaria María - Fundación Afrocolombiana Pro Encasa' }
   },
   {
-    path: 'account',
+    path: 'cuenta',
     loadComponent: () => import('./features/account/account.component').then(m => m.AccountComponent),
-    data: { title: 'Account - Fundación Afrocolombiana Pro Encasa' }
+    data: { title: 'Cuenta - Fundación Afrocolombiana Pro Encasa' }
   },
   {
-    path: 'newspaper',
+    path: 'periodico',
     loadComponent: () => import('./features/newspaper/newspaper.component').then(m => m.NewspaperComponent),
-    data: { title: 'Newspaper - Fundación Afrocolombiana Pro Encasa' }
+    data: { title: 'Periódico - Fundación Afrocolombiana Pro Encasa' }
   },
   {
-    path: 'donate',
+    path: 'donaciones',
     loadComponent: () => import('./features/donate/donate.component').then(m => m.DonateComponent),
-    data: { title: 'Donate - Fundación Afrocolombiana Pro Encasa' }
+    data: { title: 'Donaciones - Fundación Afrocolombiana Pro Encasa' }
   },
   {
     path: 'admin', loadChildren: () => import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES),
     canActivate: [] // Add AuthGuard with admin role check
   },
+  // Rutas en inglés - redirecciones por compatibilidad
+  { path: 'home', redirectTo: '/inicio', pathMatch: 'full' },
+  { path: 'projects', redirectTo: '/proyectos', pathMatch: 'full' },
+  { path: 'reports', redirectTo: '/reportes', pathMatch: 'full' },
+  { path: 'sponsor', redirectTo: '/apadrina', pathMatch: 'full' },
+  { path: 'about', redirectTo: '/nosotros', pathMatch: 'full' },
+  { path: 'grants', redirectTo: '/becas', pathMatch: 'full' },
+  { path: 'literary-route', redirectTo: '/ruta-literaria-maria', pathMatch: 'full' },
+  { path: 'account', redirectTo: '/cuenta', pathMatch: 'full' },
+  { path: 'newspaper', redirectTo: '/periodico', pathMatch: 'full' },
+  { path: 'donate', redirectTo: '/donaciones', pathMatch: 'full' },
   {
     path: '**',
-    redirectTo: '/home'
+    redirectTo: '/inicio'
   }
 ];
