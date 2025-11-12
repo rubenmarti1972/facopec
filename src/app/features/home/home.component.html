@@ -1,10 +1,38 @@
 <section class="section" id="inicio" data-strapi-collection="home" data-strapi-section="hero">
   <div class="container hero">
-    <div class="hero__content">
+    <!-- Header: Badge y Título más pequeño -->
+    <div class="hero__header">
       <span class="hero__badge">{{ hero.eyebrow }}</span>
-      <h1 class="hero__title">
+      <h1 class="hero__title hero__title--compact">
         <span *ngFor="let line of hero.title">{{ line }}</span>
       </h1>
+    </div>
+
+    <!-- Imagen grande e impactante -->
+    <div class="hero__image-wrapper">
+      <figure class="hero__image hero__image--large" aria-hidden="true">
+        <img
+          [src]="hero.image"
+          [alt]="hero.imageAlt"
+          loading="eager"
+        />
+      </figure>
+    </div>
+
+    <!-- Card con mensaje bíblico -->
+    <div class="hero__callout-wrapper">
+      <div class="callout" data-strapi-collection="hero.verse">
+        <div class="callout__badge">{{ hero.verse.reference }}</div>
+        <p class="callout__title">{{ hero.verse.text }}</p>
+        <p class="callout__text">{{ hero.verse.description }}</p>
+        <div class="callout__media" aria-hidden="true">
+          <img [src]="globalLogoUrl" [alt]="globalLogoAlt" loading="lazy" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido: Texto lead, acciones y stats -->
+    <div class="hero__content">
       <p class="hero__lead">{{ hero.lead }}</p>
       <div class="hero__actions">
         <a
@@ -28,24 +56,6 @@
           <p class="hero__stat-value">{{ stat.value }}</p>
           <p class="hero__stat-label">{{ stat.label }}</p>
         </article>
-      </div>
-    </div>
-
-    <div class="hero__visual">
-      <figure class="hero__image" aria-hidden="true">
-        <img
-          [src]="hero.image"
-          [alt]="hero.imageAlt"
-          loading="lazy"
-        />
-      </figure>
-      <div class="callout" data-strapi-collection="hero.verse">
-        <div class="callout__badge">{{ hero.verse.reference }}</div>
-        <p class="callout__title">{{ hero.verse.text }}</p>
-        <p class="callout__text">{{ hero.verse.description }}</p>
-        <div class="callout__media" aria-hidden="true">
-          <img [src]="globalLogoUrl" [alt]="globalLogoAlt" loading="lazy" />
-        </div>
       </div>
     </div>
   </div>
