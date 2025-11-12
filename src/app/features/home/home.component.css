@@ -432,6 +432,272 @@
   min-height: 320px;
 }
 
+/* Attended Persons Section */
+.section--attended {
+  background: linear-gradient(135deg, rgba(31, 155, 122, 0.03), rgba(19, 80, 122, 0.02));
+}
+
+.attended-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(1.2rem, 2vw, 1.8rem);
+  margin-top: 2rem;
+}
+
+.attended-card {
+  background: white;
+  border: 1px solid rgba(16, 36, 59, 0.08);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.3rem, 2.2vw, 1.8rem);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.attended-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--theme-color, var(--brand-primary)), transparent);
+  opacity: 0.7;
+}
+
+.attended-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.attended-card--teal {
+  --theme-color: var(--brand-primary);
+}
+
+.attended-card--blue {
+  --theme-color: var(--brand-secondary);
+}
+
+.attended-card--rose {
+  --theme-color: #E63946;
+}
+
+.attended-card--gold {
+  --theme-color: #F4A261;
+}
+
+.attended-card--purple {
+  --theme-color: #9333EA;
+}
+
+.attended-card--green {
+  --theme-color: #22C55E;
+}
+
+.attended-card__icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.attended-card__content {
+  flex: 1;
+}
+
+.attended-card__program {
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-weight: 700;
+  color: var(--brand-ink);
+  margin: 0 0 0.5rem 0;
+}
+
+.attended-card__count {
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-weight: 900;
+  color: var(--theme-color, var(--brand-primary));
+  margin: 0;
+  line-height: 1;
+}
+
+.attended-card__description {
+  font-size: 0.9rem;
+  color: var(--brand-ink-soft);
+  margin: 0.5rem 0 0 0;
+}
+
+/* Event Calendar Section */
+.section--calendar {
+  background: rgba(248, 250, 252, 0.6);
+}
+
+.calendar-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2rem, 3vw, 2.5rem);
+}
+
+.calendar-intro {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.calendar-events {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: clamp(1.2rem, 2vw, 1.6rem);
+}
+
+.calendar-event {
+  background: white;
+  border: 1px solid rgba(16, 36, 59, 0.08);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.2rem, 2vw, 1.6rem);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  display: flex;
+  gap: 1.2rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.calendar-event::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--event-color, var(--brand-primary));
+  opacity: 0.8;
+}
+
+.calendar-event:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-event--highlighted {
+  border-color: var(--event-color, var(--brand-primary));
+  border-width: 2px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.calendar-event--teal {
+  --event-color: var(--brand-primary);
+}
+
+.calendar-event--blue {
+  --event-color: var(--brand-secondary);
+}
+
+.calendar-event--rose {
+  --event-color: #E63946;
+}
+
+.calendar-event--gold {
+  --event-color: #F4A261;
+}
+
+.calendar-event--purple {
+  --event-color: #9333EA;
+}
+
+.calendar-event--green {
+  --event-color: #22C55E;
+}
+
+.calendar-event__date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 70px;
+  padding: 0.8rem;
+  background: linear-gradient(135deg, var(--event-color, var(--brand-primary)), rgba(0,0,0,0.1));
+  border-radius: var(--radius-md);
+  color: white;
+  text-align: center;
+}
+
+.calendar-event__day {
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.calendar-event__month {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 0.2rem;
+  opacity: 0.95;
+}
+
+.calendar-event__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.calendar-event__title {
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  font-weight: 700;
+  color: var(--brand-ink);
+  margin: 0;
+}
+
+.calendar-event__description {
+  font-size: 0.9rem;
+  color: var(--brand-ink-soft);
+  margin: 0;
+}
+
+.calendar-event__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  font-size: 0.85rem;
+  color: var(--brand-ink-soft);
+}
+
+.calendar-event__location,
+.calendar-event__time {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.calendar-event__category {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  background: rgba(31, 155, 122, 0.1);
+  color: var(--event-color, var(--brand-primary));
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  margin-top: auto;
+  width: fit-content;
+}
+
+.calendar-event__link {
+  color: var(--event-color, var(--brand-primary));
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-top: 0.5rem;
+  width: fit-content;
+}
+
+.calendar-event__link:hover {
+  text-decoration: underline;
+}
+
 /* Responsive */
 @media (max-width: 960px) {
   .hero {
@@ -469,6 +735,14 @@
   .hero__stats {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
+
+  .attended-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+
+  .calendar-events {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 720px) {
@@ -501,5 +775,30 @@
 
   .hero__stats {
     grid-template-columns: 1fr;
+  }
+
+  .attended-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .calendar-event {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .calendar-event__date {
+    min-width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 0.6rem 1rem;
+  }
+
+  .calendar-event__day {
+    font-size: 1.5rem;
+  }
+
+  .calendar-event__month {
+    margin-top: 0;
+    margin-left: 0.5rem;
   }
 }

@@ -51,6 +51,16 @@
       "type": "component",
       "repeatable": true,
       "component": "shared.gallery-item"
+    },
+    "attendedPersons": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.attended-person-card"
+    },
+    "eventCalendar": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.event-calendar-item"
     }
   }
 }

@@ -1,0 +1,45 @@
+{
+  "collectionName": "components_home_event_calendar_items",
+  "info": {
+    "displayName": "Event Calendar Item",
+    "description": "Individual event item for the calendar",
+    "icon": "calendar"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "eventDate": {
+      "type": "datetime",
+      "required": true
+    },
+    "endDate": {
+      "type": "datetime"
+    },
+    "location": {
+      "type": "string"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": ["taller", "reunion", "evento", "actividad", "formacion", "celebracion"],
+      "default": "evento"
+    },
+    "color": {
+      "type": "enumeration",
+      "enum": ["teal", "blue", "rose", "gold", "purple", "green"],
+      "default": "teal"
+    },
+    "isHighlighted": {
+      "type": "boolean",
+      "default": false
+    },
+    "link": {
+      "type": "string"
+    }
+  }
+}
