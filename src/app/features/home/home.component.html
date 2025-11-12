@@ -1,50 +1,59 @@
 <section class="section" id="inicio" data-strapi-collection="home" data-strapi-section="hero">
-  <div class="container hero">
-    <div class="hero__content">
-      <span class="hero__badge">{{ hero.eyebrow }}</span>
-      <h1 class="hero__title">
-        <span *ngFor="let line of hero.title">{{ line }}</span>
-      </h1>
-      <p class="hero__lead">{{ hero.lead }}</p>
-      <div class="hero__actions">
-        <a
-          *ngFor="let action of hero.actions"
-          class="btn"
-          [ngClass]="{
-            'btn--primary': action.variant === 'primary',
-            'btn--secondary': action.variant === 'secondary'
-          }"
-          [routerLink]="action.routerLink || null"
-          [href]="action.href || null"
-          [attr.data-strapi-uid]="action.dataStrapiUid"
-          [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
-          [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
-        >
-          {{ action.label }}
-        </a>
+  <div class="container">
+    <!-- Layout superior: 2 columnas -->
+    <div class="hero">
+      <!-- Columna izquierda: Título pequeño e Imagen grande -->
+      <div class="hero__left">
+        <span class="hero__badge">{{ hero.eyebrow }}</span>
+        <h1 class="hero__title hero__title--small">
+          <span *ngFor="let line of hero.title">{{ line }}</span>
+        </h1>
+        <figure class="hero__image hero__image--large" aria-hidden="true">
+          <img
+            [src]="hero.image"
+            [alt]="hero.imageAlt"
+            loading="eager"
+          />
+        </figure>
       </div>
-      <div class="hero__stats">
-        <article class="hero__stat" *ngFor="let stat of hero.stats" data-strapi-collection="hero.stats">
-          <p class="hero__stat-value">{{ stat.value }}</p>
-          <p class="hero__stat-label">{{ stat.label }}</p>
-        </article>
-      </div>
-    </div>
 
-    <div class="hero__visual">
-      <figure class="hero__image" aria-hidden="true">
-        <img
-          [src]="hero.image"
-          [alt]="hero.imageAlt"
-          loading="lazy"
-        />
-      </figure>
-      <div class="callout" data-strapi-collection="hero.verse">
-        <div class="callout__badge">{{ hero.verse.reference }}</div>
-        <p class="callout__title">{{ hero.verse.text }}</p>
-        <p class="callout__text">{{ hero.verse.description }}</p>
-        <div class="callout__media" aria-hidden="true">
-          <img [src]="globalLogoUrl" [alt]="globalLogoAlt" loading="lazy" />
+      <!-- Columna derecha: Mensaje bíblico, logo y texto debajo -->
+      <div class="hero__right">
+        <div class="callout" data-strapi-collection="hero.verse">
+          <div class="callout__badge">{{ hero.verse.reference }}</div>
+          <p class="callout__title">{{ hero.verse.text }}</p>
+          <p class="callout__text">{{ hero.verse.description }}</p>
+          <div class="callout__media" aria-hidden="true">
+            <img [src]="globalLogoUrl" [alt]="globalLogoAlt" loading="lazy" />
+          </div>
+        </div>
+
+        <!-- Texto lead debajo de la card del proverbio -->
+        <div class="hero__content">
+          <p class="hero__lead">{{ hero.lead }}</p>
+          <div class="hero__actions">
+            <a
+              *ngFor="let action of hero.actions"
+              class="btn"
+              [ngClass]="{
+                'btn-primary': action.variant === 'primary',
+                'btn-secondary': action.variant === 'secondary'
+              }"
+              [routerLink]="action.routerLink || null"
+              [href]="action.href || null"
+              [attr.data-strapi-uid]="action.dataStrapiUid"
+              [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
+              [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
+            >
+              {{ action.label }}
+            </a>
+          </div>
+          <div class="hero__stats">
+            <article class="hero__stat" *ngFor="let stat of hero.stats" data-strapi-collection="hero.stats">
+              <p class="hero__stat-value">{{ stat.value }}</p>
+              <p class="hero__stat-label">{{ stat.label }}</p>
+            </article>
+          </div>
         </div>
       </div>
     </div>
