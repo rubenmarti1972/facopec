@@ -465,17 +465,9 @@
 
 @media (min-width: 1200px) {
   .activity-grid,
+  .project-grid,
   .gallery-grid,
-  .catalog-grid {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    justify-content: center;
-  }
-
-  .project-grid {
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    justify-content: center;
-  }
-
+  .catalog-grid,
   .supporters__logos {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
