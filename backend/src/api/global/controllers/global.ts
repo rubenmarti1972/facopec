@@ -8,10 +8,9 @@ export default factories.createCoreController('api::global.global', ({ strapi })
         logo: true,
         navigation: {
           populate: {
-            links: true,
-            groups: {
+            children: {
               populate: {
-                links: true,
+                items: true,
               },
             },
           },

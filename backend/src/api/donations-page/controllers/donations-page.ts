@@ -10,7 +10,7 @@ export default factories.createCoreController('api::donations-page.donations-pag
         highlights: true,
         stories: {
           populate: {
-            image: true,
+            cover: true,
           },
         },
         supportActions: true,
