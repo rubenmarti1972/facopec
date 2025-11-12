@@ -2,20 +2,19 @@
   display: block;
 }
 
-/* Hero section con layout de 2 columnas arriba */
+/* Hero section con layout de 2 columnas */
 .hero {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(2rem, 4vw, 3.5rem);
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: clamp(2.5rem, 5vw, 4rem);
   align-items: start;
-  margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 
-/* Columna izquierda: Badge, Título e Imagen */
+/* Columna izquierda: Badge, Título pequeño e Imagen grande */
 .hero__left {
   display: flex;
   flex-direction: column;
-  gap: clamp(1rem, 2vw, 1.5rem);
+  gap: clamp(0.8rem, 1.5vw, 1.2rem);
 }
 
 .hero__badge {
@@ -36,16 +35,23 @@
 }
 
 .hero__title {
-  font-size: clamp(2rem, 4.5vw, 3.2rem);
-  line-height: 1.1;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  line-height: 1.04;
   margin: 0;
   color: var(--brand-ink);
+}
+
+/* Título más pequeño */
+.hero__title--small {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  line-height: 1.15;
 }
 
 .hero__title span {
   display: block;
 }
 
+/* Imagen grande */
 .hero__image {
   width: 100%;
   margin: 0;
@@ -54,21 +60,28 @@
   box-shadow: var(--shadow-2);
 }
 
+.hero__image--large {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
 .hero__image img {
   width: 100%;
   height: auto;
-  min-height: 300px;
-  max-height: 500px;
   object-fit: cover;
   object-position: center;
   display: block;
 }
 
-/* Columna derecha: Mensaje bíblico y logo */
+.hero__image--large img {
+  min-height: 400px;
+  max-height: 600px;
+}
+
+/* Columna derecha: Callout con mensaje bíblico y contenido debajo */
 .hero__right {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
   align-items: stretch;
 }
 
@@ -82,7 +95,6 @@
   flex-direction: column;
   gap: 0.9rem;
   text-align: left;
-  height: 100%;
 }
 
 .callout__badge {
@@ -128,19 +140,16 @@
   filter: none;
 }
 
-/* Contenido debajo: lead, acciones y stats */
+/* Contenido debajo de la card del proverbio */
 .hero__content {
   display: flex;
   flex-direction: column;
-  gap: clamp(1.2rem, 2.5vw, 1.8rem);
-  align-items: center;
-  text-align: center;
-  max-width: 900px;
-  margin: 0 auto;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  align-items: flex-start;
 }
 
 .hero__lead {
-  font-size: clamp(1.1rem, 2vw, 1.28rem);
+  font-size: clamp(1.05rem, 1.8vw, 1.2rem);
   color: rgba(16, 36, 59, 0.92);
   line-height: 1.7;
   margin: 0;
@@ -150,36 +159,35 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.85rem;
-  justify-content: center;
 }
 
 .hero__stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 1rem;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
   width: 100%;
-  max-width: 800px;
 }
 
 .hero__stat {
   background: var(--surface);
   border-radius: var(--radius-lg);
-  padding: 1.1rem 1.35rem;
+  padding: 0.9rem 1.1rem;
   box-shadow: var(--shadow-1);
   border: 1px solid rgba(19, 80, 122, 0.12);
 }
 
 .hero__stat-value {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: var(--brand-secondary);
-  margin: 0 0 0.4rem 0;
+  margin: 0 0 0.3rem 0;
 }
 
 .hero__stat-label {
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   color: var(--brand-ink-soft);
   margin: 0;
+  line-height: 1.4;
 }
 
 /* Impact strip */
@@ -345,16 +353,16 @@
 @media (max-width: 960px) {
   .hero {
     grid-template-columns: 1fr;
-    gap: clamp(1.5rem, 3vw, 2.5rem);
+    gap: clamp(2rem, 4vw, 3rem);
   }
 
-  .hero__title {
-    font-size: clamp(1.8rem, 5vw, 2.5rem);
+  .hero__title--small {
+    font-size: clamp(1.5rem, 4.5vw, 2rem);
   }
 
-  .hero__image img {
-    min-height: 250px;
-    max-height: 400px;
+  .hero__image--large img {
+    min-height: 300px;
+    max-height: 450px;
   }
 
   .callout {
@@ -367,21 +375,26 @@
   }
 
   .hero__content {
+    align-items: center;
     text-align: center;
   }
 
+  .hero__actions {
+    justify-content: center;
+  }
+
   .hero__stats {
-    text-align: left;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 }
 
 @media (max-width: 720px) {
-  .hero__title {
-    font-size: clamp(1.6rem, 6vw, 2.2rem);
+  .hero__title--small {
+    font-size: clamp(1.4rem, 5vw, 1.8rem);
   }
 
-  .hero__image img {
-    min-height: 200px;
+  .hero__image--large img {
+    min-height: 250px;
     max-height: 350px;
   }
 
@@ -401,5 +414,9 @@
 
   .hero__actions .btn {
     width: 100%;
+  }
+
+  .hero__stats {
+    grid-template-columns: 1fr;
   }
 }
