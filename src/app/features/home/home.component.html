@@ -1,81 +1,115 @@
 <section class="section" id="inicio" data-strapi-collection="home" data-strapi-section="hero">
   <div class="container">
-    <!-- Layout superior: 2 columnas -->
-    <div class="hero">
-      <!-- Columna izquierda: Título pequeño e Imagen grande -->
-      <div class="hero__left">
-        <span class="hero__badge">{{ hero.eyebrow }}</span>
-        <h1 class="hero__title hero__title--small">
-          <span *ngFor="let line of hero.title">{{ line }}</span>
-        </h1>
-        <figure class="hero__image hero__image--large" aria-hidden="true">
-          <img
-            [src]="hero.image"
-            [alt]="hero.imageAlt"
-            loading="eager"
-          />
-        </figure>
-      </div>
+    <!-- Layout principal con sidebar -->
+    <div class="hero-with-sidebar">
+      <!-- Columna principal izquierda -->
+      <div class="hero-main">
+        <div class="hero">
+          <!-- Columna izquierda: Título pequeño e Imagen grande -->
+          <div class="hero__left">
+            <span class="hero__badge">{{ hero.eyebrow }}</span>
+            <h1 class="hero__title hero__title--small">
+              <span *ngFor="let line of hero.title">{{ line }}</span>
+            </h1>
+            <figure class="hero__image hero__image--large" aria-hidden="true">
+              <img
+                [src]="hero.image"
+                [alt]="hero.imageAlt"
+                loading="eager"
+              />
+            </figure>
+          </div>
 
-      <!-- Columna derecha: Mensaje bíblico, logo y texto debajo -->
-      <div class="hero__right">
-        <div class="callout" data-strapi-collection="hero.verse">
-          <div class="callout__badge">{{ hero.verse.reference }}</div>
-          <p class="callout__title">{{ hero.verse.text }}</p>
-          <p class="callout__text">{{ hero.verse.description }}</p>
-          <div class="callout__media" aria-hidden="true">
-            <img [src]="globalLogoUrl" [alt]="globalLogoAlt" loading="lazy" />
+          <!-- Columna derecha: Mensaje bíblico, logo y texto debajo -->
+          <div class="hero__right">
+            <div class="callout" data-strapi-collection="hero.verse">
+              <div class="callout__badge">{{ hero.verse.reference }}</div>
+              <p class="callout__title">{{ hero.verse.text }}</p>
+              <p class="callout__text">{{ hero.verse.description }}</p>
+              <div class="callout__media" aria-hidden="true">
+                <img [src]="globalLogoUrl" [alt]="globalLogoAlt" loading="lazy" />
+              </div>
+            </div>
+
+            <!-- Texto lead debajo de la card del proverbio -->
+            <div class="hero__content">
+              <p class="hero__lead">{{ hero.lead }}</p>
+              <div class="hero__actions">
+                <a
+                  *ngFor="let action of hero.actions"
+                  class="btn"
+                  [ngClass]="{
+                    'btn-primary': action.variant === 'primary',
+                    'btn-secondary': action.variant === 'secondary'
+                  }"
+                  [routerLink]="action.routerLink || null"
+                  [href]="action.href || null"
+                  [attr.data-strapi-uid]="action.dataStrapiUid"
+                  [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
+                  [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
+                >
+                  {{ action.label }}
+                </a>
+              </div>
+              <div class="hero__stats">
+                <article class="hero__stat" *ngFor="let stat of hero.stats" data-strapi-collection="hero.stats">
+                  <p class="hero__stat-value">{{ stat.value }}</p>
+                  <p class="hero__stat-label">{{ stat.label }}</p>
+                </article>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Texto lead debajo de la card del proverbio -->
-        <div class="hero__content">
-          <p class="hero__lead">{{ hero.lead }}</p>
-          <div class="hero__actions">
-            <a
-              *ngFor="let action of hero.actions"
-              class="btn"
-              [ngClass]="{
-                'btn-primary': action.variant === 'primary',
-                'btn-secondary': action.variant === 'secondary'
-              }"
-              [routerLink]="action.routerLink || null"
-              [href]="action.href || null"
-              [attr.data-strapi-uid]="action.dataStrapiUid"
-              [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
-              [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
-            >
-              {{ action.label }}
-            </a>
+        <!-- Personas atendidas debajo de la imagen -->
+        <div class="attended-section" data-strapi-section="attended-persons" *ngIf="attendedPersons.length">
+          <div class="section__header">
+            <span class="section__eyebrow">Nuestro impacto</span>
+            <h2 class="section__title">Personas atendidas</h2>
+            <p class="section__subtitle">Estos son los datos de nuestra comunidad a lo largo del año</p>
           </div>
-          <div class="hero__stats">
-            <article class="hero__stat" *ngFor="let stat of hero.stats" data-strapi-collection="hero.stats">
-              <p class="hero__stat-value">{{ stat.value }}</p>
-              <p class="hero__stat-label">{{ stat.label }}</p>
+          <div class="attended-grid">
+            <article class="card attended-card attended-card--{{ person.theme }}" *ngFor="let person of attendedPersons">
+              <div class="attended-card__icon">{{ person.icon }}</div>
+              <div class="attended-card__content">
+                <h3 class="attended-card__program">{{ person.program }}</h3>
+                <p class="attended-card__count">{{ person.count }}</p>
+                <p class="attended-card__description">{{ person.description }}</p>
+              </div>
             </article>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
 
-<section class="section section--attended" data-strapi-section="attended-persons" *ngIf="attendedPersons.length">
-  <div class="container">
-    <div class="section__header">
-      <span class="section__eyebrow">Nuestro impacto</span>
-      <h2 class="section__title">Personas atendidas</h2>
-      <p class="section__subtitle">Estos son los datos de nuestra comunidad a lo largo del año</p>
-    </div>
-    <div class="attended-grid">
-      <article class="card attended-card attended-card--{{ person.theme }}" *ngFor="let person of attendedPersons">
-        <div class="attended-card__icon">{{ person.icon }}</div>
-        <div class="attended-card__content">
-          <h3 class="attended-card__program">{{ person.program }}</h3>
-          <p class="attended-card__count">{{ person.count }}</p>
-          <p class="attended-card__description">{{ person.description }}</p>
+      <!-- Sidebar derecha: Calendario de eventos -->
+      <aside class="hero-sidebar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
+        <div class="calendar-widget">
+          <div class="calendar-widget__header">
+            <span class="section__eyebrow">Próximas actividades</span>
+            <h3 class="calendar-widget__title">Calendario</h3>
+          </div>
+          <div class="calendar-widget__events">
+            <article
+              class="calendar-event-compact"
+              *ngFor="let event of eventCalendar"
+              [class.calendar-event-compact--highlighted]="event.isHighlighted"
+              [class.calendar-event-compact--{{ event.color }}]="event.color"
+            >
+              <div class="calendar-event-compact__date">
+                <span class="calendar-event-compact__day">{{ event.eventDate | date: 'dd' }}</span>
+                <span class="calendar-event-compact__month">{{ event.eventDate | date: 'MMM' }}</span>
+              </div>
+              <div class="calendar-event-compact__content">
+                <h4 class="calendar-event-compact__title">{{ event.title }}</h4>
+                <p class="calendar-event-compact__time" *ngIf="event.eventDate">
+                  🕐 {{ event.eventDate | date: 'shortTime' }}
+                </p>
+                <span class="calendar-event-compact__category">{{ event.category }}</span>
+              </div>
+            </article>
+          </div>
         </div>
-      </article>
+      </aside>
     </div>
   </div>
 </section>
@@ -266,45 +300,6 @@
           <span aria-hidden="true">↗</span>
         </a>
       </article>
-    </div>
-  </div>
-</section>
-
-<section class="section section--calendar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
-  <div class="container">
-    <div class="calendar-layout">
-      <div class="calendar-intro">
-        <span class="section__eyebrow">Próximas actividades</span>
-        <h2 class="section__title">Calendario de eventos</h2>
-        <p class="section__subtitle">
-          Únete a nuestras actividades programadas. Todos son bienvenidos a participar y fortalecer nuestra comunidad.
-        </p>
-      </div>
-      <div class="calendar-events">
-        <article
-          class="calendar-event"
-          *ngFor="let event of eventCalendar"
-          [class.calendar-event--highlighted]="event.isHighlighted"
-          [class.calendar-event--{{ event.color }}]="event.color"
-        >
-          <div class="calendar-event__date">
-            <span class="calendar-event__day">{{ event.eventDate | date: 'dd' }}</span>
-            <span class="calendar-event__month">{{ event.eventDate | date: 'MMM' }}</span>
-          </div>
-          <div class="calendar-event__content">
-            <h3 class="calendar-event__title">{{ event.title }}</h3>
-            <p class="calendar-event__description" *ngIf="event.description">{{ event.description }}</p>
-            <div class="calendar-event__meta">
-              <span *ngIf="event.location" class="calendar-event__location">📍 {{ event.location }}</span>
-              <span class="calendar-event__time">🕐 {{ event.eventDate | date: 'shortTime' }}</span>
-            </div>
-            <span class="calendar-event__category">{{ event.category }}</span>
-          </div>
-          <a *ngIf="event.link" class="calendar-event__link" [href]="event.link" target="_blank" rel="noopener">
-            Ver más
-          </a>
-        </article>
-      </div>
     </div>
   </div>
 </section>
