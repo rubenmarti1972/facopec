@@ -2,24 +2,30 @@
   <div class="header-shell">
     <div class="header-container" data-strapi-collection="global" data-strapi-field="brand">
       <a class="logo" routerLink="/home" (click)="closeMenu()">
-        <img *ngIf="logoUrl" class="logo-image" [src]="logoUrl" [alt]="logoAlt" loading="lazy" />
+        <img class="logo-image" [src]="logoUrl" [alt]="logoAlt" loading="lazy" />
         <div class="logo-text">
           <span class="org-name">{{ siteNamePrimary }}</span>
           <span class="org-tagline" *ngIf="siteNameSecondary">{{ siteNameSecondary }}</span>
         </div>
       </a>
 
-      <nav class="nav-horizontal" data-strapi-collection="global" data-strapi-field="navigation">
+      <nav class="nav-desktop" aria-label="Navegación principal">
         <ul class="nav-list">
-          <li class="nav-list__item" *ngFor="let item of navigationItems; let i = index" [attr.data-strapi-uid]="item.dataStrapiUid">
-            <!-- Item simple sin hijos -->
+          <li
+            class="nav-item"
+            *ngFor="let item of navigationItems; let i = index"
+            [class.nav-item--has-children]="item.children?.length"
+            (mouseenter)="openDropdown(i)"
+            (mouseleave)="closeDropdown(i)"
+            [attr.data-strapi-uid]="item.dataStrapiUid"
+          >
             <a
               *ngIf="!item.children?.length && item.routerLink"
               class="nav-link"
               [routerLink]="item.routerLink"
               [fragment]="item.fragment ?? undefined"
-              routerLinkActive="nav-link--active"
-              [routerLinkActiveOptions]="{exact: item.exact || false}"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
               (click)="closeMenu()"
             >
               {{ item.label }}
@@ -36,7 +42,6 @@
               {{ item.label }}
             </a>
 
-            <!-- Item con hijos (dropdown) -->
             <button
               *ngIf="item.children?.length"
               type="button"
@@ -104,18 +109,14 @@
       </button>
     </div>
 
-    <!-- Mobile menu panel -->
     <nav
       *ngIf="menuOpen()"
       class="mobile-navigation"
       id="mobile-navigation"
       role="navigation"
-      data-strapi-collection="global"
-      data-strapi-field="navigation"
     >
       <ul class="mobile-nav-list">
-        <li class="mobile-nav-list__item" *ngFor="let item of navigationItems; let i = index" [attr.data-strapi-uid]="item.dataStrapiUid">
-          <!-- Item simple sin hijos -->
+        <li class="mobile-nav-item" *ngFor="let item of navigationItems; let i = index" [attr.data-strapi-uid]="item.dataStrapiUid">
           <a
             *ngIf="!item.children?.length && item.routerLink"
             class="mobile-nav-link"
@@ -137,7 +138,6 @@
             {{ item.label }}
           </a>
 
-          <!-- Item con hijos (expandible) -->
           <div *ngIf="item.children?.length" class="mobile-nav-nested">
             <button
               type="button"
