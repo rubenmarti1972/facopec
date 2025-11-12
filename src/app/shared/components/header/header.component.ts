@@ -105,7 +105,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.currentRoute = this.router.url;
 
-    // Cargar navegación desde el backend
+    // Cargar navegación fallback primero (se muestra de inmediato)
+    this.applyDefaultNavigation();
+
+    // Intentar cargar navegación desde el backend (sobrescribe el fallback si tiene éxito)
     this.loadNavigation();
 
     // Actualiza currentRoute en cada navegación
@@ -214,13 +217,137 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   /** === Métodos privados === */
 
+  /**
+   * Aplicar navegación por defecto (fallback)
+   * Se muestra inmediatamente incluso sin backend disponible
+   */
+  private applyDefaultNavigation(): void {
+    this.navigationItems = [
+      {
+        id: 'nav-home',
+        label: 'Inicio',
+        routerLink: '/home',
+        exact: true
+      },
+      {
+        id: 'nav-about',
+        label: 'Nosotros',
+        routerLink: '/about'
+      },
+      {
+        id: 'nav-programs',
+        label: 'Programas',
+        routerLink: '/home',
+        fragment: 'programas',
+        children: [
+          {
+            title: 'Para estudiantes',
+            items: [
+              {
+                label: 'Talleres de nivelación',
+                href: 'https://talleresdenivelacion.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Matemáticas básicas',
+                href: 'https://matematicasbasicas.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Lectura crítica',
+                href: 'https://lecturacritica.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Ciencias naturales',
+                href: 'https://cienciasnaturales.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Ciencias sociales',
+                href: 'https://cienciassociales.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Inglés básico',
+                href: 'https://inglesbasico.blogspot.com/',
+                target: '_blank'
+              }
+            ]
+          },
+          {
+            title: 'Para adultos',
+            items: [
+              {
+                label: 'Alfabetización',
+                href: 'https://alfabetizacion.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Capacitación laboral',
+                href: 'https://capacitacionlaboral.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Emprendimiento',
+                href: 'https://emprendimiento.blogspot.com/',
+                target: '_blank'
+              }
+            ]
+          },
+          {
+            title: 'Programas especiales',
+            items: [
+              {
+                label: 'Refuerzo escolar',
+                href: 'https://refuerzoescolar.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Pre-ICFES',
+                href: 'https://preicfes.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Tutorías personalizadas',
+                href: 'https://tutoriaspersonalizadas.blogspot.com/',
+                target: '_blank'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'nav-projects',
+        label: 'Proyectos',
+        routerLink: '/projects'
+      },
+      {
+        id: 'nav-contact',
+        label: 'Contacto',
+        routerLink: '/contact'
+      }
+    ];
+
+    // CTA por defecto
+    this.cta = {
+      label: 'Donar',
+      routerLink: '/donate',
+      dataStrapiUid: 'navigation.donate'
+    };
+
+    this.loading = false;
+  }
+
   private loadNavigation(): void {
     this.strapiService.getGlobalSettings().subscribe({
       next: settings => this.applyNavigation(settings),
       error: error => {
         console.error('Error loading navigation from Strapi', error);
+        console.log('Usando navegación por defecto (fallback)');
         this.error = error instanceof Error ? error.message : 'No se pudo cargar la navegación dinámica.';
         this.loading = false;
+        // No hacemos nada más, el fallback ya se cargó en ngOnInit
       }
     });
   }
