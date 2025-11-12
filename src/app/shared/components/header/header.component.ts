@@ -9,7 +9,7 @@ import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BRAND_COLORS } from '@core/design-system/brand-colors';
 import { StrapiService } from '@core/services/strapi.service';
-import { NavigationEntry } from '@core/models';
+import { NavigationEntry, NavigationGroup, NavigationChildLink } from '@core/models';
 
 /**
  * Interfaz legacy para backward compatibility
