@@ -1,16 +1,49 @@
 $primary: var(--color-primary, #1f9b7a);
 $secondary: var(--color-secondary, #13507a);
 $accent: var(--color-accent, #ff8c5a);
+$sun: var(--color-sun, #f7c948);
 $white: var(--color-white, #ffffff);
 $light-gray: var(--color-light-gray, #f5f7fb);
 $medium-gray: var(--color-medium-gray, #5f6c7b);
 $dark: var(--color-dark, #10243b);
 
+// ============================================================================
+// Footer Container
+// ============================================================================
+
 .app-footer {
   background-color: $secondary;
   color: $white;
   margin-top: 4rem;
+  position: relative;
 }
+
+.footer-surface {
+  background: linear-gradient(
+    165deg,
+    rgba(10, 42, 65, 0.98) 0%,
+    rgba(15, 87, 67, 0.94) 58%,
+    rgba(217, 101, 47, 0.88) 100%
+  );
+  color: #f8fafc;
+}
+
+// Waves decoration
+.footer-waves {
+  width: 100%;
+  height: auto;
+  margin-bottom: -2px;
+
+  .waves-svg {
+    width: 100%;
+    height: 80px;
+    display: block;
+  }
+}
+
+// ============================================================================
+// Footer Grid Layout
+// ============================================================================
 
 .footer-container {
   display: grid;
@@ -20,6 +53,10 @@ $dark: var(--color-dark, #10243b);
   margin: 0 auto;
   padding: 4rem 2rem 2rem;
 }
+
+// ============================================================================
+// Footer Sections
+// ============================================================================
 
 .footer-section {
   display: flex;
@@ -31,50 +68,97 @@ $dark: var(--color-dark, #10243b);
     margin-bottom: 1.5rem;
     text-transform: uppercase;
     letter-spacing: 1px;
+    color: $sun;
   }
 
   .section-text {
     font-size: 0.95rem;
     line-height: 1.6;
-    color: rgba($white, 0.8);
+    color: rgba($white, 0.85);
     margin: 0 0 1rem 0;
   }
 }
 
-// Organization Info Section
+// ============================================================================
+// Column 1: Organization Info
+// ============================================================================
+
 .footer-info {
-  .section-content {
+  .footer-brand {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 1rem;
+    margin-bottom: 1.5rem;
   }
 
-  .contact-info {
+  .footer-logo-wrapper {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $primary 0%, rgba($primary, 0.7) 100%);
+    box-shadow: 0 4px 12px rgba($primary, 0.3);
     display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
 
-    p {
-      font-size: 0.9rem;
-      line-height: 1.5;
-      margin: 0;
-      color: rgba($white, 0.85);
+    &:hover {
+      transform: rotate(6deg) scale(1.05);
+    }
+  }
+
+  .footer-logo-image {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+  }
+
+  .footer-brand-text {
+    flex: 1;
+
+    .section-title {
+      margin: 0 0 0.25rem 0;
+      font-size: 1.1rem;
+      color: $white;
     }
 
-    .contact-link {
-      color: $primary;
-      text-decoration: none;
-      transition: all 0.3s ease;
+    .footer-tagline {
+      font-size: 0.75rem;
+      color: rgba($white, 0.7);
+      margin: 0;
+    }
+  }
 
-      &:hover {
-        color: color-mix(in srgb, $primary 85%, $white 15%);
-        text-decoration: underline;
-      }
+  .footer-verse {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba($white, 0.1);
+    border-radius: 999px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba($white, 0.2);
+    width: fit-content;
+
+    .verse-icon {
+      width: 20px;
+      height: 20px;
+      color: $sun;
+    }
+
+    .verse-text {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $sun;
     }
   }
 }
 
-// Links Section
+// ============================================================================
+// Column 2: Quick Links
+// ============================================================================
+
 .footer-links {
   .links-list {
     list-style: none;
@@ -86,129 +170,247 @@ $dark: var(--color-dark, #10243b);
 
     li {
       display: flex;
+      align-items: center;
+    }
 
-      .footer-link {
-        color: rgba($white, 0.8);
-        text-decoration: none;
-        font-size: 0.95rem;
+    .footer-link {
+      color: rgba($white, 0.85);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      position: relative;
+      padding-left: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      &::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba($white, 0.6);
         transition: all 0.3s ease;
-        position: relative;
+      }
 
-        &:hover {
-          color: $primary;
-          padding-left: 0.5rem;
-        }
+      &:hover {
+        color: $primary;
+        padding-left: 0.5rem;
 
         &::before {
-          content: '→';
-          margin-right: 0.5rem;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        &:hover::before {
-          opacity: 1;
+          background: $primary;
+          transform: scale(1.5);
         }
       }
     }
   }
 }
 
-// Social Media Section
+// ============================================================================
+// Column 3: Contact
+// ============================================================================
+
+.footer-contact {
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .contact-link-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateX(4px);
+
+      .contact-icon {
+        background: $primary;
+        color: $secondary;
+      }
+    }
+  }
+
+  .contact-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba($white, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+
+    .icon-svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    &--whatsapp:hover {
+      background: #25d366;
+    }
+
+    &--email:hover {
+      background: $primary;
+    }
+
+    &--location {
+      background: rgba($white, 0.1);
+    }
+  }
+
+  .contact-text {
+    flex: 1;
+
+    .contact-label {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: $white;
+      margin: 0 0 0.25rem 0;
+    }
+
+    .contact-value {
+      font-size: 0.85rem;
+      color: rgba($white, 0.75);
+      margin: 0;
+      word-break: break-all;
+    }
+  }
+}
+
+// ============================================================================
+// Column 4: Social Media & Schedule
+// ============================================================================
+
 .footer-social {
   .social-links {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
     flex-wrap: wrap;
-
-    .social-link {
-      font-size: 1.5rem;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background-color: rgba($white, 0.1);
-
-      &:hover {
-        background-color: $primary;
-        color: $secondary;
-        transform: translateY(-3px);
-      }
-    }
+    margin-bottom: 1.5rem;
   }
-}
 
-// Newsletter Section
-.footer-newsletter {
-  .newsletter-form {
+  .social-link {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba($white, 0.1);
     display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .newsletter-input {
-    padding: 0.75rem 1rem;
-    border: 1px solid rgba($white, 0.2);
-    background-color: rgba($white, 0.05);
+    align-items: center;
+    justify-content: center;
     color: $white;
-    border-radius: 4px;
-    font-size: 0.95rem;
+    text-decoration: none;
     transition: all 0.3s ease;
+    border: 2px solid transparent;
 
-    &::placeholder {
-      color: rgba($white, 0.5);
+    .social-icon {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
     }
-
-    &:focus {
-      outline: none;
-      background-color: rgba($white, 0.1);
-      border-color: $primary;
-      box-shadow: 0 0 8px rgba($primary, 0.3);
-    }
-  }
-
-  .newsletter-btn {
-    padding: 0.75rem 1rem;
-    background-color: $primary;
-    color: $secondary;
-    border: none;
-    border-radius: 4px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
 
     &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba($primary, 0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba($primary, 0.3);
     }
 
-    &:active {
-      transform: translateY(0);
+    &--blog:hover {
+      background: $primary;
+      border-color: $primary;
+    }
+
+    &--whatsapp:hover {
+      background: #25d366;
+      border-color: #25d366;
+    }
+  }
+
+  .schedule-card {
+    padding: 1.25rem;
+    background: rgba($white, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba($white, 0.2);
+  }
+
+  .schedule-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+
+    .schedule-icon {
+      width: 20px;
+      height: 20px;
+      color: $sun;
+    }
+
+    .schedule-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $white;
+      margin: 0;
+    }
+  }
+
+  .schedule-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .schedule-item {
+    font-size: 0.85rem;
+    color: rgba($white, 0.85);
+
+    .schedule-day {
+      font-weight: 600;
+      color: rgba($white, 0.9);
+    }
+
+    .schedule-time {
+      color: rgba($white, 0.75);
     }
   }
 }
 
+// ============================================================================
 // Footer Bottom
+// ============================================================================
+
 .footer-bottom {
-  border-top: 1px solid rgba($white, 0.1);
+  border-top: 1px solid rgba($white, 0.15);
   padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  background-color: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.15);
 
   .copyright {
     margin: 0;
     font-size: 0.9rem;
-    color: rgba($white, 0.7);
+    color: rgba($white, 0.75);
     text-align: center;
+
+    .copyright-name {
+      font-weight: 600;
+      color: $white;
+    }
   }
 
   .footer-legal {
@@ -219,7 +421,7 @@ $dark: var(--color-dark, #10243b);
     flex-wrap: wrap;
 
     .legal-link {
-      color: rgba($white, 0.7);
+      color: rgba($white, 0.75);
       text-decoration: none;
       font-size: 0.9rem;
       transition: color 0.3s ease;
@@ -236,20 +438,25 @@ $dark: var(--color-dark, #10243b);
   }
 }
 
+// ============================================================================
 // Responsive Design
+// ============================================================================
+
 @media (max-width: 768px) {
   .footer-container {
     grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 2rem 1rem 1rem;
+    gap: 2.5rem;
+    padding: 3rem 1.5rem 1.5rem;
   }
 
   .footer-bottom {
     flex-direction: column;
+    padding: 1.5rem;
     text-align: center;
 
     .footer-legal {
       flex-direction: column;
+      gap: 0.75rem;
 
       .separator {
         display: none;
@@ -266,8 +473,8 @@ $dark: var(--color-dark, #10243b);
 
 @media (max-width: 480px) {
   .footer-container {
-    padding: 1.5rem 1rem 0.5rem;
-    gap: 1.5rem;
+    padding: 2rem 1rem 1rem;
+    gap: 2rem;
   }
 
   .footer-section {
@@ -282,7 +489,7 @@ $dark: var(--color-dark, #10243b);
   }
 
   .footer-bottom {
-    padding: 1rem;
+    padding: 1.25rem;
 
     .copyright {
       font-size: 0.85rem;
@@ -291,27 +498,5 @@ $dark: var(--color-dark, #10243b);
     .legal-link {
       font-size: 0.85rem;
     }
-  }
-}
-
-.footer-surface {
-  background: linear-gradient(165deg, rgba(10, 42, 65, 0.98) 0%, rgba(15, 87, 67, 0.94) 58%, rgba(217, 101, 47, 0.88) 100%);
-  color: #f8fafc;
-
-  .container {
-    max-width: min(1680px, 96vw);
-  }
-
-  h3,
-  h4 {
-    color: #fdfdfd;
-  }
-
-  .text-gray-200 {
-    color: rgba(241, 247, 253, 0.85);
-  }
-
-  .border-white\/20 {
-    border-color: rgba(255, 255, 255, 0.16) !important;
   }
 }
