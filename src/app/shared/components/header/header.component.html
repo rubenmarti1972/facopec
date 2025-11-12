@@ -1,27 +1,11 @@
-<header class="bg-white/95 backdrop-blur-md shadow-md sticky top-0 z-50 border-b-2 border-primary-500/20">
-  <!-- Banner superior minimalista -->
-  <div class="bg-gradient-to-r from-primary-500 via-sky-DEFAULT to-rose-DEFAULT text-white py-2 px-4 text-center text-xs md:text-sm font-medium">
-    <span class="inline-flex items-center gap-2">
-      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-      </svg>
-      <span class="hidden sm:inline">Proverbios 3:13 - "Bienaventurado el hombre que halla sabiduría"</span>
-      <span class="sm:hidden">Proverbios 3:13</span>
-    </span>
-  </div>
-
-  <nav class="header-shell">
-    <div class="flex items-center justify-between h-20">
-      <!-- Logo -->
-      <a routerLink="/inicio" class="flex items-center gap-3 group">
-        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-grass shadow-lg flex items-center justify-center transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
-          <span class="text-2xl">🏠</span>
-        </div>
-        <div class="hidden md:block">
-          <h1 class="text-base font-display font-bold text-ocean leading-tight transition-colors">
-            Fundación Afrocolombiana<br>
-            <span class="text-primary-500">Profe en Casa</span>
-          </h1>
+<header class="app-header" role="banner">
+  <div class="header-shell">
+    <div class="header-container" data-strapi-collection="global" data-strapi-field="brand">
+      <a class="logo" routerLink="/home" (click)="closeMenu()">
+        <img class="logo-image" [src]="logoUrl" [alt]="logoAlt" loading="lazy" />
+        <div class="logo-text">
+          <span class="org-name">{{ siteNamePrimary }}</span>
+          <span class="org-tagline" *ngIf="siteNameSecondary">{{ siteNameSecondary }}</span>
         </div>
       </a>
 
@@ -75,21 +59,69 @@
         </li>
       </ul>
 
-      <!-- Botón CTA Desktop -->
-      <button routerLink="/donaciones"
-              class="hidden lg:flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-rose-DEFAULT to-rose-light text-white rounded-full font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
-        </svg>
-        <span>Donar</span>
-      </button>
+            <button
+              *ngIf="item.children?.length"
+              type="button"
+              class="nav-link nav-link--trigger"
+              (click)="toggleDropdown(i, $event)"
+              [attr.aria-expanded]="isDropdownOpen(i)"
+              [attr.aria-controls]="'nav-panel-' + i"
+            >
+              {{ item.label }}
+              <span class="nav-caret" aria-hidden="true">▾</span>
+            </button>
 
-      <!-- Botón menú móvil -->
-      <button (click)="toggleMenu()" class="lg:hidden p-2 rounded-lg text-ocean hover:bg-primary-50 transition-colors">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path *ngIf="!menuOpen()" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          <path *ngIf="menuOpen()" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-        </svg>
+            <div
+              *ngIf="item.children?.length"
+              class="nav-dropdown"
+              [class.nav-dropdown--open]="isDropdownOpen(i)"
+              [id]="'nav-panel-' + i"
+              role="menu"
+            >
+              <div class="nav-group" *ngFor="let group of item.children" [attr.data-strapi-uid]="group.dataStrapiUid">
+              <p class="nav-group__title" *ngIf="group.title">{{ group.title }}</p>
+                <a
+                  class="nav-group__link"
+                  *ngFor="let child of group.items"
+                  [routerLink]="child.routerLink || null"
+                  [fragment]="child.fragment ?? undefined"
+                  [href]="child.href || null"
+                  [attr.target]="child.target || (isExternalHref(child.href, child.target) ? '_blank' : null)"
+                  [attr.rel]="isExternalHref(child.href, child.target) ? 'noopener' : null"
+                  (click)="closeMenu()"
+                  [attr.data-strapi-uid]="child.dataStrapiUid"
+                >
+                  {{ child.label }}
+                </a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+
+      <a
+        class="primary-cta"
+        [routerLink]="cta.routerLink || null"
+        [href]="cta.href || null"
+        [attr.target]="cta.target || (isExternalHref(cta.href, cta.target) ? '_blank' : null)"
+        [attr.rel]="isExternalHref(cta.href, cta.target) ? 'noopener' : null"
+        [attr.data-strapi-uid]="cta.dataStrapiUid"
+        (click)="closeMenu()"
+      >
+        {{ cta.label }}
+      </a>
+
+      <button
+        class="mobile-menu-btn"
+        type="button"
+        (click)="toggleMenu()"
+        [class.active]="menuOpen()"
+        aria-controls="mobile-navigation"
+        [attr.aria-expanded]="menuOpen()"
+      >
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
       </button>
     </div>
 
@@ -143,13 +175,18 @@
           </div>
         </li>
       </ul>
-      <button routerLink="/donaciones" (click)="closeMenu()"
-              class="w-full mt-4 flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-rose-DEFAULT to-rose-light text-white rounded-full font-semibold shadow-lg">
-        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
-        </svg>
-        Donar Ahora
-      </button>
-    </div>
-  </nav>
+
+      <a
+        class="mobile-cta"
+        [routerLink]="cta.routerLink || null"
+        [href]="cta.href || null"
+        [attr.target]="cta.target || (isExternalHref(cta.href, cta.target) ? '_blank' : null)"
+        [attr.rel]="isExternalHref(cta.href, cta.target) ? 'noopener' : null"
+        [attr.data-strapi-uid]="cta.dataStrapiUid"
+        (click)="closeMenu()"
+      >
+        {{ cta.label }}
+      </a>
+    </nav>
+  </div>
 </header>

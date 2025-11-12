@@ -1,9 +1,9 @@
 /**
  * Header and Navigation Component
- * Displays main navigation tabs and branding
+ * Consumes Strapi global settings to build the public navigation
  */
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -18,9 +18,23 @@ import { NavigationEntry } from '@core/models';
 interface NavigationItem {
   id: string;
   label: string;
-  route: string;
+  routerLink?: string;
+  href?: string;
+  fragment?: string;
+  target?: '_self' | '_blank';
+  exact?: boolean;
   icon?: string;
-  description: string;
+  description?: string;
+  dataStrapiUid?: string;
+  children?: NavigationGroupView[];
+}
+
+interface PrimaryCtaLink {
+  label: string;
+  routerLink?: string;
+  href?: string;
+  target?: '_self' | '_blank';
+  dataStrapiUid: string;
 }
 
 @Component({
@@ -32,6 +46,7 @@ interface NavigationItem {
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   brandColors = BRAND_COLORS;
+  private readonly strapiService = inject(StrapiService);
 
   /** Estado del menú móvil */
   private _mobileMenuOpen = false;
@@ -62,7 +77,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // Captura la ruta inicial
     this.currentRoute = this.router.url;
 
     // Cargar navegación desde el backend
@@ -76,6 +90,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.activeSubmenuId = null; // cierra submenú al navegar
       }
     });
+
+    this.loadNavigation();
   }
 
   /**
@@ -121,32 +137,253 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.sub?.unsubscribe();
   }
 
-  /** === Métodos que el HTML espera === */
-
-  /** Botón hamburguesa */
   toggleMenu(): void {
-    this._mobileMenuOpen = !this._mobileMenuOpen;
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+    if (!this.mobileMenuOpen) {
+      this.dropdownIndex = null;
+    }
   }
 
-  /** Cerrar menú móvil (al hacer click en una opción) */
   closeMenu(): void {
-    this._mobileMenuOpen = false;
+    this.mobileMenuOpen = false;
+    this.dropdownIndex = null;
   }
 
-  /** Usado en *ngIf="menuOpen()" */
   menuOpen(): boolean {
-    return this._mobileMenuOpen;
+    return this.mobileMenuOpen;
   }
 
-  /** Navegación programática si la necesitas desde TS */
-  navigate(route: string): void {
-    this.router.navigate([route]);
-    this.closeMenu();
+  toggleDropdown(index: number, event: Event): void {
+    event.preventDefault();
+    if (this.dropdownIndex === index) {
+      this.dropdownIndex = null;
+    } else {
+      this.dropdownIndex = index;
+    }
   }
 
-  /** Utilidad: check activo (si prefieres en vez de routerLinkActive) */
-  isActive(route: string): boolean {
-    return this.currentRoute === route || this.currentRoute.startsWith(route + '/');
+  openDropdown(index: number): void {
+    if (this.mobileMenuOpen) {
+      return;
+    }
+    this.dropdownIndex = index;
+  }
+
+  closeDropdown(index?: number): void {
+    if (this.mobileMenuOpen) {
+      return;
+    }
+    if (index === undefined || this.dropdownIndex === index) {
+      this.dropdownIndex = null;
+    }
+  }
+
+  isDropdownOpen(index: number): boolean {
+    return this.dropdownIndex === index;
+  }
+
+  isExternalHref(href?: string | null, target?: string | null): boolean {
+    if (!href) {
+      return target === '_blank';
+    }
+    return /^https?:\/\//i.test(href);
+  }
+
+  isActive(item: NavigationItemView): boolean {
+    if (item.routerLink) {
+      const normalizedRoute = item.routerLink.endsWith('/') ? item.routerLink.slice(0, -1) : item.routerLink;
+      const current = this.currentRoute.endsWith('/') ? this.currentRoute.slice(0, -1) : this.currentRoute;
+      if (item.exact) {
+        return current === normalizedRoute;
+      }
+      return current.startsWith(normalizedRoute);
+    }
+    return false;
+  }
+
+  private loadNavigation(): void {
+    this.strapiService.getGlobalSettings().subscribe({
+      next: settings => this.applyNavigation(settings),
+      error: error => {
+        console.error('Error loading navigation from Strapi', error);
+        this.error = error instanceof Error ? error.message : 'No se pudo cargar la navegación dinámica.';
+        this.loading = false;
+      }
+    });
+  }
+
+  private applyNavigation(settings: GlobalSettings): void {
+    if (settings.navigation?.length) {
+      const mapped = this.mapNavigation(settings.navigation);
+      if (mapped.length) {
+        this.navigationItems = mapped;
+
+        const donateEntry = mapped.find(item =>
+          ['navigation.donate', 'navigation.donations'].includes(item.dataStrapiUid ?? '')
+        );
+
+        if (donateEntry) {
+          this.cta = {
+            label: donateEntry.label,
+            routerLink: donateEntry.routerLink,
+            href: donateEntry.href,
+            target: donateEntry.target,
+            dataStrapiUid: donateEntry.dataStrapiUid ?? 'navigation.donate'
+          } satisfies PrimaryCtaLink;
+        }
+      }
+    }
+
+    if (settings.siteName) {
+      const [primary, secondary] = settings.siteName.split('|').map(part => part.trim()).filter(Boolean);
+      this.siteNamePrimary = primary ?? this.siteNamePrimary;
+      this.siteNameSecondary = secondary ?? '';
+    }
+
+    const mediaUrl = this.strapiService.buildMediaUrl(settings.logo);
+    if (mediaUrl) {
+      this.logoUrl = mediaUrl;
+      this.logoAlt = settings.logo?.alternativeText ?? settings.logo?.caption ?? this.logoAlt;
+    }
+
+    this.loading = false;
+  }
+
+  private mapNavigation(entries: NavigationEntry[]): NavigationItemView[] {
+    return entries
+      .slice()
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+      .map((entry, index) => {
+        const id = entry.dataUid ?? `nav-${index}`;
+        const link = this.normalizeLink(entry.url, entry.fragment, entry.target);
+        const children = this.mapGroups(entry.children);
+        return {
+          id,
+          label: entry.label ?? id,
+          routerLink: link.routerLink,
+          href: link.href,
+          fragment: link.fragment,
+          target: link.target,
+          exact: entry.exact ?? false,
+          icon: entry.icon ?? undefined,
+          description: entry.description ?? undefined,
+          dataStrapiUid: entry.dataUid ?? undefined,
+          children
+        } satisfies NavigationItemView;
+      })
+      .filter(item => !!item.label && (item.routerLink || item.href || item.children?.length));
+  }
+
+  private mapGroups(groups?: NavigationGroup[] | null): NavigationGroupView[] | undefined {
+    if (!groups?.length) {
+      return undefined;
+    }
+
+    const mapped = groups
+      .map(group => {
+        const items = this.mapChildLinks(group.items);
+        if (!items.length) {
+          return undefined;
+        }
+        const entry: NavigationGroupView = {
+          title: group.title ?? undefined,
+          dataStrapiUid: group.dataUid ?? undefined,
+          items
+        };
+        return entry;
+      })
+      .filter((group): group is NavigationGroupView => !!group);
+
+    return mapped.length ? mapped : undefined;
+  }
+
+  private mapChildLinks(items?: NavigationChildLink[] | null): NavigationChildView[] {
+    if (!items?.length) {
+      return [];
+    }
+
+    return items
+      .map(item => {
+        const link = this.normalizeLink(item.url, item.fragment, item.target);
+        return {
+          label: item.label,
+          routerLink: link.routerLink,
+          href: link.href,
+          fragment: link.fragment,
+          target: link.target,
+          dataStrapiUid: item.dataUid ?? undefined
+        } satisfies NavigationChildView;
+      })
+      .filter(child => !!child.label && (child.routerLink || child.href));
+  }
+
+  private coerceTarget(target?: string | null): '_self' | '_blank' | undefined {
+    if (target === '_blank' || target === '_self') {
+      return target;
+    }
+    return undefined;
+  }
+
+  private normalizeLink(
+    url?: string | null,
+    fragment?: string | null,
+    target?: string | null
+  ): { routerLink?: string; href?: string; fragment?: string; target?: '_self' | '_blank' } {
+    const normalizedTarget = this.coerceTarget(target);
+
+    if (!url) {
+      return normalizedTarget ? { target: normalizedTarget } : {};
+    }
+
+    const trimmed = url.trim();
+    const isAbsolute = /^https?:\/\//i.test(trimmed);
+    const hasHash = trimmed.includes('#');
+    const [pathPart, hashPart] = hasHash ? trimmed.split('#', 2) : [trimmed, undefined];
+    const resolvedFragment = fragment ?? hashPart ?? undefined;
+    const resolvedTarget = normalizedTarget ?? (isAbsolute ? '_blank' : undefined);
+
+    if (isAbsolute) {
+      return {
+        href: trimmed,
+        fragment: resolvedFragment,
+        target: resolvedTarget
+      };
+    }
+
+    if (trimmed.startsWith('/')) {
+      const result: { routerLink: string; fragment?: string; target?: '_self' | '_blank' } = {
+        routerLink: pathPart || '/'
+      };
+      if (resolvedFragment) {
+        result.fragment = resolvedFragment;
+      }
+      if (resolvedTarget) {
+        result.target = resolvedTarget;
+      }
+      return result;
+    }
+
+    if (trimmed.startsWith('#')) {
+      const result: { routerLink: string; fragment?: string; target?: '_self' | '_blank' } = {
+        routerLink: '/'
+      };
+      result.fragment = trimmed.slice(1);
+      if (resolvedTarget) {
+        result.target = resolvedTarget;
+      }
+      return result;
+    }
+
+    const result: { href: string; fragment?: string; target?: '_self' | '_blank' } = {
+      href: trimmed
+    };
+    if (resolvedFragment) {
+      result.fragment = resolvedFragment;
+    }
+    if (resolvedTarget) {
+      result.target = resolvedTarget;
+    }
+    return result;
   }
 
   /** Alternar submenú (para desktop dropdowns) */
