@@ -246,6 +246,29 @@
   display: grid;
   gap: 1rem;
   align-content: start;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fondos elegantes con gradientes suaves para cada tema */
+.activity-card:nth-child(4n+1) {
+  background: linear-gradient(135deg, rgba(31, 155, 122, 0.08) 0%, rgba(31, 155, 122, 0.02) 100%);
+  border-left: 3px solid rgba(31, 155, 122, 0.4);
+}
+
+.activity-card:nth-child(4n+2) {
+  background: linear-gradient(135deg, rgba(19, 80, 122, 0.08) 0%, rgba(19, 80, 122, 0.02) 100%);
+  border-left: 3px solid rgba(19, 80, 122, 0.4);
+}
+
+.activity-card:nth-child(4n+3) {
+  background: linear-gradient(135deg, rgba(242, 108, 167, 0.08) 0%, rgba(242, 108, 167, 0.02) 100%);
+  border-left: 3px solid rgba(242, 108, 167, 0.4);
+}
+
+.activity-card:nth-child(4n+4) {
+  background: linear-gradient(135deg, rgba(247, 201, 72, 0.08) 0%, rgba(247, 201, 72, 0.02) 100%);
+  border-left: 3px solid rgba(247, 201, 72, 0.4);
 }
 
 .activity-card__icon {
@@ -257,24 +280,25 @@
   justify-content: center;
   font-size: 1.9rem;
   color: #0f5743;
+  box-shadow: 0 4px 12px rgba(31, 155, 122, 0.15);
 }
 
 .activity-card__icon.teal {
-  background: rgba(31, 155, 122, 0.18);
+  background: linear-gradient(135deg, rgba(31, 155, 122, 0.25), rgba(31, 155, 122, 0.15));
 }
 
 .activity-card__icon.blue {
-  background: rgba(19, 80, 122, 0.18);
+  background: linear-gradient(135deg, rgba(19, 80, 122, 0.25), rgba(19, 80, 122, 0.15));
   color: #13507a;
 }
 
 .activity-card__icon.rose {
-  background: rgba(242, 108, 167, 0.22);
+  background: linear-gradient(135deg, rgba(242, 108, 167, 0.28), rgba(242, 108, 167, 0.18));
   color: #9b2c5d;
 }
 
 .activity-card__icon.gold {
-  background: rgba(247, 201, 72, 0.26);
+  background: linear-gradient(135deg, rgba(247, 201, 72, 0.32), rgba(247, 201, 72, 0.22));
   color: #8b6507;
 }
 
@@ -283,6 +307,30 @@
   display: grid;
   gap: 1.1rem;
   align-content: start;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fondos elegantes alternados para project cards */
+.project-card:nth-child(odd) {
+  background: linear-gradient(145deg, rgba(19, 80, 122, 0.06) 0%, rgba(31, 155, 122, 0.03) 100%);
+  border-top: 2px solid rgba(19, 80, 122, 0.25);
+}
+
+.project-card:nth-child(even) {
+  background: linear-gradient(145deg, rgba(31, 155, 122, 0.06) 0%, rgba(19, 80, 122, 0.03) 100%);
+  border-top: 2px solid rgba(31, 155, 122, 0.25);
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(255, 140, 90, 0.08) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .project-card__body {
@@ -323,6 +371,41 @@
 /* Catalog cards */
 .catalog-card {
   min-height: 220px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fondos vibrantes para catalog cards con efecto de capas */
+.catalog-card:nth-child(4n+1) {
+  background: linear-gradient(135deg, rgba(247, 201, 72, 0.12) 0%, rgba(255, 140, 90, 0.06) 100%);
+  border: 2px solid rgba(247, 201, 72, 0.3);
+}
+
+.catalog-card:nth-child(4n+2) {
+  background: linear-gradient(135deg, rgba(242, 108, 167, 0.12) 0%, rgba(255, 140, 90, 0.06) 100%);
+  border: 2px solid rgba(242, 108, 167, 0.3);
+}
+
+.catalog-card:nth-child(4n+3) {
+  background: linear-gradient(135deg, rgba(31, 155, 122, 0.12) 0%, rgba(19, 80, 122, 0.06) 100%);
+  border: 2px solid rgba(31, 155, 122, 0.3);
+}
+
+.catalog-card:nth-child(4n+4) {
+  background: linear-gradient(135deg, rgba(19, 80, 122, 0.12) 0%, rgba(31, 155, 122, 0.06) 100%);
+  border: 2px solid rgba(19, 80, 122, 0.3);
+}
+
+.catalog-card::after {
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  right: -30px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .catalog-card__description {
