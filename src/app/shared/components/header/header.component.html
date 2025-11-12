@@ -2,7 +2,7 @@
   <div class="header-shell">
     <div class="header-container" data-strapi-collection="global" data-strapi-field="brand">
       <a class="logo" routerLink="/home" (click)="closeMenu()">
-        <img class="logo-image" [src]="logoUrl" [alt]="logoAlt" loading="lazy" />
+        <img class="logo-image" src="assets/logo.png" [alt]="logoAlt" loading="lazy" />
         <div class="logo-text">
           <span class="org-name">{{ siteNamePrimary }}</span>
           <span class="org-tagline" *ngIf="siteNameSecondary">{{ siteNameSecondary }}</span>
