@@ -63,18 +63,33 @@
             >
               <div class="nav-group" *ngFor="let group of item.children" [attr.data-strapi-uid]="group.dataStrapiUid">
                 <p class="nav-group__title" *ngIf="group.title">{{ group.title }}</p>
+
+                <!-- Link interno con routerLink -->
                 <a
-                  class="nav-group__link"
                   *ngFor="let child of group.items"
-                  [routerLink]="child.routerLink || null"
+                  class="nav-group__link"
+                  [routerLink]="child.routerLink"
                   [fragment]="child.fragment ?? undefined"
-                  [href]="child.href || null"
-                  [attr.target]="child.target || (isExternalHref(child.href, child.target) ? '_blank' : null)"
-                  [attr.rel]="isExternalHref(child.href, child.target) ? 'noopener' : null"
                   (click)="closeMenu()"
                   [attr.data-strapi-uid]="child.dataStrapiUid"
+                  *ngIf="child.routerLink && !child.href"
                 >
                   {{ child.label }}
+                </a>
+
+                <!-- Link externo con href -->
+                <a
+                  *ngFor="let child of group.items"
+                  class="nav-group__link nav-group__link--external"
+                  [href]="child.href"
+                  [attr.target]="child.target || '_blank'"
+                  [attr.rel]="isExternalHref(child.href, child.target) ? 'noopener noreferrer' : null"
+                  (click)="closeMenu()"
+                  [attr.data-strapi-uid]="child.dataStrapiUid"
+                  *ngIf="child.href"
+                >
+                  {{ child.label }}
+                  <span class="external-icon" aria-label="(abre en nueva pestaña)">↗</span>
                 </a>
               </div>
             </div>
@@ -157,18 +172,33 @@
             >
               <div class="mobile-nav-group" *ngFor="let group of item.children" [attr.data-strapi-uid]="group.dataStrapiUid">
                 <p class="mobile-nav-group__title" *ngIf="group.title">{{ group.title }}</p>
+
+                <!-- Link interno con routerLink -->
                 <a
-                  class="mobile-nav-group__link"
                   *ngFor="let child of group.items"
-                  [routerLink]="child.routerLink || null"
+                  class="mobile-nav-group__link"
+                  [routerLink]="child.routerLink"
                   [fragment]="child.fragment ?? undefined"
-                  [href]="child.href || null"
-                  [attr.target]="child.target || (isExternalHref(child.href, child.target) ? '_blank' : null)"
-                  [attr.rel]="isExternalHref(child.href, child.target) ? 'noopener' : null"
                   (click)="closeMenu()"
                   [attr.data-strapi-uid]="child.dataStrapiUid"
+                  *ngIf="child.routerLink && !child.href"
                 >
                   {{ child.label }}
+                </a>
+
+                <!-- Link externo con href -->
+                <a
+                  *ngFor="let child of group.items"
+                  class="mobile-nav-group__link mobile-nav-group__link--external"
+                  [href]="child.href"
+                  [attr.target]="child.target || '_blank'"
+                  [attr.rel]="isExternalHref(child.href, child.target) ? 'noopener noreferrer' : null"
+                  (click)="closeMenu()"
+                  [attr.data-strapi-uid]="child.dataStrapiUid"
+                  *ngIf="child.href"
+                >
+                  {{ child.label }}
+                  <span class="external-icon" aria-label="(abre en nueva pestaña)">↗</span>
                 </a>
               </div>
             </div>
