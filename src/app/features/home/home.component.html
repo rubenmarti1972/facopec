@@ -1,37 +1,36 @@
 <section class="section" id="inicio" data-strapi-collection="home" data-strapi-section="hero">
-  <div class="container hero">
-    <!-- Header: Badge y Título más pequeño -->
-    <div class="hero__header">
-      <span class="hero__badge">{{ hero.eyebrow }}</span>
-      <h1 class="hero__title hero__title--compact">
-        <span *ngFor="let line of hero.title">{{ line }}</span>
-      </h1>
-    </div>
+  <div class="container">
+    <!-- Layout superior: 2 columnas -->
+    <div class="hero">
+      <!-- Columna izquierda: Título e Imagen -->
+      <div class="hero__left">
+        <span class="hero__badge">{{ hero.eyebrow }}</span>
+        <h1 class="hero__title">
+          <span *ngFor="let line of hero.title">{{ line }}</span>
+        </h1>
+        <figure class="hero__image" aria-hidden="true">
+          <img
+            [src]="hero.image"
+            [alt]="hero.imageAlt"
+            loading="eager"
+          />
+        </figure>
+      </div>
 
-    <!-- Imagen grande e impactante -->
-    <div class="hero__image-wrapper">
-      <figure class="hero__image hero__image--large" aria-hidden="true">
-        <img
-          [src]="hero.image"
-          [alt]="hero.imageAlt"
-          loading="eager"
-        />
-      </figure>
-    </div>
-
-    <!-- Card con mensaje bíblico -->
-    <div class="hero__callout-wrapper">
-      <div class="callout" data-strapi-collection="hero.verse">
-        <div class="callout__badge">{{ hero.verse.reference }}</div>
-        <p class="callout__title">{{ hero.verse.text }}</p>
-        <p class="callout__text">{{ hero.verse.description }}</p>
-        <div class="callout__media" aria-hidden="true">
-          <img [src]="globalLogoUrl" [alt]="globalLogoAlt" loading="lazy" />
+      <!-- Columna derecha: Mensaje bíblico y logo -->
+      <div class="hero__right">
+        <div class="callout" data-strapi-collection="hero.verse">
+          <div class="callout__badge">{{ hero.verse.reference }}</div>
+          <p class="callout__title">{{ hero.verse.text }}</p>
+          <p class="callout__text">{{ hero.verse.description }}</p>
+          <div class="callout__media" aria-hidden="true">
+            <img [src]="globalLogoUrl" [alt]="globalLogoAlt" loading="lazy" />
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Contenido: Texto lead, acciones y stats -->
+    <!-- Contenido debajo: Texto lead, acciones y stats -->
     <div class="hero__content">
       <p class="hero__lead">{{ hero.lead }}</p>
       <div class="hero__actions">
@@ -39,8 +38,8 @@
           *ngFor="let action of hero.actions"
           class="btn"
           [ngClass]="{
-            'btn--primary': action.variant === 'primary',
-            'btn--secondary': action.variant === 'secondary'
+            'btn-primary': action.variant === 'primary',
+            'btn-secondary': action.variant === 'secondary'
           }"
           [routerLink]="action.routerLink || null"
           [href]="action.href || null"
