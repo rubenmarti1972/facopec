@@ -11,3 +11,4 @@ __MACOSX/
 !**/.env.example
 Archivo.zip
 Archivo.zip
+restart-dev.sh
