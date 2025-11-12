@@ -2,63 +2,41 @@
   <div class="header-shell">
     <div class="header-container" data-strapi-collection="global" data-strapi-field="brand">
       <a class="logo" routerLink="/home" (click)="closeMenu()">
-        <img class="logo-image" [src]="logoUrl" [alt]="logoAlt" loading="lazy" />
+        <img *ngIf="logoUrl" class="logo-image" [src]="logoUrl" [alt]="logoAlt" loading="lazy" />
         <div class="logo-text">
           <span class="org-name">{{ siteNamePrimary }}</span>
           <span class="org-tagline" *ngIf="siteNameSecondary">{{ siteNameSecondary }}</span>
         </div>
       </a>
 
-      <!-- Menu Desktop -->
-      <ul class="hidden lg:flex items-center gap-2">
-        <li *ngFor="let item of navigationItems" class="relative">
-          <!-- Item sin hijos (enlace simple) -->
-          <a *ngIf="!hasChildren(item)"
-             [routerLink]="getNavigationUrl(item)"
-             [fragment]="item.fragment || undefined"
-             routerLinkActive="active-link"
-             [routerLinkActiveOptions]="{exact: item.exact || false}"
-             class="nav-link px-4 py-2 rounded-full font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 transition-all"
-             [attr.target]="item.target || '_self'">
-            {{ item.label }}
-          </a>
-
-          <!-- Item con hijos (dropdown) -->
-          <div *ngIf="hasChildren(item)" class="relative">
-            <button
-              (click)="toggleSubmenu(item.id)"
-              (mouseenter)="activeSubmenuId = item.id?.toString() || null"
-              class="nav-link px-4 py-2 rounded-full font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 transition-all flex items-center gap-1">
+      <nav class="nav-horizontal" data-strapi-collection="global" data-strapi-field="navigation">
+        <ul class="nav-list">
+          <li class="nav-list__item" *ngFor="let item of navigationItems; let i = index" [attr.data-strapi-uid]="item.dataStrapiUid">
+            <!-- Item simple sin hijos -->
+            <a
+              *ngIf="!item.children?.length && item.routerLink"
+              class="nav-link"
+              [routerLink]="item.routerLink"
+              [fragment]="item.fragment ?? undefined"
+              routerLinkActive="nav-link--active"
+              [routerLinkActiveOptions]="{exact: item.exact || false}"
+              (click)="closeMenu()"
+            >
               {{ item.label }}
-              <svg class="w-4 h-4 transition-transform" [class.rotate-180]="isSubmenuOpen(item.id)" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
-              </svg>
-            </button>
+            </a>
 
-            <!-- Dropdown Menu -->
-            <div *ngIf="isSubmenuOpen(item.id)"
-                 (mouseleave)="closeAllSubmenus()"
-                 class="absolute top-full left-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 z-50 animate-slide-up">
-              <div *ngFor="let group of item.children" class="px-4 py-2">
-                <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                  {{ group.title }}
-                </div>
-                <ul class="space-y-1">
-                  <li *ngFor="let link of group.items">
-                    <a [href]="link.url || '#'"
-                       [attr.target]="link.target || '_self'"
-                       (click)="closeAllSubmenus()"
-                       class="block px-3 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 rounded-lg transition-all">
-                      {{ link.label }}
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
+            <a
+              *ngIf="!item.children?.length && item.href"
+              class="nav-link"
+              [href]="item.href"
+              [attr.target]="item.target || (isExternalHref(item.href, item.target) ? '_blank' : null)"
+              [attr.rel]="isExternalHref(item.href, item.target) ? 'noopener' : null"
+              (click)="closeMenu()"
+            >
+              {{ item.label }}
+            </a>
 
+            <!-- Item con hijos (dropdown) -->
             <button
               *ngIf="item.children?.length"
               type="button"
@@ -79,7 +57,7 @@
               role="menu"
             >
               <div class="nav-group" *ngFor="let group of item.children" [attr.data-strapi-uid]="group.dataStrapiUid">
-              <p class="nav-group__title" *ngIf="group.title">{{ group.title }}</p>
+                <p class="nav-group__title" *ngIf="group.title">{{ group.title }}</p>
                 <a
                   class="nav-group__link"
                   *ngFor="let child of group.items"
@@ -100,6 +78,7 @@
       </nav>
 
       <a
+        *ngIf="cta"
         class="primary-cta"
         [routerLink]="cta.routerLink || null"
         [href]="cta.href || null"
@@ -125,51 +104,72 @@
       </button>
     </div>
 
-    <!-- Menú móvil mejorado -->
-    <div *ngIf="menuOpen()" class="lg:hidden pb-4 animate-slide-up">
-      <ul class="space-y-2">
-        <li *ngFor="let item of navigationItems">
-          <!-- Item sin hijos (enlace simple) -->
-          <a *ngIf="!hasChildren(item)"
-             [routerLink]="getNavigationUrl(item)"
-             [fragment]="item.fragment || undefined"
-             (click)="closeMenu()"
-             class="flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-primary-50 to-grass/10 text-ocean font-medium hover:bg-primary-100 transition-all">
-            <span class="text-2xl" *ngIf="item.icon">{{ item.icon }}</span>
-            <span>{{ item.label }}</span>
+    <!-- Mobile menu panel -->
+    <nav
+      *ngIf="menuOpen()"
+      class="mobile-navigation"
+      id="mobile-navigation"
+      role="navigation"
+      data-strapi-collection="global"
+      data-strapi-field="navigation"
+    >
+      <ul class="mobile-nav-list">
+        <li class="mobile-nav-list__item" *ngFor="let item of navigationItems; let i = index" [attr.data-strapi-uid]="item.dataStrapiUid">
+          <!-- Item simple sin hijos -->
+          <a
+            *ngIf="!item.children?.length && item.routerLink"
+            class="mobile-nav-link"
+            [routerLink]="item.routerLink"
+            [fragment]="item.fragment ?? undefined"
+            (click)="closeMenu()"
+          >
+            {{ item.label }}
           </a>
 
-          <!-- Item con hijos (expandible en móvil) -->
-          <div *ngIf="hasChildren(item)">
+          <a
+            *ngIf="!item.children?.length && item.href"
+            class="mobile-nav-link"
+            [href]="item.href"
+            [attr.target]="item.target || (isExternalHref(item.href, item.target) ? '_blank' : null)"
+            [attr.rel]="isExternalHref(item.href, item.target) ? 'noopener' : null"
+            (click)="closeMenu()"
+          >
+            {{ item.label }}
+          </a>
+
+          <!-- Item con hijos (expandible) -->
+          <div *ngIf="item.children?.length" class="mobile-nav-nested">
             <button
-              (click)="toggleSubmenu(item.id)"
-              class="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-primary-50 to-grass/10 text-ocean font-medium hover:bg-primary-100 transition-all">
-              <div class="flex items-center gap-3">
-                <span class="text-2xl" *ngIf="item.icon">{{ item.icon }}</span>
-                <span>{{ item.label }}</span>
-              </div>
-              <svg class="w-5 h-5 transition-transform" [class.rotate-180]="isSubmenuOpen(item.id)" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
-              </svg>
+              type="button"
+              class="mobile-nav-link mobile-nav-link--trigger"
+              (click)="toggleDropdown(i, $event)"
+              [attr.aria-expanded]="isDropdownOpen(i)"
+              [attr.aria-controls]="'mobile-panel-' + i"
+            >
+              {{ item.label }}
+              <span class="mobile-nav-caret" aria-hidden="true">▾</span>
             </button>
 
-            <!-- Submenu expandible -->
-            <div *ngIf="isSubmenuOpen(item.id)" class="mt-2 ml-4 space-y-2">
-              <div *ngFor="let group of item.children">
-                <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 py-2">
-                  {{ group.title }}
-                </div>
-                <ul class="space-y-1">
-                  <li *ngFor="let link of group.items">
-                    <a [href]="link.url || '#'"
-                       [attr.target]="link.target || '_self'"
-                       (click)="closeMenu()"
-                       class="flex items-center gap-2 px-4 py-2 text-sm text-ocean hover:bg-primary-50 rounded-lg transition-all">
-                      <span *ngIf="link.icon">{{ link.icon }}</span>
-                      {{ link.label }}
-                    </a>
-                  </li>
-                </ul>
+            <div
+              *ngIf="isDropdownOpen(i)"
+              class="mobile-nav-panel"
+              [id]="'mobile-panel-' + i"
+            >
+              <div class="mobile-nav-group" *ngFor="let group of item.children" [attr.data-strapi-uid]="group.dataStrapiUid">
+                <p class="mobile-nav-group__title" *ngIf="group.title">{{ group.title }}</p>
+                <a
+                  class="mobile-nav-group__link"
+                  *ngFor="let child of group.items"
+                  [routerLink]="child.routerLink || null"
+                  [fragment]="child.fragment ?? undefined"
+                  [href]="child.href || null"
+                  [attr.target]="child.target || (isExternalHref(child.href, child.target) ? '_blank' : null)"
+                  [attr.rel]="isExternalHref(child.href, child.target) ? 'noopener' : null"
+                  (click)="closeMenu()"
+                  [attr.data-strapi-uid]="child.dataStrapiUid"
+                >
+                  {{ child.label }}
+                </a>
               </div>
             </div>
           </div>
@@ -177,6 +177,7 @@
       </ul>
 
       <a
+        *ngIf="cta"
         class="mobile-cta"
         [routerLink]="cta.routerLink || null"
         [href]="cta.href || null"

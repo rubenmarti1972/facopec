@@ -3,19 +3,18 @@
  * Consumes Strapi global settings to build the public navigation
  */
 
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BRAND_COLORS } from '@core/design-system/brand-colors';
 import { StrapiService } from '@core/services/strapi.service';
-import { NavigationEntry, NavigationGroup, NavigationChildLink } from '@core/models';
+import { NavigationEntry, NavigationGroup, NavigationChildLink, GlobalSettings } from '@core/models';
 
 /**
- * Interfaz legacy para backward compatibility
- * @deprecated Usa NavigationEntry en su lugar
+ * View model para items de navegación en el template
  */
-interface NavigationItem {
+interface NavigationItemView {
   id: string;
   label: string;
   routerLink?: string;
@@ -29,6 +28,30 @@ interface NavigationItem {
   children?: NavigationGroupView[];
 }
 
+/**
+ * View model para grupos de navegación (submenús)
+ */
+interface NavigationGroupView {
+  title?: string;
+  dataStrapiUid?: string;
+  items: NavigationChildView[];
+}
+
+/**
+ * View model para enlaces hijos en submenús
+ */
+interface NavigationChildView {
+  label: string;
+  routerLink?: string;
+  href?: string;
+  fragment?: string;
+  target?: '_self' | '_blank';
+  dataStrapiUid?: string;
+}
+
+/**
+ * View model para el botón CTA principal
+ */
 interface PrimaryCtaLink {
   label: string;
   routerLink?: string;
@@ -46,28 +69,31 @@ interface PrimaryCtaLink {
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   brandColors = BRAND_COLORS;
-  private readonly strapiService = inject(StrapiService);
 
   /** Estado del menú móvil */
-  private _mobileMenuOpen = false;
-  /** Ruta actual (para lógica adicional si la necesitas) */
+  mobileMenuOpen = false;
+
+  /** Ruta actual */
   currentRoute = '';
 
-  /** Items de navegación cargados desde el backend */
-  navigationItems: NavigationEntry[] = [];
+  /** Items de navegación procesados para la vista */
+  navigationItems: NavigationItemView[] = [];
 
-  /** Navegación por defecto (fallback si no hay datos del backend) */
-  private readonly defaultNavigationItems: NavigationItem[] = [
-    { id: 'home',      label: 'INICIO',                 route: '/inicio',                 description: 'Página de inicio' },
-    { id: 'projects',  label: 'PROYECTOS',              route: '/proyectos',              description: 'Nuestros proyectos' },
-    { id: 'donations', label: 'DONACIONES',             route: '/donaciones',             description: 'Apoya nuestra misión' },
-    { id: 'sponsor',   label: 'APADRINA',               route: '/apadrina',               description: 'Programa de apadrinamiento' },
-    { id: 'literary',  label: 'RUTA LITERARIA MARÍA',   route: '/ruta-literaria-maria',   description: 'Iniciativa literaria' },
-    { id: 'about',     label: 'NOSOTROS',               route: '/nosotros',               description: 'Información de la fundación' },
-  ];
+  /** Índice del dropdown activo (para desktop) */
+  dropdownIndex: number | null = null;
 
-  /** Estado de submenú abierto (para desktop dropdowns) */
-  activeSubmenuId: string | null = null;
+  /** CTA principal (botón de donación) */
+  cta?: PrimaryCtaLink;
+
+  /** Logo y nombre del sitio */
+  siteNamePrimary = 'Fundación Afrocolombiana';
+  siteNameSecondary = 'Profe en Casa';
+  logoUrl?: string;
+  logoAlt = 'Logo FACOPEC';
+
+  /** Estados de carga y error */
+  loading = true;
+  error?: string;
 
   private sub?: Subscription;
 
@@ -80,62 +106,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.currentRoute = this.router.url;
 
     // Cargar navegación desde el backend
-    this.loadNavigationFromBackend();
+    this.loadNavigation();
 
-    // Actualiza currentRoute en cada navegación (útil si usas isActive personalizado)
+    // Actualiza currentRoute en cada navegación
     this.sub = this.router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         this.currentRoute = e.urlAfterRedirects || e.url;
-        this._mobileMenuOpen = false; // cierra menú al navegar
-        this.activeSubmenuId = null; // cierra submenú al navegar
+        this.mobileMenuOpen = false;
+        this.dropdownIndex = null;
       }
     });
-
-    this.loadNavigation();
-  }
-
-  /**
-   * Carga la navegación desde el backend de Strapi
-   * Si falla o no hay datos, usa la navegación por defecto
-   */
-  private loadNavigationFromBackend(): void {
-    this.strapiService.getGlobalSettings().subscribe({
-      next: (settings) => {
-        if (settings.navigation && settings.navigation.length > 0) {
-          // Ordenar por el campo order si existe
-          this.navigationItems = settings.navigation.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-        } else {
-          // Fallback a navegación por defecto
-          this.navigationItems = this.convertLegacyToNavigationEntry(this.defaultNavigationItems);
-        }
-      },
-      error: (err) => {
-        console.warn('Error cargando navegación desde el backend, usando navegación por defecto:', err);
-        // Fallback a navegación por defecto
-        this.navigationItems = this.convertLegacyToNavigationEntry(this.defaultNavigationItems);
-      }
-    });
-  }
-
-  /**
-   * Convierte items legacy a NavigationEntry para backward compatibility
-   */
-  private convertLegacyToNavigationEntry(items: NavigationItem[]): NavigationEntry[] {
-    return items.map((item, index) => ({
-      id: index,
-      label: item.label,
-      url: item.route,
-      description: item.description,
-      icon: item.icon,
-      order: index,
-      exact: item.id === 'home', // Solo home es exact
-      dataUid: item.id
-    }));
   }
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
+
+  /** === Métodos públicos para el template === */
 
   toggleMenu(): void {
     this.mobileMenuOpen = !this.mobileMenuOpen;
@@ -201,6 +188,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  /** Verificar si un item tiene hijos */
+  hasChildren(item: NavigationItemView): boolean {
+    return !!item.children && item.children.length > 0;
+  }
+
+  /** Alternar submenú por ID (alternativa al índice numérico) */
+  toggleSubmenu(itemId: string | undefined): void {
+    const currentIndex = this.navigationItems.findIndex(item => item.id === itemId);
+    if (currentIndex >= 0) {
+      this.toggleDropdown(currentIndex, new Event('click'));
+    }
+  }
+
+  /** Verificar si un submenú está abierto por ID */
+  isSubmenuOpen(itemId: string | undefined): boolean {
+    const index = this.navigationItems.findIndex(item => item.id === itemId);
+    return index >= 0 && this.isDropdownOpen(index);
+  }
+
+  /** Cerrar todos los submenús */
+  closeAllSubmenus(): void {
+    this.dropdownIndex = null;
+  }
+
+  /** === Métodos privados === */
+
   private loadNavigation(): void {
     this.strapiService.getGlobalSettings().subscribe({
       next: settings => this.applyNavigation(settings),
@@ -229,13 +242,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
             href: donateEntry.href,
             target: donateEntry.target,
             dataStrapiUid: donateEntry.dataStrapiUid ?? 'navigation.donate'
-          } satisfies PrimaryCtaLink;
+          };
         }
       }
     }
 
     if (settings.siteName) {
-      const [primary, secondary] = settings.siteName.split('|').map(part => part.trim()).filter(Boolean);
+      const [primary, secondary] = settings.siteName.split('|').map((part: string) => part.trim()).filter(Boolean);
       this.siteNamePrimary = primary ?? this.siteNamePrimary;
       this.siteNameSecondary = secondary ?? '';
     }
@@ -269,7 +282,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           description: entry.description ?? undefined,
           dataStrapiUid: entry.dataUid ?? undefined,
           children
-        } satisfies NavigationItemView;
+        };
       })
       .filter(item => !!item.label && (item.routerLink || item.href || item.children?.length));
   }
@@ -312,7 +325,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           fragment: link.fragment,
           target: link.target,
           dataStrapiUid: item.dataUid ?? undefined
-        } satisfies NavigationChildView;
+        };
       })
       .filter(child => !!child.label && (child.routerLink || child.href));
   }
@@ -384,45 +397,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
       result.target = resolvedTarget;
     }
     return result;
-  }
-
-  /** Alternar submenú (para desktop dropdowns) */
-  toggleSubmenu(itemId: string | number | undefined): void {
-    const id = itemId?.toString() ?? null;
-    this.activeSubmenuId = this.activeSubmenuId === id ? null : id;
-  }
-
-  /** Verificar si un submenú está abierto */
-  isSubmenuOpen(itemId: string | number | undefined): boolean {
-    return this.activeSubmenuId === itemId?.toString();
-  }
-
-  /** Cerrar todos los submenús */
-  closeAllSubmenus(): void {
-    this.activeSubmenuId = null;
-  }
-
-  /** Navegación para items con fragment */
-  navigateWithFragment(url: string | undefined, fragment: string | undefined): void {
-    if (!url) return;
-
-    if (fragment) {
-      this.router.navigate([url], { fragment });
-    } else {
-      this.router.navigate([url]);
-    }
-
-    this.closeMenu();
-    this.closeAllSubmenus();
-  }
-
-  /** Obtener URL completa para un item de navegación */
-  getNavigationUrl(item: NavigationEntry): string {
-    return item.url || '#';
-  }
-
-  /** Verificar si un item tiene hijos */
-  hasChildren(item: NavigationEntry): boolean {
-    return !!item.children && item.children.length > 0;
   }
 }
