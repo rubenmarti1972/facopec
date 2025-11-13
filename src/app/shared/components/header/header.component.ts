@@ -240,8 +240,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
             title: '💻 Innovación y Tecnología Educativa',
             items: [
               {
-                label: 'Talleres de nivelación',
-                href: 'https://talleresdenivelacion.blogspot.com/',
+                label: 'Robótica y Programación',
+                href: 'https://roboticaprogramacion.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Laboratorio Digital STEAM',
+                href: 'https://laboratoriosteam.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Competencias Digitales',
+                href: 'https://competenciasdigitales.blogspot.com/',
                 target: '_blank'
               }
             ]
@@ -249,6 +259,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
           {
             title: '📚 Refuerzo Académico y Nivelación',
             items: [
+              {
+                label: 'Talleres de nivelación',
+                href: 'https://talleresdenivelacion.blogspot.com/',
+                target: '_blank'
+              },
               {
                 label: 'Matemáticas básicas',
                 href: 'https://matematicasbasicas.blogspot.com/',
@@ -335,11 +350,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     ];
 
-    // CTA por defecto - enlaza directamente a las pasarelas de pago
+    // CTA por defecto - enlaza directamente a la sección de donación
     this.cta = {
       label: 'Donar',
       routerLink: '/donaciones',
-      fragment: 'pasarelas',
+      fragment: 'donacion',
       dataStrapiUid: 'navigation.donate'
     };
 
