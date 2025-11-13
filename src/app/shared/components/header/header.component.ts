@@ -56,6 +56,7 @@ interface PrimaryCtaLink {
   label: string;
   routerLink?: string;
   href?: string;
+  fragment?: string;
   target?: '_self' | '_blank';
   dataStrapiUid: string;
 }
