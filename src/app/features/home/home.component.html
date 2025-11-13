@@ -132,25 +132,30 @@
       </p>
     </div>
     <div class="identity__grid">
-      <article
-        class="card identity-card identity-card--description"
-        [class.identity-card--expanded]="identityExpanded.description"
-        [attr.data-strapi-uid]="identity.dataStrapiUid"
-      >
-        <h3 class="identity-card__title">Descripción de la fundación</h3>
-        <div class="identity-card__body" id="identity-description">
-          <p>{{ identity.description }}</p>
-        </div>
-        <button
-          type="button"
-          class="identity-card__toggle"
-          (click)="toggleIdentityCard('description')"
-          [attr.aria-expanded]="identityExpanded.description"
-          aria-controls="identity-description"
+      <div class="identity-description-with-image">
+        <article
+          class="card identity-card identity-card--description"
+          [class.identity-card--expanded]="identityExpanded.description"
+          [attr.data-strapi-uid]="identity.dataStrapiUid"
         >
-          {{ identityExpanded.description ? 'Ver menos' : 'Leer más' }}
-        </button>
-      </article>
+          <h3 class="identity-card__title">Descripción de la fundación</h3>
+          <div class="identity-card__body" id="identity-description">
+            <p>{{ identity.description }}</p>
+          </div>
+          <button
+            type="button"
+            class="identity-card__toggle"
+            (click)="toggleIdentityCard('description')"
+            [attr.aria-expanded]="identityExpanded.description"
+            aria-controls="identity-description"
+          >
+            {{ identityExpanded.description ? 'Ver menos' : 'Leer más' }}
+          </button>
+        </article>
+        <div class="identity-image">
+          <img src="assets/fotos-fundacion/apoyo.webp" alt="Fundación Afrocolombiana Profe en Casa en acción" loading="lazy" />
+        </div>
+      </div>
 
       <article class="card values-card" data-strapi-uid="about.values">
         <h3 class="identity-card__title">Valores que nos guían</h3>
