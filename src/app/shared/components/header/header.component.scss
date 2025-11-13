@@ -60,18 +60,28 @@ $light-gray: var(--color-light-gray, #f5f7fb);
   display: flex;
   flex-direction: column;
   line-height: 1.1;
+  gap: 0.1rem;
 }
 
-.org-name {
-  font-weight: 700;
+.org-name-acronym {
+  font-weight: 800;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
   text-transform: uppercase;
   color: $white;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
+}
+
+.org-name-full {
+  font-weight: 600;
+  font-size: clamp(0.75rem, 1vw, 0.85rem);
+  color: rgba($white, 0.9);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
 }
 
 .org-tagline {
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: clamp(0.7rem, 0.9vw, 0.8rem);
   color: rgba($white, 0.85);
   letter-spacing: 0.05em;
 }
@@ -134,8 +144,14 @@ $light-gray: var(--color-light-gray, #f5f7fb);
 }
 
 .nav-caret {
-  font-size: 0.75rem;
-  opacity: 0.8;
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin-left: 0.25rem;
+  transition: transform 0.2s ease;
+}
+
+.nav-item:hover .nav-caret {
+  transform: translateY(2px);
 }
 
 .nav-dropdown {

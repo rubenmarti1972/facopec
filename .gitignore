@@ -12,3 +12,5 @@ __MACOSX/
 Archivo.zip
 Archivo.zip
 restart-dev.sh
+.tmp/
+backend/.tmp/

@@ -352,9 +352,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     // CTA por defecto - enlaza directamente a la sección de donación
     this.cta = {
-      label: 'Donar',
+      label: 'Donaciones',
       routerLink: '/donaciones',
-      fragment: 'donacion',
       dataStrapiUid: 'navigation.donate'
     };
 

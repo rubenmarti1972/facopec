@@ -229,6 +229,97 @@
     </div>
   </section>
 
+  <section class="section section--partner" data-strapi-section="donations.partner-form">
+    <div class="container">
+      <div class="partner-form-wrapper">
+        <div class="partner-form__header">
+          <h2 class="partner-form__title">¿Quieres ser aliado?</h2>
+          <p class="partner-form__subtitle">
+            Únete a nuestra red de aliados y ayúdanos a transformar vidas en el Valle del Cauca.
+            Comparte tus datos y nos pondremos en contacto contigo.
+          </p>
+        </div>
+
+        <form class="partner-form" *ngIf="!partnerFormSubmitted" (ngSubmit)="submitPartnerForm($event)">
+          <div class="partner-form__row">
+            <div class="form-field">
+              <label for="partner-name">Nombre completo</label>
+              <input
+                type="text"
+                id="partner-name"
+                name="name"
+                [(ngModel)]="partnerForm.name"
+                required
+                placeholder="Tu nombre"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="partner-email">Correo electrónico</label>
+              <input
+                type="email"
+                id="partner-email"
+                name="email"
+                [(ngModel)]="partnerForm.email"
+                required
+                placeholder="tu@email.com"
+              />
+            </div>
+          </div>
+
+          <div class="partner-form__row">
+            <div class="form-field">
+              <label for="partner-phone">Teléfono</label>
+              <input
+                type="tel"
+                id="partner-phone"
+                name="phone"
+                [(ngModel)]="partnerForm.phone"
+                placeholder="+57 300 123 4567"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="partner-donation-type">Tipo de apoyo</label>
+              <select id="partner-donation-type" name="donationType" [(ngModel)]="partnerForm.donationType" required>
+                <option value="">Selecciona una opción</option>
+                <option value="monetary">Donación monetaria</option>
+                <option value="in-kind">Donación en especie</option>
+                <option value="volunteer">Voluntariado</option>
+                <option value="corporate">Alianza corporativa</option>
+                <option value="other">Otro</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="partner-message">Mensaje (opcional)</label>
+            <textarea
+              id="partner-message"
+              name="message"
+              [(ngModel)]="partnerForm.message"
+              rows="4"
+              placeholder="Cuéntanos cómo quieres ayudar..."
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn btn--primary partner-form__submit">
+            Enviar solicitud
+          </button>
+        </form>
+
+        <div class="partner-form__success" *ngIf="partnerFormSubmitted">
+          <span class="partner-form__success-icon">✅</span>
+          <h3>¡Gracias por tu interés!</h3>
+          <p>Hemos recibido tu solicitud. Nos pondremos en contacto contigo muy pronto.</p>
+          <button type="button" class="btn btn--secondary" (click)="resetPartnerForm()">
+            Enviar otra solicitud
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section" data-strapi-section="donations.other-ways">
     <div class="container">
       <div class="section__heading">
