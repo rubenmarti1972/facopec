@@ -389,7 +389,7 @@ export async function seedDefaultContent(strapi: Strapi) {
   await upsertSingleType(strapi, 'api::organization-info.organization-info', {
     name: 'Fundación Afrocolombiana Profe en Casa',
     mission:
-      'Capta y canaliza recursos para desarrollar proyectos que promuevan y reivindiquen los derechos humanos de las comunidades negras, afrocolombianas, raizales y palenqueras.',
+      'Capta y canaliza recursos para desarrollar proyectos que promuevan y reivindiquen los derechos humanos de las Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras).',
     vision:
       'Ser una fundación líder en el desarrollo integral de comunidades afrocolombianas, potenciando sus capacidades desde la educación, la cultura y la fe.',
     history:
@@ -397,7 +397,7 @@ export async function seedDefaultContent(strapi: Strapi) {
     values: [
       {
         title: 'Derechos humanos y dignidad',
-        description: 'Promovemos la defensa y reivindicación de los derechos de las comunidades negras, afrocolombianas, raizales y palenqueras.',
+        description: 'Promovemos la defensa y reivindicación de los derechos de las Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras).',
         icon: '👐🏾',
         dataUid: 'about.values.rights',
       },
@@ -492,12 +492,12 @@ export async function seedDefaultContent(strapi: Strapi) {
       subtitle:
         'Presentamos la esencia de FACOPEC con una estructura clara para gestionar la información desde Strapi y comunicar nuestro propósito de forma cercana.',
       description:
-        'Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en comunidades negras, afrocolombianas, raizales y palenqueras.',
+        'Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras).',
       dataUid: 'about.description',
       values: [
         {
           title: 'Derechos humanos y dignidad',
-          description: 'Promovemos la defensa y reivindicación de los derechos de las comunidades negras, afrocolombianas, raizales y palenqueras.',
+          description: 'Promovemos la defensa y reivindicación de los derechos de las Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras).',
           icon: '👐🏾',
           dataUid: 'about.values.rights',
         },
@@ -517,10 +517,10 @@ export async function seedDefaultContent(strapi: Strapi) {
     },
     missionVision: {
       mission:
-        'La Fundación Afrocolombiana Profe en Casa | FACOPEC se dedica a captar y canalizar recursos a nivel local, nacional e internacional para desarrollar proyectos que promuevan y reivindiquen los derechos humanos de las comunidades negras, afrocolombianas, raizales y palenqueras.',
+        'La Fundación Afrocolombiana Profe en Casa | FACOPEC se dedica a captar y canalizar recursos a nivel local, nacional e internacional para desarrollar proyectos que promuevan y reivindiquen los derechos humanos de las Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras).',
       missionUid: 'about.mission',
       vision:
-        'Ser reconocidos como una fundación líder en la promoción de los derechos humanos y el desarrollo integral de las comunidades afrocolombianas, raizales y palenqueras.',
+        'Ser reconocidos como una fundación líder en la promoción de los derechos humanos y el desarrollo integral de las Comunidades NARP.',
       visionUid: 'about.vision',
     },
     activities: [

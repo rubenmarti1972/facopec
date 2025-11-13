@@ -47,7 +47,7 @@ interface PaymentGateway {
   href: string;
   actionLabel: string;
   badge: string;
-  theme: 'pse' | 'international';
+  theme: 'pse' | 'nequi' | 'international';
 }
 
 @Component({
@@ -198,12 +198,21 @@ export class DonateComponent implements OnInit {
       theme: 'pse',
     },
     {
-      name: 'Pasarela internacional',
+      name: 'Nequi',
+      description:
+        'Realiza tu donación de forma rápida y segura a través de Nequi. Escanea el código QR o envía directamente desde tu app.',
+      href: 'https://www.nequi.com.co',
+      actionLabel: 'Donar con Nequi',
+      badge: '💜 Nequi',
+      theme: 'nequi',
+    },
+    {
+      name: 'PayPal',
       description:
         'Haz tu aporte desde el exterior con tarjeta de crédito o cuenta PayPal en una plataforma segura para aliados globales.',
       href: 'https://www.paypal.com/donate',
-      actionLabel: 'Donar desde el exterior',
-      badge: '🌍 Global',
+      actionLabel: 'Donar con PayPal',
+      badge: '🌍 PayPal',
       theme: 'international',
     },
   ];

@@ -62,6 +62,11 @@ export const APP_ROUTES: Routes = [
     data: { title: 'Donaciones - Fundación Afrocolombiana Pro Encasa' }
   },
   {
+    path: 'contactanos',
+    loadComponent: () => import('./features/contact/contact.component').then(m => m.ContactComponent),
+    data: { title: 'Contáctanos - Fundación Afrocolombiana Pro Encasa' }
+  },
+  {
     path: 'admin', loadChildren: () => import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES),
     canActivate: [] // Add AuthGuard with admin role check
   },
@@ -76,6 +81,8 @@ export const APP_ROUTES: Routes = [
   { path: 'account', redirectTo: '/cuenta', pathMatch: 'full' },
   { path: 'newspaper', redirectTo: '/periodico', pathMatch: 'full' },
   { path: 'donate', redirectTo: '/donaciones', pathMatch: 'full' },
+  { path: 'contact', redirectTo: '/contactanos', pathMatch: 'full' },
+  { path: 'contacto', redirectTo: '/contactanos', pathMatch: 'full' },
   {
     path: '**',
     redirectTo: '/inicio'

@@ -236,13 +236,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
         fragment: 'programas',
         children: [
           {
-            title: 'Para estudiantes',
+            title: '💻 Innovación y Tecnología Educativa',
             items: [
               {
                 label: 'Talleres de nivelación',
                 href: 'https://talleresdenivelacion.blogspot.com/',
                 target: '_blank'
-              },
+              }
+            ]
+          },
+          {
+            title: '📚 Refuerzo Académico y Nivelación',
+            items: [
               {
                 label: 'Matemáticas básicas',
                 href: 'https://matematicasbasicas.blogspot.com/',
@@ -267,11 +272,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 label: 'Inglés básico',
                 href: 'https://inglesbasico.blogspot.com/',
                 target: '_blank'
+              },
+              {
+                label: 'Refuerzo escolar',
+                href: 'https://refuerzoescolar.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Pre-ICFES',
+                href: 'https://preicfes.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Tutorías personalizadas',
+                href: 'https://tutoriaspersonalizadas.blogspot.com/',
+                target: '_blank'
               }
             ]
           },
           {
-            title: 'Para adultos',
+            title: '👨‍👩‍👧‍👦 Desarrollo Comunitario y Familiar',
             items: [
               {
                 label: 'Alfabetización',
@@ -289,26 +309,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 target: '_blank'
               }
             ]
-          },
-          {
-            title: 'Programas especiales',
-            items: [
-              {
-                label: 'Refuerzo escolar',
-                href: 'https://refuerzoescolar.blogspot.com/',
-                target: '_blank'
-              },
-              {
-                label: 'Pre-ICFES',
-                href: 'https://preicfes.blogspot.com/',
-                target: '_blank'
-              },
-              {
-                label: 'Tutorías personalizadas',
-                href: 'https://tutoriaspersonalizadas.blogspot.com/',
-                target: '_blank'
-              }
-            ]
           }
         ]
       },
@@ -319,8 +319,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       },
       {
         id: 'nav-contact',
-        label: 'Contacto',
-        routerLink: '/contact'
+        label: 'Contáctanos',
+        routerLink: '/contactanos'
       },
       {
         id: 'nav-about',
@@ -329,10 +329,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     ];
 
-    // CTA por defecto
+    // CTA por defecto - enlaza directamente a las pasarelas de pago
     this.cta = {
       label: 'Donar',
-      routerLink: '/donate',
+      href: '/donate#pasarelas',
       dataStrapiUid: 'navigation.donate'
     };
 
