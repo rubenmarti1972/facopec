@@ -18,6 +18,19 @@
                 loading="eager"
               />
             </figure>
+
+            <!-- Impact strip integrado debajo de la imagen -->
+            <div class="impact-strip" data-strapi-section="impact">
+              <div class="impact-strip__items">
+                <div class="impact-strip__item" *ngFor="let item of impactHighlights" [attr.data-strapi-uid]="item.dataStrapiUid">
+                  <span class="impact-strip__icon">{{ item.icon }}</span>
+                  <div>
+                    <p class="impact-strip__title">{{ item.title }}</p>
+                    <p class="impact-strip__label">{{ item.label }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Columna derecha: Mensaje bíblico, logo y texto debajo -->
@@ -50,12 +63,6 @@
                 >
                   {{ action.label }}
                 </a>
-              </div>
-              <div class="hero__stats">
-                <article class="hero__stat" *ngFor="let stat of hero.stats" data-strapi-collection="hero.stats">
-                  <p class="hero__stat-value">{{ stat.value }}</p>
-                  <p class="hero__stat-label">{{ stat.label }}</p>
-                </article>
               </div>
             </div>
           </div>
@@ -110,22 +117,6 @@
           </div>
         </div>
       </aside>
-    </div>
-  </div>
-</section>
-
-<section class="section" data-strapi-section="impact">
-  <div class="container">
-    <div class="impact-strip">
-      <div class="impact-strip__items">
-        <div class="impact-strip__item" *ngFor="let item of impactHighlights" [attr.data-strapi-uid]="item.dataStrapiUid">
-          <span class="impact-strip__icon">{{ item.icon }}</span>
-          <div>
-            <p class="impact-strip__title">{{ item.title }}</p>
-            <p class="impact-strip__label">{{ item.label }}</p>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
