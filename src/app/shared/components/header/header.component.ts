@@ -318,6 +318,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
         routerLink: '/projects'
       },
       {
+        id: 'nav-support',
+        label: 'Apóyanos',
+        routerLink: '/donaciones'
+      },
+      {
         id: 'nav-contact',
         label: 'Contáctanos',
         routerLink: '/contactanos'
@@ -332,7 +337,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // CTA por defecto - enlaza directamente a las pasarelas de pago
     this.cta = {
       label: 'Donar',
-      href: '/donate#pasarelas',
+      routerLink: '/donaciones',
+      fragment: 'pasarelas',
       dataStrapiUid: 'navigation.donate'
     };
 
