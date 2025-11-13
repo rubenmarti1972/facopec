@@ -4,9 +4,12 @@
       <a class="logo" routerLink="/home" (click)="closeMenu()">
         <img class="logo-image" src="assets/logo.png" [alt]="logoAlt" loading="lazy" />
         <div class="logo-text">
-          <span class="org-name-acronym">FACOPEC</span>
-          <span class="org-name-full">{{ siteNamePrimary }}</span>
-          <span class="org-tagline" *ngIf="siteNameSecondary">{{ siteNameSecondary }}</span>
+          <div class="logo-title">
+            <span class="logo-acronym">FACOPEC</span>
+          </div>
+          <div class="logo-subtitle">
+            <span class="logo-full-name">Fundación Afrocolombiana Profe en Casa</span>
+          </div>
         </div>
       </a>
 
