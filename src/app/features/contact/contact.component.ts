@@ -1,7 +1,6 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { StrapiService } from '@core/services/strapi.service';
 
 interface ContactInfo {
   phone: string;
@@ -27,8 +26,6 @@ interface ContactForm {
   styleUrls: ['./contact.component.css']
 })
 export class ContactComponent implements OnInit {
-  private readonly strapiService = inject(StrapiService);
-
   loading = false;
   submitted = false;
   error: string | null = null;
