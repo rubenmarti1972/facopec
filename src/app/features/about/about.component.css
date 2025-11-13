@@ -23,3 +23,30 @@
   font-size: clamp(1.08rem, 0.5vw + 1rem, 1.24rem);
   line-height: 1.75;
 }
+
+.identity-description-with-image {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .identity-description-with-image {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.identity-image {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.identity-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
