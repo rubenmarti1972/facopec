@@ -232,6 +232,16 @@ export class DonateComponent implements OnInit {
   // Derivados (si los quieres usar en la plantilla)
   readonly isCustom = computed(() => this.customAmount != null && this.customAmount > 0);
 
+  // Partner form
+  partnerFormSubmitted = false;
+  partnerForm = {
+    name: '',
+    email: '',
+    phone: '',
+    donationType: '',
+    message: ''
+  };
+
   // Acciones
   selectAmount(value: number): void {
     this.selectedAmount.set(value);
@@ -279,6 +289,28 @@ export class DonateComponent implements OnInit {
     // this.router.navigate(['/gracias']);  // si usas Router
     // o muestra un modal/toast de éxito
     alert('¡Gracias por tu donación! Procesaremos el pago a continuación.');
+  }
+
+  submitPartnerForm(event: Event): void {
+    event.preventDefault();
+    console.log('Partner form submission →', this.partnerForm);
+
+    // Aquí puedes enviar los datos a un servicio o API
+    // Por ahora, solo mostramos el mensaje de éxito
+    this.partnerFormSubmitted = true;
+    this.cdr.markForCheck();
+  }
+
+  resetPartnerForm(): void {
+    this.partnerFormSubmitted = false;
+    this.partnerForm = {
+      name: '',
+      email: '',
+      phone: '',
+      donationType: '',
+      message: ''
+    };
+    this.cdr.markForCheck();
   }
 
   private loadContent(): void {
