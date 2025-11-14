@@ -2,7 +2,7 @@
 
 /**
  * Script MAESTRO para poblar TODO el CMS con datos del frontend
- * Ejecutar: node populate-all-cms.js
+ * Ejecutar: node populate-all-cms.js (requiere Strapi ejecutándose)
  */
 
 const { spawn } = require('child_process');
@@ -12,7 +12,8 @@ const scripts = [
   { name: 'Global Settings', file: 'populate-global-settings.js' },
   { name: 'Organization Info', file: 'populate-organization-info.js' },
   { name: 'Home Page', file: 'populate-home-complete.js' },
-  { name: 'Donations Page', file: 'populate-donations-page.js' }
+  { name: 'Donations Page', file: 'populate-donations-page.js' },
+  { name: 'Projects', file: 'populate-projects.js' }
 ];
 
 function runScript(scriptFile) {
@@ -63,7 +64,6 @@ async function main() {
       completedCount++;
       console.log('─'.repeat(60));
       console.log(`✅ Completado (${completedCount}/${scripts.length}): ${script.name}\n`);
-
     } catch (error) {
       console.error(`\n❌ Error en ${script.name}:`, error.message);
       console.error('⚠️  Abortando proceso...\n');
@@ -88,32 +88,31 @@ async function main() {
   console.log('   ✓ Global Settings');
   console.log('     • Navegación (6 items)');
   console.log('     • Redes sociales (4 plataformas)');
-  console.log('     • Información de contacto');
+  console.log('     • Nombre del sitio y URL pública');
   console.log('');
   console.log('   ✓ Organization Info');
-  console.log('     • Información de la organización');
-  console.log('     • Misión y Visión');
-  console.log('     • Valores corporativos (3)');
+  console.log('     • Misión, visión e historia institucional');
+  console.log('     • 3 valores corporativos');
+  console.log('     • Contacto, dirección y horarios');
   console.log('');
   console.log('   ✓ Home Page');
-  console.log('     • Hero section completa');
+  console.log('     • Hero section completa con estadísticas y acciones');
   console.log('     • 3 Impact highlights');
-  console.log('     • Identity section con valores');
-  console.log('     • 4 Activity cards');
-  console.log('     • 2 Program cards');
-  console.log('     • 3 Catalog items');
-  console.log('     • 3 Gallery items');
-  console.log('     • 4 Attended persons');
-  console.log('     • 3 Event calendar items');
+  console.log('     • Identidad, misión y visión');
+  console.log('     • 4 Activity cards y 2 Program cards');
+  console.log('     • 3 Catalog items y 3 Gallery items');
+  console.log('     • 4 tarjetas de personas atendidas');
+  console.log('     • 3 eventos en calendario');
   console.log('');
   console.log('   ✓ Donations Page');
   console.log('     • Hero section');
-  console.log('     • 4 Donation amounts');
-  console.log('     • 3 Metrics');
-  console.log('     • 4 Highlights');
-  console.log('     • 3 Stories');
-  console.log('     • 3 Support actions');
-  console.log('     • 3 Payment gateways');
+  console.log('     • 4 Donation amounts y 3 métricas');
+  console.log('     • 4 Highlights y 3 historias');
+  console.log('     • 3 acciones de apoyo y 3 pasarelas de pago');
+  console.log('');
+  console.log('   ✓ Projects');
+  console.log('     • Creación/actualización de los 4 proyectos destacados');
+  console.log('     • Publicación automática de cada registro');
   console.log('');
   console.log('─'.repeat(60));
   console.log('\n🌐 PRÓXIMOS PASOS:\n');
