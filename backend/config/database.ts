@@ -9,12 +9,15 @@ const databaseConfig = ({ env }: ConfigParams): DatabaseConfig => {
   const client = (process.env.DATABASE_CLIENT ?? '').toLowerCase();
 
   if (client !== 'postgres') {
-    // ✅ Apuntar SIEMPRE al root del proyecto, no a dist/
+    // ✅ Usar ruta absoluta al directorio raíz del proyecto backend
+    // process.cwd() devuelve el directorio donde se ejecuta strapi (backend/)
+    // Esto funciona tanto en desarrollo como después de compilar a dist/
+    const dbPath = path.join(process.cwd(), 'data', 'strapi.db');
     return {
       connection: {
         client: 'sqlite',
         connection: {
-          filename: path.join(process.cwd(), '.tmp', 'data.db'),
+          filename: dbPath,
         },
         useNullAsDefault: true,
       },
