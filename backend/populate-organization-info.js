@@ -5,26 +5,28 @@
  * Ejecutar: node populate-organization-info.js
  */
 
+const BASE_URL = 'http://localhost:1337';
 const API_URL = 'http://localhost:1337/api';
 const ADMIN_EMAIL = 'admin@facopec.org';
 const ADMIN_PASSWORD = 'Admin123456';
 
 async function login() {
-  const response = await fetch(`${API_URL}/auth/local`, {
+  const response = await fetch(`${BASE_URL}/admin/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      identifier: ADMIN_EMAIL,
+      email: ADMIN_EMAIL,
       password: ADMIN_PASSWORD
     })
   });
 
   if (!response.ok) {
-    throw new Error(`Login failed: ${response.status} ${response.statusText}`);
+    const errorText = await response.text();
+    throw new Error(`Login failed: ${response.status} ${response.statusText} - ${errorText}`);
   }
 
   const data = await response.json();
-  return data.jwt;
+  return data.data.token;
 }
 
 async function updateOrganizationInfo(token) {

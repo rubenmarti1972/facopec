@@ -5,31 +5,32 @@
  * Ejecutar: node populate-global-settings.js
  */
 
+const BASE_URL = 'http://localhost:1337';
 const API_URL = 'http://localhost:1337/api';
 const ADMIN_EMAIL = 'admin@facopec.org';
 const ADMIN_PASSWORD = 'Admin123456';
 
 async function login() {
-  const response = await fetch(`${API_URL}/auth/local`, {
+  const response = await fetch(`${BASE_URL}/admin/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      identifier: ADMIN_EMAIL,
+      email: ADMIN_EMAIL,
       password: ADMIN_PASSWORD
     })
   });
 
   if (!response.ok) {
-    throw new Error(`Login failed: ${response.status} ${response.statusText}`);
+    const errorText = await response.text();
+    throw new Error(`Login failed: ${response.status} ${response.statusText} - ${errorText}`);
   }
 
   const data = await response.json();
-  return data.jwt;
+  return data.data.token;
 }
 
 async function updateGlobalSettings(token) {
   const globalData = {
-    data: {
       siteName: "FACOPEC",
       siteTagline: "Fundación Afrocolombiana Profe en Casa",
       siteDescription: "Transformamos vidas a través de la educación y el cuidado. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Valle del Cauca.",
@@ -106,7 +107,8 @@ async function updateGlobalSettings(token) {
     }
   };
 
-  const response = await fetch(`${API_URL}/global`, {
+  // Use Admin Content Manager API instead of public Content API
+  const response = await fetch(`${BASE_URL}/admin/content-manager/single-types/api::global.global`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
