@@ -10,6 +10,7 @@ const fs = require('fs');
 
 // Buscar la base de datos
 const possiblePaths = [
+  path.join(__dirname, 'data', 'strapi.db'),  // Nueva ubicación principal
   path.join(__dirname, '.tmp', 'data.db'),
   path.join(__dirname, '.strapi', 'data.db'),
   path.join(__dirname, 'data.db'),
