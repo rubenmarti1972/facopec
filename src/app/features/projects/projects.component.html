@@ -14,13 +14,18 @@
         target="_blank"
         rel="noopener"
       >
-        <span class="projects__tag">{{ project.tag }}</span>
-        <h3 class="card__title">{{ project.title }}</h3>
-        <p class="card__text">{{ project.description }}</p>
-        <span class="card__link">
-          Ver programa
-          <span aria-hidden="true">↗</span>
-        </span>
+        <div class="projects__image-container" *ngIf="project.imageUrl">
+          <img [src]="project.imageUrl" [alt]="project.title" class="projects__image" loading="lazy" />
+        </div>
+        <div class="projects__content">
+          <span class="projects__tag">{{ project.tag }}</span>
+          <h3 class="card__title">{{ project.title }}</h3>
+          <p class="card__text">{{ project.description }}</p>
+          <span class="card__link">
+            Ver programa
+            <span aria-hidden="true">↗</span>
+          </span>
+        </div>
       </a>
     </div>
   </div>
