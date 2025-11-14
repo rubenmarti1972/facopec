@@ -262,6 +262,7 @@
 /* Activity cards */
 .activity-grid {
   gap: clamp(1.4rem, 3vw, 2.4rem);
+  justify-items: center;
 }
 
 .activity-card {
@@ -325,6 +326,10 @@
 }
 
 /* Project cards */
+.project-grid {
+  justify-items: center;
+}
+
 .project-card {
   display: grid;
   gap: 1.1rem;

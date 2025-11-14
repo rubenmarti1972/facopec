@@ -79,11 +79,11 @@ $light-gray: var(--color-light-gray, #f5f7fb);
 
 .logo-acronym {
   font-weight: 800;
-  font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
   text-transform: uppercase;
   color: $white;
   letter-spacing: 0.15em;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
   line-height: 1;
 }
 
@@ -93,12 +93,13 @@ $light-gray: var(--color-light-gray, #f5f7fb);
 }
 
 .logo-full-name {
-  font-weight: 500;
-  font-size: clamp(0.68rem, 0.85vw, 0.78rem);
-  color: rgba($white, 0.95);
+  font-weight: 600;
+  font-size: clamp(0.8rem, 1vw, 0.95rem);
+  color: rgba($white, 0.98);
   letter-spacing: 0.03em;
   line-height: 1.3;
-  max-width: 280px;
+  max-width: 320px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
 .nav-desktop {

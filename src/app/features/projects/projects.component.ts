@@ -8,6 +8,7 @@ interface ProjectLink {
   description: string;
   tag: string;
   href: string;
+  imageUrl?: string;
 }
 
 @Component({
@@ -68,7 +69,12 @@ export class ProjectsComponent implements OnInit {
           title: project.title,
           description: project.description ?? '',
           tag: project.tag ?? '',
-          href: project.link ?? '#'
+          href: project.link ?? '#',
+          imageUrl: project.cover?.url
+            ? (project.cover.url.startsWith('http')
+                ? project.cover.url
+                : `${this.strapiService['publicUrl'] || this.strapiService['apiUrl']}${project.cover.url}`)
+            : undefined
         }))
         .filter(project => !!project.title && !!project.href);
     }
