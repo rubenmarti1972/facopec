@@ -521,10 +521,15 @@ export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
   };
   attributes: {
     activities: Schema.Attribute.Component<'home.activity-card', true>;
+    attendedPersons: Schema.Attribute.Component<
+      'home.attended-person-card',
+      true
+    >;
     catalog: Schema.Attribute.Component<'shared.catalog-item', true>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    eventCalendar: Schema.Attribute.Component<'home.event-calendar-item', true>;
     gallery: Schema.Attribute.Component<'shared.gallery-item', true>;
     hero: Schema.Attribute.Component<'home.hero', false>;
     identity: Schema.Attribute.Component<'home.identity', false>;

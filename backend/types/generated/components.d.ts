@@ -238,6 +238,53 @@ export interface HomeActivityCard extends Struct.ComponentSchema {
   };
 }
 
+export interface HomeAttendedPersonCard extends Struct.ComponentSchema {
+  collectionName: 'components_home_attended_person_cards';
+  info: {
+    description: 'Card showing information about attended persons by program';
+    displayName: 'Attended Person Card';
+    icon: 'users';
+  };
+  attributes: {
+    count: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<0>;
+    description: Schema.Attribute.String;
+    icon: Schema.Attribute.String & Schema.Attribute.DefaultTo<'\uD83D\uDC65'>;
+    program: Schema.Attribute.String & Schema.Attribute.Required;
+    theme: Schema.Attribute.Enumeration<
+      ['teal', 'blue', 'rose', 'gold', 'purple', 'green']
+    > &
+      Schema.Attribute.DefaultTo<'teal'>;
+  };
+}
+
+export interface HomeEventCalendarItem extends Struct.ComponentSchema {
+  collectionName: 'components_home_event_calendar_items';
+  info: {
+    description: 'Individual event item for the calendar';
+    displayName: 'Event Calendar Item';
+    icon: 'calendar';
+  };
+  attributes: {
+    category: Schema.Attribute.Enumeration<
+      ['taller', 'reunion', 'evento', 'actividad', 'formacion', 'celebracion']
+    > &
+      Schema.Attribute.DefaultTo<'evento'>;
+    color: Schema.Attribute.Enumeration<
+      ['teal', 'blue', 'rose', 'gold', 'purple', 'green']
+    > &
+      Schema.Attribute.DefaultTo<'teal'>;
+    description: Schema.Attribute.Text;
+    endDate: Schema.Attribute.DateTime;
+    eventDate: Schema.Attribute.DateTime & Schema.Attribute.Required;
+    isHighlighted: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    link: Schema.Attribute.String;
+    location: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface HomeHero extends Struct.ComponentSchema {
   collectionName: 'components_home_heroes';
   info: {
@@ -452,6 +499,8 @@ declare module '@strapi/strapi' {
       'global.social-link': GlobalSocialLink;
       'global.value-item': GlobalValueItem;
       'home.activity-card': HomeActivityCard;
+      'home.attended-person-card': HomeAttendedPersonCard;
+      'home.event-calendar-item': HomeEventCalendarItem;
       'home.hero': HomeHero;
       'home.identity': HomeIdentity;
       'home.mission-vision': HomeMissionVision;
