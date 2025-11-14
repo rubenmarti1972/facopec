@@ -6,8 +6,8 @@
  */
 
 const API_URL = 'http://localhost:1337/api';
-const ADMIN_EMAIL = 'facopec@facopec.org';
-const ADMIN_PASSWORD = 'F4c0pec@2025';
+const ADMIN_EMAIL = 'admin@facopec.org';
+const ADMIN_PASSWORD = 'Admin123456';
 
 async function login() {
   const response = await fetch(`${API_URL}/auth/local`, {
