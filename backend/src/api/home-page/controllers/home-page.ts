@@ -2,10 +2,9 @@ import { factories } from '@strapi/strapi';
 
 export default factories.createCoreController('api::home-page.home-page', ({ strapi }) => ({
   async find(ctx) {
-    // Populate all components deeply
-    // IMPORTANT: publicationState: 'live' ensures we only return published content
-    const entity = await strapi.entityService.findMany('api::home-page.home-page', {
-      publicationState: 'live',
+    // For Single Types, use the database query directly to avoid locale issues
+    const entities = await strapi.db.query('api::home-page.home-page').findMany({
+      where: { publishedAt: { $notNull: true } },
       populate: {
         hero: {
           populate: {
@@ -39,6 +38,7 @@ export default factories.createCoreController('api::home-page.home-page', ({ str
       },
     });
 
-    return { data: entity };
+    // Return the first entity (Single Type should only have one)
+    return { data: Array.isArray(entities) && entities.length > 0 ? entities[0] : null };
   },
 }));
