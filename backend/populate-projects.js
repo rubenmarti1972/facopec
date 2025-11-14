@@ -5,15 +5,20 @@
  * Ejecutar: node populate-projects.js (requiere Strapi ejecutándose)
  */
 
-const BASE_URL = process.env.STRAPI_BASE_URL ?? 'http://localhost:1337';
-const API_URL = `${BASE_URL}/api`;
-const ADMIN_EMAIL = process.env.STRAPI_ADMIN_EMAIL ?? 'admin@facopec.org';
-const ADMIN_PASSWORD = process.env.STRAPI_ADMIN_PASSWORD ?? 'Admin123456';
-
 const { projectsContent } = require('./frontend-content');
+const {
+  DEFAULT_ADMIN_EMAIL,
+  DEFAULT_ADMIN_PASSWORD,
+  createStrapiRequestContext
+} = require('./strapi-http');
+
+const strapi = createStrapiRequestContext();
+
+const ADMIN_EMAIL = DEFAULT_ADMIN_EMAIL;
+const ADMIN_PASSWORD = DEFAULT_ADMIN_PASSWORD;
 
 async function login() {
-  const response = await fetch(`${BASE_URL}/admin/login`, {
+  const response = await strapi.adminRequest('/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -42,7 +47,7 @@ async function fetchExistingProject(token, slug) {
     publicationState: 'preview'
   });
 
-  const response = await fetch(`${API_URL}/projects?${params.toString()}`, {
+  const response = await strapi.apiRequest(`/projects?${params.toString()}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`
@@ -67,7 +72,7 @@ async function saveProject(token, project, existing) {
 
   if (existing) {
     const targetId = existing.documentId ?? existing.id;
-    const response = await fetch(`${API_URL}/projects/${targetId}`, {
+    const response = await strapi.apiRequest(`/projects/${targetId}`, {
       method: 'PUT',
       headers,
       body: JSON.stringify(payload)
@@ -81,7 +86,7 @@ async function saveProject(token, project, existing) {
     return response.json();
   }
 
-  const response = await fetch(`${API_URL}/projects`, {
+  const response = await strapi.apiRequest('/projects', {
     method: 'POST',
     headers,
     body: JSON.stringify(payload)
@@ -96,7 +101,7 @@ async function saveProject(token, project, existing) {
 }
 
 async function publishProject(token, documentId) {
-  const response = await fetch(`${API_URL}/projects/${documentId}/actions/publish`, {
+  const response = await strapi.apiRequest(`/projects/${documentId}/actions/publish`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -117,7 +122,7 @@ async function main() {
   try {
     console.log('🔐 Autenticando...');
     const token = await login();
-    console.log('✅ Autenticación exitosa\n');
+    console.log(`✅ Autenticación exitosa contra ${strapi.getBaseUrl()}\n`);
 
     console.log('📝 Poblando Projects...');
 
@@ -136,12 +141,12 @@ async function main() {
     console.log('✅ Proyectos publicados correctamente\n');
     console.log('🎉 ¡Listo! Colección Projects sincronizada con el frontend.');
     console.log('   🌐 Verifica en:');
-    console.log('      1. API: http://localhost:1337/api/projects');
+    console.log(`      1. API: ${strapi.getBaseUrl()}/api/projects`);
     console.log('      2. Frontend: http://localhost:4200/proyectos\n');
   } catch (error) {
     console.error('❌ Error:', error.message);
     console.error('\n💡 Verifica que:');
-    console.error('   • Strapi esté corriendo en http://localhost:1337');
+    console.error(`   • Strapi esté corriendo en ${strapi.getBaseUrl()}`);
     console.error('   • Las credenciales sean correctas');
     console.error('   • El content type project exista');
     process.exit(1);

@@ -5,12 +5,19 @@
  * Ejecutar: node populate-home-page.js
  */
 
-const API_URL = 'http://localhost:1337/api';
-const ADMIN_EMAIL = 'admin@facopec.org';
-const ADMIN_PASSWORD = 'Admin123456';
+const {
+  DEFAULT_ADMIN_EMAIL,
+  DEFAULT_ADMIN_PASSWORD,
+  createStrapiRequestContext
+} = require('./strapi-http');
+
+const strapi = createStrapiRequestContext();
+
+const ADMIN_EMAIL = DEFAULT_ADMIN_EMAIL;
+const ADMIN_PASSWORD = DEFAULT_ADMIN_PASSWORD;
 
 async function login() {
-  const response = await fetch(`${API_URL}/auth/local`, {
+  const response = await strapi.apiRequest('/auth/local', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -186,7 +193,7 @@ async function updateHomePage(token) {
     }
   };
 
-  const response = await fetch(`${API_URL}/home-page`, {
+  const response = await strapi.apiRequest('/home-page', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -204,7 +211,7 @@ async function updateHomePage(token) {
 }
 
 async function publishHomePage(token, documentId) {
-  const response = await fetch(`${API_URL}/home-page/actions/publish`, {
+  const response = await strapi.apiRequest('/home-page/actions/publish', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -219,7 +226,7 @@ async function publishHomePage(token, documentId) {
     console.warn(`Publish via action failed: ${response.status}. Trying alternative method...`);
 
     // Try alternative publish method
-    const altResponse = await fetch(`${API_URL}/home-page`, {
+    const altResponse = await strapi.apiRequest('/home-page', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -246,7 +253,7 @@ async function main() {
   try {
     console.log('🔐 Autenticando...');
     const token = await login();
-    console.log('✅ Autenticación exitosa\n');
+    console.log(`✅ Autenticación exitosa contra ${strapi.getBaseUrl()}\n`);
 
     console.log('📝 Poblando Home Page con datos de ejemplo...');
     const result = await updateHomePage(token);
@@ -258,14 +265,14 @@ async function main() {
     console.log('✅ Contenido publicado\n');
 
     console.log('🎉 ¡Listo! Ahora verifica:');
-    console.log('   1. API: http://localhost:1337/api/home-page');
+    console.log(`   1. API: ${strapi.getBaseUrl()}/api/home-page`);
     console.log('   2. Frontend: http://localhost:4200');
     console.log('   3. Recarga con Ctrl+Shift+R\n');
 
   } catch (error) {
     console.error('❌ Error:', error.message);
     console.error('\n💡 Verifica que:');
-    console.error('   • Strapi esté corriendo');
+    console.error(`   • Strapi esté corriendo en ${strapi.getBaseUrl()}`);
     console.error('   • Las credenciales sean correctas');
     console.error('   • El content type home-page exista');
     process.exit(1);
