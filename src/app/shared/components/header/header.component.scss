@@ -105,13 +105,12 @@ $light-gray: var(--color-light-gray, #f5f7fb);
 }
 
 .institutional-banner {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: center;
-  gap: clamp(1rem, 2vw, 1.75rem);
+  gap: clamp(1.25rem, 3vw, 3rem);
   margin-bottom: clamp(0.85rem, 2vw, 1.6rem);
-  padding: clamp(0.85rem, 1.2vw, 1.2rem) clamp(1rem, 3vw, 2rem);
+  padding: clamp(0.85rem, 1.2vw, 1.2rem) clamp(1.4rem, 4vw, 2.8rem);
   border-radius: var(--radius-xl);
   border: 1px solid rgba(255, 255, 255, 0.35);
   background: linear-gradient(120deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.08) 100%);
@@ -127,16 +126,19 @@ $light-gray: var(--color-light-gray, #f5f7fb);
   box-shadow: 0 24px 48px rgba(6, 23, 18, 0.28);
 }
 
-.institutional-banner__logos {
-  display: inline-flex;
-  align-items: center;
-  gap: clamp(1rem, 2vw, 1.6rem);
+.institutional-banner__logo {
+  height: clamp(36px, 4.5vw, 56px);
+  width: auto;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.22));
+  transition: transform 0.4s ease;
 }
 
-.institutional-banner__logos img {
-  height: clamp(44px, 6vw, 64px);
-  width: auto;
-  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
+.institutional-banner__logo--left {
+  justify-self: start;
+}
+
+.institutional-banner__logo--right {
+  justify-self: end;
 }
 
 .institutional-banner__resolutions {
@@ -149,6 +151,20 @@ $light-gray: var(--color-light-gray, #f5f7fb);
 
 .institutional-banner__resolutions p {
   margin: 0;
+}
+
+.institutional-banner:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 4px;
+}
+
+.institutional-banner__logo:hover,
+.institutional-banner__logo:focus {
+  transform: scale(1.05);
+}
+
+.institutional-banner__logo:focus-visible {
+  outline: none;
 }
 
 .header-container {
@@ -612,9 +628,15 @@ $light-gray: var(--color-light-gray, #f5f7fb);
   }
 
   .institutional-banner {
-    flex-direction: column;
-    gap: 0.85rem;
+    grid-template-columns: 1fr;
+    justify-items: center;
     text-align: center;
+    gap: 0.85rem;
+    padding: clamp(0.85rem, 1.5vw, 1.1rem) clamp(1rem, 6vw, 1.6rem);
+  }
+
+  .institutional-banner__logo {
+    height: clamp(44px, 18vw, 64px);
   }
 
   .institutional-banner__resolutions {
