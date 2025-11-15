@@ -28,15 +28,73 @@ $light-gray: var(--color-light-gray, #f5f7fb);
   }
 }
 
+@keyframes headerAurora {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes headerAuroraWave {
+  0% {
+    transform: translateX(-5%) scale(1.05);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateX(5%) scale(1.1);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateX(-5%) scale(1.05);
+    opacity: 0.55;
+  }
+}
+
+@keyframes logoShimmer {
+  0% {
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.25));
+    background-position: 0% 50%;
+  }
+  50% {
+    filter: drop-shadow(0 14px 28px rgba(31, 155, 122, 0.35));
+    background-position: 100% 50%;
+  }
+  100% {
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.25));
+    background-position: 0% 50%;
+  }
+}
+
 .app-header {
   position: sticky;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  background: linear-gradient(135deg, #13507a 0%, #1a6694 50%, #1f9b7a 100%);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, #0e2a45 0%, #13507a 35%, #1f9b7a 70%, #2eb78c 100%);
+  background-size: 220% 220%;
+  animation: headerAurora 18s ease infinite;
+  box-shadow: 0 18px 40px rgba(7, 20, 32, 0.35);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+
+.app-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.25), transparent 55%),
+    radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.18), transparent 45%),
+    radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.22), transparent 55%);
+  mix-blend-mode: screen;
+  opacity: 0.6;
+  animation: headerAuroraWave 24s ease-in-out infinite;
 }
 
 .header-shell {
@@ -118,11 +176,15 @@ $light-gray: var(--color-light-gray, #f5f7fb);
 .logo-full-name {
   font-weight: 600;
   font-size: clamp(0.8rem, 1vw, 0.95rem);
-  color: rgba($white, 0.98);
+  background-image: linear-gradient(120deg, #ffffff 0%, #ffe8a3 45%, #b4f5d4 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   letter-spacing: 0.03em;
   line-height: 1.3;
   max-width: 320px;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  animation: logoShimmer 12s ease-in-out infinite;
 }
 
 .nav-desktop {
@@ -500,5 +562,21 @@ $light-gray: var(--color-light-gray, #f5f7fb);
 
   .logo-text {
     display: none;
+  }
+
+  .institutional-banner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: 0.85rem;
+    padding: clamp(0.85rem, 1.5vw, 1.1rem) clamp(1rem, 6vw, 1.6rem);
+  }
+
+  .institutional-banner__logo {
+    height: clamp(44px, 18vw, 64px);
+  }
+
+  .institutional-banner__resolutions {
+    gap: 0.2rem;
   }
 }
