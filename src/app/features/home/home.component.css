@@ -916,6 +916,7 @@
   .hero-stage__rail {
     align-items: center;
   }
+}
 
 @media (max-width: 960px) {
   .hero {

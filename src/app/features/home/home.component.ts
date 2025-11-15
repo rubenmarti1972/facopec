@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { StrapiService } from '@core/services/strapi.service';
-import { HomePageContent, HighlightContent, SupporterLogoContent, MediaAsset, GlobalSettings, AttendedPersonCardContent, EventCalendarItemContent } from '@core/models';
+import { HomePageContent, HeroSectionContent, HighlightContent, SupporterLogoContent, MediaAsset, GlobalSettings, AttendedPersonCardContent, EventCalendarItemContent } from '@core/models';
 import { HeroCarouselComponent, CarouselImage } from '@shared/components/hero-carousel/hero-carousel.component';
 
 interface HeroStat {
@@ -457,17 +457,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.stopCarouselRotation();
-
-    if (typeof window !== 'undefined' && this.visibilityChangeHandler) {
-      window.removeEventListener('visibilitychange', this.visibilityChangeHandler);
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.clearCarouselInterval();
-  }
-
-  ngOnDestroy(): void {
     this.clearCarouselInterval();
 
     if (typeof window !== 'undefined' && this.visibilityChangeHandler) {
@@ -558,51 +547,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.carouselIntervalId = window.setInterval(() => {
       this.nextSlide(false);
     }, this.carouselRotationMs);
-  }
-
-  private buildFallbackCarousel(heroMediaUrl: string | null, heroAltText: string | null): HeroCarouselSlide[] {
-    return this.fallbackCarouselSlides.map((slide, index) => {
-      if (index === 0 && heroMediaUrl) {
-        return {
-          image: heroMediaUrl,
-          alt: heroAltText ?? slide.alt,
-          caption: slide.caption
-        } satisfies HeroCarouselSlide;
-      }
-
-      return { ...slide } satisfies HeroCarouselSlide;
-    });
-  }
-
-  private updateHeroCarousel(hero: HeroSectionContent, heroMediaUrl: string | null, heroAltText: string | null): void {
-    const slidesFromCms = hero.carouselItems?.reduce<HeroCarouselSlide[]>((slides, item) => {
-      const imageUrl = this.resolveMediaUrl(item.image);
-      if (!imageUrl) {
-        return slides;
-      }
-
-      const altText = item.image?.alternativeText ?? item.image?.caption ?? heroAltText ?? '';
-      const caption = item.title ?? item.description ?? undefined;
-
-      slides.push({
-        image: imageUrl,
-        alt: altText,
-        caption
-      });
-
-      return slides;
-    }, []);
-
-    if (slidesFromCms && slidesFromCms.length) {
-      this.heroCarousel = slidesFromCms;
-      this.heroCarouselIndex = 0;
-      this.restartCarouselInterval();
-      return;
-    }
-
-    this.heroCarousel = this.buildFallbackCarousel(heroMediaUrl, heroAltText);
-    this.heroCarouselIndex = 0;
-    this.restartCarouselInterval();
   }
 
   private loadContent(): void {
@@ -858,38 +802,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       caption,
       dataStrapiUid: supporter.dataUid ?? fallback?.dataStrapiUid ?? ''
     } satisfies SupporterLogo;
-  }
-
-  get carouselTransform(): string {
-    return `translateX(-${this.heroCarouselIndex * 100}%)`;
-  }
-
-  nextSlide(): void {
-    if (!this.heroCarousel.length) {
-      return;
-    }
-
-    this.heroCarouselIndex = (this.heroCarouselIndex + 1) % this.heroCarousel.length;
-    this.restartCarouselAutoPlay();
-  }
-
-  previousSlide(): void {
-    if (!this.heroCarousel.length) {
-      return;
-    }
-
-    this.heroCarouselIndex =
-      (this.heroCarouselIndex - 1 + this.heroCarousel.length) % this.heroCarousel.length;
-    this.restartCarouselAutoPlay();
-  }
-
-  goToSlide(index: number): void {
-    if (!this.heroCarousel.length) {
-      return;
-    }
-
-    this.heroCarouselIndex = index % this.heroCarousel.length;
-    this.restartCarouselAutoPlay();
   }
 
   private applyHeroCarousel(hero: HeroSectionContent): void {
