@@ -72,7 +72,7 @@ export interface DonationsPaymentGateway extends Struct.ComponentSchema {
     description: Schema.Attribute.Text;
     link: Schema.Attribute.String;
     name: Schema.Attribute.String;
-    theme: Schema.Attribute.Enumeration<['pse', 'international']> &
+    theme: Schema.Attribute.Enumeration<['pse', 'nequi', 'international']> &
       Schema.Attribute.DefaultTo<'pse'>;
   };
 }
@@ -200,6 +200,7 @@ export interface GlobalSocialLink extends Struct.ComponentSchema {
         'whatsapp',
         'linkedin',
         'tiktok',
+        'blog',
       ]
     > &
       Schema.Attribute.Required;

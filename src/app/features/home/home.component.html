@@ -73,7 +73,7 @@
                 ></button>
               </div>
             </div>
-          </div>
+            </div>
 
           <div class="hero__meta">
             <div class="callout" data-strapi-collection="hero.verse">
@@ -115,7 +115,8 @@
               </div>
             </div>
           </div>
-        </div>
+            </div>
+          </div>
 
         <div class="attended-section" data-strapi-section="attended-persons" *ngIf="attendedPersons.length">
           <div class="section__header">
@@ -133,8 +134,9 @@
               </div>
             </article>
           </div>
+            </div>
+          </div>
         </div>
-      </div>
 
       <aside class="hero-stage__sidebar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
         <div class="calendar-widget">
@@ -281,25 +283,6 @@
   </div>
 </section>
 
-<section class="section section--muted" data-strapi-section="supporters">
-  <div class="container supporters">
-    <div class="supporters__copy">
-      <span class="section__eyebrow">Aliados que nos respaldan</span>
-      <h2 class="supporters__title">Respaldados por organizaciones que creen en FACOPEC</h2>
-      <p class="supporters__subtitle">
-        Trabajamos junto a instituciones que impulsan el bienestar y el desarrollo social. Sus alianzas fortalecen nuestra
-        capacidad para acompañar a las familias del Valle del Cauca.
-      </p>
-    </div>
-    <div class="supporters__logos">
-      <figure class="supporters__logo" *ngFor="let supporter of supporters" [attr.data-strapi-uid]="supporter.dataStrapiUid">
-        <img [src]="supporter.src" [alt]="supporter.alt" loading="lazy" />
-        <figcaption>{{ supporter.caption }}</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
 <section class="section" id="programas" data-strapi-section="activities">
   <div class="container">
     <div class="section__heading">
@@ -344,6 +327,9 @@
         [attr.data-strapi-collection]="program.strapiCollection"
         [attr.data-strapi-entry]="program.strapiEntryId"
       >
+        <div class="project-card__media" *ngIf="program.logo">
+          <img [src]="program.logo" [alt]="program.logoAlt || program.title" loading="lazy" />
+        </div>
         <div class="project-card__body">
           <h3 class="project-card__title">{{ program.title }}</h3>
           <p class="project-card__text">{{ program.description }}</p>

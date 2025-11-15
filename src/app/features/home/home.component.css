@@ -279,7 +279,7 @@
 }
 
 .callout {
-  background: linear-gradient(140deg, rgba(31, 155, 122, 0.18), rgba(19, 80, 122, 0.16));
+  background: linear-gradient(145deg, rgba(31, 155, 122, 0.18), rgba(19, 80, 122, 0.16));
   border: 1px solid rgba(16, 36, 59, 0.08);
   border-radius: var(--radius-xl);
   padding: clamp(1.4rem, 2.6vw, 2.2rem);
@@ -300,30 +300,28 @@
   text-transform: uppercase;
   padding: 0.45rem 0.9rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.24);
   color: #0f5743;
   width: fit-content;
 }
 
 .callout__title {
-  font-size: 1.6rem;
+  font-size: clamp(1.5rem, 1.6vw + 1.2rem, 1.9rem);
   font-weight: 700;
-  color: var(--brand-ink);
+  color: var(--color-dark);
   margin: 0;
 }
 
 .callout__text {
   margin: 0;
-  color: rgba(16, 36, 59, 0.9);
-  font-size: 0.98rem;
-  line-height: 1.6;
+  color: rgba(16, 36, 59, 0.88);
+  font-size: 1rem;
+  line-height: 1.7;
 }
 
 .callout__media {
   display: grid;
   place-items: center;
-  background: none;
-  padding: 0;
   margin-top: auto;
 }
 
@@ -383,7 +381,6 @@
   color: #ffffff;
 }
 
-/* Activity cards */
 .activity-grid {
   gap: clamp(1.4rem, 3vw, 2.4rem);
   justify-items: center;
@@ -397,7 +394,6 @@
   overflow: hidden;
 }
 
-/* Fondos elegantes con gradientes suaves para cada tema */
 .activity-card:nth-child(4n+1) {
   background: linear-gradient(135deg, rgba(31, 155, 122, 0.08) 0%, rgba(31, 155, 122, 0.02) 100%);
   border-left: 3px solid rgba(31, 155, 122, 0.4);
@@ -449,7 +445,6 @@
   color: #8b6507;
 }
 
-/* Project cards */
 .project-grid {
   justify-items: center;
 }
@@ -462,7 +457,20 @@
   overflow: hidden;
 }
 
-/* Fondos elegantes alternados para project cards */
+.project-card__media {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 1.2rem 1rem 0;
+}
+
+.project-card__media img {
+  max-width: min(220px, 80%);
+  width: auto;
+  height: auto;
+  filter: drop-shadow(0 12px 28px rgba(16, 36, 59, 0.18));
+}
+
 .project-card:nth-child(odd) {
   background: linear-gradient(145deg, rgba(19, 80, 122, 0.06) 0%, rgba(31, 155, 122, 0.03) 100%);
   border-top: 2px solid rgba(19, 80, 122, 0.25);
@@ -489,7 +497,6 @@
   gap: 0.85rem;
 }
 
-/* Gallery cards */
 .gallery-card {
   position: relative;
   min-height: 260px;
@@ -519,14 +526,12 @@
   pointer-events: none;
 }
 
-/* Catalog cards */
 .catalog-card {
   min-height: 220px;
   position: relative;
   overflow: hidden;
 }
 
-/* Fondos vibrantes para catalog cards con efecto de capas */
 .catalog-card:nth-child(4n+1) {
   background: linear-gradient(135deg, rgba(247, 201, 72, 0.12) 0%, rgba(255, 140, 90, 0.06) 100%);
   border: 2px solid rgba(247, 201, 72, 0.3);
@@ -564,7 +569,6 @@
   margin: 0;
 }
 
-/* Contact section */
 .contact-grid {
   align-items: stretch;
   gap: clamp(1.4rem, 3vw, 2.4rem);
@@ -583,7 +587,6 @@
   min-height: 320px;
 }
 
-/* Attended Persons Section (dentro del hero) */
 .attended-section {
   margin-top: clamp(2rem, 4vw, 3rem);
   padding-top: clamp(2rem, 4vw, 3rem);
@@ -690,7 +693,6 @@
   margin: 0.5rem 0 0 0;
 }
 
-/* Calendar Widget (Sidebar) */
 .calendar-widget {
   background: white;
   border: 1px solid rgba(16, 36, 59, 0.08);
@@ -720,7 +722,6 @@
   overflow-y: auto;
 }
 
-/* Compact Calendar Event (para widget) */
 .calendar-event-compact {
   background: rgba(248, 250, 252, 0.5);
   border: 1px solid rgba(16, 36, 59, 0.06);
@@ -871,7 +872,9 @@
   .hero__title {
     font-size: clamp(1.75rem, 5vw, 2.4rem);
   }
+}
 
+@media (max-width: 960px) {
   .callout {
     text-align: center;
     align-items: center;
@@ -903,9 +906,12 @@
     min-height: clamp(200px, 52vw, 260px);
   }
 
-  .impact-strip__item {
-    justify-content: center;
-    text-align: center;
+  .hero-carousel__slide {
+    min-height: clamp(260px, 60vw, 360px);
+  }
+
+  .hero-carousel__control {
+    display: none;
   }
 
   .gallery-card__overlay {
@@ -915,6 +921,7 @@
   .hero__actions {
     flex-direction: column;
     width: 100%;
+    align-items: stretch;
   }
 
   .hero__actions .btn {
@@ -938,7 +945,6 @@
   }
 }
 
-/* Identity section - Image with description */
 .identity-description-with-image {
   display: grid;
   grid-template-columns: 1fr;
