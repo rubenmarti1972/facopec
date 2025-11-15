@@ -9,7 +9,6 @@ import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '@shared/components/header/header.component';
 import { FooterComponent } from '@shared/components/footer/footer.component';
 import { WhatsappFloatComponent } from '@shared/components/whatsapp-float/whatsapp-float.component';
-import { OfficialLogosBarComponent } from '@shared/components/official-logos-bar/official-logos-bar.component';
 import { StrapiService } from '@core/services/strapi.service';
 import { Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
@@ -24,8 +23,7 @@ import { environment } from '@environments/environment';
     RouterOutlet,
     HeaderComponent,
     FooterComponent,
-    WhatsappFloatComponent,
-    OfficialLogosBarComponent
+    WhatsappFloatComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']

@@ -82,6 +82,36 @@
             </article>
           </div>
         </div>
+
+        <!-- Calendario de Actividades -->
+        <aside class="calendar-section" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
+          <div class="calendar-widget">
+            <div class="calendar-widget__header">
+              <span class="section__eyebrow">Próximas actividades</span>
+              <h3 class="calendar-widget__title">Calendario</h3>
+            </div>
+            <div class="calendar-widget__events">
+              <article
+                class="calendar-event-compact"
+                *ngFor="let event of eventCalendar"
+                [class.calendar-event-compact--highlighted]="event.isHighlighted"
+                [class.calendar-event-compact--{{ event.color }}]="event.color"
+              >
+                <div class="calendar-event-compact__date">
+                  <span class="calendar-event-compact__day">{{ event.eventDate | date: 'dd' }}</span>
+                  <span class="calendar-event-compact__month">{{ event.eventDate | date: 'MMM' }}</span>
+                </div>
+                <div class="calendar-event-compact__content">
+                  <h4 class="calendar-event-compact__title">{{ event.title }}</h4>
+                  <p class="calendar-event-compact__time" *ngIf="event.eventDate">
+                    🕐 {{ event.eventDate | date: 'shortTime' }}
+                  </p>
+                  <span class="calendar-event-compact__category">{{ event.category }}</span>
+                </div>
+              </article>
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   </div>
