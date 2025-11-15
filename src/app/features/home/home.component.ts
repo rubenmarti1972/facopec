@@ -219,6 +219,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   impactHighlights = [
     {
       icon: '📚',
+      imagePath: 'assets/program-logos/educa.png',
       title: 'Educación integral',
       label: 'Tutorías, clubes de lectura y acompañamiento pedagógico',
       dataStrapiUid: 'impact.education',
@@ -226,6 +227,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     },
     {
       icon: '🤝🏾',
+      imagePath: 'assets/program-logos/comunitario.png',
       title: 'Tejido comunitario',
       label: 'Trabajo con familias, líderes y aliados del territorio',
       dataStrapiUid: 'impact.community',
@@ -233,6 +235,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     },
     {
       icon: '🌱',
+      imagePath: 'assets/program-logos/espiritual.png',
       title: 'Valores y fe',
       label: 'Formación espiritual, bienestar emocional y liderazgo',
       dataStrapiUid: 'impact.faith',
@@ -780,6 +783,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     return highlights
       .map(highlight => ({
         icon: highlight.icon ?? '✨',
+        imagePath: '', // Will use icon as fallback if no image path
         title: highlight.title,
         label: highlight.label ?? highlight.description ?? '',
         dataStrapiUid: highlight.dataUid ?? '',

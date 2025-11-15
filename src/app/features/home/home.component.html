@@ -84,7 +84,10 @@
             <div class="impact-strip" data-strapi-section="impact">
               <div class="impact-strip__items">
                 <div class="impact-strip__item" *ngFor="let item of impactHighlights" [attr.data-strapi-uid]="item.dataStrapiUid">
-                  <span class="impact-strip__icon">{{ item.icon }}</span>
+                  <div class="impact-strip__icon">
+                    <img *ngIf="item.imagePath" [src]="item.imagePath" [alt]="item.title" loading="lazy" />
+                    <span *ngIf="!item.imagePath" class="impact-strip__icon-emoji">{{ item.icon }}</span>
+                  </div>
                   <div>
                     <p class="impact-strip__title">{{ item.title }}</p>
                     <p class="impact-strip__label">{{ item.label }}</p>
