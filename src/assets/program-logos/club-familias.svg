@@ -1,0 +1,48 @@
+<svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="familiesGlow" cx="0.5" cy="0.5" r="0.65">
+      <stop offset="0%" stop-color="#FFECCF" stop-opacity="0.95"/>
+      <stop offset="60%" stop-color="#FFB37F" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#4A1F0F" stop-opacity="0.15"/>
+    </radialGradient>
+    <linearGradient id="heart" x1="50" y1="40" x2="190" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF9F6E"/>
+      <stop offset="45%" stop-color="#FF6F91"/>
+      <stop offset="100%" stop-color="#9F46FF"/>
+    </linearGradient>
+    <linearGradient id="sparkle" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFF9F0"/>
+      <stop offset="100%" stop-color="#FFE0C0"/>
+    </linearGradient>
+  </defs>
+  <rect width="240" height="240" rx="48" fill="#2B1032"/>
+  <rect x="16" y="16" width="208" height="208" rx="40" fill="url(#familiesGlow)"/>
+  <g filter="url(#filter0_d)" opacity="0.92">
+    <path d="M120 188C120 188 56 148 56 100C56 73.4903 77.4903 52 104 52C117.566 52 130.248 58.2497 138 68.8C145.752 58.2497 158.434 52 172 52C198.51 52 220 73.4903 220 100C220 148 156 188 156 188H120Z" fill="url(#heart)"/>
+  </g>
+  <g opacity="0.85">
+    <circle cx="100" cy="102" r="22" fill="#FFF4EC"/>
+    <circle cx="144" cy="110" r="26" fill="#FFE7DC"/>
+    <path d="M84 134C94 124 106 118 120 118C134 118 146 124 156 134" stroke="#FFF3EA" stroke-width="10" stroke-linecap="round"/>
+    <path d="M132 146C142 138 153 134 164 134C179 134 190 140 200 152" stroke="#FFE9DD" stroke-width="9" stroke-linecap="round"/>
+    <path d="M76 152C86 140 98 134 112 134C120 134 128 136 136 140" stroke="#FFEFE2" stroke-width="9" stroke-linecap="round"/>
+  </g>
+  <g opacity="0.95">
+    <circle cx="76" cy="98" r="8" fill="#FFF8F0"/>
+    <circle cx="160" cy="86" r="10" fill="#FFF0E4"/>
+    <circle cx="192" cy="112" r="7" fill="#FFEDE1"/>
+    <path d="M120 64C120 60.134 123.134 57 127 57C130.866 57 134 60.134 134 64C134 67.866 130.866 71 127 71C123.134 71 120 67.866 120 64Z" fill="#FFF8F0"/>
+    <path d="M94 70C94 67.2386 96.2386 65 99 65C101.761 65 104 67.2386 104 70C104 72.7614 101.761 75 99 75C96.2386 75 94 72.7614 94 70Z" fill="#FFF8F0"/>
+  </g>
+  <text x="120" y="210" text-anchor="middle" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="20" font-weight="700" fill="#FFF7F1">Club Familias</text>
+  <filter id="filter0_d" x="36" y="32" width="204" height="184" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+    <feOffset dy="10"/>
+    <feGaussianBlur stdDeviation="14"/>
+    <feComposite in2="hardAlpha" operator="out"/>
+    <feColorMatrix type="matrix" values="0 0 0 0 0.45 0 0 0 0 0.12 0 0 0 0 0.35 0 0 0 0.4 0"/>
+    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+  </filter>
+</svg>
