@@ -781,14 +781,17 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private mapHighlights(highlights: HighlightContent[]): typeof this.impactHighlights {
     return highlights
-      .map(highlight => ({
-        icon: highlight.icon ?? '✨',
-        imagePath: '', // Will use icon as fallback if no image path
-        title: highlight.title,
-        label: highlight.label ?? highlight.description ?? '',
-        dataStrapiUid: highlight.dataUid ?? '',
-        theme: (highlight.theme as (typeof this.impactHighlights)[number]['theme']) ?? 'teal'
-      }))
+      .map(highlight => {
+        const imageUrl = this.resolveMediaUrl(highlight.image);
+        return {
+          icon: highlight.icon ?? '✨',
+          imagePath: imageUrl ?? '', // Use CMS image if available
+          title: highlight.title,
+          label: highlight.label ?? highlight.description ?? '',
+          dataStrapiUid: highlight.dataUid ?? '',
+          theme: (highlight.theme as (typeof this.impactHighlights)[number]['theme']) ?? 'teal'
+        };
+      })
       .filter(highlight => !!highlight.title);
   }
 
