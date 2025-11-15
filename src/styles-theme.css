@@ -20,7 +20,7 @@
 
 .container {
   width: min(100%, 96vw);
-  max-width: 1600px;
+  max-width: 1800px;
   margin: 0 auto;
   padding: clamp(0.75rem, 3vw, 2.5rem);
 }

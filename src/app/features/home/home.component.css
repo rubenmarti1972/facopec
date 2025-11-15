@@ -83,8 +83,8 @@
 
 /* Título más grande para el header principal */
 .hero__title--large {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  line-height: 1.1;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  line-height: 1.15;
   font-weight: 800;
 }
 
@@ -148,65 +148,6 @@
   color: #f7fbff;
   font-weight: 500;
   font-size: clamp(0.92rem, 0.4vw + 0.85rem, 1.05rem);
-}
-
-.hero-carousel__control {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(12, 28, 44, 0.6);
-  color: #fff;
-  font-size: 1.8rem;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.hero-carousel__control--prev {
-  left: clamp(0.4rem, 1.2vw, 0.9rem);
-}
-
-.hero-carousel__control--next {
-  right: clamp(0.4rem, 1.2vw, 0.9rem);
-}
-
-.hero-carousel__control:hover,
-.hero-carousel__control:focus-visible {
-  background: rgba(12, 28, 44, 0.85);
-  transform: translateY(-50%) scale(1.05);
-}
-
-.hero-carousel__control:focus-visible {
-  outline: 3px solid rgba(255, 255, 255, 0.6);
-  outline-offset: 4px;
-}
-
-.hero-carousel__dots {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 0.85rem;
-}
-
-.hero-carousel__dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(16, 36, 59, 0.25);
-  cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.hero-carousel__dot--active,
-.hero-carousel__dot:hover {
-  background: var(--color-primary, #1f9b7a);
-  transform: scale(1.15);
 }
 
 .hero__meta {
@@ -656,10 +597,6 @@
 
   .hero-carousel__slide {
     min-height: clamp(260px, 60vw, 360px);
-  }
-
-  .hero-carousel__control {
-    display: none;
   }
 
   .gallery-card__overlay {
