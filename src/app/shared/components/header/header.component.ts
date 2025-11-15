@@ -96,6 +96,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   loading = true;
   error?: string;
 
+  /** Partículas doradas para animación del header */
+  particles: Array<{ left: number; delay: number; duration: number }> = [];
+
   private sub?: Subscription;
 
   constructor(
@@ -111,6 +114,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     // Intentar cargar navegación desde el backend (sobrescribe el fallback si tiene éxito)
     this.loadNavigation();
+
+    // Inicializar partículas doradas para animación del header
+    this.initializeParticles();
 
     // Actualiza currentRoute en cada navegación
     this.sub = this.router.events.subscribe((e) => {
@@ -545,5 +551,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
       result.target = resolvedTarget;
     }
     return result;
+  }
+
+  /**
+   * Inicializar partículas doradas para animación del header
+   */
+  private initializeParticles(): void {
+    const particleCount = 20;
+    this.particles = Array.from({ length: particleCount }, () => ({
+      left: Math.random() * 100,
+      delay: Math.random() * 10,
+      duration: 15 + Math.random() * 10
+    }));
   }
 }

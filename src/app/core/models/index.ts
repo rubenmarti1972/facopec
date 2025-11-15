@@ -503,6 +503,7 @@ export interface HeroSectionContent {
 export interface HighlightContent {
   id?: number;
   icon?: string;
+  image?: MediaAsset;
   title: string;
   description?: string;
   label?: string;
