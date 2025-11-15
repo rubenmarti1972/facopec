@@ -1,9 +1,25 @@
 <section class="section" id="inicio" data-strapi-collection="home" data-strapi-section="hero">
   <div class="container">
-    <div class="hero-with-sidebar">
-      <div class="hero-main">
-        <div class="hero">
-          <div class="hero__header">
+    <div class="hero-stage">
+      <a
+        class="hero-stage__institution hero-stage__institution--mininterior"
+        href="https://www.icbf.gov.co/pj-4829-fundacion-afrocolombiana-profe-en-casa"
+        target="_blank"
+        rel="noopener"
+      >
+        <img
+          src="assets/supporters/mininterior-logo.svg"
+          alt="Ministerio del Interior de Colombia"
+          loading="lazy"
+        />
+        <span class="hero-stage__institution-name">Ministerio del Interior</span>
+        <span class="hero-stage__institution-resolution">Resolución N. OBRPUN6882024<br />26/11/2024</span>
+      </a>
+
+      <div class="hero-with-sidebar">
+        <div class="hero-main">
+          <div class="hero">
+            <div class="hero__header">
             <span class="hero__badge">{{ hero.eyebrow }}</span>
             <h1 class="hero__title">
               <span *ngFor="let line of hero.title">{{ line }}</span>
@@ -58,9 +74,9 @@
                 ></button>
               </div>
             </div>
-          </div>
+            </div>
 
-          <div class="hero__meta">
+            <div class="hero__meta">
             <div class="callout" data-strapi-collection="hero.verse">
               <div class="callout__badge">{{ hero.verse.reference }}</div>
               <p class="callout__title">{{ hero.verse.text }}</p>
@@ -87,9 +103,9 @@
                 {{ action.label }}
               </a>
             </div>
-          </div>
+            </div>
 
-          <div class="impact-strip" data-strapi-section="impact">
+            <div class="impact-strip" data-strapi-section="impact">
             <div class="impact-strip__items">
               <div class="impact-strip__item" *ngFor="let item of impactHighlights" [attr.data-strapi-uid]="item.dataStrapiUid">
                 <span class="impact-strip__icon">{{ item.icon }}</span>
@@ -100,10 +116,11 @@
               </div>
             </div>
           </div>
-        </div>
+            </div>
+          </div>
 
-        <div class="attended-section" data-strapi-section="attended-persons" *ngIf="attendedPersons.length">
-          <div class="section__header">
+          <div class="attended-section" data-strapi-section="attended-persons" *ngIf="attendedPersons.length">
+            <div class="section__header">
             <span class="section__eyebrow">Nuestro impacto</span>
             <h2 class="section__title">Personas atendidas</h2>
             <p class="section__subtitle">Estos son los datos de nuestra comunidad a lo largo del año</p>
@@ -118,11 +135,12 @@
               </div>
             </article>
           </div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <aside class="hero-sidebar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
-        <div class="calendar-widget">
+        <aside class="hero-sidebar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
+          <div class="calendar-widget">
           <div class="calendar-widget__header">
             <span class="section__eyebrow">Próximas actividades</span>
             <h3 class="calendar-widget__title">Calendario</h3>
@@ -148,7 +166,23 @@
             </article>
           </div>
         </div>
-      </aside>
+        </aside>
+      </div>
+
+      <a
+        class="hero-stage__institution hero-stage__institution--icbf"
+        href="https://www.icbf.gov.co/pj-4829-fundacion-afrocolombiana-profe-en-casa"
+        target="_blank"
+        rel="noopener"
+      >
+        <img
+          src="assets/supporters/icbf-logo.svg"
+          alt="Instituto Colombiano de Bienestar Familiar"
+          loading="lazy"
+        />
+        <span class="hero-stage__institution-name">ICBF</span>
+        <span class="hero-stage__institution-resolution">Resolución N. 4829<br />26/08/2025</span>
+      </a>
     </div>
   </div>
 </section>

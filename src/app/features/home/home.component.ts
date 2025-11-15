@@ -143,7 +143,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   heroCarousel: HeroCarouselSlide[] = this.fallbackCarouselSlides.map(slide => ({ ...slide }));
   heroCarouselIndex = 0;
   private carouselIntervalId: ReturnType<typeof setInterval> | null = null;
-  private readonly carouselRotationMs = 6000;
+  private readonly carouselRotationMs = 10000;
   private visibilityChangeHandler?: () => void;
 
   hero: HeroContent = {
