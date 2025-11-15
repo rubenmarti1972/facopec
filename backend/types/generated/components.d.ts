@@ -433,6 +433,7 @@ export interface SharedHighlight extends Struct.ComponentSchema {
     dataUid: Schema.Attribute.String;
     description: Schema.Attribute.Text;
     icon: Schema.Attribute.String;
+    image: Schema.Attribute.Media<'images'>;
     label: Schema.Attribute.String;
     theme: Schema.Attribute.Enumeration<
       ['teal', 'blue', 'rose', 'gold', 'sun']
