@@ -12,6 +12,7 @@ import { StrapiService } from '@core/services/strapi.service';
 import { Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 import { BRAND_COLORS } from '@core/design-system/brand-colors';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isLoading = false;
   currentRoute: string = '';
   brandColors = BRAND_COLORS;
+  whatsappUrl = environment.socialMedia.whatsapp;
 
   constructor(private router: Router) {}
 

@@ -112,6 +112,10 @@ body {
   font-size: clamp(1.05rem, 0.35vw + 0.95rem, 1.18rem);
 }
 
+section[id] {
+  scroll-margin-top: clamp(96px, 14vh, 160px);
+}
+
 img {
   display: block;
   max-width: 100%;
