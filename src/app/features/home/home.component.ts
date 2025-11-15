@@ -72,6 +72,8 @@ interface ProgramCard {
   href: string;
   strapiCollection: string;
   strapiEntryId: string;
+  logo?: string;
+  logoAlt?: string;
 }
 
 interface CatalogItem {
@@ -285,7 +287,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       highlights: ['Tecnología', 'Innovación', 'Mentorías'],
       href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Semillero%20Digital',
       strapiCollection: 'programas',
-      strapiEntryId: 'semillero-digital'
+      strapiEntryId: 'semillero-digital',
+      logo: 'assets/program-logos/semillero-digital.svg',
+      logoAlt: 'Logo del programa Semillero Digital'
     },
     {
       title: 'Club Familias que Acompañan',
@@ -294,7 +298,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       highlights: ['Familias', 'Bienestar', 'Prevención'],
       href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Familias',
       strapiCollection: 'programas',
-      strapiEntryId: 'club-familias'
+      strapiEntryId: 'club-familias',
+      logo: 'assets/program-logos/club-familias.svg',
+      logoAlt: 'Logo del programa Club Familias que Acompañan'
     }
   ];
 
@@ -435,6 +441,19 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loadContent();
     this.loadGlobalBranding();
     this.setupAutoRefresh();
+    this.startCarouselRotation();
+  }
+
+  ngOnDestroy(): void {
+    this.stopCarouselRotation();
+
+    if (typeof window !== 'undefined' && this.visibilityChangeHandler) {
+      window.removeEventListener('visibilitychange', this.visibilityChangeHandler);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.clearCarouselInterval();
   }
 
   ngOnDestroy(): void {
@@ -447,6 +466,132 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   toggleIdentityCard(key: IdentityCardKey): void {
     this.identityExpanded[key] = !this.identityExpanded[key];
+  }
+
+  get carouselTransform(): string {
+    if (!this.heroCarousel.length) {
+      return 'translateX(0)';
+    }
+    return `translateX(-${this.heroCarouselIndex * 100}%)`;
+  }
+
+  get carouselTrackWidth(): string {
+    return `${Math.max(this.heroCarousel.length, 1) * 100}%`;
+  }
+
+  nextSlide(manual = true): void {
+    if (!this.heroCarousel.length) {
+      return;
+    }
+
+    this.heroCarouselIndex = (this.heroCarouselIndex + 1) % this.heroCarousel.length;
+
+    if (manual) {
+      this.restartCarouselInterval();
+    }
+  }
+
+  previousSlide(): void {
+    if (!this.heroCarousel.length) {
+      return;
+    }
+
+    this.heroCarouselIndex =
+      (this.heroCarouselIndex - 1 + this.heroCarousel.length) % this.heroCarousel.length;
+    this.restartCarouselInterval();
+  }
+
+  goToSlide(index: number): void {
+    if (index < 0 || index >= this.heroCarousel.length) {
+      return;
+    }
+
+    this.heroCarouselIndex = index;
+    this.restartCarouselInterval();
+  }
+
+  private startCarouselRotation(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    this.scheduleCarousel();
+  }
+
+  private stopCarouselRotation(): void {
+    if (this.carouselIntervalId) {
+      clearInterval(this.carouselIntervalId);
+      this.carouselIntervalId = null;
+    }
+  }
+
+  private restartCarouselInterval(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    this.scheduleCarousel();
+  }
+
+  private scheduleCarousel(): void {
+    this.stopCarouselRotation();
+
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    if (this.heroCarousel.length <= 1) {
+      return;
+    }
+
+    this.carouselIntervalId = window.setInterval(() => {
+      this.nextSlide(false);
+    }, this.carouselRotationMs);
+  }
+
+  private buildFallbackCarousel(heroMediaUrl: string | null, heroAltText: string | null): HeroCarouselSlide[] {
+    return this.fallbackCarouselSlides.map((slide, index) => {
+      if (index === 0 && heroMediaUrl) {
+        return {
+          image: heroMediaUrl,
+          alt: heroAltText ?? slide.alt,
+          caption: slide.caption
+        } satisfies HeroCarouselSlide;
+      }
+
+      return { ...slide } satisfies HeroCarouselSlide;
+    });
+  }
+
+  private updateHeroCarousel(hero: HeroSectionContent, heroMediaUrl: string | null, heroAltText: string | null): void {
+    const slidesFromCms = hero.carouselItems?.reduce<HeroCarouselSlide[]>((slides, item) => {
+      const imageUrl = this.resolveMediaUrl(item.image);
+      if (!imageUrl) {
+        return slides;
+      }
+
+      const altText = item.image?.alternativeText ?? item.image?.caption ?? heroAltText ?? '';
+      const caption = item.title ?? item.description ?? undefined;
+
+      slides.push({
+        image: imageUrl,
+        alt: altText,
+        caption
+      });
+
+      return slides;
+    }, []);
+
+    if (slidesFromCms && slidesFromCms.length) {
+      this.heroCarousel = slidesFromCms;
+      this.heroCarouselIndex = 0;
+      this.restartCarouselInterval();
+      return;
+    }
+
+    this.heroCarousel = this.buildFallbackCarousel(heroMediaUrl, heroAltText);
+    this.heroCarouselIndex = 0;
+    this.restartCarouselInterval();
   }
 
   private loadContent(): void {
@@ -549,15 +694,24 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     if (content.programs?.length) {
+      const fallbackPrograms = [...this.programCards];
       const mapped = content.programs
-        .map(program => ({
-          title: program.title,
-          description: program.description ?? '',
-          highlights: program.highlights?.filter(Boolean) ?? [],
-          href: program.link ?? '#',
-          strapiCollection: program.strapiCollection ?? '',
-          strapiEntryId: program.strapiEntryId ?? ''
-        }))
+        .map((program, index) => {
+          const fallback = fallbackPrograms[index];
+          const logoUrl = this.resolveMediaUrl(program.logo) ?? fallback?.logo;
+          const logoAlt = program.logoAlt ?? program.title ?? fallback?.logoAlt ?? fallback?.title ?? '';
+
+          return {
+            title: program.title ?? fallback?.title ?? '',
+            description: program.description ?? fallback?.description ?? '',
+            highlights: program.highlights?.filter(Boolean) ?? fallback?.highlights ?? [],
+            href: program.link ?? fallback?.href ?? '#',
+            strapiCollection: program.strapiCollection ?? fallback?.strapiCollection ?? '',
+            strapiEntryId: program.strapiEntryId ?? fallback?.strapiEntryId ?? '',
+            logo: logoUrl ?? undefined,
+            logoAlt: logoAlt
+          } satisfies ProgramCard;
+        })
         .filter(program => !!program.title);
 
       if (mapped.length) {
