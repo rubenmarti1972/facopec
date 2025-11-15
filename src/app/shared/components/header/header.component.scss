@@ -314,17 +314,18 @@ $light-gray: var(--color-light-gray, #f5f7fb);
   font-weight: 600;
   text-transform: capitalize;
   letter-spacing: 0.02em;
-  color: rgba($white, 0.9);
+  color: #f7c948;
   background: transparent;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 
   &:hover,
   &.nav-link--active,
   &.active {
-    color: $white;
-    background: rgba($white, 0.15);
+    color: #ffdb70;
+    background: rgba(247, 201, 72, 0.2);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transform: translateY(-1px);
   }

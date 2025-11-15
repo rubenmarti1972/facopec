@@ -83,8 +83,8 @@
 
 /* Título más grande para el header principal */
 .hero__title--large {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  line-height: 1.1;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  line-height: 1.15;
   font-weight: 800;
 }
 
