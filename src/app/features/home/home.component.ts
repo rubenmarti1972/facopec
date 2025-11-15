@@ -1,8 +1,17 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { StrapiService } from '@core/services/strapi.service';
-import { HomePageContent, HighlightContent, SupporterLogoContent, MediaAsset, GlobalSettings, AttendedPersonCardContent, EventCalendarItemContent } from '@core/models';
+import {
+  HomePageContent,
+  HighlightContent,
+  SupporterLogoContent,
+  MediaAsset,
+  GlobalSettings,
+  AttendedPersonCardContent,
+  EventCalendarItemContent,
+  HeroSectionContent
+} from '@core/models';
 
 interface HeroStat {
   label: string;
@@ -21,6 +30,12 @@ interface HeroVerse {
   reference: string;
   text: string;
   description: string;
+}
+
+interface HeroCarouselSlide {
+  image: string;
+  alt: string;
+  caption?: string;
 }
 
 interface HeroContent {
@@ -94,11 +109,41 @@ type IdentityCardKey = 'description' | 'mission' | 'vision';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   private readonly strapiService = inject(StrapiService);
 
   loading = true;
   error: string | null = null;
+
+  private readonly fallbackCarouselSlides: HeroCarouselSlide[] = [
+    {
+      image: 'assets/ninos.jpg',
+      alt: 'Niñas y niños afrocolombianos compartiendo en comunidad',
+      caption: 'Aprendizajes con sentido desde Puerto Tejada'
+    },
+    {
+      image: 'assets/fotos-fundacion/portada.webp',
+      alt: 'Equipo pedagógico acompañando actividades en FACOPEC',
+      caption: 'Educación y acompañamiento integral para las familias'
+    },
+    {
+      image: 'assets/fotos-fundacion/collage.webp',
+      alt: 'Collage de experiencias educativas y culturales de la fundación',
+      caption: 'Arte, lectura y tecnología para transformar territorios'
+    },
+    {
+      image: 'assets/fotos-fundacion/collage-profe.webp',
+      alt: 'Voluntariado y equipo FACOPEC reunidos con la comunidad',
+      caption: 'Redes solidarias que abrazan a la comunidad'
+    }
+  ];
+
+  heroCarousel: HeroCarouselSlide[] = this.fallbackCarouselSlides.map(slide => ({ ...slide }));
+  heroCarouselIndex = 0;
+  private carouselIntervalId: ReturnType<typeof setInterval> | null = null;
+  private readonly carouselRotationMs = 20000;
+  private visibilityChangeHandler?: () => void;
+  private lastContentRefresh = Date.now();
 
   hero: HeroContent = {
     eyebrow: 'Misión con sentido social',
@@ -386,9 +431,18 @@ export class HomeComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.restartCarouselAutoPlay();
     this.loadContent();
     this.loadGlobalBranding();
     this.setupAutoRefresh();
+  }
+
+  ngOnDestroy(): void {
+    this.clearCarouselInterval();
+
+    if (typeof window !== 'undefined' && this.visibilityChangeHandler) {
+      window.removeEventListener('visibilitychange', this.visibilityChangeHandler);
+    }
   }
 
   toggleIdentityCard(key: IdentityCardKey): void {
@@ -443,6 +497,8 @@ export class HomeComponent implements OnInit {
         image: heroMediaUrl ?? this.hero.image,
         imageAlt: heroAltText ?? this.hero.imageAlt
       };
+
+      this.applyHeroCarousel(hero);
     }
 
     if (content.impactHighlights?.length) {
@@ -593,6 +649,7 @@ export class HomeComponent implements OnInit {
     }
 
     this.loading = false;
+    this.lastContentRefresh = Date.now();
   }
 
   private loadGlobalBranding(): void {
@@ -638,6 +695,86 @@ export class HomeComponent implements OnInit {
     } satisfies SupporterLogo;
   }
 
+  get carouselTransform(): string {
+    return `translateX(-${this.heroCarouselIndex * 100}%)`;
+  }
+
+  nextSlide(): void {
+    if (!this.heroCarousel.length) {
+      return;
+    }
+
+    this.heroCarouselIndex = (this.heroCarouselIndex + 1) % this.heroCarousel.length;
+    this.restartCarouselAutoPlay();
+  }
+
+  previousSlide(): void {
+    if (!this.heroCarousel.length) {
+      return;
+    }
+
+    this.heroCarouselIndex =
+      (this.heroCarouselIndex - 1 + this.heroCarousel.length) % this.heroCarousel.length;
+    this.restartCarouselAutoPlay();
+  }
+
+  goToSlide(index: number): void {
+    if (!this.heroCarousel.length) {
+      return;
+    }
+
+    this.heroCarouselIndex = index % this.heroCarousel.length;
+    this.restartCarouselAutoPlay();
+  }
+
+  private applyHeroCarousel(hero: HeroSectionContent): void {
+    const slides: HeroCarouselSlide[] = [];
+
+    hero.carouselItems?.forEach(item => {
+      const imageUrl = this.resolveMediaUrl(item.image);
+      if (!imageUrl) {
+        return;
+      }
+
+      const caption = item.image?.caption ?? item.description ?? item.title ?? undefined;
+      const alt = item.image?.alternativeText ?? item.title ?? caption ?? 'Fotografía de FACOPEC';
+      slides.push({ image: imageUrl, alt, caption });
+    });
+
+    if (slides.length) {
+      this.setHeroCarousel(slides);
+    } else if (!this.heroCarousel.length) {
+      this.setHeroCarousel(this.fallbackCarouselSlides);
+    }
+  }
+
+  private setHeroCarousel(slides: HeroCarouselSlide[]): void {
+    this.heroCarousel = slides.map(slide => ({ ...slide }));
+    this.heroCarouselIndex = 0;
+    this.restartCarouselAutoPlay();
+  }
+
+  private restartCarouselAutoPlay(): void {
+    this.clearCarouselInterval();
+
+    if (!this.heroCarousel.length || typeof document === 'undefined') {
+      return;
+    }
+
+    this.carouselIntervalId = setInterval(() => {
+      if (document.visibilityState === 'visible') {
+        this.heroCarouselIndex = (this.heroCarouselIndex + 1) % this.heroCarousel.length;
+      }
+    }, this.carouselRotationMs);
+  }
+
+  private clearCarouselInterval(): void {
+    if (this.carouselIntervalId) {
+      clearInterval(this.carouselIntervalId);
+      this.carouselIntervalId = null;
+    }
+  }
+
   private resolveMediaUrl(media?: MediaAsset | null): string | null {
     return this.strapiService.buildMediaUrl(media);
   }
@@ -651,41 +788,46 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    let lastLoadTime = Date.now();
+    const refreshThreshold = 10000; // 10 seconds (reduced for faster updates)
 
-    const handleVisibilityChange = (): void => {
-      if (document.visibilityState === 'visible') {
-        const timeSinceLastLoad = Date.now() - lastLoadTime;
-        const refreshThreshold = 10000; // 10 seconds (reduced for faster updates)
+    if (this.visibilityChangeHandler) {
+      window.removeEventListener('visibilitychange', this.visibilityChangeHandler);
+    }
 
-        if (timeSinceLastLoad > refreshThreshold) {
-          console.log('Auto-refreshing content after tab became visible');
-          this.strapiService.refreshHomePage().subscribe({
-            next: content => {
-              this.applyHomeContent(content);
-              lastLoadTime = Date.now();
-            },
-            error: error => {
-              console.error('Error refreshing home page content', error);
-            }
-          });
-
-          this.strapiService.refreshGlobalSettings().subscribe({
-            next: (settings: GlobalSettings) => {
-              const logoUrl = this.strapiService.buildMediaUrl(settings.logo);
-              if (logoUrl) {
-                this.globalLogoUrl = logoUrl;
-                this.globalLogoAlt = settings.logo?.alternativeText ?? settings.logo?.caption ?? this.globalLogoAlt;
-              }
-            },
-            error: error => {
-              console.warn('Error refreshing global settings', error);
-            }
-          });
-        }
+    this.visibilityChangeHandler = (): void => {
+      if (document.visibilityState !== 'visible') {
+        return;
       }
+
+      const timeSinceLastLoad = Date.now() - this.lastContentRefresh;
+
+      if (timeSinceLastLoad <= refreshThreshold) {
+        return;
+      }
+
+      console.log('Auto-refreshing content after tab became visible');
+
+      this.strapiService.refreshHomePage().subscribe({
+        next: content => this.applyHomeContent(content),
+        error: error => {
+          console.error('Error refreshing home page content', error);
+        }
+      });
+
+      this.strapiService.refreshGlobalSettings().subscribe({
+        next: (settings: GlobalSettings) => {
+          const logoUrl = this.strapiService.buildMediaUrl(settings.logo);
+          if (logoUrl) {
+            this.globalLogoUrl = logoUrl;
+            this.globalLogoAlt = settings.logo?.alternativeText ?? settings.logo?.caption ?? this.globalLogoAlt;
+          }
+        },
+        error: error => {
+          console.warn('Error refreshing global settings', error);
+        }
+      });
     };
 
-    window.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('visibilitychange', this.visibilityChangeHandler);
   }
 }

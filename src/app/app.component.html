@@ -15,4 +15,14 @@
   <div class="loading-overlay" *ngIf="isLoading" aria-label="Loading">
     <div class="spinner"></div>
   </div>
+
+  <a
+    class="whatsapp-floating"
+    [href]="whatsappUrl"
+    target="_blank"
+    rel="noopener"
+    aria-label="Escríbenos por WhatsApp"
+  >
+    <img src="assets/icons/whatsapp.svg" alt="" aria-hidden="true" />
+  </a>
 </div>

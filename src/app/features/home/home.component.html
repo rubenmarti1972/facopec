@@ -1,40 +1,83 @@
 <section class="section" id="inicio" data-strapi-collection="home" data-strapi-section="hero">
   <div class="container">
-    <!-- Layout principal con sidebar -->
-    <div class="hero-with-sidebar">
-      <!-- Columna principal izquierda -->
-      <div class="hero-main">
+    <div class="hero-stage">
+      <div class="hero-stage__rail hero-stage__rail--left">
+        <a
+          class="hero-stage__institution hero-stage__institution--mininterior"
+          href="https://www.icbf.gov.co/pj-4829-fundacion-afrocolombiana-profe-en-casa"
+          target="_blank"
+          rel="noopener"
+        >
+          <img src="assets/supporters/mininterior-logo.svg" alt="Logo Ministerio del Interior de Colombia" loading="lazy" />
+          <div class="hero-stage__institution-copy">
+            <span class="hero-stage__institution-name">Ministerio del Interior</span>
+            <span class="hero-stage__institution-resolution">Resolución N. OBRPUN6882024<br />26/11/2024</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="hero-stage__main">
         <div class="hero">
-          <!-- Columna izquierda: Título pequeño e Imagen grande -->
-          <div class="hero__left">
+          <div class="hero__header">
             <span class="hero__badge">{{ hero.eyebrow }}</span>
-            <h1 class="hero__title hero__title--small">
+            <h1 class="hero__title">
               <span *ngFor="let line of hero.title">{{ line }}</span>
             </h1>
-            <figure class="hero__image hero__image--large" aria-hidden="true">
-              <img
-                [src]="hero.image"
-                [alt]="hero.imageAlt"
-                loading="eager"
-              />
-            </figure>
+          </div>
 
-            <!-- Impact strip integrado debajo de la imagen -->
-            <div class="impact-strip" data-strapi-section="impact">
-              <div class="impact-strip__items">
-                <div class="impact-strip__item" *ngFor="let item of impactHighlights" [attr.data-strapi-uid]="item.dataStrapiUid">
-                  <span class="impact-strip__icon">{{ item.icon }}</span>
-                  <div>
-                    <p class="impact-strip__title">{{ item.title }}</p>
-                    <p class="impact-strip__label">{{ item.label }}</p>
-                  </div>
+          <div class="hero__carousel" *ngIf="heroCarousel.length">
+            <div
+              class="hero-carousel"
+              role="region"
+              aria-roledescription="carrusel"
+              aria-live="polite"
+              aria-label="Historias en imágenes de FACOPEC"
+            >
+              <div class="hero-carousel__viewport">
+                <div class="hero-carousel__track" [style.transform]="carouselTransform">
+                  <figure
+                    class="hero-carousel__slide"
+                    *ngFor="let slide of heroCarousel; let i = index"
+                    [class.hero-carousel__slide--active]="heroCarouselIndex === i"
+                  >
+                    <img [src]="slide.image" [alt]="slide.alt" [attr.loading]="i === 0 ? 'eager' : 'lazy'" />
+                    <figcaption *ngIf="slide.caption">{{ slide.caption }}</figcaption>
+                  </figure>
                 </div>
+              </div>
+
+              <button
+                type="button"
+                class="hero-carousel__control hero-carousel__control--prev"
+                (click)="previousSlide()"
+                aria-label="Ver fotografía anterior"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                class="hero-carousel__control hero-carousel__control--next"
+                (click)="nextSlide()"
+                aria-label="Ver siguiente fotografía"
+              >
+                ›
+              </button>
+
+              <div class="hero-carousel__dots">
+                <button
+                  type="button"
+                  *ngFor="let slide of heroCarousel; let i = index"
+                  class="hero-carousel__dot"
+                  [class.hero-carousel__dot--active]="heroCarouselIndex === i"
+                  (click)="goToSlide(i)"
+                  [attr.aria-label]="'Ir a la fotografía ' + (i + 1)"
+                  [attr.aria-current]="heroCarouselIndex === i ? 'true' : null"
+                ></button>
               </div>
             </div>
           </div>
 
-          <!-- Columna derecha: Mensaje bíblico, logo y texto debajo -->
-          <div class="hero__right">
+          <div class="hero__meta">
             <div class="callout" data-strapi-collection="hero.verse">
               <div class="callout__badge">{{ hero.verse.reference }}</div>
               <p class="callout__title">{{ hero.verse.text }}</p>
@@ -44,31 +87,38 @@
               </div>
             </div>
 
-            <!-- Texto lead debajo de la card del proverbio -->
-            <div class="hero__content">
-              <p class="hero__lead">{{ hero.lead }}</p>
-              <div class="hero__actions">
-                <a
-                  *ngFor="let action of hero.actions"
-                  class="btn"
-                  [ngClass]="{
-                    'btn-primary': action.variant === 'primary',
-                    'btn-secondary': action.variant === 'secondary'
-                  }"
-                  [routerLink]="action.routerLink || null"
-                  [href]="action.href || null"
-                  [attr.data-strapi-uid]="action.dataStrapiUid"
-                  [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
-                  [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
-                >
-                  {{ action.label }}
-                </a>
+            <div class="hero__actions" *ngIf="hero.actions?.length">
+              <a
+                *ngFor="let action of hero.actions"
+                class="btn"
+                [ngClass]="{
+                  'btn-primary': action.variant === 'primary',
+                  'btn-secondary': action.variant === 'secondary'
+                }"
+                [routerLink]="action.routerLink || null"
+                [href]="action.href || null"
+                [attr.data-strapi-uid]="action.dataStrapiUid"
+                [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
+                [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
+              >
+                {{ action.label }}
+              </a>
+            </div>
+          </div>
+
+          <div class="impact-strip" data-strapi-section="impact">
+            <div class="impact-strip__items">
+              <div class="impact-strip__item" *ngFor="let item of impactHighlights" [attr.data-strapi-uid]="item.dataStrapiUid">
+                <span class="impact-strip__icon">{{ item.icon }}</span>
+                <div>
+                  <p class="impact-strip__title">{{ item.title }}</p>
+                  <p class="impact-strip__label">{{ item.label }}</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Personas atendidas debajo de la imagen -->
         <div class="attended-section" data-strapi-section="attended-persons" *ngIf="attendedPersons.length">
           <div class="section__header">
             <span class="section__eyebrow">Nuestro impacto</span>
@@ -88,35 +138,53 @@
         </div>
       </div>
 
-      <!-- Sidebar derecha: Calendario de eventos -->
-      <aside class="hero-sidebar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
-        <div class="calendar-widget">
-          <div class="calendar-widget__header">
-            <span class="section__eyebrow">Próximas actividades</span>
-            <h3 class="calendar-widget__title">Calendario</h3>
+      <div class="hero-stage__rail hero-stage__rail--right">
+        <aside class="hero-stage__sidebar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
+          <div class="calendar-widget">
+            <div class="calendar-widget__header">
+              <span class="section__eyebrow">Próximas actividades</span>
+              <h3 class="calendar-widget__title">Calendario</h3>
+            </div>
+            <div class="calendar-widget__events">
+              <article
+                class="calendar-event-compact"
+                *ngFor="let event of eventCalendar"
+                [class.calendar-event-compact--highlighted]="event.isHighlighted"
+                [class.calendar-event-compact--{{ event.color }}]="event.color"
+              >
+                <div class="calendar-event-compact__date">
+                  <span class="calendar-event-compact__day">{{ event.eventDate | date: 'dd' }}</span>
+                  <span class="calendar-event-compact__month">{{ event.eventDate | date: 'MMM' }}</span>
+                </div>
+                <div class="calendar-event-compact__content">
+                  <h4 class="calendar-event-compact__title">{{ event.title }}</h4>
+                  <p class="calendar-event-compact__time" *ngIf="event.eventDate">
+                    🕐 {{ event.eventDate | date: 'shortTime' }}
+                  </p>
+                  <span class="calendar-event-compact__category">{{ event.category }}</span>
+                </div>
+              </article>
+            </div>
           </div>
-          <div class="calendar-widget__events">
-            <article
-              class="calendar-event-compact"
-              *ngFor="let event of eventCalendar"
-              [class.calendar-event-compact--highlighted]="event.isHighlighted"
-              [class.calendar-event-compact--{{ event.color }}]="event.color"
-            >
-              <div class="calendar-event-compact__date">
-                <span class="calendar-event-compact__day">{{ event.eventDate | date: 'dd' }}</span>
-                <span class="calendar-event-compact__month">{{ event.eventDate | date: 'MMM' }}</span>
-              </div>
-              <div class="calendar-event-compact__content">
-                <h4 class="calendar-event-compact__title">{{ event.title }}</h4>
-                <p class="calendar-event-compact__time" *ngIf="event.eventDate">
-                  🕐 {{ event.eventDate | date: 'shortTime' }}
-                </p>
-                <span class="calendar-event-compact__category">{{ event.category }}</span>
-              </div>
-            </article>
+        </aside>
+
+        <a
+          class="hero-stage__institution hero-stage__institution--icbf"
+          href="https://www.icbf.gov.co/pj-4829-fundacion-afrocolombiana-profe-en-casa"
+          target="_blank"
+          rel="noopener"
+        >
+          <img
+            src="assets/fotos-fundacion/logo-bienestar.png"
+            alt="Logo Instituto Colombiano de Bienestar Familiar"
+            loading="lazy"
+          />
+          <div class="hero-stage__institution-copy">
+            <span class="hero-stage__institution-name">ICBF</span>
+            <span class="hero-stage__institution-resolution">Resolución N. 4829<br />26/08/2025</span>
           </div>
-        </div>
-      </aside>
+        </a>
+      </div>
     </div>
   </div>
 </section>
