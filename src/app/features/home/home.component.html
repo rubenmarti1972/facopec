@@ -30,35 +30,6 @@
                   <p class="impact-strip__label">{{ item.label }}</p>
                 </div>
               </div>
-
-              <button
-                type="button"
-                class="hero-carousel__control hero-carousel__control--prev"
-                (click)="previousSlide()"
-                aria-label="Ver fotografía anterior"
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                class="hero-carousel__control hero-carousel__control--next"
-                (click)="nextSlide()"
-                aria-label="Ver siguiente fotografía"
-              >
-                ›
-              </button>
-
-              <div class="hero-carousel__dots">
-                <button
-                  type="button"
-                  *ngFor="let slide of heroCarousel; let i = index"
-                  class="hero-carousel__dot"
-                  [class.hero-carousel__dot--active]="heroCarouselIndex === i"
-                  (click)="goToSlide(i)"
-                  [attr.aria-label]="'Ir a la fotografía ' + (i + 1)"
-                  [attr.aria-current]="heroCarouselIndex === i ? 'true' : null"
-                ></button>
-              </div>
             </div>
           </div>
 
