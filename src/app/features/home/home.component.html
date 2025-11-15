@@ -33,25 +33,67 @@
 
       <div class="hero-stage__main">
         <div class="hero">
-          <!-- Fila superior: Eyebrow y Título -->
+          <!-- Fila superior: Logos, Eyebrow y Título -->
           <div class="hero__header">
-            <span class="hero__badge">{{ hero.eyebrow }}</span>
-            <h1 class="hero__title hero__title--large">
-              <span *ngFor="let line of hero.title">{{ line }}</span>
-            </h1>
-          </div>
+            <a
+              class="hero__logo hero__logo--left"
+              href="https://www.icbf.gov.co/pj-4829-fundacion-afrocolombiana-profe-en-casa"
+              target="_blank"
+              rel="noopener"
+              title="Ministerio del Interior">
+              <img src="assets/supporters/mininterior-logo.svg" alt="Logo Ministerio del Interior de Colombia" />
+              <div class="hero__logo-text">
+                <span class="hero__logo-title">MINISTERIO DEL INTERIOR</span>
+                <span class="hero__logo-resolution">RESOLUCIÓN N. OBRPUN6882024 del 26/11/2024</span>
+              </div>
+            </a>
 
-          <!-- Carousel con mensaje bíblico integrado -->
-          <div class="hero__carousel-wrapper">
-            <div class="hero__carousel">
-              <app-hero-carousel
-                [images]="carouselImages"
-                [autoPlayInterval]="6000"
-                [autoPlay]="true">
-              </app-hero-carousel>
+            <div class="hero__header-center">
+              <span class="hero__badge">{{ hero.eyebrow }}</span>
+              <h1 class="hero__title hero__title--large">
+                <span *ngFor="let line of hero.title">{{ line }}</span>
+              </h1>
             </div>
 
-            <!-- Mensaje bíblico integrado con el carousel -->
+            <a
+              class="hero__logo hero__logo--right"
+              href="https://www.icbf.gov.co/pj-4829-fundacion-afrocolombiana-profe-en-casa"
+              target="_blank"
+              rel="noopener"
+              title="ICBF">
+              <img src="assets/supporters/icbf-logo.svg" alt="Logo Instituto Colombiano de Bienestar Familiar" />
+              <div class="hero__logo-text">
+                <span class="hero__logo-title">ICBF</span>
+                <span class="hero__logo-resolution">RESOLUCIÓN N. 4829 del 26/08/2025</span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Carousel -->
+          <div class="hero__carousel">
+            <app-hero-carousel
+              [images]="carouselImages"
+              [autoPlayInterval]="6000"
+              [autoPlay]="true">
+            </app-hero-carousel>
+          </div>
+
+          <!-- Fila con Impact strip + Mensaje bíblico + Botones -->
+          <div class="hero__content-row">
+            <!-- Impact strip -->
+            <div class="impact-strip" data-strapi-section="impact">
+              <div class="impact-strip__items">
+                <div class="impact-strip__item" *ngFor="let item of impactHighlights" [attr.data-strapi-uid]="item.dataStrapiUid">
+                  <span class="impact-strip__icon">{{ item.icon }}</span>
+                  <div>
+                    <p class="impact-strip__title">{{ item.title }}</p>
+                    <p class="impact-strip__label">{{ item.label }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mensaje bíblico -->
             <div class="callout" data-strapi-collection="hero.verse">
               <div class="callout__badge">{{ hero.verse.reference }}</div>
               <p class="callout__title">{{ hero.verse.text }}</p>
@@ -60,38 +102,25 @@
                 <img [src]="globalLogoUrl" [alt]="globalLogoAlt" loading="lazy" />
               </div>
             </div>
-          </div>
 
-          <!-- Impact strip debajo del carousel -->
-          <div class="impact-strip" data-strapi-section="impact">
-            <div class="impact-strip__items">
-              <div class="impact-strip__item" *ngFor="let item of impactHighlights" [attr.data-strapi-uid]="item.dataStrapiUid">
-                <span class="impact-strip__icon">{{ item.icon }}</span>
-                <div>
-                  <p class="impact-strip__title">{{ item.title }}</p>
-                  <p class="impact-strip__label">{{ item.label }}</p>
-                </div>
-              </div>
+            <!-- Acciones (botones apilados) -->
+            <div class="hero__actions hero__actions--stacked">
+              <a
+                *ngFor="let action of hero.actions"
+                class="btn"
+                [ngClass]="{
+                  'btn-primary': action.variant === 'primary',
+                  'btn-secondary': action.variant === 'secondary'
+                }"
+                [routerLink]="action.routerLink || null"
+                [href]="action.href || null"
+                [attr.data-strapi-uid]="action.dataStrapiUid"
+                [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
+                [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
+              >
+                {{ action.label }}
+              </a>
             </div>
-          </div>
-
-          <!-- Acciones (botones) -->
-          <div class="hero__actions">
-            <a
-              *ngFor="let action of hero.actions"
-              class="btn"
-              [ngClass]="{
-                'btn-primary': action.variant === 'primary',
-                'btn-secondary': action.variant === 'secondary'
-              }"
-              [routerLink]="action.routerLink || null"
-              [href]="action.href || null"
-              [attr.data-strapi-uid]="action.dataStrapiUid"
-              [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
-              [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
-            >
-              {{ action.label }}
-            </a>
           </div>
         </div>
 
