@@ -1,8 +1,17 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { StrapiService } from '@core/services/strapi.service';
-import { HomePageContent, HighlightContent, SupporterLogoContent, MediaAsset, GlobalSettings, AttendedPersonCardContent, EventCalendarItemContent } from '@core/models';
+import {
+  HomePageContent,
+  HighlightContent,
+  SupporterLogoContent,
+  MediaAsset,
+  GlobalSettings,
+  AttendedPersonCardContent,
+  EventCalendarItemContent,
+  HeroSectionContent
+} from '@core/models';
 
 interface HeroStat {
   label: string;
@@ -21,6 +30,12 @@ interface HeroVerse {
   reference: string;
   text: string;
   description: string;
+}
+
+interface HeroCarouselSlide {
+  image: string;
+  alt: string;
+  caption?: string;
 }
 
 interface HeroContent {
@@ -94,11 +109,39 @@ type IdentityCardKey = 'description' | 'mission' | 'vision';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   private readonly strapiService = inject(StrapiService);
 
   loading = true;
   error: string | null = null;
+
+  private readonly fallbackCarouselSlides: HeroCarouselSlide[] = [
+    {
+      image: 'assets/ninos.jpg',
+      alt: 'Niñas y niños afrocolombianos compartiendo en comunidad',
+      caption: 'Aprendizajes con sentido desde Puerto Tejada'
+    },
+    {
+      image: 'assets/fotos-fundacion/portada.webp',
+      alt: 'Equipo pedagógico acompañando actividades en FACOPEC',
+      caption: 'Educación y acompañamiento integral para las familias'
+    },
+    {
+      image: 'assets/fotos-fundacion/collage.webp',
+      alt: 'Collage de experiencias educativas y culturales de la fundación',
+      caption: 'Arte, lectura y tecnología para transformar territorios'
+    },
+    {
+      image: 'assets/fotos-fundacion/collage-profe.webp',
+      alt: 'Voluntariado y equipo FACOPEC reunidos con la comunidad',
+      caption: 'Redes solidarias que abrazan a la comunidad'
+    }
+  ];
+
+  heroCarousel: HeroCarouselSlide[] = this.fallbackCarouselSlides.map(slide => ({ ...slide }));
+  heroCarouselIndex = 0;
+  private carouselIntervalId: ReturnType<typeof setInterval> | null = null;
+  private readonly carouselRotationMs = 20000;
 
   hero: HeroContent = {
     eyebrow: 'Misión con sentido social',
@@ -386,9 +429,14 @@ export class HomeComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.restartCarouselAutoPlay();
     this.loadContent();
     this.loadGlobalBranding();
     this.setupAutoRefresh();
+  }
+
+  ngOnDestroy(): void {
+    this.clearCarouselInterval();
   }
 
   toggleIdentityCard(key: IdentityCardKey): void {
@@ -443,6 +491,8 @@ export class HomeComponent implements OnInit {
         image: heroMediaUrl ?? this.hero.image,
         imageAlt: heroAltText ?? this.hero.imageAlt
       };
+
+      this.applyHeroCarousel(hero);
     }
 
     if (content.impactHighlights?.length) {
@@ -636,6 +686,86 @@ export class HomeComponent implements OnInit {
       caption,
       dataStrapiUid: supporter.dataUid ?? fallback?.dataStrapiUid ?? ''
     } satisfies SupporterLogo;
+  }
+
+  get carouselTransform(): string {
+    return `translateX(-${this.heroCarouselIndex * 100}%)`;
+  }
+
+  nextSlide(): void {
+    if (!this.heroCarousel.length) {
+      return;
+    }
+
+    this.heroCarouselIndex = (this.heroCarouselIndex + 1) % this.heroCarousel.length;
+    this.restartCarouselAutoPlay();
+  }
+
+  previousSlide(): void {
+    if (!this.heroCarousel.length) {
+      return;
+    }
+
+    this.heroCarouselIndex =
+      (this.heroCarouselIndex - 1 + this.heroCarousel.length) % this.heroCarousel.length;
+    this.restartCarouselAutoPlay();
+  }
+
+  goToSlide(index: number): void {
+    if (!this.heroCarousel.length) {
+      return;
+    }
+
+    this.heroCarouselIndex = index % this.heroCarousel.length;
+    this.restartCarouselAutoPlay();
+  }
+
+  private applyHeroCarousel(hero: HeroSectionContent): void {
+    const slides: HeroCarouselSlide[] = [];
+
+    hero.carouselItems?.forEach(item => {
+      const imageUrl = this.resolveMediaUrl(item.image);
+      if (!imageUrl) {
+        return;
+      }
+
+      const caption = item.image?.caption ?? item.description ?? item.title ?? undefined;
+      const alt = item.image?.alternativeText ?? item.title ?? caption ?? 'Fotografía de FACOPEC';
+      slides.push({ image: imageUrl, alt, caption });
+    });
+
+    if (slides.length) {
+      this.setHeroCarousel(slides);
+    } else if (!this.heroCarousel.length) {
+      this.setHeroCarousel(this.fallbackCarouselSlides);
+    }
+  }
+
+  private setHeroCarousel(slides: HeroCarouselSlide[]): void {
+    this.heroCarousel = slides.map(slide => ({ ...slide }));
+    this.heroCarouselIndex = 0;
+    this.restartCarouselAutoPlay();
+  }
+
+  private restartCarouselAutoPlay(): void {
+    this.clearCarouselInterval();
+
+    if (!this.heroCarousel.length || typeof document === 'undefined') {
+      return;
+    }
+
+    this.carouselIntervalId = setInterval(() => {
+      if (document.visibilityState === 'visible') {
+        this.heroCarouselIndex = (this.heroCarouselIndex + 1) % this.heroCarousel.length;
+      }
+    }, this.carouselRotationMs);
+  }
+
+  private clearCarouselInterval(): void {
+    if (this.carouselIntervalId) {
+      clearInterval(this.carouselIntervalId);
+      this.carouselIntervalId = null;
+    }
   }
 
   private resolveMediaUrl(media?: MediaAsset | null): string | null {
