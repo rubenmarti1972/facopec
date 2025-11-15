@@ -1,22 +1,44 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 240" role="img" aria-labelledby="title">
   <title>Instituto Colombiano de Bienestar Familiar</title>
   <defs>
-    <linearGradient id="icbfLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#2bb673" />
-      <stop offset="100%" stop-color="#0c7a3c" />
+    <linearGradient id="handLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2ec15f" />
+      <stop offset="100%" stop-color="#147a36" />
+    </linearGradient>
+    <linearGradient id="handRight" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2ec15f" />
+      <stop offset="100%" stop-color="#147a36" />
     </linearGradient>
   </defs>
-  <g fill="none" stroke-width="0">
+  <rect x="6" y="6" width="208" height="228" rx="36" fill="#ffffff" stroke="#dfe8dd" stroke-width="6" />
+  <g transform="translate(0 -6)">
     <path
-      fill="url(#icbfLeaf)"
-      d="M21 64c0-24.6 21.4-45 59-45s59 20.4 59 45c0 28.7-23.8 46.6-51.3 67.2-4.2 3.1-11.2 3.1-15.4 0C44.8 110.6 21 92.7 21 64z"
+      d="M34 198c0-56 42-88 88-88h6c46 0 88 32 88 88 0 22-10 46-32 64H66c-22-18-32-42-32-64z"
+      fill="#f5faf4"
     />
     <path
-      fill="#f6fbf5"
-      d="M73.8 89.4c-7.6-4.9-12.3-13.1-12.3-22.1 0-14.7 11.8-26.6 26.5-26.6s26.5 11.9 26.5 26.6c0 9.1-4.7 17.2-12.3 22.1l-14.2 9.1z"
+      d="M102 110c0-20.5 16.5-37 37-37s37 16.5 37 37c0 16.9-11.5 31.3-27.5 35.7L139 198l-9.5-52.3C114 141.5 102 127 102 110z"
+      fill="#231f20"
+      opacity="0.12"
     />
-    <circle cx="88" cy="59" r="11" fill="#1d3b2b" />
-    <circle cx="68" cy="62" r="7" fill="#1d3b2b" />
-    <circle cx="108" cy="62" r="7" fill="#1d3b2b" />
+    <circle cx="109" cy="114" r="18" fill="#1f3a2a" />
+    <circle cx="80" cy="128" r="14" fill="#1f3a2a" />
+    <circle cx="138" cy="128" r="14" fill="#1f3a2a" />
+    <path
+      d="M38 194c0-40 27-68 65-68h14v116H72c-20-16-34-32-34-48z"
+      fill="url(#handLeft)"
+    />
+    <path
+      d="M182 194c0-40-27-68-65-68h-14v116h45c20-16 34-32 34-48z"
+      fill="url(#handRight)"
+    />
+    <path
+      d="M82 220c-6.5-5.2-11.5-12-14.8-20.2l20.8-29.8 18 12 18-12 20.8 29.8C141.5 208 136.5 214.8 130 220z"
+      fill="#f8fbf7"
+    />
+  </g>
+  <g font-family="'Poppins', 'Montserrat', 'Segoe UI', sans-serif" font-weight="700" text-anchor="middle" fill="#1f3a2a">
+    <text font-size="22" x="110" y="214">BIENESTAR</text>
+    <text font-size="22" x="110" y="236">FAMILIAR</text>
   </g>
 </svg>
