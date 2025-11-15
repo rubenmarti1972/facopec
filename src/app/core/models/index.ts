@@ -478,6 +478,13 @@ export interface HeroStatContent {
   value: string;
 }
 
+export interface HeroCarouselItemContent {
+  id?: number;
+  title?: string;
+  description?: string;
+  image?: MediaAsset;
+}
+
 export interface HeroSectionContent {
   eyebrow?: string;
   titleLines?: { line: string }[];
@@ -490,6 +497,7 @@ export interface HeroSectionContent {
     description?: string;
   };
   image?: MediaAsset;
+  carouselItems?: HeroCarouselItemContent[];
 }
 
 export interface HighlightContent {
@@ -544,6 +552,8 @@ export interface ProgramCardContent {
   link?: string;
   strapiCollection?: string;
   strapiEntryId?: string;
+  logo?: MediaAsset;
+  logoAlt?: string;
 }
 
 export interface SupporterLogoContent {

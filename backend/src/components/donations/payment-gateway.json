@@ -22,7 +22,11 @@
     },
     "theme": {
       "type": "enumeration",
-      "enum": ["pse", "international"],
+      "enum": [
+        "pse",
+        "nequi",
+        "international"
+      ],
       "default": "pse"
     }
   }

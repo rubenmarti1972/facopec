@@ -1,9 +1,22 @@
 <section class="section" id="inicio" data-strapi-collection="home" data-strapi-section="hero">
   <div class="container">
-    <!-- Layout principal con sidebar -->
-    <div class="hero-with-sidebar">
-      <!-- Columna principal izquierda -->
-      <div class="hero-main">
+    <div class="hero-stage">
+      <div class="hero-stage__rail hero-stage__rail--left">
+        <a
+          class="hero-stage__institution hero-stage__institution--mininterior"
+          href="https://www.icbf.gov.co/pj-4829-fundacion-afrocolombiana-profe-en-casa"
+          target="_blank"
+          rel="noopener"
+        >
+          <img src="assets/supporters/mininterior-logo.svg" alt="Logo Ministerio del Interior de Colombia" loading="lazy" />
+          <div class="hero-stage__institution-copy">
+            <span class="hero-stage__institution-name">Ministerio del Interior</span>
+            <span class="hero-stage__institution-resolution">Resolución N. OBRPUN6882024<br />26/11/2024</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="hero-stage__main">
         <div class="hero">
           <!-- Fila superior: Eyebrow y Título -->
           <div class="hero__header">
@@ -32,8 +45,36 @@
                   <p class="impact-strip__label">{{ item.label }}</p>
                 </div>
               </div>
+
+              <button
+                type="button"
+                class="hero-carousel__control hero-carousel__control--prev"
+                (click)="previousSlide()"
+                aria-label="Ver fotografía anterior"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                class="hero-carousel__control hero-carousel__control--next"
+                (click)="nextSlide()"
+                aria-label="Ver siguiente fotografía"
+              >
+                ›
+              </button>
+
+              <div class="hero-carousel__dots">
+                <button
+                  type="button"
+                  *ngFor="let slide of heroCarousel; let i = index"
+                  class="hero-carousel__dot"
+                  [class.hero-carousel__dot--active]="heroCarouselIndex === i"
+                  (click)="goToSlide(i)"
+                  [attr.aria-label]="'Ir a la fotografía ' + (i + 1)"
+                  [attr.aria-current]="heroCarouselIndex === i ? 'true' : null"
+                ></button>
+              </div>
             </div>
-          </div>
 
           <!-- Mensaje bíblico y acciones debajo del carousel -->
           <div class="hero__bottom">
@@ -65,9 +106,9 @@
               </a>
             </div>
           </div>
-        </div>
+            </div>
+          </div>
 
-        <!-- Personas atendidas debajo de la imagen -->
         <div class="attended-section" data-strapi-section="attended-persons" *ngIf="attendedPersons.length">
           <div class="section__header">
             <span class="section__eyebrow">Nuestro impacto</span>
@@ -84,38 +125,57 @@
               </div>
             </article>
           </div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <!-- Sidebar derecha: Calendario de eventos -->
-      <aside class="hero-sidebar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
-        <div class="calendar-widget">
-          <div class="calendar-widget__header">
-            <span class="section__eyebrow">Próximas actividades</span>
-            <h3 class="calendar-widget__title">Calendario</h3>
+      <div class="hero-stage__rail hero-stage__rail--right">
+        <aside class="hero-stage__sidebar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
+          <div class="calendar-widget">
+            <div class="calendar-widget__header">
+              <span class="section__eyebrow">Próximas actividades</span>
+              <h3 class="calendar-widget__title">Calendario</h3>
+            </div>
+            <div class="calendar-widget__events">
+              <article
+                class="calendar-event-compact"
+                *ngFor="let event of eventCalendar"
+                [class.calendar-event-compact--highlighted]="event.isHighlighted"
+                [class.calendar-event-compact--{{ event.color }}]="event.color"
+              >
+                <div class="calendar-event-compact__date">
+                  <span class="calendar-event-compact__day">{{ event.eventDate | date: 'dd' }}</span>
+                  <span class="calendar-event-compact__month">{{ event.eventDate | date: 'MMM' }}</span>
+                </div>
+                <div class="calendar-event-compact__content">
+                  <h4 class="calendar-event-compact__title">{{ event.title }}</h4>
+                  <p class="calendar-event-compact__time" *ngIf="event.eventDate">
+                    🕐 {{ event.eventDate | date: 'shortTime' }}
+                  </p>
+                  <span class="calendar-event-compact__category">{{ event.category }}</span>
+                </div>
+              </article>
+            </div>
           </div>
-          <div class="calendar-widget__events">
-            <article
-              class="calendar-event-compact"
-              *ngFor="let event of eventCalendar"
-              [class.calendar-event-compact--highlighted]="event.isHighlighted"
-              [class.calendar-event-compact--{{ event.color }}]="event.color"
-            >
-              <div class="calendar-event-compact__date">
-                <span class="calendar-event-compact__day">{{ event.eventDate | date: 'dd' }}</span>
-                <span class="calendar-event-compact__month">{{ event.eventDate | date: 'MMM' }}</span>
-              </div>
-              <div class="calendar-event-compact__content">
-                <h4 class="calendar-event-compact__title">{{ event.title }}</h4>
-                <p class="calendar-event-compact__time" *ngIf="event.eventDate">
-                  🕐 {{ event.eventDate | date: 'shortTime' }}
-                </p>
-                <span class="calendar-event-compact__category">{{ event.category }}</span>
-              </div>
-            </article>
+        </aside>
+
+        <a
+          class="hero-stage__institution hero-stage__institution--icbf"
+          href="https://www.icbf.gov.co/pj-4829-fundacion-afrocolombiana-profe-en-casa"
+          target="_blank"
+          rel="noopener"
+        >
+          <img
+            src="assets/fotos-fundacion/logo-bienestar.png"
+            alt="Logo Instituto Colombiano de Bienestar Familiar"
+            loading="lazy"
+          />
+          <div class="hero-stage__institution-copy">
+            <span class="hero-stage__institution-name">ICBF</span>
+            <span class="hero-stage__institution-resolution">Resolución N. 4829<br />26/08/2025</span>
           </div>
-        </div>
-      </aside>
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -220,25 +280,6 @@
   </div>
 </section>
 
-<section class="section section--muted" data-strapi-section="supporters">
-  <div class="container supporters">
-    <div class="supporters__copy">
-      <span class="section__eyebrow">Aliados que nos respaldan</span>
-      <h2 class="supporters__title">Respaldados por organizaciones que creen en FACOPEC</h2>
-      <p class="supporters__subtitle">
-        Trabajamos junto a instituciones que impulsan el bienestar y el desarrollo social. Sus alianzas fortalecen nuestra
-        capacidad para acompañar a las familias del Valle del Cauca.
-      </p>
-    </div>
-    <div class="supporters__logos">
-      <figure class="supporters__logo" *ngFor="let supporter of supporters" [attr.data-strapi-uid]="supporter.dataStrapiUid">
-        <img [src]="supporter.src" [alt]="supporter.alt" loading="lazy" />
-        <figcaption>{{ supporter.caption }}</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
 <section class="section" id="programas" data-strapi-section="activities">
   <div class="container">
     <div class="section__heading">
@@ -283,6 +324,9 @@
         [attr.data-strapi-collection]="program.strapiCollection"
         [attr.data-strapi-entry]="program.strapiEntryId"
       >
+        <div class="project-card__media" *ngIf="program.logo">
+          <img [src]="program.logo" [alt]="program.logoAlt || program.title" loading="lazy" />
+        </div>
         <div class="project-card__body">
           <h3 class="project-card__title">{{ program.title }}</h3>
           <p class="project-card__text">{{ program.description }}</p>
