@@ -557,7 +557,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
    * Inicializar partículas doradas para animación del header
    */
   private initializeParticles(): void {
-    const particleCount = 20;
+    const particleCount = 40;
     this.particles = Array.from({ length: particleCount }, () => ({
       left: Math.random() * 100,
       delay: Math.random() * 10,
