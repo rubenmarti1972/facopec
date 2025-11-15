@@ -58,8 +58,10 @@ export const environment = {
     facebook: 'https://www.facebook.com/FundacionAfrocolombianaProfeEnCasa',
     instagram: 'https://www.instagram.com/fundacion_profeencasa',
     x: 'https://x.com/FundacionProfe',
+    twitter: 'https://x.com/FundacionProfe',
     youtube: 'https://www.youtube.com/@fundacionprofeencasa',
-    whatsapp: 'https://wa.me/573215230283'
+    whatsapp: 'https://wa.me/573215230283',
+    linkedIn: 'https://www.linkedin.com/company/facopec'
   },
   
   // Logging - Disabled in production
