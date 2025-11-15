@@ -31,7 +31,7 @@ export class FooterComponent implements OnInit {
   missionSummary = 'Transformando vidas a través del conocimiento y los valores desde 2020.';
   whatsappUrl = 'https://wa.me/573215230283';
   phoneDisplay = '+57 321 523 0283';
-  email = 'contacto@facopec.org';
+  email = 'profeencasasedeciudaddelsur@gmail.com';
   addressLine = 'Colombia';
   hoursEntries: Array<{ day: string; schedule: string }> = [
     { day: 'Lunes a Viernes', schedule: '8:00 AM - 5:00 PM' }

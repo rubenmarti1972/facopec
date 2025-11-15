@@ -393,7 +393,7 @@ export async function seedDefaultContent(strapi: Strapi) {
     vision:
       'Ser una fundación líder en el desarrollo integral de comunidades afrocolombianas, potenciando sus capacidades desde la educación, la cultura y la fe.',
     history:
-      '<p>Desde Puerto Tejada, en el Valle del Cauca, acompañamos a niñas, niños, adolescentes y sus familias con programas educativos, culturales y espirituales que transforman vidas.</p>',
+      '<p>Desde Puerto Tejada, en el Cauca, acompañamos a niñas, niños, adolescentes y sus familias con programas educativos, culturales y espirituales que transforman vidas.</p>',
     values: [
       {
         title: 'Derechos humanos y dignidad',
@@ -463,7 +463,7 @@ export async function seedDefaultContent(strapi: Strapi) {
         { line: 'a través de la educación y el cuidado' },
       ],
       lead:
-        'Somos la Fundación Afrocolombiana Profe en Casa. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Valle del Cauca.',
+        'Somos la Fundación Afrocolombiana Profe en Casa. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Cauca.',
       image: heroImage?.id,
       stats: [
         { value: '+180', label: 'Estudiantes acompañados con tutorías y mentorías' },
@@ -488,7 +488,7 @@ export async function seedDefaultContent(strapi: Strapi) {
     ],
     identity: {
       eyebrow: 'Nuestra identidad',
-      title: 'Formamos y acompañamos comunidades en el Valle del Cauca',
+      title: 'Formamos y acompañamos comunidades en el Cauca',
       subtitle:
         'Presentamos la esencia de FACOPEC con una estructura clara para gestionar la información desde Strapi y comunicar nuestro propósito de forma cercana.',
       description:
@@ -646,7 +646,7 @@ export async function seedDefaultContent(strapi: Strapi) {
   });
 
   await upsertSingleType(strapi, 'api::donations-page.donations-page', {
-    heroTitle: 'Tu donación transforma vidas en el Valle del Cauca',
+    heroTitle: 'Tu donación transforma vidas en el Cauca',
     heroSubtitle: 'Cada aporte fortalece nuestros programas educativos, culturales y espirituales.',
     donationAmounts: [
       { value: 20000, label: '$20.000', icon: '🎒', impact: 'Útiles para un niño' },

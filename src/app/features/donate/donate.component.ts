@@ -68,7 +68,7 @@ export class DonateComponent implements OnInit {
   heroTitlePrimary = 'Tu donación';
   heroTitleHighlight = 'cambia vidas';
   heroDescription =
-    'Con cada aporte fortalecemos procesos educativos, culturales y espirituales en el Valle del Cauca. Acompañas a familias afrocolombianas para que sigan soñando con más oportunidades.';
+    'Con cada aporte fortalecemos procesos educativos, culturales y espirituales en el Cauca. Acompañas a familias afrocolombianas para que sigan soñando con más oportunidades.';
 
   // UI model
   donationAmounts = [

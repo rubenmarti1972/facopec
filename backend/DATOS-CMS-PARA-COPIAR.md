@@ -26,7 +26,7 @@ Debido a las restricciones de autenticación de Strapi 5, la forma más simple y
 ### Campos básicos:
 - **Site Name:** `FACOPEC`
 - **Site Tagline:** `Fundación Afrocolombiana Profe en Casa`
-- **Site Description:** `Transformamos vidas a través de la educación y el cuidado. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Valle del Cauca.`
+- **Site Description:** `Transformamos vidas a través de la educación y el cuidado. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Cauca.`
 
 ### Navigation (Array - Agregar 6 items):
 
@@ -113,7 +113,7 @@ Icon: rss_feed
 Email: facopec@facopec.org
 Phone: +57 321 523 0283
 Whatsapp: +573215230283
-Address: Puerto Tejada, Valle del Cauca, Colombia
+Address: Puerto Tejada, Cauca, Colombia
 ```
 
 ### Footer (Component):
@@ -138,12 +138,12 @@ Tagline: Transformando vidas a través de la educación y el cuidado
 Founded Year: 2010
 Email: facopec@facopec.org
 Phone: +57 321 523 0283
-Address: Puerto Tejada, Valle del Cauca, Colombia
+Address: Puerto Tejada, Cauca, Colombia
 ```
 
 ### Description:
 ```
-Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Desde el Valle del Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.
+Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Desde el Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.
 ```
 
 ### Mission:
@@ -200,7 +200,7 @@ Icon: 🤲🏾
 **Campos básicos:**
 ```
 Eyebrow: Misión con sentido social
-Lead: Somos la Fundación Afrocolombiana Profe en Casa. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Valle del Cauca.
+Lead: Somos la Fundación Afrocolombiana Profe en Casa. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Cauca.
 ```
 
 **Title Lines (Array - 2 items):**
@@ -284,7 +284,7 @@ Theme: rose
 
 **Description:**
 ```
-Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Desde el Valle del Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.
+Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Desde el Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.
 ```
 
 **Data UID:** `about.description`
@@ -332,7 +332,7 @@ Vision UID: about.vision
 ### Campos básicos:
 ```
 Hero Title: Tu donación | cambia vidas
-Hero Subtitle: Con cada aporte fortalecemos procesos educativos, culturales y espirituales en el Valle del Cauca. Acompañas a familias afrocolombianas para que sigan soñando con más oportunidades.
+Hero Subtitle: Con cada aporte fortalecemos procesos educativos, culturales y espirituales en el Cauca. Acompañas a familias afrocolombianas para que sigan soñando con más oportunidades.
 ```
 
 ### Donation Amounts (Array - 4 items):

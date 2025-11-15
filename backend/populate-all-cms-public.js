@@ -42,7 +42,7 @@ async function updateOrganizationInfo() {
       name: "Fundación Afrocolombiana Profe en Casa | FACOPEC",
       mission: "La Fundación Afrocolombiana Profe en Casa | FACOPEC se dedica a captar y canalizar recursos a nivel local, nacional e internacional para desarrollar proyectos que promuevan y reivindiquen los derechos humanos de las Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Trabajamos para empoderar a niños, niñas, adolescentes, jóvenes, hombres, mujeres y familias, potenciando sus capacidades y sueños mediante programas educativos, culturales, recreativos, y tecnológicos, entre otros, con el fin de maximizar su impacto positivo y fomentar su desarrollo como actores de cambio en sus comunidades.",
       vision: "Ser reconocidos como una fundación líder en la promoción de los derechos humanos y el desarrollo integral de las Comunidades NARP. Aspiramos a crear un futuro donde estas comunidades puedan desplegar plenamente su potencial en ámbitos tecnológicos, educativos, culturales y sociales, contribuyendo activamente al progreso social, económico y ambiental de Colombia y el mundo.",
-      history: "<p>Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Desde el Valle del Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.</p>",
+      history: "<p>Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Desde el Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.</p>",
       contactEmail: "facopec@facopec.org",
       contactPhone: "+57 321 523 0283",
       values: [
@@ -76,7 +76,7 @@ async function updateHomePage() {
           { line: "Transformamos vidas" },
           { line: "a través de la educación y el cuidado" }
         ],
-        lead: "Somos la Fundación Afrocolombiana Profe en Casa. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Valle del Cauca.",
+        lead: "Somos la Fundación Afrocolombiana Profe en Casa. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Cauca.",
         stats: [
           { value: "+180", label: "Estudiantes acompañados con tutorías y mentorías" },
           { value: "35", label: "Voluntarios activos en programas comunitarios" },
@@ -98,7 +98,7 @@ async function updateHomePage() {
         { icon: "🌱", title: "Valores y fe", label: "Formación espiritual, bienestar emocional y liderazgo", description: "Formación espiritual, bienestar emocional y liderazgo", dataUid: "impact.faith", theme: "rose" }
       ],
       identity: {
-        description: "Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Desde el Valle del Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.",
+        description: "Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Desde el Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.",
         dataUid: "about.description",
         values: [
           { title: "Derechos humanos y dignidad", description: "Promovemos la defensa y reivindicación de los derechos de las Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras).", icon: "👐🏾", dataUid: "about.values.rights" },
@@ -133,7 +133,7 @@ async function updateDonationsPage() {
   const donationsData = {
     data: {
       heroTitle: "Tu donación | cambia vidas",
-      heroSubtitle: "Con cada aporte fortalecemos procesos educativos, culturales y espirituales en el Valle del Cauca. Acompañas a familias afrocolombianas para que sigan soñando con más oportunidades.",
+      heroSubtitle: "Con cada aporte fortalecemos procesos educativos, culturales y espirituales en el Cauca. Acompañas a familias afrocolombianas para que sigan soñando con más oportunidades.",
       donationAmounts: [
         { value: 20000, label: "$20.000", icon: "🎒", impact: "Útiles para un niño" },
         { value: 50000, label: "$50.000", icon: "📚", impact: "Libros y lectura guiada" },

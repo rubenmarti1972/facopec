@@ -143,7 +143,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     eyebrow: 'Misión con sentido social',
     title: ['Transformamos vidas', 'a través de la educación y el cuidado'],
     lead:
-      'Somos la Fundación Afrocolombiana Profe en Casa. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Valle del Cauca.',
+      'Somos la Fundación Afrocolombiana Profe en Casa. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Cauca.',
     stats: <HeroStat[]>[
       { value: '+180', label: 'Estudiantes acompañados con tutorías y mentorías' },
       { value: '35', label: 'Voluntarios activos en programas comunitarios' },
@@ -192,7 +192,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   identity = {
     description:
-      'Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Desde el Valle del Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.',
+      'Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Desde el Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.',
     dataStrapiUid: 'about.description',
     values: <IdentityValue[]>[
       {

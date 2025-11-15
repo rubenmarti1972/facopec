@@ -23,7 +23,7 @@ const homePageContent = {
       { line: 'a través de la educación y el cuidado' }
     ],
     lead:
-      'Somos la Fundación Afrocolombiana Profe en Casa. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Valle del Cauca.',
+      'Somos la Fundación Afrocolombiana Profe en Casa. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Cauca.',
     stats: [
       { value: '+180', label: 'Estudiantes acompañados con tutorías y mentorías' },
       { value: '35', label: 'Voluntarios activos en programas comunitarios' },
@@ -68,7 +68,7 @@ const homePageContent = {
     title: 'Fundación Afrocolombiana Profe en Casa (FACOPEC)',
     subtitle: 'Transformamos vidas a través de la educación, la cultura y el cuidado comunitario.',
     description:
-      'Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Desde el Valle del Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.',
+      'Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Desde el Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.',
     dataUid: 'about.description',
     values: [
       {
@@ -280,7 +280,7 @@ const homePageContent = {
 const donationsPageContent = {
   heroTitle: 'Tu donación | cambia vidas',
   heroSubtitle:
-    'Con cada aporte fortalecemos procesos educativos, culturales y espirituales en el Valle del Cauca. Acompañas a familias afrocolombianas para que sigan soñando con más oportunidades.',
+    'Con cada aporte fortalecemos procesos educativos, culturales y espirituales en el Cauca. Acompañas a familias afrocolombianas para que sigan soñando con más oportunidades.',
   donationAmounts: [
     { value: 20000, label: '$20.000', icon: '🎒', impact: 'Útiles para un niño' },
     { value: 50000, label: '$50.000', icon: '📚', impact: 'Libros y lectura guiada' },
@@ -421,7 +421,7 @@ const organizationInfoContent = {
   address: {
     street: 'Puerto Tejada',
     city: 'Puerto Tejada',
-    state: 'Valle del Cauca',
+    state: 'Cauca',
     country: 'Colombia'
   },
   hours: {
