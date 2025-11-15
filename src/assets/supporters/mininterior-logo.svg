@@ -1,0 +1,24 @@
+<svg width="320" height="120" viewBox="0 0 320 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="flag" x1="0" y1="0" x2="320" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0033A0"/>
+      <stop offset="50%" stop-color="#FFD200"/>
+      <stop offset="100%" stop-color="#CE1126"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.85"/>
+      <stop offset="45%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="120" rx="24" fill="#0A1F33"/>
+  <rect x="8" y="8" width="304" height="104" rx="20" fill="#102A45" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+  <rect x="20" y="22" width="64" height="76" rx="16" fill="url(#flag)"/>
+  <rect x="20" y="22" width="64" height="38" rx="16" fill="url(#shine)"/>
+  <g fill="#FFFFFF" font-family="'Poppins', 'Segoe UI', sans-serif" text-anchor="start">
+    <text x="100" y="54" font-size="24" font-weight="700">Ministerio</text>
+    <text x="100" y="80" font-size="24" font-weight="700">del Interior</text>
+    <text x="100" y="102" font-size="14" font-weight="500" fill="rgba(255,255,255,0.75)">República de Colombia</text>
+  </g>
+  <circle cx="52" cy="60" r="16" fill="#fff" opacity="0.92"/>
+  <path d="M52 46L55.4721 56.5836H66.7082L57.618 63.083L61.0902 73.6664L52 67.1669L42.9098 73.6664L46.382 63.083L37.2918 56.5836H48.5279L52 46Z" fill="#0A1F33"/>
+</svg>
