@@ -5,36 +5,38 @@
       <!-- Columna principal izquierda -->
       <div class="hero-main">
         <div class="hero">
-          <!-- Columna izquierda: Título pequeño e Imagen grande -->
-          <div class="hero__left">
+          <!-- Fila superior: Eyebrow y Título -->
+          <div class="hero__header">
             <span class="hero__badge">{{ hero.eyebrow }}</span>
-            <h1 class="hero__title hero__title--small">
+            <h1 class="hero__title hero__title--large">
               <span *ngFor="let line of hero.title">{{ line }}</span>
             </h1>
-            <figure class="hero__image hero__image--large" aria-hidden="true">
-              <img
-                [src]="hero.image"
-                [alt]="hero.imageAlt"
-                loading="eager"
-              />
-            </figure>
+          </div>
 
-            <!-- Impact strip integrado debajo de la imagen -->
-            <div class="impact-strip" data-strapi-section="impact">
-              <div class="impact-strip__items">
-                <div class="impact-strip__item" *ngFor="let item of impactHighlights" [attr.data-strapi-uid]="item.dataStrapiUid">
-                  <span class="impact-strip__icon">{{ item.icon }}</span>
-                  <div>
-                    <p class="impact-strip__title">{{ item.title }}</p>
-                    <p class="impact-strip__label">{{ item.label }}</p>
-                  </div>
+          <!-- Carousel de imágenes -->
+          <div class="hero__carousel">
+            <app-hero-carousel
+              [images]="carouselImages"
+              [autoPlayInterval]="6000"
+              [autoPlay]="true">
+            </app-hero-carousel>
+          </div>
+
+          <!-- Impact strip debajo del carousel -->
+          <div class="impact-strip" data-strapi-section="impact">
+            <div class="impact-strip__items">
+              <div class="impact-strip__item" *ngFor="let item of impactHighlights" [attr.data-strapi-uid]="item.dataStrapiUid">
+                <span class="impact-strip__icon">{{ item.icon }}</span>
+                <div>
+                  <p class="impact-strip__title">{{ item.title }}</p>
+                  <p class="impact-strip__label">{{ item.label }}</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Columna derecha: Mensaje bíblico, logo y texto debajo -->
-          <div class="hero__right">
+          <!-- Mensaje bíblico y acciones debajo del carousel -->
+          <div class="hero__bottom">
             <div class="callout" data-strapi-collection="hero.verse">
               <div class="callout__badge">{{ hero.verse.reference }}</div>
               <p class="callout__title">{{ hero.verse.text }}</p>
@@ -44,26 +46,23 @@
               </div>
             </div>
 
-            <!-- Texto lead debajo de la card del proverbio -->
-            <div class="hero__content">
-              <p class="hero__lead">{{ hero.lead }}</p>
-              <div class="hero__actions">
-                <a
-                  *ngFor="let action of hero.actions"
-                  class="btn"
-                  [ngClass]="{
-                    'btn-primary': action.variant === 'primary',
-                    'btn-secondary': action.variant === 'secondary'
-                  }"
-                  [routerLink]="action.routerLink || null"
-                  [href]="action.href || null"
-                  [attr.data-strapi-uid]="action.dataStrapiUid"
-                  [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
-                  [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
-                >
-                  {{ action.label }}
-                </a>
-              </div>
+            <!-- Acciones (botones) -->
+            <div class="hero__actions">
+              <a
+                *ngFor="let action of hero.actions"
+                class="btn"
+                [ngClass]="{
+                  'btn-primary': action.variant === 'primary',
+                  'btn-secondary': action.variant === 'secondary'
+                }"
+                [routerLink]="action.routerLink || null"
+                [href]="action.href || null"
+                [attr.data-strapi-uid]="action.dataStrapiUid"
+                [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
+                [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
+              >
+                {{ action.label }}
+              </a>
             </div>
           </div>
         </div>

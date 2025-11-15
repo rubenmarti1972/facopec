@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '@shared/components/header/header.component';
 import { FooterComponent } from '@shared/components/footer/footer.component';
+import { WhatsappFloatComponent } from '@shared/components/whatsapp-float/whatsapp-float.component';
+import { OfficialLogosBarComponent } from '@shared/components/official-logos-bar/official-logos-bar.component';
 import { StrapiService } from '@core/services/strapi.service';
 import { Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
@@ -16,7 +18,14 @@ import { BRAND_COLORS } from '@core/design-system/brand-colors';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    HeaderComponent,
+    FooterComponent,
+    WhatsappFloatComponent,
+    OfficialLogosBarComponent
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

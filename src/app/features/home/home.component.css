@@ -20,13 +20,37 @@
   align-self: start;
 }
 
-/* Hero section con layout de 2 columnas */
+/* Hero section con layout vertical (header, carousel, bottom) */
 .hero {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: clamp(2.5rem, 5vw, 4rem);
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
   margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+/* Header section: Eyebrow y Título */
+.hero__header {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.8rem, 1.5vw, 1.2rem);
+  text-align: center;
+  align-items: center;
+}
+
+/* Carousel section */
+.hero__carousel {
+  width: 100%;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* Bottom section: Verse card y acciones */
+.hero__bottom {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: clamp(2rem, 4vw, 3rem);
+  align-items: start;
 }
 
 /* Columna izquierda: Badge, Título pequeño e Imagen grande */
@@ -58,6 +82,13 @@
   line-height: 1.04;
   margin: 0;
   color: var(--brand-ink);
+}
+
+/* Título más grande para el header principal */
+.hero__title--large {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.1;
+  font-weight: 800;
 }
 
 /* Título más pequeño */
@@ -744,8 +775,20 @@
 
 @media (max-width: 960px) {
   .hero {
+    gap: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .hero__bottom {
     grid-template-columns: 1fr;
-    gap: clamp(2rem, 4vw, 3rem);
+    gap: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .hero__header {
+    text-align: center;
+  }
+
+  .hero__title--large {
+    font-size: clamp(2rem, 5.5vw, 3rem);
   }
 
   .hero__title--small {
@@ -773,6 +816,7 @@
 
   .hero__actions {
     justify-content: center;
+    width: 100%;
   }
 
   .hero__stats {
@@ -789,6 +833,10 @@
 }
 
 @media (max-width: 720px) {
+  .hero__title--large {
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
+  }
+
   .hero__title--small {
     font-size: clamp(1.4rem, 5vw, 1.8rem);
   }

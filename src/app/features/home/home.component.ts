@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { StrapiService } from '@core/services/strapi.service';
 import { HomePageContent, HighlightContent, SupporterLogoContent, MediaAsset, GlobalSettings, AttendedPersonCardContent, EventCalendarItemContent } from '@core/models';
+import { HeroCarouselComponent, CarouselImage } from '@shared/components/hero-carousel/hero-carousel.component';
 
 interface HeroStat {
   label: string;
@@ -90,7 +91,7 @@ type IdentityCardKey = 'description' | 'mission' | 'vision';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, HeroCarouselComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -121,13 +122,36 @@ export class HomeComponent implements OnInit {
     ],
     verse: {
       reference: 'Proverbios 3:13',
-      text: '“Feliz quien halla sabiduría”',
+      text: '"Feliz quien halla sabiduría"',
       description:
         'Creamos espacios seguros para aprender, compartir y crecer en comunidad. Creemos en el poder de la lectura, la tecnología y la fe para transformar historias.'
     },
     image: 'assets/ninos.jpg',
     imageAlt: 'Familia afrocolombiana abrazada y sonriendo'
   };
+
+  carouselImages: CarouselImage[] = [
+    {
+      url: 'assets/fotos-fundacion/portada.webp',
+      alt: 'FACOPEC - Fundación Afrocolombiana Profe en Casa en acción',
+      caption: 'Transformando vidas en el Valle del Cauca'
+    },
+    {
+      url: 'assets/fotos-fundacion/collage.webp',
+      alt: 'Niños y niñas participando en actividades educativas',
+      caption: 'Educación integral para comunidades NARP'
+    },
+    {
+      url: 'assets/fotos-fundacion/collage-profe.webp',
+      alt: 'Profesores y estudiantes en sesiones de aprendizaje',
+      caption: 'Acompañamiento pedagógico personalizado'
+    },
+    {
+      url: 'assets/fotos-fundacion/apoyo.webp',
+      alt: 'Apoyo y trabajo comunitario en FACOPEC',
+      caption: 'Fortaleciendo el tejido social'
+    }
+  ];
 
   globalLogoUrl = 'assets/logo.png';
   globalLogoAlt = 'Logo FACOPEC';
