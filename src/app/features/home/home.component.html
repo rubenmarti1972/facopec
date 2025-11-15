@@ -7,16 +7,14 @@
         target="_blank"
         rel="noopener"
       >
-        <img
-          src="assets/supporters/mininterior-logo.svg"
-          alt="Ministerio del Interior de Colombia"
-          loading="lazy"
-        />
-        <span class="hero-stage__institution-name">Ministerio del Interior</span>
-        <span class="hero-stage__institution-resolution">Resolución N. OBRPUN6882024<br />26/11/2024</span>
+        <img src="assets/supporters/mininterior-logo.svg" alt="Logo Ministerio del Interior de Colombia" loading="lazy" />
+        <div class="hero-stage__institution-copy">
+          <span class="hero-stage__institution-name">Ministerio del Interior</span>
+          <span class="hero-stage__institution-resolution">Resolución N. OBRPUN6882024<br />26/11/2024</span>
+        </div>
       </a>
 
-      <div class="hero-main">
+      <div class="hero-stage__main">
         <div class="hero">
           <div class="hero__header">
             <span class="hero__badge">{{ hero.eyebrow }}</span>
@@ -33,15 +31,17 @@
               aria-live="polite"
               aria-label="Historias en imágenes de FACOPEC"
             >
-              <div class="hero-carousel__track" [style.transform]="carouselTransform" [style.width]="carouselTrackWidth">
-                <figure
-                  class="hero-carousel__slide"
-                  *ngFor="let slide of heroCarousel; let i = index"
-                  [class.hero-carousel__slide--active]="heroCarouselIndex === i"
-                >
-                  <img [src]="slide.image" [alt]="slide.alt" loading="eager" />
-                  <figcaption *ngIf="slide.caption">{{ slide.caption }}</figcaption>
-                </figure>
+              <div class="hero-carousel__viewport">
+                <div class="hero-carousel__track" [style.transform]="carouselTransform">
+                  <figure
+                    class="hero-carousel__slide"
+                    *ngFor="let slide of heroCarousel; let i = index"
+                    [class.hero-carousel__slide--active]="heroCarouselIndex === i"
+                  >
+                    <img [src]="slide.image" [alt]="slide.alt" [attr.loading]="i === 0 ? 'eager' : 'lazy'" />
+                    <figcaption *ngIf="slide.caption">{{ slide.caption }}</figcaption>
+                  </figure>
+                </div>
               </div>
 
               <button
@@ -85,7 +85,7 @@
               </div>
             </div>
 
-            <div class="hero__actions">
+            <div class="hero__actions" *ngIf="hero.actions?.length">
               <a
                 *ngFor="let action of hero.actions"
                 class="btn"
@@ -138,7 +138,7 @@
           </div>
         </div>
 
-      <aside class="hero-sidebar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
+      <aside class="hero-stage__sidebar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
         <div class="calendar-widget">
           <div class="calendar-widget__header">
             <span class="section__eyebrow">Próximas actividades</span>
@@ -173,13 +173,11 @@
         target="_blank"
         rel="noopener"
       >
-        <img
-          src="assets/supporters/icbf-logo.svg"
-          alt="Instituto Colombiano de Bienestar Familiar"
-          loading="lazy"
-        />
-        <span class="hero-stage__institution-name">ICBF</span>
-        <span class="hero-stage__institution-resolution">Resolución N. 4829<br />26/08/2025</span>
+        <img src="assets/fotos-fundacion/logo-bienestar.png" alt="Logo Instituto Colombiano de Bienestar Familiar" loading="lazy" />
+        <div class="hero-stage__institution-copy">
+          <span class="hero-stage__institution-name">ICBF</span>
+          <span class="hero-stage__institution-resolution">Resolución N. 4829<br />26/08/2025</span>
+        </div>
       </a>
     </div>
   </div>

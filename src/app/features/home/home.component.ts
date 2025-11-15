@@ -143,8 +143,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   heroCarousel: HeroCarouselSlide[] = this.fallbackCarouselSlides.map(slide => ({ ...slide }));
   heroCarouselIndex = 0;
   private carouselIntervalId: ReturnType<typeof setInterval> | null = null;
-  private readonly carouselRotationMs = 15000;
-  private visibilityChangeHandler?: () => void;
+  private readonly carouselRotationMs = 20000;
 
   hero: HeroContent = {
     eyebrow: 'Misión con sentido social',
@@ -436,6 +435,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ];
 
   ngOnInit(): void {
+    this.restartCarouselAutoPlay();
     this.loadContent();
     this.loadGlobalBranding();
     this.setupAutoRefresh();
@@ -448,6 +448,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (typeof window !== 'undefined' && this.visibilityChangeHandler) {
       window.removeEventListener('visibilitychange', this.visibilityChangeHandler);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.clearCarouselInterval();
   }
 
   toggleIdentityCard(key: IdentityCardKey): void {
@@ -629,7 +633,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         imageAlt: heroAltText ?? this.hero.imageAlt
       };
 
-      this.updateHeroCarousel(hero, heroMediaUrl, heroAltText);
+      this.applyHeroCarousel(hero);
     }
 
     if (content.impactHighlights?.length) {
@@ -832,6 +836,86 @@ export class HomeComponent implements OnInit, OnDestroy {
       caption,
       dataStrapiUid: supporter.dataUid ?? fallback?.dataStrapiUid ?? ''
     } satisfies SupporterLogo;
+  }
+
+  get carouselTransform(): string {
+    return `translateX(-${this.heroCarouselIndex * 100}%)`;
+  }
+
+  nextSlide(): void {
+    if (!this.heroCarousel.length) {
+      return;
+    }
+
+    this.heroCarouselIndex = (this.heroCarouselIndex + 1) % this.heroCarousel.length;
+    this.restartCarouselAutoPlay();
+  }
+
+  previousSlide(): void {
+    if (!this.heroCarousel.length) {
+      return;
+    }
+
+    this.heroCarouselIndex =
+      (this.heroCarouselIndex - 1 + this.heroCarousel.length) % this.heroCarousel.length;
+    this.restartCarouselAutoPlay();
+  }
+
+  goToSlide(index: number): void {
+    if (!this.heroCarousel.length) {
+      return;
+    }
+
+    this.heroCarouselIndex = index % this.heroCarousel.length;
+    this.restartCarouselAutoPlay();
+  }
+
+  private applyHeroCarousel(hero: HeroSectionContent): void {
+    const slides: HeroCarouselSlide[] = [];
+
+    hero.carouselItems?.forEach(item => {
+      const imageUrl = this.resolveMediaUrl(item.image);
+      if (!imageUrl) {
+        return;
+      }
+
+      const caption = item.image?.caption ?? item.description ?? item.title ?? undefined;
+      const alt = item.image?.alternativeText ?? item.title ?? caption ?? 'Fotografía de FACOPEC';
+      slides.push({ image: imageUrl, alt, caption });
+    });
+
+    if (slides.length) {
+      this.setHeroCarousel(slides);
+    } else if (!this.heroCarousel.length) {
+      this.setHeroCarousel(this.fallbackCarouselSlides);
+    }
+  }
+
+  private setHeroCarousel(slides: HeroCarouselSlide[]): void {
+    this.heroCarousel = slides.map(slide => ({ ...slide }));
+    this.heroCarouselIndex = 0;
+    this.restartCarouselAutoPlay();
+  }
+
+  private restartCarouselAutoPlay(): void {
+    this.clearCarouselInterval();
+
+    if (!this.heroCarousel.length || typeof document === 'undefined') {
+      return;
+    }
+
+    this.carouselIntervalId = setInterval(() => {
+      if (document.visibilityState === 'visible') {
+        this.heroCarouselIndex = (this.heroCarouselIndex + 1) % this.heroCarousel.length;
+      }
+    }, this.carouselRotationMs);
+  }
+
+  private clearCarouselInterval(): void {
+    if (this.carouselIntervalId) {
+      clearInterval(this.carouselIntervalId);
+      this.carouselIntervalId = null;
+    }
   }
 
   private resolveMediaUrl(media?: MediaAsset | null): string | null {
