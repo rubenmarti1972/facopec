@@ -144,6 +144,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   heroCarouselIndex = 0;
   private carouselIntervalId: ReturnType<typeof setInterval> | null = null;
   private readonly carouselRotationMs = 20000;
+  private visibilityChangeHandler?: () => void;
+  private lastContentRefresh = Date.now();
 
   hero: HeroContent = {
     eyebrow: 'Misión con sentido social',
@@ -452,6 +454,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.clearCarouselInterval();
+  }
+
+  ngOnDestroy(): void {
+    this.clearCarouselInterval();
+
+    if (typeof window !== 'undefined' && this.visibilityChangeHandler) {
+      window.removeEventListener('visibilitychange', this.visibilityChangeHandler);
+    }
   }
 
   toggleIdentityCard(key: IdentityCardKey): void {
@@ -793,6 +803,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     this.loading = false;
+    this.lastContentRefresh = Date.now();
   }
 
   private loadGlobalBranding(): void {
@@ -931,39 +942,44 @@ export class HomeComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let lastLoadTime = Date.now();
+    const refreshThreshold = 10000; // 10 seconds (reduced for faster updates)
+
+    if (this.visibilityChangeHandler) {
+      window.removeEventListener('visibilitychange', this.visibilityChangeHandler);
+    }
 
     this.visibilityChangeHandler = (): void => {
-      if (document.visibilityState === 'visible') {
-        const timeSinceLastLoad = Date.now() - lastLoadTime;
-        const refreshThreshold = 10000; // 10 seconds (reduced for faster updates)
-
-        if (timeSinceLastLoad > refreshThreshold) {
-          console.log('Auto-refreshing content after tab became visible');
-          this.strapiService.refreshHomePage().subscribe({
-            next: content => {
-              this.applyHomeContent(content);
-              lastLoadTime = Date.now();
-            },
-            error: error => {
-              console.error('Error refreshing home page content', error);
-            }
-          });
-
-          this.strapiService.refreshGlobalSettings().subscribe({
-            next: (settings: GlobalSettings) => {
-              const logoUrl = this.strapiService.buildMediaUrl(settings.logo);
-              if (logoUrl) {
-                this.globalLogoUrl = logoUrl;
-                this.globalLogoAlt = settings.logo?.alternativeText ?? settings.logo?.caption ?? this.globalLogoAlt;
-              }
-            },
-            error: error => {
-              console.warn('Error refreshing global settings', error);
-            }
-          });
-        }
+      if (document.visibilityState !== 'visible') {
+        return;
       }
+
+      const timeSinceLastLoad = Date.now() - this.lastContentRefresh;
+
+      if (timeSinceLastLoad <= refreshThreshold) {
+        return;
+      }
+
+      console.log('Auto-refreshing content after tab became visible');
+
+      this.strapiService.refreshHomePage().subscribe({
+        next: content => this.applyHomeContent(content),
+        error: error => {
+          console.error('Error refreshing home page content', error);
+        }
+      });
+
+      this.strapiService.refreshGlobalSettings().subscribe({
+        next: (settings: GlobalSettings) => {
+          const logoUrl = this.strapiService.buildMediaUrl(settings.logo);
+          if (logoUrl) {
+            this.globalLogoUrl = logoUrl;
+            this.globalLogoAlt = settings.logo?.alternativeText ?? settings.logo?.caption ?? this.globalLogoAlt;
+          }
+        },
+        error: error => {
+          console.warn('Error refreshing global settings', error);
+        }
+      });
     };
 
     window.addEventListener('visibilitychange', this.visibilityChangeHandler);

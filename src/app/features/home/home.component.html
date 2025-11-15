@@ -1,18 +1,20 @@
 <section class="section" id="inicio" data-strapi-collection="home" data-strapi-section="hero">
   <div class="container">
     <div class="hero-stage">
-      <a
-        class="hero-stage__institution hero-stage__institution--mininterior"
-        href="https://www.icbf.gov.co/pj-4829-fundacion-afrocolombiana-profe-en-casa"
-        target="_blank"
-        rel="noopener"
-      >
-        <img src="assets/supporters/mininterior-logo.svg" alt="Logo Ministerio del Interior de Colombia" loading="lazy" />
-        <div class="hero-stage__institution-copy">
-          <span class="hero-stage__institution-name">Ministerio del Interior</span>
-          <span class="hero-stage__institution-resolution">Resolución N. OBRPUN6882024<br />26/11/2024</span>
-        </div>
-      </a>
+      <div class="hero-stage__rail hero-stage__rail--left">
+        <a
+          class="hero-stage__institution hero-stage__institution--mininterior"
+          href="https://www.icbf.gov.co/pj-4829-fundacion-afrocolombiana-profe-en-casa"
+          target="_blank"
+          rel="noopener"
+        >
+          <img src="assets/supporters/mininterior-logo.svg" alt="Logo Ministerio del Interior de Colombia" loading="lazy" />
+          <div class="hero-stage__institution-copy">
+            <span class="hero-stage__institution-name">Ministerio del Interior</span>
+            <span class="hero-stage__institution-resolution">Resolución N. OBRPUN6882024<br />26/11/2024</span>
+          </div>
+        </a>
+      </div>
 
       <div class="hero-stage__main">
         <div class="hero">
@@ -72,7 +74,6 @@
                   [attr.aria-current]="heroCarouselIndex === i ? 'true' : null"
                 ></button>
               </div>
-            </div>
             </div>
 
           <div class="hero__meta">
@@ -138,47 +139,53 @@
           </div>
         </div>
 
-      <aside class="hero-stage__sidebar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
-        <div class="calendar-widget">
-          <div class="calendar-widget__header">
-            <span class="section__eyebrow">Próximas actividades</span>
-            <h3 class="calendar-widget__title">Calendario</h3>
+      <div class="hero-stage__rail hero-stage__rail--right">
+        <aside class="hero-stage__sidebar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
+          <div class="calendar-widget">
+            <div class="calendar-widget__header">
+              <span class="section__eyebrow">Próximas actividades</span>
+              <h3 class="calendar-widget__title">Calendario</h3>
+            </div>
+            <div class="calendar-widget__events">
+              <article
+                class="calendar-event-compact"
+                *ngFor="let event of eventCalendar"
+                [class.calendar-event-compact--highlighted]="event.isHighlighted"
+                [class.calendar-event-compact--{{ event.color }}]="event.color"
+              >
+                <div class="calendar-event-compact__date">
+                  <span class="calendar-event-compact__day">{{ event.eventDate | date: 'dd' }}</span>
+                  <span class="calendar-event-compact__month">{{ event.eventDate | date: 'MMM' }}</span>
+                </div>
+                <div class="calendar-event-compact__content">
+                  <h4 class="calendar-event-compact__title">{{ event.title }}</h4>
+                  <p class="calendar-event-compact__time" *ngIf="event.eventDate">
+                    🕐 {{ event.eventDate | date: 'shortTime' }}
+                  </p>
+                  <span class="calendar-event-compact__category">{{ event.category }}</span>
+                </div>
+              </article>
+            </div>
           </div>
-          <div class="calendar-widget__events">
-            <article
-              class="calendar-event-compact"
-              *ngFor="let event of eventCalendar"
-              [class.calendar-event-compact--highlighted]="event.isHighlighted"
-              [class.calendar-event-compact--{{ event.color }}]="event.color"
-            >
-              <div class="calendar-event-compact__date">
-                <span class="calendar-event-compact__day">{{ event.eventDate | date: 'dd' }}</span>
-                <span class="calendar-event-compact__month">{{ event.eventDate | date: 'MMM' }}</span>
-              </div>
-              <div class="calendar-event-compact__content">
-                <h4 class="calendar-event-compact__title">{{ event.title }}</h4>
-                <p class="calendar-event-compact__time" *ngIf="event.eventDate">
-                  🕐 {{ event.eventDate | date: 'shortTime' }}
-                </p>
-                <span class="calendar-event-compact__category">{{ event.category }}</span>
-              </div>
-            </article>
-          </div>
-        </div>
-      </aside>
+        </aside>
 
-      <a
-        class="hero-stage__institution hero-stage__institution--icbf"
-        href="https://www.icbf.gov.co/pj-4829-fundacion-afrocolombiana-profe-en-casa"
-        target="_blank"
-        rel="noopener"
-      >
-        <img src="assets/fotos-fundacion/logo-bienestar.png" alt="Logo Instituto Colombiano de Bienestar Familiar" loading="lazy" />
-        <div class="hero-stage__institution-copy">
-          <span class="hero-stage__institution-name">ICBF</span>
-          <span class="hero-stage__institution-resolution">Resolución N. 4829<br />26/08/2025</span>
-        </div>
-      </a>
+        <a
+          class="hero-stage__institution hero-stage__institution--icbf"
+          href="https://www.icbf.gov.co/pj-4829-fundacion-afrocolombiana-profe-en-casa"
+          target="_blank"
+          rel="noopener"
+        >
+          <img
+            src="assets/fotos-fundacion/logo-bienestar.png"
+            alt="Logo Instituto Colombiano de Bienestar Familiar"
+            loading="lazy"
+          />
+          <div class="hero-stage__institution-copy">
+            <span class="hero-stage__institution-name">ICBF</span>
+            <span class="hero-stage__institution-resolution">Resolución N. 4829<br />26/08/2025</span>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 </section>
