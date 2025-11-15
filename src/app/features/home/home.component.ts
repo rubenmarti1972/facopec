@@ -171,23 +171,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   carouselImages: CarouselImage[] = [
     {
       url: 'assets/fotos-fundacion/portada.webp',
-      alt: 'FACOPEC - Fundación Afrocolombiana Profe en Casa en acción',
-      caption: 'Transformando vidas en el Valle del Cauca'
+      alt: 'FACOPEC - Fundación Afrocolombiana Profe en Casa en acción'
     },
     {
       url: 'assets/fotos-fundacion/collage.webp',
-      alt: 'Niños y niñas participando en actividades educativas',
-      caption: 'Educación integral para comunidades NARP'
+      alt: 'Niños y niñas participando en actividades educativas'
     },
     {
       url: 'assets/fotos-fundacion/collage-profe.webp',
-      alt: 'Profesores y estudiantes en sesiones de aprendizaje',
-      caption: 'Acompañamiento pedagógico personalizado'
+      alt: 'Profesores y estudiantes en sesiones de aprendizaje'
     },
     {
       url: 'assets/fotos-fundacion/apoyo.webp',
-      alt: 'Apoyo y trabajo comunitario en FACOPEC',
-      caption: 'Fortaleciendo el tejido social'
+      alt: 'Apoyo y trabajo comunitario en FACOPEC'
     }
   ];
 
