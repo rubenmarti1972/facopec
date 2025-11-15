@@ -2,19 +2,42 @@
   display: block;
 }
 
-/* Hero stage - simplified layout */
+/* Hero stage - grid layout with calendar sidebar */
 .hero-stage {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: clamp(1.5rem, 2.5vw, 2.5rem);
   width: 100%;
+  align-items: start;
+}
+
+.calendar-sidebar {
+  position: sticky;
+  top: 100px;
+  align-self: flex-start;
 }
 
 .hero-stage__main {
   width: 100%;
-  max-width: 900px;
   display: flex;
   flex-direction: column;
   gap: clamp(2rem, 4vw, 3rem);
+}
+
+@media (max-width: 1024px) {
+  .hero-stage {
+    grid-template-columns: 1fr;
+  }
+
+  .calendar-sidebar {
+    position: relative;
+    top: 0;
+    order: 2;
+  }
+
+  .hero-stage__main {
+    order: 1;
+  }
 }
 
 /* Hero section con layout vertical (header, carousel, bottom) */
@@ -98,13 +121,15 @@
   display: block;
 }
 
-.hero__carousel {
-  position: relative;
+.hero__carousel-wrapper {
+  display: grid;
+  gap: clamp(1.5rem, 2.5vw, 2rem);
+  align-items: start;
 }
 
 .hero__carousel {
-  max-width: min(640px, 100%);
-  margin-inline: auto;
+  position: relative;
+  width: 100%;
 }
 
 .hero-carousel {

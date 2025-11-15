@@ -1,6 +1,36 @@
 <section class="section" id="inicio" data-strapi-collection="home" data-strapi-section="hero">
   <div class="container">
     <div class="hero-stage">
+      <!-- Calendario flotante a la izquierda -->
+      <aside class="calendar-sidebar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
+        <div class="calendar-widget">
+          <div class="calendar-widget__header">
+            <span class="section__eyebrow">Próximas actividades</span>
+            <h3 class="calendar-widget__title">Calendario</h3>
+          </div>
+          <div class="calendar-widget__events">
+            <article
+              class="calendar-event-compact"
+              *ngFor="let event of eventCalendar"
+              [class.calendar-event-compact--highlighted]="event.isHighlighted"
+              [class.calendar-event-compact--{{ event.color }}]="event.color"
+            >
+              <div class="calendar-event-compact__date">
+                <span class="calendar-event-compact__day">{{ event.eventDate | date: 'dd' }}</span>
+                <span class="calendar-event-compact__month">{{ event.eventDate | date: 'MMM' }}</span>
+              </div>
+              <div class="calendar-event-compact__content">
+                <h4 class="calendar-event-compact__title">{{ event.title }}</h4>
+                <p class="calendar-event-compact__time" *ngIf="event.eventDate">
+                  🕐 {{ event.eventDate | date: 'shortTime' }}
+                </p>
+                <span class="calendar-event-compact__category">{{ event.category }}</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </aside>
+
       <div class="hero-stage__main">
         <div class="hero">
           <!-- Fila superior: Eyebrow y Título -->
@@ -11,13 +41,25 @@
             </h1>
           </div>
 
-          <!-- Carousel de imágenes -->
-          <div class="hero__carousel">
-            <app-hero-carousel
-              [images]="carouselImages"
-              [autoPlayInterval]="6000"
-              [autoPlay]="true">
-            </app-hero-carousel>
+          <!-- Carousel con mensaje bíblico integrado -->
+          <div class="hero__carousel-wrapper">
+            <div class="hero__carousel">
+              <app-hero-carousel
+                [images]="carouselImages"
+                [autoPlayInterval]="6000"
+                [autoPlay]="true">
+              </app-hero-carousel>
+            </div>
+
+            <!-- Mensaje bíblico integrado con el carousel -->
+            <div class="callout" data-strapi-collection="hero.verse">
+              <div class="callout__badge">{{ hero.verse.reference }}</div>
+              <p class="callout__title">{{ hero.verse.text }}</p>
+              <p class="callout__text">{{ hero.verse.description }}</p>
+              <div class="callout__media" aria-hidden="true">
+                <img [src]="globalLogoUrl" [alt]="globalLogoAlt" loading="lazy" />
+              </div>
+            </div>
           </div>
 
           <!-- Impact strip debajo del carousel -->
@@ -33,35 +75,23 @@
             </div>
           </div>
 
-          <!-- Mensaje bíblico y acciones debajo del carousel -->
-          <div class="hero__bottom">
-            <div class="callout" data-strapi-collection="hero.verse">
-              <div class="callout__badge">{{ hero.verse.reference }}</div>
-              <p class="callout__title">{{ hero.verse.text }}</p>
-              <p class="callout__text">{{ hero.verse.description }}</p>
-              <div class="callout__media" aria-hidden="true">
-                <img [src]="globalLogoUrl" [alt]="globalLogoAlt" loading="lazy" />
-              </div>
-            </div>
-
-            <!-- Acciones (botones) -->
-            <div class="hero__actions">
-              <a
-                *ngFor="let action of hero.actions"
-                class="btn"
-                [ngClass]="{
-                  'btn-primary': action.variant === 'primary',
-                  'btn-secondary': action.variant === 'secondary'
-                }"
-                [routerLink]="action.routerLink || null"
-                [href]="action.href || null"
-                [attr.data-strapi-uid]="action.dataStrapiUid"
-                [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
-                [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
-              >
-                {{ action.label }}
-              </a>
-            </div>
+          <!-- Acciones (botones) -->
+          <div class="hero__actions">
+            <a
+              *ngFor="let action of hero.actions"
+              class="btn"
+              [ngClass]="{
+                'btn-primary': action.variant === 'primary',
+                'btn-secondary': action.variant === 'secondary'
+              }"
+              [routerLink]="action.routerLink || null"
+              [href]="action.href || null"
+              [attr.data-strapi-uid]="action.dataStrapiUid"
+              [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
+              [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
+            >
+              {{ action.label }}
+            </a>
           </div>
         </div>
 
@@ -82,36 +112,6 @@
             </article>
           </div>
         </div>
-
-        <!-- Calendario de Actividades -->
-        <aside class="calendar-section" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
-          <div class="calendar-widget">
-            <div class="calendar-widget__header">
-              <span class="section__eyebrow">Próximas actividades</span>
-              <h3 class="calendar-widget__title">Calendario</h3>
-            </div>
-            <div class="calendar-widget__events">
-              <article
-                class="calendar-event-compact"
-                *ngFor="let event of eventCalendar"
-                [class.calendar-event-compact--highlighted]="event.isHighlighted"
-                [class.calendar-event-compact--{{ event.color }}]="event.color"
-              >
-                <div class="calendar-event-compact__date">
-                  <span class="calendar-event-compact__day">{{ event.eventDate | date: 'dd' }}</span>
-                  <span class="calendar-event-compact__month">{{ event.eventDate | date: 'MMM' }}</span>
-                </div>
-                <div class="calendar-event-compact__content">
-                  <h4 class="calendar-event-compact__title">{{ event.title }}</h4>
-                  <p class="calendar-event-compact__time" *ngIf="event.eventDate">
-                    🕐 {{ event.eventDate | date: 'shortTime' }}
-                  </p>
-                  <span class="calendar-event-compact__category">{{ event.category }}</span>
-                </div>
-              </article>
-            </div>
-          </div>
-        </aside>
       </div>
     </div>
   </div>
