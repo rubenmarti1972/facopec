@@ -550,22 +550,23 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private updateHeroCarousel(hero: HeroSectionContent, heroMediaUrl: string | null, heroAltText: string | null): void {
-    const slidesFromCms = hero.carouselItems
-      ?.map(item => {
-        const imageUrl = this.resolveMediaUrl(item.image);
-        if (!imageUrl) {
-          return null;
-        }
+    const slidesFromCms = hero.carouselItems?.reduce<HeroCarouselSlide[]>((slides, item) => {
+      const imageUrl = this.resolveMediaUrl(item.image);
+      if (!imageUrl) {
+        return slides;
+      }
 
-        const altText = item.image?.alternativeText ?? item.image?.caption ?? heroAltText ?? '';
+      const altText = item.image?.alternativeText ?? item.image?.caption ?? heroAltText ?? '';
+      const caption = item.title ?? item.description ?? undefined;
 
-        return {
-          image: imageUrl,
-          alt: altText,
-          caption: item.title ?? item.description ?? ''
-        } satisfies HeroCarouselSlide;
-      })
-      .filter((slide): slide is HeroCarouselSlide => !!slide);
+      slides.push({
+        image: imageUrl,
+        alt: altText,
+        caption
+      });
+
+      return slides;
+    }, []);
 
     if (slidesFromCms && slidesFromCms.length) {
       this.heroCarousel = slidesFromCms;
