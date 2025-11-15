@@ -221,7 +221,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       icon: '📚',
       imagePath: 'assets/program-logos/educa.png',
       title: 'Educación integral',
-      label: 'Tutorías, clubes de lectura y acompañamiento pedagógico',
+      label: 'Tutoclubes de lectura y acompañamiento pedagógico',
       dataStrapiUid: 'impact.education',
       theme: 'teal'
     },
