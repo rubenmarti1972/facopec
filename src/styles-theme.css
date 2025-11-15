@@ -19,7 +19,7 @@
 }
 
 .container {
-  width: min(90%, 90vw);
+  width: min(85%, 85vw);
   max-width: none;
   margin: 0 auto;
   padding: clamp(0.5rem, 1.5vw, 1.5rem);
@@ -523,6 +523,8 @@
 .btn-primary:hover {
   transform: translateY(-2px);
   background: var(--color-primary-dark);
+  color: #ffffff;
+  box-shadow: 0 20px 40px rgba(31, 155, 122, 0.35);
 }
 
 .btn-secondary {
@@ -535,6 +537,8 @@
 .btn-secondary:hover {
   transform: translateY(-2px);
   background: rgba(19, 80, 122, 0.08);
+  color: var(--brand-secondary);
+  box-shadow: 0 14px 30px rgba(19, 80, 122, 0.18);
 }
 
 .btn-ghost {
