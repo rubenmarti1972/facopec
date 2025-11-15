@@ -18,31 +18,31 @@
 
       <div class="hero-stage__main">
         <div class="hero">
+          <!-- Fila superior: Eyebrow y Título -->
           <div class="hero__header">
             <span class="hero__badge">{{ hero.eyebrow }}</span>
-            <h1 class="hero__title">
+            <h1 class="hero__title hero__title--large">
               <span *ngFor="let line of hero.title">{{ line }}</span>
             </h1>
           </div>
 
-          <div class="hero__carousel" *ngIf="heroCarousel.length">
-            <div
-              class="hero-carousel"
-              role="region"
-              aria-roledescription="carrusel"
-              aria-live="polite"
-              aria-label="Historias en imágenes de FACOPEC"
-            >
-              <div class="hero-carousel__viewport">
-                <div class="hero-carousel__track" [style.transform]="carouselTransform">
-                  <figure
-                    class="hero-carousel__slide"
-                    *ngFor="let slide of heroCarousel; let i = index"
-                    [class.hero-carousel__slide--active]="heroCarouselIndex === i"
-                  >
-                    <img [src]="slide.image" [alt]="slide.alt" [attr.loading]="i === 0 ? 'eager' : 'lazy'" />
-                    <figcaption *ngIf="slide.caption">{{ slide.caption }}</figcaption>
-                  </figure>
+          <!-- Carousel de imágenes -->
+          <div class="hero__carousel">
+            <app-hero-carousel
+              [images]="carouselImages"
+              [autoPlayInterval]="6000"
+              [autoPlay]="true">
+            </app-hero-carousel>
+          </div>
+
+          <!-- Impact strip debajo del carousel -->
+          <div class="impact-strip" data-strapi-section="impact">
+            <div class="impact-strip__items">
+              <div class="impact-strip__item" *ngFor="let item of impactHighlights" [attr.data-strapi-uid]="item.dataStrapiUid">
+                <span class="impact-strip__icon">{{ item.icon }}</span>
+                <div>
+                  <p class="impact-strip__title">{{ item.title }}</p>
+                  <p class="impact-strip__label">{{ item.label }}</p>
                 </div>
               </div>
 
@@ -76,7 +76,8 @@
               </div>
             </div>
 
-          <div class="hero__meta">
+          <!-- Mensaje bíblico y acciones debajo del carousel -->
+          <div class="hero__bottom">
             <div class="callout" data-strapi-collection="hero.verse">
               <div class="callout__badge">{{ hero.verse.reference }}</div>
               <p class="callout__title">{{ hero.verse.text }}</p>
@@ -86,7 +87,8 @@
               </div>
             </div>
 
-            <div class="hero__actions" *ngIf="hero.actions?.length">
+            <!-- Acciones (botones) -->
+            <div class="hero__actions">
               <a
                 *ngFor="let action of hero.actions"
                 class="btn"
@@ -102,18 +104,6 @@
               >
                 {{ action.label }}
               </a>
-            </div>
-          </div>
-
-          <div class="impact-strip" data-strapi-section="impact">
-            <div class="impact-strip__items">
-              <div class="impact-strip__item" *ngFor="let item of impactHighlights" [attr.data-strapi-uid]="item.dataStrapiUid">
-                <span class="impact-strip__icon">{{ item.icon }}</span>
-                <div>
-                  <p class="impact-strip__title">{{ item.title }}</p>
-                  <p class="impact-strip__label">{{ item.label }}</p>
-                </div>
-              </div>
             </div>
           </div>
             </div>

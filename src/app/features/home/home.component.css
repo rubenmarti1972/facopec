@@ -123,10 +123,37 @@
   margin-inline: auto;
 }
 
+/* Hero section con layout vertical (header, carousel, bottom) */
 .hero {
   display: flex;
   flex-direction: column;
-  gap: clamp(1.8rem, 3vw, 2.6rem);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+/* Header section: Eyebrow y Título */
+.hero__header {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.8rem, 1.5vw, 1.2rem);
+  text-align: center;
+  align-items: center;
+}
+
+/* Carousel section */
+.hero__carousel {
+  width: 100%;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* Bottom section: Verse card y acciones */
+.hero__bottom {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: clamp(2rem, 4vw, 3rem);
+  align-items: start;
 }
 
 .hero__header {
@@ -157,8 +184,20 @@
   font-size: clamp(2rem, 4.6vw, 3.4rem);
   line-height: 1.08;
   margin: 0;
-  color: var(--color-dark);
-  text-shadow: 0 12px 32px rgba(16, 36, 59, 0.18);
+  color: var(--brand-ink);
+}
+
+/* Título más grande para el header principal */
+.hero__title--large {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.1;
+  font-weight: 800;
+}
+
+/* Título más pequeño */
+.hero__title--small {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  line-height: 1.15;
 }
 
 .hero__title span {
@@ -878,8 +917,22 @@
     align-items: center;
   }
 
-  .hero-stage__institution {
-    width: min(220px, 60vw);
+@media (max-width: 960px) {
+  .hero {
+    gap: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .hero__bottom {
+    grid-template-columns: 1fr;
+    gap: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .hero__header {
+    text-align: center;
+  }
+
+  .hero__title--large {
+    font-size: clamp(2rem, 5.5vw, 3rem);
   }
 
   .hero-stage__sidebar {
@@ -908,6 +961,7 @@
 
   .hero__actions {
     justify-content: center;
+    width: 100%;
   }
 
   .attended-grid {
@@ -920,8 +974,12 @@
 }
 
 @media (max-width: 720px) {
-  .hero__title {
-    font-size: clamp(1.5rem, 5.5vw, 2rem);
+  .hero__title--large {
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
+  }
+
+  .hero__title--small {
+    font-size: clamp(1.4rem, 5vw, 1.8rem);
   }
 
   .hero-carousel__slide {
