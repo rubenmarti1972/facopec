@@ -74,17 +74,17 @@
 
           <div class="donation-form__group donation-form__gateways" id="pasarelas">
             <h3 class="donation-form__title">Pasarelas de pago</h3>
-            <div class="donation-gateways">
+            <div class="donation-gateways-simple">
               <article
-                class="donation-gateway"
+                class="donation-gateway-simple"
                 *ngFor="let gateway of paymentGateways"
-                [ngClass]="'donation-gateway--' + gateway.theme"
+                [ngClass]="'donation-gateway-simple--' + gateway.theme"
               >
-                <span class="donation-gateway__badge">{{ gateway.badge }}</span>
-                <h4 class="donation-gateway__title">{{ gateway.name }}</h4>
-                <p class="donation-gateway__text">{{ gateway.description }}</p>
+                <div class="donation-gateway-simple__logo">
+                  <span class="donation-gateway-simple__badge">{{ gateway.badge }}</span>
+                </div>
                 <a
-                  class="donation-gateway__action btn btn--primary"
+                  class="donation-gateway-simple__button btn btn--primary"
                   [href]="gateway.href"
                   target="_blank"
                   rel="noopener"

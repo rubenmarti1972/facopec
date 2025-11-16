@@ -33,6 +33,7 @@ export class FooterComponent implements OnInit {
   phoneDisplay = '+57 321 523 0283';
   email = 'profeencasasedeciudaddelsur@gmail.com';
   addressLine = 'Colombia';
+  locationLink = 'https://www.google.com/maps/place/Puerto+Tejada,+Cauca,+Colombia';
   hoursEntries: Array<{ day: string; schedule: string }> = [
     { day: 'Lunes a Viernes', schedule: '8:00 AM - 5:00 PM' }
   ];
