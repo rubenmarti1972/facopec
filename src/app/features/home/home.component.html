@@ -312,25 +312,59 @@
   </div>
 </section>
 
-<section class="section" data-strapi-section="gallery">
+<section class="section section--memorias" data-strapi-section="gallery">
   <div class="container">
     <div class="section__heading">
       <span class="section__eyebrow">Memorias</span>
       <h2 class="section__title">Nuestras actividades</h2>
     </div>
-    <div class="gallery-grid">
-      <article
-        class="gallery-card"
-        *ngFor="let item of galleryItems"
-        [attr.data-strapi-collection]="item.strapiCollection"
-        [attr.data-strapi-entry]="item.strapiEntryId"
-      >
-        <img [src]="item.cover" [alt]="item.title" loading="lazy" />
-        <div class="gallery-card__caption">
-          <p>{{ item.title }}</p>
-        </div>
-        <a class="gallery-card__overlay" [href]="item.href" target="_blank" rel="noopener">{{ item.description }}</a>
-      </article>
+    <div class="gallery-carousel">
+      <div class="gallery-carousel__track">
+        <!-- First set -->
+        <a
+          class="gallery-card"
+          *ngFor="let item of galleryItems; let i = index"
+          [href]="item.href"
+          target="_blank"
+          rel="noopener"
+          [attr.data-strapi-collection]="item.strapiCollection"
+          [attr.data-strapi-entry]="item.strapiEntryId"
+          [class.gallery-card--teal]="i % 4 === 0"
+          [class.gallery-card--blue]="i % 4 === 1"
+          [class.gallery-card--rose]="i % 4 === 2"
+          [class.gallery-card--gold]="i % 4 === 3"
+        >
+          <div class="gallery-card__logo">
+            <img [src]="item.cover" [alt]="item.title" loading="lazy" />
+          </div>
+          <div class="gallery-card__content">
+            <h3 class="gallery-card__title">{{ item.title }}</h3>
+            <p class="gallery-card__description">{{ item.description }}</p>
+          </div>
+        </a>
+        <!-- Duplicate set for infinite scroll -->
+        <a
+          class="gallery-card"
+          *ngFor="let item of galleryItems; let i = index"
+          [href]="item.href"
+          target="_blank"
+          rel="noopener"
+          [attr.data-strapi-collection]="item.strapiCollection"
+          [attr.data-strapi-entry]="item.strapiEntryId"
+          [class.gallery-card--teal]="i % 4 === 0"
+          [class.gallery-card--blue]="i % 4 === 1"
+          [class.gallery-card--rose]="i % 4 === 2"
+          [class.gallery-card--gold]="i % 4 === 3"
+        >
+          <div class="gallery-card__logo">
+            <img [src]="item.cover" [alt]="item.title" loading="lazy" />
+          </div>
+          <div class="gallery-card__content">
+            <h3 class="gallery-card__title">{{ item.title }}</h3>
+            <p class="gallery-card__description">{{ item.description }}</p>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 </section>
