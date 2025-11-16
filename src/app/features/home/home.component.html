@@ -276,42 +276,6 @@
   </div>
 </section>
 
-<section class="section section--tinted" id="proyectos" data-strapi-section="programs">
-  <div class="container">
-    <div class="section__heading">
-      <span class="section__eyebrow">Proyectos destacados</span>
-      <h2 class="section__title">Historias que transforman el territorio</h2>
-      <p class="section__subtitle">
-        Cada iniciativa nace de escuchar a la comunidad y sumar aliados que creen en la educación como motor de cambio.
-      </p>
-    </div>
-
-    <div class="grid-2 project-grid">
-      <article
-        class="card project-card"
-        *ngFor="let program of programCards"
-        [attr.data-strapi-collection]="program.strapiCollection"
-        [attr.data-strapi-entry]="program.strapiEntryId"
-      >
-        <div class="project-card__media" *ngIf="program.logo">
-          <img [src]="program.logo" [alt]="program.logoAlt || program.title" loading="lazy" />
-        </div>
-        <div class="project-card__body">
-          <h3 class="project-card__title">{{ program.title }}</h3>
-          <p class="project-card__text">{{ program.description }}</p>
-          <div class="pill-row">
-            <span class="pill" *ngFor="let pill of program.highlights">{{ pill }}</span>
-          </div>
-        </div>
-        <a class="card__link" [href]="program.href" target="_blank" rel="noopener">
-          Leer en el blog
-          <span aria-hidden="true">↗</span>
-        </a>
-      </article>
-    </div>
-  </div>
-</section>
-
 <section class="section section--memorias" data-strapi-section="gallery">
   <div class="container">
     <div class="section__heading">
