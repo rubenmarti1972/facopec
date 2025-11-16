@@ -362,60 +362,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   galleryItems: GalleryItem[] = [
     {
-      title: 'Tutorías y Refuerzo Escolar',
-      description: 'Acompañamiento personalizado en todas las áreas del conocimiento para estudiantes de primaria y bachillerato.',
-      cover: 'assets/program-logos/guias.png',
-      type: 'image',
-      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Tutor%C3%ADas',
-      strapiCollection: 'galeria',
-      strapiEntryId: 'tutorias-refuerzo'
-    },
-    {
-      title: 'Plan Lector Ruta Literaria María',
-      description: 'Círculos de lectura y actividades literarias que promueven el amor por los libros y la cultura afrocolombiana.',
-      cover: 'assets/program-logos/plan-lector.png',
-      type: 'image',
-      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Ruta%20Literaria%20Mar%C3%ADa',
-      strapiCollection: 'galeria',
-      strapiEntryId: 'plan-lector'
-    },
-    {
-      title: 'Salidas Pedagógicas',
-      description: 'Experiencias educativas fuera del aula que conectan el aprendizaje con el territorio y la comunidad.',
-      cover: 'assets/program-logos/salida-pedagogica.png',
-      type: 'image',
-      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Salidas',
-      strapiCollection: 'galeria',
-      strapiEntryId: 'salidas-pedagogicas'
-    },
-    {
-      title: 'Escuela de Padres',
-      description: 'Formación y acompañamiento a familias para fortalecer el vínculo con sus hijos y la comunidad educativa.',
-      cover: 'assets/program-logos/escuela-padres.png',
-      type: 'image',
-      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Familias',
-      strapiCollection: 'galeria',
-      strapiEntryId: 'escuela-padres'
-    },
-    {
-      title: 'Formación Espiritual',
-      description: 'Espacios de reflexión, oración y crecimiento en valores para niños, jóvenes y familias.',
-      cover: 'assets/program-logos/espiritual.png',
-      type: 'image',
-      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Fe',
-      strapiCollection: 'galeria',
-      strapiEntryId: 'formacion-espiritual'
-    },
-    {
-      title: 'Campaña Dona Ropa',
-      description: 'Iniciativa solidaria para recolectar y distribuir ropa a familias en situación de vulnerabilidad.',
-      cover: 'assets/program-logos/dona-ropa.png',
-      type: 'image',
-      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Solidaridad',
-      strapiCollection: 'galeria',
-      strapiEntryId: 'dona-ropa'
-    },
-    {
       title: 'Teatro Las Dos Aguas',
       description: 'Salida pedagógica al Teatro Las Dos Aguas, una experiencia cultural que enriquece el aprendizaje de nuestros estudiantes.',
       cover: 'assets/program-logos/salida-pedagogica.png',
