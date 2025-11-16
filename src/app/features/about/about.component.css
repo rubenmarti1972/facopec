@@ -50,3 +50,128 @@
   object-fit: cover;
   display: block;
 }
+
+/* Animations for About/Nosotros section */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Apply animations to elements */
+.about__intro {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.identity-description-with-image .identity-card--description {
+  animation: slideInLeft 0.8s ease-out 0.2s backwards;
+}
+
+.identity-description-with-image .identity-image {
+  animation: slideInRight 0.8s ease-out 0.3s backwards;
+}
+
+.identity-image img {
+  animation: scaleIn 1s ease-out 0.4s backwards;
+}
+
+.values-card {
+  animation: fadeInUp 0.8s ease-out 0.4s backwards;
+}
+
+.values-card__item {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.values-card__item:nth-child(1) { animation-delay: 0.5s; }
+.values-card__item:nth-child(2) { animation-delay: 0.6s; }
+.values-card__item:nth-child(3) { animation-delay: 0.7s; }
+.values-card__item:nth-child(4) { animation-delay: 0.8s; }
+.values-card__item:nth-child(5) { animation-delay: 0.9s; }
+.values-card__item:nth-child(6) { animation-delay: 1.0s; }
+
+.identity__pair .identity-card:first-child {
+  animation: slideInLeft 0.8s ease-out 0.6s backwards;
+}
+
+.identity__pair .identity-card:last-child {
+  animation: slideInRight 0.8s ease-out 0.7s backwards;
+}
+
+/* Smooth transitions for interactive elements */
+.identity-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.identity-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.identity-card__toggle {
+  transition: all 0.3s ease;
+}
+
+.identity-card__toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(31, 155, 122, 0.3);
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
