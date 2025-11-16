@@ -1,8 +1,6 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { environment } from '@env/environment';
 
 export interface EmailPayload {
   to: string;
@@ -25,8 +23,6 @@ export interface EmployabilityFormData {
   providedIn: 'root'
 })
 export class EmailService {
-  private readonly http = inject(HttpClient);
-  private readonly apiUrl = environment.apiUrl || 'http://localhost:1337';
   private readonly foundationEmail = 'profeencasasedeciudaddelsur@gmail.com';
 
   /**
@@ -57,18 +53,23 @@ export class EmailService {
 
   /**
    * Envía un email usando el plugin de email de Strapi
+   *
+   * NOTA: Por ahora simula el envío. Para activar el envío real:
+   * 1. Instalar y configurar @strapi/plugin-email en el backend de Strapi
+   * 2. Crear un endpoint API en Strapi para manejar emails
+   * 3. Descomentar el código HTTP y actualizar la URL del endpoint
    */
   private sendEmail(payload: EmailPayload): Observable<any> {
-    // Usamos el endpoint del plugin de email de Strapi
-    // Si usas @strapi/plugin-email, el endpoint sería algo como /api/email
-    // Por ahora lo simularemos ya que necesitaría configuración adicional en Strapi
-
-    // En producción, descomenta esto y crea el endpoint correspondiente en Strapi:
-    // return this.http.post(`${this.apiUrl}/api/email`, payload);
-
     // Por ahora, solo registramos en consola
-    console.log('Email a enviar:', payload);
+    console.log('📧 Email a enviar:', payload);
+    console.log('📬 Destinatario:', payload.to);
+    console.log('📝 Asunto:', payload.subject);
+
+    // Simular envío exitoso
     return of({ sent: true });
+
+    // TODO: Cuando el backend esté configurado, descomentar esto:
+    // return this.http.post(`${environment.strapi.url}/api/email`, payload);
   }
 
   /**
