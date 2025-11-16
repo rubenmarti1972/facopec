@@ -24,18 +24,25 @@ const pluginsConfig = ({ env }: ConfigParams): PluginsConfig => ({
       },
     },
   },
-  // Email plugin disabled for now - enable when SMTP is configured
-  // email: {
-  //   enabled: true,
-  //   config: {
-  //     provider: 'sendmail',
-  //     providerOptions: {},
-  //     settings: {
-  //       defaultFrom: env('EMAIL_DEFAULT_FROM', 'no-reply@facopec.org'),
-  //       defaultReplyTo: env('EMAIL_DEFAULT_REPLY_TO', 'contacto@facopec.org'),
-  //     },
-  //   },
-  // },
+  // Email plugin configuration with Brevo (formerly Sendinblue)
+  email: {
+    config: {
+      provider: 'nodemailer',
+      providerOptions: {
+        host: env('SMTP_HOST', 'smtp-relay.brevo.com'),
+        port: env.int('SMTP_PORT', 587),
+        auth: {
+          user: env('BREVO_SMTP_USER'),
+          pass: env('BREVO_SMTP_KEY'),
+        },
+        secure: false,
+      },
+      settings: {
+        defaultFrom: env('EMAIL_FROM', 'profeencasasedeciudaddelsur@gmail.com'),
+        defaultReplyTo: env('EMAIL_REPLY_TO', 'profeencasasedeciudaddelsur@gmail.com'),
+      },
+    },
+  },
 });
 
 export default pluginsConfig;
