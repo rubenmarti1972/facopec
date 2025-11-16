@@ -420,6 +420,18 @@ $light-gray: var(--color-light-gray, #f5f7fb);
   transition: all 0.25s ease;
   z-index: 9999;
 
+  // Create an invisible bridge between the button and dropdown to prevent mouseleave
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    height: 0.5rem;
+    background: transparent;
+    pointer-events: auto;
+  }
+
   &--open {
     opacity: 1;
     pointer-events: auto;
