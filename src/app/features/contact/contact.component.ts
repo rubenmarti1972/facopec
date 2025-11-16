@@ -32,7 +32,7 @@ export class ContactComponent implements OnInit {
 
   contactInfo: ContactInfo = {
     phone: '+57 321 523 0283',
-    email: 'contacto@facopec.org',
+    email: 'profeencasasedeciudaddelsur@gmail.com',
     address: 'Puerto Tejada, Cauca, Colombia',
     hours: 'Lunes a Viernes: 8:00 AM - 5:00 PM',
     whatsapp: 'https://wa.me/573215230283'
