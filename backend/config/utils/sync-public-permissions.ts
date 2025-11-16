@@ -10,6 +10,7 @@ const PUBLIC_PERMISSION_ACTIONS = [
   'api::organization-info.organization-info.find',
   'api::project.project.find',
   'api::project.project.findOne',
+  'api::email.email.send',
   'plugin::upload.content-api.find',
   'plugin::upload.content-api.findOne',
 ];

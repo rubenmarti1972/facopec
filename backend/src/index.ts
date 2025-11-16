@@ -1,9 +1,17 @@
 import type { Strapi } from '@strapi/types/dist/core';
 import { seedDefaultContent } from './database/seed-content';
+import syncPublicPermissions from '../config/utils/sync-public-permissions';
 
 export default {
   register() {},
   async bootstrap({ strapi }: { strapi: Strapi }) {
+    // Always sync public permissions on bootstrap
+    try {
+      await syncPublicPermissions(strapi);
+    } catch (error) {
+      strapi.log.error('Error syncing public permissions:', error);
+    }
+
     // Solo ejecutar seed si se solicita explícitamente o si la DB está vacía
     const shouldSeed =
       process.env.FORCE_SEED === 'true' ||
