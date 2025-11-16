@@ -23,6 +23,48 @@ export default {
         return ctx.badRequest('Invalid email format for "replyTo" field');
       }
 
+      // Check if email plugin is available
+      if (!strapi.plugins?.email?.services?.email) {
+        strapi.log.error('Email plugin is not available or not properly configured');
+
+        // Log email details for debugging in development
+        if (process.env.NODE_ENV === 'development') {
+          strapi.log.warn('Email would have been sent:', { to, subject, replyTo });
+        }
+
+        return ctx.badRequest({
+          success: false,
+          message: 'Email service is not configured. Please contact the administrator.',
+          error: 'SMTP_NOT_CONFIGURED'
+        });
+      }
+
+      // Check if SMTP credentials are configured
+      const hasSmtpUser = !!process.env.BREVO_SMTP_USER;
+      const hasSmtpKey = !!process.env.BREVO_SMTP_KEY;
+
+      if (!hasSmtpUser || !hasSmtpKey) {
+        strapi.log.error('SMTP credentials are not configured in environment variables');
+
+        // Log email details for debugging
+        strapi.log.warn('Email details (not sent):', {
+          to,
+          subject,
+          replyTo,
+          reason: 'Missing SMTP credentials (BREVO_SMTP_USER or BREVO_SMTP_KEY)'
+        });
+
+        return ctx.badRequest({
+          success: false,
+          message: 'Email service is not fully configured. Please contact the administrator.',
+          error: 'SMTP_CREDENTIALS_MISSING',
+          details: process.env.NODE_ENV === 'development' ? {
+            hasSmtpUser,
+            hasSmtpKey
+          } : undefined
+        });
+      }
+
       // Send email using Strapi's email plugin
       await strapi.plugins['email'].services.email.send({
         to,
