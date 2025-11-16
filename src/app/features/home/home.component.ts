@@ -306,7 +306,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     { logo: 'assets/program-logos/plan-lector.png', alt: 'Ruta Literaria María', href: 'https://rutaliterariamaria.blogspot.com/' },
     { logo: 'assets/program-logos/escuela-padres.png', alt: 'Escuela de Padres', href: 'https://consejosparapadresymadres.blogspot.com/' },
     { logo: 'assets/program-logos/espiritual.png', alt: 'Escuela Dominical', href: 'https://escueladominicalcreciendoconcristo.blogspot.com/' },
-    { logo: 'assets/program-logos/COMUNIDADES NARP - Certificado  Reconocimiento  Comunidades Negras, Afrocolombianas, Raizales y Palenqueras  Fundación Afrocolombiana Profe en Casa  +573215230283.png', alt: 'Comunidades NARP', href: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform' },
+    { logo: 'assets/program-logos/comunidades-narp.png', alt: 'Comunidades NARP', href: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform' },
     { logo: 'assets/program-logos/emplpeabilidad.png', alt: 'Empleabilidad', href: 'https://empleabilidad-facopec.blogspot.com/' },
     { logo: 'assets/program-logos/salida-pedagogica.png', alt: 'Salidas Pedagógicas', href: 'https://salidaspedagogicas-facopec.blogspot.com/' },
     { logo: 'assets/program-logos/educa.png', alt: 'FACOPEC Educa', href: 'https://facopeceduca.blogspot.com/' },
