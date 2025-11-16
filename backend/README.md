@@ -26,6 +26,38 @@ Ajusta los valores de `APP_KEYS`, `API_TOKEN_SALT`, `ADMIN_JWT_SECRET`, `TRANSFE
 
 Por defecto el proyecto arranca con SQLite, por lo que no necesitas ningún servicio adicional para el entorno local. Si prefieres PostgreSQL, completa las variables `DATABASE_HOST`, `DATABASE_NAME`, `DATABASE_USERNAME` y `DATABASE_PASSWORD` y asegúrate de tener la base de datos en ejecución antes de iniciar Strapi.
 
+### Configuración del servicio de correo (Email)
+
+El proyecto incluye un endpoint `/api/email/send` para enviar correos desde formularios de contacto, empleabilidad y alianzas. Para que funcione correctamente, debes configurar las credenciales SMTP en tu archivo `.env`:
+
+**Opción 1: Brevo (Recomendado - 300 emails/día GRATIS)**
+
+1. Regístrate en [Brevo](https://app.brevo.com/account/register) (anteriormente Sendinblue)
+2. Ve a **SMTP & API** → **SMTP** en tu panel
+3. Copia tu **Login** (email) y crea una **Master Password** o SMTP key
+4. Agrega estas variables a tu `.env`:
+
+```bash
+BREVO_SMTP_USER=tu-email@gmail.com
+BREVO_SMTP_KEY=tu-smtp-key-aqui
+EMAIL_FROM=profeencasasedeciudaddelsur@gmail.com
+EMAIL_REPLY_TO=profeencasasedeciudaddelsur@gmail.com
+```
+
+**Opción 2: Gmail SMTP**
+
+Si prefieres usar Gmail, configura:
+
+```bash
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+BREVO_SMTP_USER=tu-email@gmail.com
+BREVO_SMTP_KEY=tu-app-password  # Usa una App Password, no tu contraseña normal
+EMAIL_FROM=tu-email@gmail.com
+```
+
+⚠️ **Importante**: Sin estas credenciales configuradas, el endpoint de email devolverá un error `400 Bad Request` con el código `SMTP_CREDENTIALS_MISSING`. Los detalles del email se registrarán en los logs del servidor para propósitos de depuración.
+
 ## Scripts disponibles
 
 - `pnpm develop`: inicia Strapi en modo desarrollo con recarga en caliente.
