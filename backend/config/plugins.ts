@@ -24,18 +24,27 @@ const pluginsConfig = ({ env }: ConfigParams): PluginsConfig => ({
       },
     },
   },
-  // Email plugin disabled for now - enable when SMTP is configured
-  // email: {
-  //   enabled: true,
-  //   config: {
-  //     provider: 'sendmail',
-  //     providerOptions: {},
-  //     settings: {
-  //       defaultFrom: env('EMAIL_DEFAULT_FROM', 'no-reply@facopec.org'),
-  //       defaultReplyTo: env('EMAIL_DEFAULT_REPLY_TO', 'contacto@facopec.org'),
-  //     },
-  //   },
-  // },
+  // Email plugin configuration
+  email: {
+    config: {
+      provider: 'nodemailer',
+      providerOptions: {
+        host: env('SMTP_HOST', 'smtp.gmail.com'),
+        port: env.int('SMTP_PORT', 587),
+        auth: {
+          user: env('SMTP_USERNAME'),
+          pass: env('SMTP_PASSWORD'),
+        },
+        // Gmail-specific settings
+        secure: false, // true for 465, false for other ports
+        requireTLS: true,
+      },
+      settings: {
+        defaultFrom: env('SMTP_DEFAULT_FROM', 'notificaciones.facopec@gmail.com'),
+        defaultReplyTo: env('SMTP_DEFAULT_REPLY_TO', 'profeencasasedeciudaddelsur@gmail.com'),
+      },
+    },
+  },
 });
 
 export default pluginsConfig;
