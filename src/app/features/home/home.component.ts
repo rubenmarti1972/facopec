@@ -414,6 +414,51 @@ export class HomeComponent implements OnInit, OnDestroy {
       href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Solidaridad',
       strapiCollection: 'galeria',
       strapiEntryId: 'dona-ropa'
+    },
+    {
+      title: 'Teatro Las Dos Aguas',
+      description: 'Salida pedagógica al Teatro Las Dos Aguas, una experiencia cultural que enriquece el aprendizaje de nuestros estudiantes.',
+      cover: 'assets/program-logos/salida-pedagogica.png',
+      type: 'image',
+      href: 'https://salidaspedagogicas-facopec.blogspot.com/2025/10/facopec-dteatro.html',
+      strapiCollection: 'galeria',
+      strapiEntryId: 'teatro-dos-aguas'
+    },
+    {
+      title: 'Museo de la Caña',
+      description: 'Salida pedagógica al Museo de la Caña - Hacienda El Paraíso, explorando nuestra historia y patrimonio cultural.',
+      cover: 'assets/program-logos/salida-pedagogica.png',
+      type: 'image',
+      href: 'https://salidaspedagogicas-facopec.blogspot.com/2025/04/museo-de-la-cana-hacienda-el-paraiso.html',
+      strapiCollection: 'galeria',
+      strapiEntryId: 'museo-cana'
+    },
+    {
+      title: 'Curso Manipulación de Alimentos',
+      description: 'Cooperación entre el SENA y la Fundación Afrocolombiana Profe en Casa para formación en manipulación de alimentos.',
+      cover: 'assets/program-logos/educa.png',
+      type: 'image',
+      href: 'https://www.facebook.com/Profeencasasedecds/posts/pfbid0jUg224nXfxCa3MWdo2jZFps1mNcWDkuidzGDShV1FfcZgo6rBYeXLaYovtE5E61vl',
+      strapiCollection: 'galeria',
+      strapiEntryId: 'curso-manipulacion-alimentos'
+    },
+    {
+      title: 'Desafío 5K',
+      description: 'Una carrera llena de mucha energía y alegría en Ciudad del Sur, promoviendo la actividad física y el espíritu comunitario.',
+      cover: 'assets/program-logos/comunitario.png',
+      type: 'image',
+      href: 'https://www.facebook.com/photo/?fbid=1007381601593265&set=pcb.1007384828259609',
+      strapiCollection: 'galeria',
+      strapiEntryId: 'desafio-5k'
+    },
+    {
+      title: 'Feria de Empleo',
+      description: 'Feria de empleo para conectar a nuestra comunidad con oportunidades laborales y fortalecer la empleabilidad.',
+      cover: 'assets/program-logos/emplpeabilidad.png',
+      type: 'image',
+      href: 'https://www.facebook.com/Profeencasasedecds/posts/pfbid0TLJhrPgsq3YMiVUiqbErE6nMvQ8xUnREvvTjkoxm3ZuRTMmpjAGeuyo5EaLk6v3xl',
+      strapiCollection: 'galeria',
+      strapiEntryId: 'feria-empleo'
     }
   ];
 
