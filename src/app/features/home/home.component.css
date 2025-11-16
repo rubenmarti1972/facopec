@@ -1233,30 +1233,197 @@
   padding: clamp(3.5rem, 7vw, 6rem) 0;
 }
 
-.employability-simple {
+.employability-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 5vw, 4rem);
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (min-width: 992px) {
+  .employability-content {
+    grid-template-columns: 400px 1fr;
+  }
+}
+
+.employability-logo {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 2rem;
 }
 
-.employability-logo-center {
-  max-width: 400px;
-  width: 100%;
+.employability-logo a {
+  display: block;
   transition: transform 0.3s ease;
 }
 
-.employability-logo-center:hover {
+.employability-logo a:hover {
   transform: scale(1.05);
 }
 
-.employability-logo-center a {
-  display: block;
-}
-
-.employability-logo-center img {
+.employability-logo img {
   width: 100%;
+  max-width: 350px;
   height: auto;
   display: block;
+  filter: drop-shadow(0 4px 12px rgba(31, 155, 122, 0.15));
+}
+
+.employability-form {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: clamp(2rem, 4vw, 3rem);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(31, 155, 122, 0.1);
+}
+
+.employability-form__title {
+  font-size: clamp(1.5rem, 3vw, 1.9rem);
+  color: var(--brand-ink);
+  margin: 0 0 0.5rem;
+  font-weight: 700;
+}
+
+.employability-form__description {
+  color: rgba(16, 36, 59, 0.7);
+  margin: 0 0 2rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.employability-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.employability-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .employability-form .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.employability-form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.employability-form label {
+  font-weight: 600;
+  color: var(--brand-ink);
+  font-size: 0.95rem;
+}
+
+.employability-form input,
+.employability-form select,
+.employability-form textarea {
+  width: 100%;
+  padding: 0.875rem 1.125rem;
+  border: 2px solid rgba(16, 36, 59, 0.15);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  background: white;
+  color: var(--brand-ink);
+}
+
+.employability-form input:focus,
+.employability-form select:focus,
+.employability-form textarea:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(31, 155, 122, 0.1);
+}
+
+.employability-form input::placeholder,
+.employability-form textarea::placeholder {
+  color: rgba(16, 36, 59, 0.4);
+}
+
+.employability-form select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2310243B' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+.employability-form textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.6;
+}
+
+.employability-form__submit {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.employability-form .form-note {
+  font-size: 0.85rem;
+  color: rgba(16, 36, 59, 0.6);
+  margin: -0.5rem 0 0;
+  text-align: center;
+}
+
+.employability-form__success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+  animation: slideInUp 0.5s ease-out;
+}
+
+.employability-form__success-icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.employability-form__success h3 {
+  font-size: 1.5rem;
+  color: var(--brand-primary);
+  margin: 0;
+  font-weight: 700;
+}
+
+.employability-form__success p {
+  color: rgba(16, 36, 59, 0.7);
+  margin: 0;
+  font-size: 1rem;
+}
+
+@media (max-width: 991px) {
+  .employability-content {
+    text-align: center;
+  }
+
+  .employability-logo {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .employability-form {
+    padding: 1.5rem;
+  }
+
+  .employability-form__title {
+    font-size: 1.4rem;
+  }
 }
 
 .employability-layout {

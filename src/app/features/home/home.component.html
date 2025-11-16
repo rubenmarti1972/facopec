@@ -336,11 +336,101 @@
 <!-- Employability Section -->
 <section class="section section--employability" id="empleabilidad">
   <div class="container">
-    <div class="employability-simple">
-      <div class="employability-logo-center">
+    <div class="employability-content">
+      <!-- Logo sin card -->
+      <div class="employability-logo">
         <a href="https://empleabilidad-facopec.blogspot.com/" target="_blank" rel="noopener">
           <img src="assets/program-logos/emplpeabilidad.png" alt="Programa de Empleabilidad FACOPEC" loading="lazy" />
         </a>
+      </div>
+
+      <!-- Formulario de empleabilidad -->
+      <div class="employability-form">
+        <h2 class="employability-form__title">¿Te interesa nuestro programa de empleabilidad?</h2>
+        <p class="employability-form__description">
+          Completa este formulario y nos pondremos en contacto contigo para apoyarte en tu proceso de formación y búsqueda de empleo.
+        </p>
+
+        <form *ngIf="!employabilityFormSubmitted" (ngSubmit)="submitEmployabilityForm()" #employabilityFormRef="ngForm">
+          <div *ngIf="employabilityFormError" class="form-error">
+            {{ employabilityFormError }}
+          </div>
+
+          <div class="form-field">
+            <label for="employability-name">Nombre completo *</label>
+            <input
+              type="text"
+              id="employability-name"
+              name="name"
+              [(ngModel)]="employabilityForm.name"
+              required
+              placeholder="Tu nombre completo"
+            />
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="employability-email">Correo electrónico *</label>
+              <input
+                type="email"
+                id="employability-email"
+                name="email"
+                [(ngModel)]="employabilityForm.email"
+                required
+                placeholder="tu@email.com"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="employability-phone">Teléfono *</label>
+              <input
+                type="tel"
+                id="employability-phone"
+                name="phone"
+                [(ngModel)]="employabilityForm.phone"
+                required
+                placeholder="+57 300 123 4567"
+              />
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="employability-education">Nivel educativo *</label>
+            <select id="employability-education" name="education" [(ngModel)]="employabilityForm.education" required>
+              <option value="">Selecciona una opción</option>
+              <option value="primaria">Primaria</option>
+              <option value="bachillerato">Bachillerato</option>
+              <option value="tecnico">Técnico</option>
+              <option value="tecnologo">Tecnólogo</option>
+              <option value="profesional">Profesional</option>
+              <option value="posgrado">Posgrado</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="employability-interests">Áreas de interés</label>
+            <textarea
+              id="employability-interests"
+              name="interests"
+              [(ngModel)]="employabilityForm.interests"
+              rows="3"
+              placeholder="Cuéntanos en qué áreas te gustaría trabajar o formarte..."
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn btn--primary employability-form__submit" [disabled]="!employabilityFormRef.valid || employabilityFormSubmitting">
+            <span *ngIf="!employabilityFormSubmitting">Enviar solicitud</span>
+            <span *ngIf="employabilityFormSubmitting">Enviando...</span>
+          </button>
+
+          <p class="form-note">* Campos obligatorios</p>
+        </form>
+
+        <div class="employability-form__success" *ngIf="employabilityFormSubmitted">
+          <span class="employability-form__success-icon">✅</span>
+          <h3>¡Gracias por tu interés!</h3>
+          <p>Hemos recibido tu solicitud. Nos pondremos en contacto contigo muy pronto.</p>
+        </div>
       </div>
     </div>
   </div>
