@@ -24,24 +24,16 @@ const pluginsConfig = ({ env }: ConfigParams): PluginsConfig => ({
       },
     },
   },
-  // Email plugin configuration
+  // Email plugin configuration with SendGrid
   email: {
     config: {
-      provider: 'nodemailer',
+      provider: 'sendgrid',
       providerOptions: {
-        host: env('SMTP_HOST', 'smtp.gmail.com'),
-        port: env.int('SMTP_PORT', 587),
-        auth: {
-          user: env('SMTP_USERNAME'),
-          pass: env('SMTP_PASSWORD'),
-        },
-        // Gmail-specific settings
-        secure: false, // true for 465, false for other ports
-        requireTLS: true,
+        apiKey: env('SENDGRID_API_KEY'),
       },
       settings: {
-        defaultFrom: env('SMTP_DEFAULT_FROM', 'notificaciones.facopec@gmail.com'),
-        defaultReplyTo: env('SMTP_DEFAULT_REPLY_TO', 'profeencasasedeciudaddelsur@gmail.com'),
+        defaultFrom: env('EMAIL_FROM', 'contacto@facopec.org'),
+        defaultReplyTo: env('EMAIL_REPLY_TO', 'profeencasasedeciudaddelsur@gmail.com'),
       },
     },
   },
