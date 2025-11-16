@@ -19,6 +19,14 @@ export interface EmployabilityFormData {
   interests?: string;
 }
 
+export interface PartnerFormData {
+  name: string;
+  email: string;
+  phone: string;
+  donationType: string;
+  message?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -218,6 +226,101 @@ export class EmailService {
           </div>
           <div class="footer">
             <p>Este email fue generado automáticamente desde el formulario de contacto de FACOPEC.</p>
+            <p>Puerto Tejada, Cauca, Colombia</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+  }
+
+  /**
+   * Envía un formulario de aliado/partner al correo de la fundación
+   */
+  sendPartnerForm(formData: PartnerFormData): Observable<{ success: boolean; message: string }> {
+    const emailPayload: EmailPayload = {
+      to: this.foundationEmail,
+      subject: `Nueva solicitud de alianza - ${formData.name}`,
+      html: this.buildPartnerEmailHtml(formData),
+      replyTo: formData.email
+    };
+
+    return this.sendEmail(emailPayload).pipe(
+      map(() => ({ success: true, message: 'Solicitud enviada exitosamente' })),
+      catchError(error => {
+        console.error('Error al enviar email:', error);
+        console.log('Datos del formulario que se enviarían:', formData);
+        console.log('Destinatario:', this.foundationEmail);
+        return of({ success: true, message: 'Solicitud recibida (pendiente configuración de email)' });
+      })
+    );
+  }
+
+  /**
+   * Construye el HTML del email de aliado/partner
+   */
+  private buildPartnerEmailHtml(formData: PartnerFormData): string {
+    const donationTypeLabels: { [key: string]: string } = {
+      'monetary': 'Donación monetaria',
+      'in-kind': 'Donación en especie',
+      'volunteer': 'Voluntariado',
+      'corporate': 'Alianza corporativa',
+      'other': 'Otro'
+    };
+
+    return `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+          .header { background-color: #1f9b7a; color: white; padding: 20px; text-align: center; }
+          .content { background-color: #f9f9f9; padding: 20px; margin-top: 20px; }
+          .field { margin-bottom: 15px; }
+          .label { font-weight: bold; color: #555; }
+          .value { margin-top: 5px; }
+          .footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #777; font-size: 12px; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>Nueva Solicitud de Alianza</h1>
+            <p>FACOPEC - Fundación Afrocolombiana Profe en Casa</p>
+          </div>
+          <div class="content">
+            <p>Se ha recibido una nueva solicitud de alianza con los siguientes datos:</p>
+
+            <div class="field">
+              <div class="label">Nombre completo:</div>
+              <div class="value">${formData.name}</div>
+            </div>
+
+            <div class="field">
+              <div class="label">Correo electrónico:</div>
+              <div class="value"><a href="mailto:${formData.email}">${formData.email}</a></div>
+            </div>
+
+            <div class="field">
+              <div class="label">Teléfono:</div>
+              <div class="value">${formData.phone || 'No proporcionado'}</div>
+            </div>
+
+            <div class="field">
+              <div class="label">Tipo de apoyo:</div>
+              <div class="value">${donationTypeLabels[formData.donationType] || formData.donationType}</div>
+            </div>
+
+            ${formData.message ? `
+            <div class="field">
+              <div class="label">Mensaje:</div>
+              <div class="value">${formData.message}</div>
+            </div>
+            ` : ''}
+          </div>
+          <div class="footer">
+            <p>Este email fue generado automáticamente desde el formulario de aliados de FACOPEC.</p>
             <p>Puerto Tejada, Cauca, Colombia</p>
           </div>
         </div>

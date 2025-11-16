@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { StrapiService } from '@core/services/strapi.service';
+import { EmailService, PartnerFormData } from '@core/services/email.service';
 import { DonationsPageContent, MediaAsset } from '@core/models';
 
 type DonationType = 'once' | 'monthly';
@@ -60,6 +61,7 @@ interface PaymentGateway {
 })
 export class DonateComponent implements OnInit {
   private readonly strapiService = inject(StrapiService);
+  private readonly emailService = inject(EmailService);
   private readonly cdr = inject(ChangeDetectorRef);
 
   loading = true;
@@ -234,6 +236,8 @@ export class DonateComponent implements OnInit {
 
   // Partner form
   partnerFormSubmitted = false;
+  partnerFormSubmitting = false;
+  partnerFormError: string | null = null;
   partnerForm = {
     name: '',
     email: '',
@@ -293,16 +297,46 @@ export class DonateComponent implements OnInit {
 
   submitPartnerForm(event: Event): void {
     event.preventDefault();
-    console.log('Partner form submission →', this.partnerForm);
 
-    // Aquí puedes enviar los datos a un servicio o API
-    // Por ahora, solo mostramos el mensaje de éxito
-    this.partnerFormSubmitted = true;
-    this.cdr.markForCheck();
+    if (this.partnerFormSubmitting) {
+      return;
+    }
+
+    this.partnerFormSubmitting = true;
+    this.partnerFormError = null;
+    this.partnerFormSubmitted = false;
+
+    // Enviar el formulario usando el servicio de email
+    this.emailService.sendPartnerForm(this.partnerForm as PartnerFormData).subscribe({
+      next: (response) => {
+        console.log('Formulario de aliado enviado exitosamente:', response);
+        console.log('Email enviado a: profeencasasedeciudaddelsur@gmail.com');
+
+        this.partnerFormSubmitting = false;
+        this.partnerFormSubmitted = true;
+        this.resetPartnerForm();
+
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          this.partnerFormSubmitted = false;
+          this.cdr.markForCheck();
+        }, 5000);
+
+        this.cdr.markForCheck();
+      },
+      error: (error) => {
+        console.error('Error al enviar formulario de aliado:', error);
+        this.partnerFormError = 'Hubo un error al enviar tu solicitud. Por favor intenta nuevamente.';
+        this.partnerFormSubmitting = false;
+        this.cdr.markForCheck();
+      }
+    });
   }
 
   resetPartnerForm(): void {
     this.partnerFormSubmitted = false;
+    this.partnerFormSubmitting = false;
+    this.partnerFormError = null;
     this.partnerForm = {
       name: '',
       email: '',

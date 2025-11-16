@@ -153,15 +153,17 @@
       </div>
       <div class="donation-hero__media" aria-hidden="true">
         <div class="donation-hero__collage">
-          <figure
-            class="donation-hero__photo"
-            *ngFor="let story of donationStories; let index = index"
-            [class.donation-hero__photo--offset]="index === 1"
-            [attr.data-strapi-collection]="story.strapiCollection"
-            [attr.data-strapi-entry]="story.strapiEntryId"
-          >
-            <img [src]="story.cover" [alt]="story.title" loading="lazy" />
-            <figcaption>{{ story.title }}</figcaption>
+          <figure class="donation-hero__photo">
+            <img src="assets/fotos-fundacion/portada.webp" alt="Fundación Profe en Casa" loading="lazy" />
+            <figcaption>Nuestra comunidad</figcaption>
+          </figure>
+          <figure class="donation-hero__photo donation-hero__photo--offset">
+            <img src="assets/fotos-fundacion/collage.webp" alt="Actividades comunitarias" loading="lazy" />
+            <figcaption>Actividades</figcaption>
+          </figure>
+          <figure class="donation-hero__photo">
+            <img src="assets/fotos-fundacion/apoyo.webp" alt="Apoyo educativo" loading="lazy" />
+            <figcaption>Apoyo educativo</figcaption>
           </figure>
         </div>
       </div>
@@ -200,29 +202,41 @@
         <span class="section__eyebrow">Historias en imágenes</span>
         <h2 class="section__title">Tu aporte en acción</h2>
         <p class="section__subtitle">
-          Organizamos una galería lista para Strapi con testimonios, actividades y proyectos para que puedas
-          destacar fácilmente en la web o redes sociales.
+          Descubre cómo transformamos vidas a través de nuestros programas educativos, culturales y comunitarios en el Cauca.
         </p>
       </div>
 
       <div class="donation-gallery">
-        <article
-          class="donation-gallery__item"
-          *ngFor="let story of donationStories"
-          [attr.data-strapi-collection]="story.strapiCollection"
-          [attr.data-strapi-entry]="story.strapiEntryId"
-        >
+        <article class="donation-gallery__item">
           <div class="donation-gallery__media">
-            <img [src]="story.cover" [alt]="story.title" loading="lazy" />
+            <img src="assets/fotos-fundacion/collage-profe.webp" alt="Programa Profe en Casa" loading="lazy" />
           </div>
           <div class="donation-gallery__body">
-            <h3 class="donation-gallery__title">{{ story.title }}</h3>
-            <p class="donation-gallery__description">{{ story.description }}</p>
-            <p class="donation-gallery__impact">{{ story.impact }}</p>
-            <a class="donation-gallery__link" [href]="story.href" target="_blank" rel="noopener">
-              Ver en el blog
-              <span aria-hidden="true">↗</span>
-            </a>
+            <h3 class="donation-gallery__title">Tutorías Profe en Casa</h3>
+            <p class="donation-gallery__description">Acompañamiento educativo personalizado para niños y niñas en sus hogares.</p>
+            <p class="donation-gallery__impact">Tu donación permite brindar kits educativos y tutorías especializadas.</p>
+          </div>
+        </article>
+
+        <article class="donation-gallery__item">
+          <div class="donation-gallery__media">
+            <img src="assets/fotos-fundacion/collage.webp" alt="Actividades culturales" loading="lazy" />
+          </div>
+          <div class="donation-gallery__body">
+            <h3 class="donation-gallery__title">Actividades culturales</h3>
+            <p class="donation-gallery__description">Talleres de arte, música y danza que fortalecen la identidad afrocolombiana.</p>
+            <p class="donation-gallery__impact">Cada aporte financia materiales y espacios para la expresión artística.</p>
+          </div>
+        </article>
+
+        <article class="donation-gallery__item">
+          <div class="donation-gallery__media">
+            <img src="assets/fotos-fundacion/apoyo.webp" alt="Apoyo comunitario" loading="lazy" />
+          </div>
+          <div class="donation-gallery__body">
+            <h3 class="donation-gallery__title">Apoyo comunitario</h3>
+            <p class="donation-gallery__description">Encuentros familiares y redes de apoyo que fortalecen la comunidad.</p>
+            <p class="donation-gallery__impact">Tu contribución sostiene espacios de crecimiento y desarrollo familiar.</p>
           </div>
         </article>
       </div>
@@ -240,10 +254,14 @@
           </p>
         </div>
 
-        <form class="partner-form" *ngIf="!partnerFormSubmitted" (ngSubmit)="submitPartnerForm($event)">
+        <form class="partner-form" *ngIf="!partnerFormSubmitted" (ngSubmit)="submitPartnerForm($event)" #partnerFormRef="ngForm">
+          <div *ngIf="partnerFormError" class="form-error">
+            {{ partnerFormError }}
+          </div>
+
           <div class="partner-form__row">
             <div class="form-field">
-              <label for="partner-name">Nombre completo</label>
+              <label for="partner-name">Nombre completo *</label>
               <input
                 type="text"
                 id="partner-name"
@@ -255,7 +273,7 @@
             </div>
 
             <div class="form-field">
-              <label for="partner-email">Correo electrónico</label>
+              <label for="partner-email">Correo electrónico *</label>
               <input
                 type="email"
                 id="partner-email"
@@ -280,7 +298,7 @@
             </div>
 
             <div class="form-field">
-              <label for="partner-donation-type">Tipo de apoyo</label>
+              <label for="partner-donation-type">Tipo de apoyo *</label>
               <select id="partner-donation-type" name="donationType" [(ngModel)]="partnerForm.donationType" required>
                 <option value="">Selecciona una opción</option>
                 <option value="monetary">Donación monetaria</option>
@@ -303,9 +321,12 @@
             ></textarea>
           </div>
 
-          <button type="submit" class="btn btn--primary partner-form__submit">
-            Enviar solicitud
+          <button type="submit" class="btn btn--primary partner-form__submit" [disabled]="!partnerFormRef.valid || partnerFormSubmitting">
+            <span *ngIf="!partnerFormSubmitting">Enviar solicitud</span>
+            <span *ngIf="partnerFormSubmitting">Enviando...</span>
           </button>
+
+          <p class="form-note">* Campos obligatorios</p>
         </form>
 
         <div class="partner-form__success" *ngIf="partnerFormSubmitted">
