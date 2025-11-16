@@ -13,7 +13,7 @@
               class="calendar-event-compact"
               *ngFor="let event of eventCalendar"
               [class.calendar-event-compact--highlighted]="event.isHighlighted"
-              [class.calendar-event-compact--{{ event.color }}]="event.color"
+              [ngClass]="event.color ? 'calendar-event-compact--' + event.color : ''"
             >
               <div class="calendar-event-compact__date">
                 <span class="calendar-event-compact__day">{{ event.eventDate | date: 'dd' }}</span>

@@ -5,6 +5,7 @@ export default {
       path: '/email/send',
       handler: 'email.send',
       config: {
+        auth: false,
         policies: [],
         middlewares: [],
       },
