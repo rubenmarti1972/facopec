@@ -258,22 +258,20 @@
         Conecta con nuestras actividades destacadas y descubre más detalles en el blog oficial de la fundación.
       </p>
     </div>
-    <div class="programs-showcase">
-      <div class="programs-showcase__track">
-        <a
-          *ngFor="let program of programLogos"
-          [href]="program.href"
-          target="_blank"
-          rel="noopener"
-          class="program-showcase-card"
-          [attr.aria-label]="program.alt"
-        >
-          <div class="program-showcase-card__logo">
-            <img [src]="program.logo" [alt]="program.alt" loading="lazy" />
-          </div>
-          <div class="program-showcase-card__title">{{ program.alt }}</div>
-        </a>
-      </div>
+    <div class="programs-grid">
+      <a
+        *ngFor="let program of programLogos"
+        [href]="program.href"
+        target="_blank"
+        rel="noopener"
+        class="program-card"
+        [attr.aria-label]="program.alt"
+      >
+        <div class="program-card__logo">
+          <img [src]="program.logo" [alt]="program.alt" loading="lazy" />
+        </div>
+        <h3 class="program-card__title">{{ program.alt }}</h3>
+      </a>
     </div>
   </div>
 </section>
