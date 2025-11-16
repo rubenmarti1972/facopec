@@ -70,6 +70,7 @@
               [class.nav-dropdown--open]="isDropdownOpen(i)"
               [id]="'nav-panel-' + i"
               role="menu"
+              [attr.data-dropdown-open]="isDropdownOpen(i)"
             >
               <div class="nav-group" *ngFor="let group of item.children" [attr.data-strapi-uid]="group.dataStrapiUid">
                 <p class="nav-group__title" *ngIf="group.title">{{ group.title }}</p>
