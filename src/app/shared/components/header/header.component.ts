@@ -332,7 +332,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       {
         id: 'nav-projects',
         label: 'Proyectos',
-        routerLink: '/projects'
+        routerLink: '/inicio',
+        fragment: 'programas'
       },
       {
         id: 'nav-support',

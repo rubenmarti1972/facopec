@@ -1,104 +1,4 @@
 <div class="donation-page">
-  <section class="section donation-hero" data-strapi-section="donations.hero">
-    <div class="container donation-hero__grid">
-      <div class="donation-hero__content">
-        <span class="donation-hero__badge">Fundación Afrocolombiana Profe en Casa</span>
-        <h1 class="donation-hero__title">
-          {{ heroTitlePrimary }}
-          <span *ngIf="heroTitleHighlight">{{ heroTitleHighlight }}</span>
-        </h1>
-        <p class="donation-hero__text">
-          {{ heroDescription }}
-        </p>
-        <div class="donation-hero__stats">
-          <div
-            class="donation-hero__stat"
-            *ngFor="let stat of donationStats"
-            [attr.data-strapi-uid]="stat.dataStrapiUid"
-          >
-            <span class="donation-hero__stat-value">{{ stat.value }}</span>
-            <span class="donation-hero__stat-label">{{ stat.label }}</span>
-          </div>
-        </div>
-      </div>
-      <div class="donation-hero__media" aria-hidden="true">
-        <div class="donation-hero__collage">
-          <figure
-            class="donation-hero__photo"
-            *ngFor="let story of donationStories; let index = index"
-            [class.donation-hero__photo--offset]="index === 1"
-            [attr.data-strapi-collection]="story.strapiCollection"
-            [attr.data-strapi-entry]="story.strapiEntryId"
-          >
-            <img [src]="story.cover" [alt]="story.title" loading="lazy" />
-            <figcaption>{{ story.title }}</figcaption>
-          </figure>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="impacto" data-strapi-section="donations.impact">
-    <div class="container">
-      <div class="section__heading">
-        <span class="section__eyebrow">Impacto real</span>
-        <h2 class="section__title">Así transformamos tu donación</h2>
-        <p class="section__subtitle">
-          Tu solidaridad nos permite sostener programas integrales con enfoque comunitario, cultural y de fe.
-          Estos son algunos de los frentes que acompañamos gracias a los aportes mensuales y puntuales.
-        </p>
-      </div>
-
-      <div class="donation-impact">
-        <article
-          class="donation-impact__card"
-          *ngFor="let highlight of donationHighlights"
-          [ngClass]="'donation-impact__card--' + highlight.theme"
-          [attr.data-strapi-uid]="highlight.dataStrapiUid"
-        >
-          <span class="donation-impact__icon">{{ highlight.icon }}</span>
-          <h3>{{ highlight.title }}</h3>
-          <p>{{ highlight.description }}</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--tinted" data-strapi-section="donations.gallery">
-    <div class="container">
-      <div class="section__heading">
-        <span class="section__eyebrow">Historias en imágenes</span>
-        <h2 class="section__title">Tu aporte en acción</h2>
-        <p class="section__subtitle">
-          Organizamos una galería lista para Strapi con testimonios, actividades y proyectos para que puedas
-          destacar fácilmente en la web o redes sociales.
-        </p>
-      </div>
-
-      <div class="donation-gallery">
-        <article
-          class="donation-gallery__item"
-          *ngFor="let story of donationStories"
-          [attr.data-strapi-collection]="story.strapiCollection"
-          [attr.data-strapi-entry]="story.strapiEntryId"
-        >
-          <div class="donation-gallery__media">
-            <img [src]="story.cover" [alt]="story.title" loading="lazy" />
-          </div>
-          <div class="donation-gallery__body">
-            <h3 class="donation-gallery__title">{{ story.title }}</h3>
-            <p class="donation-gallery__description">{{ story.description }}</p>
-            <p class="donation-gallery__impact">{{ story.impact }}</p>
-            <a class="donation-gallery__link" [href]="story.href" target="_blank" rel="noopener">
-              Ver en el blog
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
   <section class="section" data-strapi-section="donations.form" id="donacion">
     <div class="container">
       <div class="donation-form">
@@ -225,6 +125,106 @@
             </p>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section donation-hero" data-strapi-section="donations.hero">
+    <div class="container donation-hero__grid">
+      <div class="donation-hero__content">
+        <span class="donation-hero__badge">Fundación Afrocolombiana Profe en Casa</span>
+        <h1 class="donation-hero__title">
+          {{ heroTitlePrimary }}
+          <span *ngIf="heroTitleHighlight">{{ heroTitleHighlight }}</span>
+        </h1>
+        <p class="donation-hero__text">
+          {{ heroDescription }}
+        </p>
+        <div class="donation-hero__stats">
+          <div
+            class="donation-hero__stat"
+            *ngFor="let stat of donationStats"
+            [attr.data-strapi-uid]="stat.dataStrapiUid"
+          >
+            <span class="donation-hero__stat-value">{{ stat.value }}</span>
+            <span class="donation-hero__stat-label">{{ stat.label }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="donation-hero__media" aria-hidden="true">
+        <div class="donation-hero__collage">
+          <figure
+            class="donation-hero__photo"
+            *ngFor="let story of donationStories; let index = index"
+            [class.donation-hero__photo--offset]="index === 1"
+            [attr.data-strapi-collection]="story.strapiCollection"
+            [attr.data-strapi-entry]="story.strapiEntryId"
+          >
+            <img [src]="story.cover" [alt]="story.title" loading="lazy" />
+            <figcaption>{{ story.title }}</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="impacto" data-strapi-section="donations.impact">
+    <div class="container">
+      <div class="section__heading">
+        <span class="section__eyebrow">Impacto real</span>
+        <h2 class="section__title">Así transformamos tu donación</h2>
+        <p class="section__subtitle">
+          Tu solidaridad nos permite sostener programas integrales con enfoque comunitario, cultural y de fe.
+          Estos son algunos de los frentes que acompañamos gracias a los aportes mensuales y puntuales.
+        </p>
+      </div>
+
+      <div class="donation-impact">
+        <article
+          class="donation-impact__card"
+          *ngFor="let highlight of donationHighlights"
+          [ngClass]="'donation-impact__card--' + highlight.theme"
+          [attr.data-strapi-uid]="highlight.dataStrapiUid"
+        >
+          <span class="donation-impact__icon">{{ highlight.icon }}</span>
+          <h3>{{ highlight.title }}</h3>
+          <p>{{ highlight.description }}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" data-strapi-section="donations.gallery">
+    <div class="container">
+      <div class="section__heading">
+        <span class="section__eyebrow">Historias en imágenes</span>
+        <h2 class="section__title">Tu aporte en acción</h2>
+        <p class="section__subtitle">
+          Organizamos una galería lista para Strapi con testimonios, actividades y proyectos para que puedas
+          destacar fácilmente en la web o redes sociales.
+        </p>
+      </div>
+
+      <div class="donation-gallery">
+        <article
+          class="donation-gallery__item"
+          *ngFor="let story of donationStories"
+          [attr.data-strapi-collection]="story.strapiCollection"
+          [attr.data-strapi-entry]="story.strapiEntryId"
+        >
+          <div class="donation-gallery__media">
+            <img [src]="story.cover" [alt]="story.title" loading="lazy" />
+          </div>
+          <div class="donation-gallery__body">
+            <h3 class="donation-gallery__title">{{ story.title }}</h3>
+            <p class="donation-gallery__description">{{ story.description }}</p>
+            <p class="donation-gallery__impact">{{ story.impact }}</p>
+            <a class="donation-gallery__link" [href]="story.href" target="_blank" rel="noopener">
+              Ver en el blog
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </article>
       </div>
     </div>
   </section>

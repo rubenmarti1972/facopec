@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { StrapiService } from '@core/services/strapi.service';
+import { EmailService } from '@core/services/email.service';
 import { HomePageContent, HeroSectionContent, HighlightContent, SupporterLogoContent, MediaAsset, GlobalSettings, AttendedPersonCardContent, EventCalendarItemContent } from '@core/models';
 import { HeroCarouselComponent, CarouselImage } from '@shared/components/hero-carousel/hero-carousel.component';
 
@@ -112,6 +113,7 @@ type IdentityCardKey = 'description' | 'mission' | 'vision';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private readonly strapiService = inject(StrapiService);
+  private readonly emailService = inject(EmailService);
 
   loading = true;
   error: string | null = null;
@@ -308,7 +310,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     { logo: 'assets/program-logos/Escuelas-padres.png', alt: 'Escuela de Padres', href: 'https://consejosparapadresymadres.blogspot.com/' },
     { logo: 'assets/program-logos/espiritual.png', alt: 'Formación Espiritual', href: 'https://escueladominicalcreciendoconcristo.blogspot.com/' },
     { logo: 'assets/program-logos/comunidades-narp.png', alt: 'Comunidades NARP', href: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform' },
-    { logo: 'assets/program-logos/empleabilidad.png', alt: 'Empleabilidad', href: 'https://empleabilidad-facopec.blogspot.com/' },
+    { logo: 'assets/program-logos/emplpeabilidad.png', alt: 'Empleabilidad', href: 'https://empleabilidad-facopec.blogspot.com/' },
     { logo: 'assets/program-logos/Salida-pedagogica.png', alt: 'Salidas Pedagógicas', href: 'https://salidaspedagogicas-facopec.blogspot.com/' },
     { logo: 'assets/program-logos/educa.png', alt: 'FACOPEC Educa', href: 'https://facopeceduca.blogspot.com/' },
     { logo: 'assets/program-logos/Dona-ropa.png', alt: 'Dona Ropa', href: 'https://quetienespararegalar.blogspot.com/' },
@@ -982,29 +984,39 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.employabilityFormError = null;
     this.employabilityFormSubmitted = false;
 
-    // In a real implementation, you would send this to a backend API
-    // that handles email sending. For now, we'll simulate the process.
-    console.log('Employability form submitted:', this.employabilityForm);
-    console.log('Should send to: profeencasasedeciudaddelsur@gmail.com');
+    // Enviar el formulario usando el servicio de email
+    this.emailService.sendEmployabilityForm(this.employabilityForm).subscribe({
+      next: (response) => {
+        console.log('Formulario enviado exitosamente:', response);
+        console.log('Email enviado a: profeencasasedeciudaddelsur@gmail.com');
 
-    // Simulate API call
-    setTimeout(() => {
-      this.employabilityFormSubmitting = false;
-      this.employabilityFormSubmitted = true;
+        this.employabilityFormSubmitting = false;
+        this.employabilityFormSubmitted = true;
 
-      // Reset form after successful submission
-      this.employabilityForm = {
-        name: '',
-        email: '',
-        phone: '',
-        education: '',
-        interests: ''
-      };
+        // Reset form after successful submission
+        this.employabilityForm = {
+          name: '',
+          email: '',
+          phone: '',
+          education: '',
+          interests: ''
+        };
 
-      // Hide success message after 5 seconds
-      setTimeout(() => {
-        this.employabilityFormSubmitted = false;
-      }, 5000);
-    }, 1000);
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          this.employabilityFormSubmitted = false;
+        }, 5000);
+      },
+      error: (error) => {
+        console.error('Error al enviar el formulario:', error);
+        this.employabilityFormSubmitting = false;
+        this.employabilityFormError = 'Hubo un error al enviar el formulario. Por favor, intenta nuevamente.';
+
+        // Hide error message after 5 seconds
+        setTimeout(() => {
+          this.employabilityFormError = null;
+        }, 5000);
+      }
+    });
   }
 }
