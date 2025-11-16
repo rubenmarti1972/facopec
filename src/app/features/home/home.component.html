@@ -258,20 +258,20 @@
         Conecta con nuestras actividades destacadas y descubre más detalles en el blog oficial de la fundación.
       </p>
     </div>
-    <div class="grid-2 activity-grid">
-      <article
-        class="card activity-card"
-        *ngFor="let activity of activityCards"
-        [attr.data-strapi-uid]="activity.dataStrapiUid"
-      >
-        <div class="activity-card__icon" [ngClass]="activity.theme">{{ activity.icon }}</div>
-        <h3 class="card__title">{{ activity.title }}</h3>
-        <p class="card__text">{{ activity.description }}</p>
-        <a class="card__link" [href]="activity.href" target="_blank" rel="noopener">
-          Ver más
-          <span aria-hidden="true">↗</span>
+    <div class="circular-programs">
+      <div class="circular-programs__orbit">
+        <a
+          *ngFor="let program of programLogos; let i = index"
+          [href]="program.href"
+          target="_blank"
+          rel="noopener"
+          class="circular-programs__item"
+          [style.--index]="i"
+          [attr.aria-label]="program.alt"
+        >
+          <img [src]="program.logo" [alt]="program.alt" loading="lazy" />
         </a>
-      </article>
+      </div>
     </div>
   </div>
 </section>
