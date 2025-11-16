@@ -239,8 +239,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       {
         id: 'nav-programs',
         label: 'Programas',
-        routerLink: '/proyectos',
-        fragment: 'programas',
         children: [
           {
             title: '📚 Educación y Refuerzo Académico',
