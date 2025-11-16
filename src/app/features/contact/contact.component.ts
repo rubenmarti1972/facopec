@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { EmailService } from '@core/services/email.service';
 
 interface ContactInfo {
   phone: string;
@@ -26,6 +27,8 @@ interface ContactForm {
   styleUrls: ['./contact.component.css']
 })
 export class ContactComponent implements OnInit {
+  private readonly emailService = inject(EmailService);
+
   loading = false;
   submitted = false;
   error: string | null = null;
@@ -65,16 +68,27 @@ export class ContactComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    // Aquí integrarías con tu backend o servicio de email
-    // Por ahora simulamos el envío
-    console.log('Formulario de contacto enviado:', this.contactForm);
+    // Enviar el formulario usando el servicio de email
+    this.emailService.sendContactForm(this.contactForm).subscribe({
+      next: (response) => {
+        console.log('Formulario enviado exitosamente:', response);
+        console.log('Email enviado a: profeencasasedeciudaddelsur@gmail.com');
 
-    // Simular respuesta exitosa
-    setTimeout(() => {
-      this.submitted = true;
-      this.loading = false;
-      this.resetForm();
-    }, 1000);
+        this.submitted = true;
+        this.loading = false;
+        this.resetForm();
+
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          this.submitted = false;
+        }, 5000);
+      },
+      error: (error) => {
+        console.error('Error al enviar formulario:', error);
+        this.error = 'Hubo un error al enviar tu mensaje. Por favor intenta nuevamente.';
+        this.loading = false;
+      }
+    });
   }
 
   private isFormValid(): boolean {
