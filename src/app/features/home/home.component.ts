@@ -362,31 +362,58 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   galleryItems: GalleryItem[] = [
     {
-      title: 'Laboratorio de lectura',
-      description: 'Niños y niñas viven experiencias literarias en la biblioteca comunitaria.',
-      cover: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1000&q=80',
+      title: 'Tutorías Profe en Casa',
+      description: 'Acompañamiento pedagógico personalizado para niños, niñas y adolescentes en refuerzo escolar.',
+      cover: 'assets/program-logos/educa.png',
       type: 'image',
-      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/2023/09/lectura-en-comunidad.html',
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Tutor%C3%ADas',
       strapiCollection: 'galeria',
-      strapiEntryId: 'laboratorio-lectura'
+      strapiEntryId: 'tutorias-profe-en-casa'
     },
     {
-      title: 'Huerta escolar comunitaria',
-      description: 'Familias cosechan alimentos y aprenden sobre soberanía alimentaria.',
-      cover: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=1000&q=80',
+      title: 'Semillero Digital STEAM',
+      description: 'Talleres de tecnología, robótica y programación para jóvenes del Cauca.',
+      cover: 'assets/program-logos/semillero-digital.svg',
       type: 'image',
-      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/2023/06/huerta-escolar.html',
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Semillero%20Digital',
       strapiCollection: 'galeria',
-      strapiEntryId: 'huerta-escolar'
+      strapiEntryId: 'semillero-digital'
     },
     {
-      title: 'Testimonio en video',
-      description: 'Conoce cómo la fundación impacta a las familias del Cauca.',
-      cover: 'https://img.youtube.com/vi/VN0qfM2Yg2w/hqdefault.jpg',
-      type: 'video',
-      href: 'https://www.youtube.com/watch?v=VN0qfM2Yg2w',
+      title: 'Club Familias que Acompañan',
+      description: 'Escuela de padres y orientación psicoemocional para fortalecer el cuidado familiar.',
+      cover: 'assets/program-logos/club-familias.svg',
+      type: 'image',
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Familias',
       strapiCollection: 'galeria',
-      strapiEntryId: 'testimonio-video'
+      strapiEntryId: 'club-familias'
+    },
+    {
+      title: 'Trabajo Comunitario',
+      description: 'Fortalecimiento del tejido social con familias, líderes y aliados del territorio.',
+      cover: 'assets/program-logos/comunitario.png',
+      type: 'image',
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Comunidad',
+      strapiCollection: 'galeria',
+      strapiEntryId: 'trabajo-comunitario'
+    },
+    {
+      title: 'Formación Espiritual',
+      description: 'Espacios de oración, valores y bienestar emocional para toda la comunidad.',
+      cover: 'assets/program-logos/espiritual.png',
+      type: 'image',
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Fe',
+      strapiCollection: 'galeria',
+      strapiEntryId: 'formacion-espiritual'
+    },
+    {
+      title: 'Ruta Literaria María',
+      description: 'Círculos de lectura, creación literaria y promoción de la cultura afrocolombiana.',
+      cover: 'assets/program-logos/educa.png',
+      type: 'image',
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Ruta%20Literaria%20Mar%C3%ADa',
+      strapiCollection: 'galeria',
+      strapiEntryId: 'ruta-literaria-maria'
     }
   ];
 
