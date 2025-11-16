@@ -28,31 +28,33 @@
         </div>
       </a>
     </div>
+  </div>
+</section>
 
-    <!-- Programs Section -->
-    <section class="programs-section" id="programas">
-      <div class="section__heading">
-        <span class="section__eyebrow">Programas</span>
-        <h2 class="section__title">Nuestros Programas</h2>
-        <p class="section__subtitle">
-          Explora todos nuestros programas educativos, culturales y comunitarios.
-        </p>
-      </div>
-      <div class="programs-grid">
-        <a
-          *ngFor="let program of programLogos"
-          [href]="program.href"
-          target="_blank"
-          rel="noopener"
-          class="program-card"
-          [attr.aria-label]="program.alt"
-        >
-          <div class="program-card__logo">
-            <img [src]="program.logo" [alt]="program.alt" loading="lazy" />
-          </div>
-          <h3 class="program-card__title">{{ program.alt }}</h3>
-        </a>
-      </div>
-    </section>
+<!-- Programs Section -->
+<section class="section programs-section" id="programas">
+  <div class="container">
+    <div class="section__heading">
+      <span class="section__eyebrow">Programas</span>
+      <h2 class="section__title">Nuestros Programas</h2>
+      <p class="section__subtitle">
+        Explora todos nuestros programas educativos, culturales y comunitarios.
+      </p>
+    </div>
+    <div class="programs-grid">
+      <a
+        *ngFor="let program of programLogos"
+        [href]="program.href"
+        target="_blank"
+        rel="noopener"
+        class="program-card"
+        [attr.aria-label]="program.alt"
+      >
+        <div class="program-card__logo">
+          <img [src]="program.logo" [alt]="program.alt" loading="lazy" />
+        </div>
+        <h3 class="program-card__title">{{ program.alt }}</h3>
+      </a>
+    </div>
   </div>
 </section>
