@@ -163,7 +163,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.mobileMenuOpen) {
       return;
     }
-    console.log('Opening dropdown for index:', index, 'Item:', this.navigationItems[index]);
     this.dropdownIndex = index;
   }
 
@@ -177,11 +176,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   isDropdownOpen(index: number): boolean {
-    const isOpen = this.dropdownIndex === index;
-    if (isOpen) {
-      console.log('Dropdown is open for index:', index);
-    }
-    return isOpen;
+    return this.dropdownIndex === index;
   }
 
   isExternalHref(href?: string | null, target?: string | null): boolean {
@@ -361,14 +356,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       routerLink: '/donaciones',
       dataStrapiUid: 'navigation.donate'
     };
-
-    // Debug: Log navigation items
-    console.log('Navigation items loaded:', this.navigationItems);
-    const programsItem = this.navigationItems.find(item => item.label === 'Programas');
-    if (programsItem) {
-      console.log('Programs item:', programsItem);
-      console.log('Programs children:', programsItem.children);
-    }
 
     this.loading = false;
   }
