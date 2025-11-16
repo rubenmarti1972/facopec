@@ -239,95 +239,90 @@ export class HeaderComponent implements OnInit, OnDestroy {
       {
         id: 'nav-programs',
         label: 'Programas',
-        routerLink: '/home',
+        routerLink: '/proyectos',
         fragment: 'programas',
         children: [
           {
-            title: '💻 Innovación y Tecnología Educativa',
+            title: '📚 Educación y Refuerzo Académico',
             items: [
               {
-                label: 'Robótica y Programación',
-                href: 'https://roboticaprogramacion.blogspot.com/',
+                label: 'Guías y Cuentos Cortos',
+                href: 'https://cuentoscortosprofeencasa.blogspot.com/',
                 target: '_blank'
               },
               {
-                label: 'Laboratorio Digital STEAM',
-                href: 'https://laboratoriosteam.blogspot.com/',
+                label: 'Guías de Matemáticas',
+                href: 'https://matematicasprofeencasa.blogspot.com/',
                 target: '_blank'
               },
               {
-                label: 'Competencias Digitales',
-                href: 'https://competenciasdigitales.blogspot.com/',
-                target: '_blank'
-              }
-            ]
-          },
-          {
-            title: '📚 Refuerzo Académico y Nivelación',
-            items: [
-              {
-                label: 'Talleres de nivelación',
+                label: 'Talleres de Nivelación',
                 href: 'https://talleresdenivelacion.blogspot.com/',
                 target: '_blank'
               },
               {
-                label: 'Matemáticas básicas',
-                href: 'https://matematicasbasicas.blogspot.com/',
+                label: 'Desafío Matemáticos',
+                href: 'https://desafio-matematicos.blogspot.com/',
                 target: '_blank'
               },
               {
-                label: 'Lectura crítica',
-                href: 'https://lecturacritica.blogspot.com/',
-                target: '_blank'
-              },
-              {
-                label: 'Ciencias naturales',
-                href: 'https://cienciasnaturales.blogspot.com/',
-                target: '_blank'
-              },
-              {
-                label: 'Ciencias sociales',
-                href: 'https://cienciassociales.blogspot.com/',
-                target: '_blank'
-              },
-              {
-                label: 'Inglés básico',
-                href: 'https://inglesbasico.blogspot.com/',
-                target: '_blank'
-              },
-              {
-                label: 'Refuerzo escolar',
-                href: 'https://refuerzoescolar.blogspot.com/',
-                target: '_blank'
-              },
-              {
-                label: 'Pre-ICFES',
-                href: 'https://preicfes.blogspot.com/',
-                target: '_blank'
-              },
-              {
-                label: 'Tutorías personalizadas',
-                href: 'https://tutoriaspersonalizadas.blogspot.com/',
+                label: 'FACOPEC Educa',
+                href: 'https://facopeceduca.blogspot.com/',
                 target: '_blank'
               }
             ]
           },
           {
-            title: '👨‍👩‍👧‍👦 Desarrollo Comunitario y Familiar',
+            title: '📖 Cultura y Lectura',
             items: [
               {
-                label: 'Alfabetización',
-                href: 'https://alfabetizacion.blogspot.com/',
+                label: 'Plan Lector - Ruta Literaria María',
+                href: 'https://rutaliterariamaria.blogspot.com/',
+                target: '_blank'
+              }
+            ]
+          },
+          {
+            title: '👨‍👩‍👧‍👦 Desarrollo Familiar y Comunitario',
+            items: [
+              {
+                label: 'Escuela de Padres',
+                href: 'https://consejosparapadresymadres.blogspot.com/',
                 target: '_blank'
               },
               {
-                label: 'Capacitación laboral',
-                href: 'https://capacitacionlaboral.blogspot.com/',
+                label: 'Formación Espiritual',
+                href: 'https://escueladominicalcreciendoconcristo.blogspot.com/',
                 target: '_blank'
               },
               {
-                label: 'Emprendimiento',
-                href: 'https://emprendimiento.blogspot.com/',
+                label: 'Comunidades NARP',
+                href: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform',
+                target: '_blank'
+              },
+              {
+                label: 'Servicio Comunitario',
+                href: 'https://serviciocomunitario-facopec.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Dona Ropa',
+                href: 'https://quetienespararegalar.blogspot.com/',
+                target: '_blank'
+              }
+            ]
+          },
+          {
+            title: '💼 Empleabilidad y Desarrollo',
+            items: [
+              {
+                label: 'Empleabilidad',
+                href: 'https://empleabilidad-facopec.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Salidas Pedagógicas',
+                href: 'https://salidaspedagogicas-facopec.blogspot.com/',
                 target: '_blank'
               }
             ]
