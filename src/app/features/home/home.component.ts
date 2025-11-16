@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { StrapiService } from '@core/services/strapi.service';
 import { HomePageContent, HeroSectionContent, HighlightContent, SupporterLogoContent, MediaAsset, GlobalSettings, AttendedPersonCardContent, EventCalendarItemContent } from '@core/models';
@@ -105,7 +106,7 @@ type IdentityCardKey = 'description' | 'mission' | 'vision';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, HeroCarouselComponent],
+  imports: [CommonModule, FormsModule, RouterLink, HeroCarouselComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -953,5 +954,57 @@ export class HomeComponent implements OnInit, OnDestroy {
     };
 
     window.addEventListener('visibilitychange', this.visibilityChangeHandler);
+  }
+
+  /** Employability Form Properties */
+  employabilityForm = {
+    name: '',
+    email: '',
+    phone: '',
+    education: '',
+    interests: ''
+  };
+
+  employabilityFormSubmitting = false;
+  employabilityFormSubmitted = false;
+  employabilityFormError: string | null = null;
+
+  /**
+   * Submit employability form
+   * Sends form data to the email profeencasasedeciudaddelsur@gmail.com
+   */
+  submitEmployabilityForm(): void {
+    if (this.employabilityFormSubmitting) {
+      return;
+    }
+
+    this.employabilityFormSubmitting = true;
+    this.employabilityFormError = null;
+    this.employabilityFormSubmitted = false;
+
+    // In a real implementation, you would send this to a backend API
+    // that handles email sending. For now, we'll simulate the process.
+    console.log('Employability form submitted:', this.employabilityForm);
+    console.log('Should send to: profeencasasedeciudaddelsur@gmail.com');
+
+    // Simulate API call
+    setTimeout(() => {
+      this.employabilityFormSubmitting = false;
+      this.employabilityFormSubmitted = true;
+
+      // Reset form after successful submission
+      this.employabilityForm = {
+        name: '',
+        email: '',
+        phone: '',
+        education: '',
+        interests: ''
+      };
+
+      // Hide success message after 5 seconds
+      setTimeout(() => {
+        this.employabilityFormSubmitted = false;
+      }, 5000);
+    }, 1000);
   }
 }

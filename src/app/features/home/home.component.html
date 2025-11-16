@@ -332,3 +332,124 @@
     </div>
   </div>
 </section>
+
+<!-- Employability Section -->
+<section class="section section--employability" id="empleabilidad">
+  <div class="container">
+    <div class="employability-layout">
+      <div class="employability-info">
+        <div class="employability-logo">
+          <img src="assets/program-logos/empleabilidad.png" alt="Programa de Empleabilidad FACOPEC" loading="lazy" />
+        </div>
+        <div class="employability-content">
+          <span class="section__eyebrow">Programa de Empleabilidad</span>
+          <h2 class="section__title">Impulsa tu futuro profesional</h2>
+          <p class="employability-description">
+            Nuestro programa de empleabilidad te acompaña en tu desarrollo profesional con capacitaciones, asesorías personalizadas y conexión con oportunidades laborales.
+          </p>
+          <ul class="employability-benefits">
+            <li><span class="benefit-icon">✓</span> Capacitación en habilidades blandas y técnicas</li>
+            <li><span class="benefit-icon">✓</span> Asesoría en hoja de vida y entrevistas</li>
+            <li><span class="benefit-icon">✓</span> Conexión con empresas aliadas</li>
+            <li><span class="benefit-icon">✓</span> Seguimiento personalizado</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="employability-form-container">
+        <form class="employability-form" (ngSubmit)="submitEmployabilityForm()" #employabilityFormRef="ngForm">
+          <h3 class="form-title">Inscríbete al programa</h3>
+          <p class="form-subtitle">Completa tus datos y nos pondremos en contacto contigo</p>
+
+          <div class="form-group">
+            <label for="emp-name" class="form-label">Nombre completo *</label>
+            <input
+              type="text"
+              id="emp-name"
+              name="name"
+              class="form-input"
+              [(ngModel)]="employabilityForm.name"
+              required
+              placeholder="Tu nombre completo"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="emp-email" class="form-label">Correo electrónico *</label>
+            <input
+              type="email"
+              id="emp-email"
+              name="email"
+              class="form-input"
+              [(ngModel)]="employabilityForm.email"
+              required
+              placeholder="tu@email.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="emp-phone" class="form-label">Teléfono / WhatsApp *</label>
+            <input
+              type="tel"
+              id="emp-phone"
+              name="phone"
+              class="form-input"
+              [(ngModel)]="employabilityForm.phone"
+              required
+              placeholder="321 123 4567"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="emp-education" class="form-label">Nivel educativo</label>
+            <select
+              id="emp-education"
+              name="education"
+              class="form-input"
+              [(ngModel)]="employabilityForm.education"
+            >
+              <option value="">Selecciona tu nivel educativo</option>
+              <option value="primaria">Primaria</option>
+              <option value="bachillerato">Bachillerato</option>
+              <option value="tecnico">Técnico</option>
+              <option value="tecnologo">Tecnólogo</option>
+              <option value="universitario">Universitario</option>
+              <option value="posgrado">Posgrado</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="emp-interests" class="form-label">Áreas de interés</label>
+            <textarea
+              id="emp-interests"
+              name="interests"
+              class="form-input form-textarea"
+              [(ngModel)]="employabilityForm.interests"
+              placeholder="Cuéntanos en qué áreas te gustaría trabajar o capacitarte"
+              rows="3"
+            ></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="submit"
+              class="btn btn--primary btn--full"
+              [disabled]="!employabilityFormRef.valid || employabilityFormSubmitting"
+            >
+              <span *ngIf="!employabilityFormSubmitting">Enviar inscripción</span>
+              <span *ngIf="employabilityFormSubmitting">Enviando...</span>
+            </button>
+          </div>
+
+          <div *ngIf="employabilityFormSubmitted" class="form-success">
+            ✓ ¡Gracias por inscribirte! Nos pondremos en contacto contigo pronto.
+          </div>
+
+          <div *ngIf="employabilityFormError" class="form-error">
+            {{ employabilityFormError }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
