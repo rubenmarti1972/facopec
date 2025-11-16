@@ -37,13 +37,15 @@ export const environment = {
     allowedFileTypes: ['image/jpeg', 'image/png', 'video/mp4', 'application/pdf']
   },
   socialMedia: {
-    facebook: 'https://www.facebook.com/FundacionAfrocolombianaProfeEnCasa',
-    instagram: 'https://www.instagram.com/fundacion_profeencasa',
+    facebook: 'https://www.facebook.com/Profeencasasedecds',
+    instagram: 'https://www.instagram.com/fundacion_profeencasa/',
     x: 'https://x.com/FundacionProfe',
     twitter: 'https://x.com/FundacionProfe',
-    youtube: 'https://www.youtube.com/@fundacionprofeencasa',
-    whatsapp: 'https://wa.me/573215230283',
-    linkedIn: 'https://www.linkedin.com/company/facopec'
+    youtube: 'https://www.youtube.com/@fundacionafroprofeencasa',
+    whatsapp: 'https://api.whatsapp.com/send/?phone=573215230283&text=Hola+%EF%BF%BD%2C+Quiero+mas+informaci%C3%B3n&type=phone_number&app_absent=0',
+    linkedIn: 'https://www.linkedin.com/company/facopec',
+    tiktok: 'https://www.tiktok.com/@profeencasaoficial',
+    telegram: 'https://t.me/Facopec'
   },
   logging: {
     enabled: true,
