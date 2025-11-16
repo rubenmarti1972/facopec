@@ -60,15 +60,15 @@ export class ProjectsComponent implements OnInit {
   programLogos: ProgramLogo[] = [
     { logo: 'assets/program-logos/guias.png', alt: 'Guías y Cuentos Cortos', href: 'https://cuentoscortosprofeencasa.blogspot.com/' },
     { logo: 'assets/program-logos/guias-mate.png', alt: 'Guías de Matemáticas', href: 'https://matematicasprofeencasa.blogspot.com/' },
-    { logo: 'assets/program-logos/Talleres-nivelacion.png', alt: 'Talleres de Nivelación', href: 'https://talleresdenivelacion.blogspot.com/' },
-    { logo: 'assets/program-logos/Plan-lector.png', alt: 'Plan Lector', href: 'https://rutaliterariamaria.blogspot.com/' },
-    { logo: 'assets/program-logos/Escuelas-padres.png', alt: 'Escuela de Padres', href: 'https://consejosparapadresymadres.blogspot.com/' },
+    { logo: 'assets/program-logos/talleres-nivelacion.png', alt: 'Talleres de Nivelación', href: 'https://talleresdenivelacion.blogspot.com/' },
+    { logo: 'assets/program-logos/plan-lector.png', alt: 'Plan Lector', href: 'https://rutaliterariamaria.blogspot.com/' },
+    { logo: 'assets/program-logos/escuela-padres.png', alt: 'Escuela de Padres', href: 'https://consejosparapadresymadres.blogspot.com/' },
     { logo: 'assets/program-logos/espiritual.png', alt: 'Formación Espiritual', href: 'https://escueladominicalcreciendoconcristo.blogspot.com/' },
     { logo: 'assets/program-logos/comunidades-narp.png', alt: 'Comunidades NARP', href: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform' },
     { logo: 'assets/program-logos/emplpeabilidad.png', alt: 'Empleabilidad', href: 'https://empleabilidad-facopec.blogspot.com/' },
-    { logo: 'assets/program-logos/Salida-pedagogica.png', alt: 'Salidas Pedagógicas', href: 'https://salidaspedagogicas-facopec.blogspot.com/' },
+    { logo: 'assets/program-logos/salida-pedagogica.png', alt: 'Salidas Pedagógicas', href: 'https://salidaspedagogicas-facopec.blogspot.com/' },
     { logo: 'assets/program-logos/educa.png', alt: 'FACOPEC Educa', href: 'https://facopeceduca.blogspot.com/' },
-    { logo: 'assets/program-logos/Dona-ropa.png', alt: 'Dona Ropa', href: 'https://quetienespararegalar.blogspot.com/' },
+    { logo: 'assets/program-logos/dona-ropa.png', alt: 'Dona Ropa', href: 'https://quetienespararegalar.blogspot.com/' },
     { logo: 'assets/program-logos/comunitario.png', alt: 'Servicio Comunitario', href: 'https://serviciocomunitario-facopec.blogspot.com/' },
     { logo: 'assets/program-logos/primaria.png', alt: 'Desafío Matemáticos', href: 'https://desafio-matematicos.blogspot.com/' }
   ];
