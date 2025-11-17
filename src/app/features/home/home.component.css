@@ -532,12 +532,13 @@
   animation-play-state: paused;
 }
 
+/* El track contiene 2 copias de los items, así que mover -50% crea el loop perfecto */
 @keyframes scroll-carousel {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(calc((-320px - 2rem) * 5));
+    transform: translateX(-50%);
   }
 }
 
@@ -648,14 +649,7 @@
     min-height: 350px;
   }
 
-  @keyframes scroll-carousel {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(calc((-280px - 2rem) * 5));
-    }
-  }
+  /* Ya no es necesario redefinir el keyframe, el -50% funciona para cualquier tamaño */
 
   .gallery-card__logo {
     flex: 0 0 160px;
