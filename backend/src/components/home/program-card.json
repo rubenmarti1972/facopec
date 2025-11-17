@@ -17,6 +17,14 @@
     "link": {
       "type": "string"
     },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "logoAlt": {
+      "type": "string"
+    },
     "strapiCollection": {
       "type": "string"
     },
