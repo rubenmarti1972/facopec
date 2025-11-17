@@ -260,6 +260,20 @@ export interface HomeAttendedPersonCard extends Struct.ComponentSchema {
   };
 }
 
+export interface HomeCarouselItem extends Struct.ComponentSchema {
+  collectionName: 'components_home_carousel_items';
+  info: {
+    description: 'Item del carrusel del h\u00E9roe con imagen y textos';
+    displayName: 'Carousel Item';
+    icon: 'images';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface HomeEventCalendarItem extends Struct.ComponentSchema {
   collectionName: 'components_home_event_calendar_items';
   info: {
@@ -294,6 +308,7 @@ export interface HomeHero extends Struct.ComponentSchema {
   };
   attributes: {
     actions: Schema.Attribute.Component<'shared.hero-action', true>;
+    carouselItems: Schema.Attribute.Component<'home.carousel-item', true>;
     eyebrow: Schema.Attribute.String;
     image: Schema.Attribute.Media;
     lead: Schema.Attribute.Text;
@@ -343,6 +358,8 @@ export interface HomeProgramCard extends Struct.ComponentSchema {
     description: Schema.Attribute.Text;
     highlights: Schema.Attribute.JSON;
     link: Schema.Attribute.String;
+    logo: Schema.Attribute.Media<'images'>;
+    logoAlt: Schema.Attribute.String;
     strapiCollection: Schema.Attribute.String;
     strapiEntryId: Schema.Attribute.String;
     title: Schema.Attribute.String;
@@ -502,6 +519,7 @@ declare module '@strapi/strapi' {
       'global.value-item': GlobalValueItem;
       'home.activity-card': HomeActivityCard;
       'home.attended-person-card': HomeAttendedPersonCard;
+      'home.carousel-item': HomeCarouselItem;
       'home.event-calendar-item': HomeEventCalendarItem;
       'home.hero': HomeHero;
       'home.identity': HomeIdentity;
