@@ -562,6 +562,7 @@ export interface ProgramLogoSimpleContent {
   logo?: MediaAsset;
   alt: string;
   link: string;
+  category?: string;
 }
 
 export interface SupporterLogoContent {
