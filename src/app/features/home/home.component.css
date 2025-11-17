@@ -2,13 +2,18 @@
   display: block;
 }
 
-/* Hero stage - grid layout with calendar sidebar */
+/* Hero stage - adaptive layout */
 .hero-stage {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 1fr; /* Por defecto, sin sidebar */
   gap: clamp(1.5rem, 2.5vw, 2.5rem);
   width: 100%;
   align-items: start;
+}
+
+/* Cuando HAY calendario, usar grid con sidebar */
+.hero-stage--with-calendar {
+  grid-template-columns: 320px 1fr;
 }
 
 .calendar-sidebar {
