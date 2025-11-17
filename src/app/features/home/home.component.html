@@ -1,7 +1,8 @@
 <section class="section" id="inicio" data-strapi-collection="home" data-strapi-section="hero">
   <div class="container">
-    <div class="hero-stage">
-      <!-- Calendario flotante a la izquierda -->
+    <!-- Layout sin sidebar del calendario - todo centrado -->
+    <div class="hero-stage" [class.hero-stage--with-calendar]="eventCalendar.length">
+      <!-- Calendario flotante a la izquierda (solo si hay eventos) -->
       <aside class="calendar-sidebar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
         <div class="calendar-widget">
           <div class="calendar-widget__header">
