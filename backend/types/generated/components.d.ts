@@ -233,6 +233,7 @@ export interface HomeActivityCard extends Struct.ComponentSchema {
     description: Schema.Attribute.Text;
     icon: Schema.Attribute.String;
     link: Schema.Attribute.String;
+    logo: Schema.Attribute.Media<'images'>;
     theme: Schema.Attribute.Enumeration<['teal', 'blue', 'rose', 'gold']> &
       Schema.Attribute.DefaultTo<'teal'>;
     title: Schema.Attribute.String;
@@ -257,6 +258,20 @@ export interface HomeAttendedPersonCard extends Struct.ComponentSchema {
       ['teal', 'blue', 'rose', 'gold', 'purple', 'green']
     > &
       Schema.Attribute.DefaultTo<'teal'>;
+  };
+}
+
+export interface HomeCarouselItem extends Struct.ComponentSchema {
+  collectionName: 'components_home_carousel_items';
+  info: {
+    description: 'Item individual del carrusel del h\u00E9roe';
+    displayName: 'Carousel Item';
+    icon: 'image';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
   };
 }
 
@@ -294,6 +309,7 @@ export interface HomeHero extends Struct.ComponentSchema {
   };
   attributes: {
     actions: Schema.Attribute.Component<'shared.hero-action', true>;
+    carouselItems: Schema.Attribute.Component<'home.carousel-item', true>;
     eyebrow: Schema.Attribute.String;
     image: Schema.Attribute.Media;
     lead: Schema.Attribute.Text;
@@ -343,6 +359,8 @@ export interface HomeProgramCard extends Struct.ComponentSchema {
     description: Schema.Attribute.Text;
     highlights: Schema.Attribute.JSON;
     link: Schema.Attribute.String;
+    logo: Schema.Attribute.Media<'images'>;
+    logoAlt: Schema.Attribute.String;
     strapiCollection: Schema.Attribute.String;
     strapiEntryId: Schema.Attribute.String;
     title: Schema.Attribute.String;
@@ -502,6 +520,7 @@ declare module '@strapi/strapi' {
       'global.value-item': GlobalValueItem;
       'home.activity-card': HomeActivityCard;
       'home.attended-person-card': HomeAttendedPersonCard;
+      'home.carousel-item': HomeCarouselItem;
       'home.event-calendar-item': HomeEventCalendarItem;
       'home.hero': HomeHero;
       'home.identity': HomeIdentity;

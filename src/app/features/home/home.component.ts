@@ -878,6 +878,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   private setHeroCarousel(slides: HeroCarouselSlide[]): void {
     this.heroCarousel = slides.map(slide => ({ ...slide }));
     this.heroCarouselIndex = 0;
+
+    // Update carouselImages for the app-hero-carousel component
+    this.carouselImages = slides.map(slide => ({
+      url: slide.image,
+      alt: slide.alt,
+      title: slide.caption
+    }));
+
     this.restartCarouselAutoPlay();
   }
 
