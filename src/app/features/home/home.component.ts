@@ -507,8 +507,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     }
 
-    if (content.attendedPersons?.length) {
-      const mapped = content.attendedPersons
+    // Actualizar siempre, incluso si está vacío (para reflejar eliminaciones del CMS)
+    if (content.attendedPersons !== undefined) {
+      const mapped = (content.attendedPersons || [])
         .map(person => ({
           id: person.id,
           program: person.program,
@@ -519,13 +520,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         }))
         .filter(person => !!person.program);
 
-      if (mapped.length) {
-        this.attendedPersons = mapped;
-      }
+      this.attendedPersons = mapped;
     }
 
-    if (content.eventCalendar?.length) {
-      const mapped = content.eventCalendar
+    // Actualizar siempre, incluso si está vacío (para reflejar eliminaciones del CMS)
+    if (content.eventCalendar !== undefined) {
+      const mapped = (content.eventCalendar || [])
         .map(event => ({
           id: event.id,
           title: event.title,
@@ -540,9 +540,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         }))
         .filter(event => !!event.title && !!event.eventDate);
 
-      if (mapped.length) {
-        this.eventCalendar = mapped;
-      }
+      this.eventCalendar = mapped;
     }
 
     this.loading = false;
