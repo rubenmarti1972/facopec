@@ -607,9 +607,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private applyHomeContent(content: HomePageContent): void {
-    const fallbackSupporters = [...this.supporters];
-    const fallbackGalleryCover = this.galleryItems[0]?.cover ?? '';
-
     if (content.hero) {
       const hero = content.hero;
       const heroMediaUrl = this.resolveMediaUrl(hero.image);
@@ -695,20 +692,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     if (content.programs?.length) {
-      const fallbackPrograms = [...this.programCards];
       const mapped = content.programs
-        .map((program, index) => {
-          const fallback = fallbackPrograms[index];
-          const logoUrl = this.resolveMediaUrl(program.logo) ?? fallback?.logo;
-          const logoAlt = program.logoAlt ?? program.title ?? fallback?.logoAlt ?? fallback?.title ?? '';
+        .map((program) => {
+          const logoUrl = this.resolveMediaUrl(program.logo);
+          const logoAlt = program.logoAlt ?? program.title ?? '';
 
           return {
-            title: program.title ?? fallback?.title ?? '',
-            description: program.description ?? fallback?.description ?? '',
-            highlights: program.highlights?.filter(Boolean) ?? fallback?.highlights ?? [],
-            href: program.link ?? fallback?.href ?? '#',
-            strapiCollection: program.strapiCollection ?? fallback?.strapiCollection ?? '',
-            strapiEntryId: program.strapiEntryId ?? fallback?.strapiEntryId ?? '',
+            title: program.title ?? '',
+            description: program.description ?? '',
+            highlights: program.highlights?.filter(Boolean) ?? [],
+            href: program.link ?? '#',
+            strapiCollection: program.strapiCollection ?? '',
+            strapiEntryId: program.strapiEntryId ?? '',
             logo: logoUrl ?? undefined,
             logoAlt: logoAlt
           } satisfies ProgramCard;
@@ -721,19 +716,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     if (content.programLogos?.length) {
-      const fallbackLogos = [...this.programLogos];
       const mapped = content.programLogos
-        .map((programLogo, index) => {
-          const fallback = fallbackLogos[index];
+        .map((programLogo) => {
           const logoUrl = this.resolveMediaUrl(programLogo.logo);
 
           return {
-            logo: logoUrl ?? fallback?.logo ?? '',
-            alt: programLogo.alt ?? fallback?.alt ?? '',
-            href: programLogo.link ?? fallback?.href ?? '#'
+            logo: logoUrl ?? '',
+            alt: programLogo.alt ?? '',
+            href: programLogo.link ?? '#'
           } satisfies ProgramLogo;
         })
-        .filter(logo => !!logo.alt);
+        .filter(logo => !!logo.logo && !!logo.alt);
 
       if (mapped.length) {
         this.programLogos = mapped;
@@ -742,7 +735,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     if (content.supporters?.length) {
       const mapped = content.supporters
-        .map((supporter, index) => this.mapSupporter(supporter, fallbackSupporters[index]))
+        .map((supporter) => this.mapSupporter(supporter))
         .filter((supporter): supporter is SupporterLogo => supporter !== null);
 
       if (mapped.length) {
@@ -772,7 +765,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         .map(item => ({
           title: item.title,
           description: item.description ?? '',
-          cover: this.resolveMediaUrl(item.media) ?? fallbackGalleryCover,
+          cover: this.resolveMediaUrl(item.media) ?? '',
           type: (item.type as GalleryItem['type']) ?? 'image',
           href: item.link ?? '#',
           strapiCollection: item.strapiCollection ?? '',
@@ -858,9 +851,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       .filter(highlight => !!highlight.title);
   }
 
-  private mapSupporter(supporter: SupporterLogoContent, fallback?: SupporterLogo): SupporterLogo | null {
-    const mediaUrl = this.resolveMediaUrl(supporter.logo) ?? fallback?.src;
-    const caption = supporter.caption ?? supporter.name ?? fallback?.caption ?? '';
+  private mapSupporter(supporter: SupporterLogoContent): SupporterLogo | null {
+    const mediaUrl = this.resolveMediaUrl(supporter.logo);
+    const caption = supporter.caption ?? supporter.name ?? '';
 
     if (!mediaUrl && !supporter.name) {
       return null;
@@ -868,9 +861,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     return {
       src: mediaUrl ?? '',
-      alt: supporter.name ?? fallback?.alt ?? 'Aliado FACOPEC',
+      alt: supporter.name ?? 'Aliado FACOPEC',
       caption,
-      dataStrapiUid: supporter.dataUid ?? fallback?.dataStrapiUid ?? ''
+      dataStrapiUid: supporter.dataUid ?? ''
     } satisfies SupporterLogo;
   }
 
