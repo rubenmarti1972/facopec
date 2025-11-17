@@ -33,6 +33,11 @@
     "verse": {
       "type": "component",
       "component": "home.verse"
+    },
+    "carouselItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.carousel-item"
     }
   }
 }
