@@ -118,7 +118,30 @@ export class HomeComponent implements OnInit, OnDestroy {
   loading = true;
   error: string | null = null;
 
-  heroCarousel: HeroCarouselSlide[] = [];
+  private readonly fallbackCarouselSlides: HeroCarouselSlide[] = [
+    {
+      image: 'assets/ninos.jpg',
+      alt: 'Niñas y niños afrocolombianos compartiendo en comunidad',
+      caption: 'Aprendizajes con sentido desde Puerto Tejada'
+    },
+    {
+      image: 'assets/fotos-fundacion/portada.webp',
+      alt: 'Equipo pedagógico acompañando actividades en FACOPEC',
+      caption: 'Educación y acompañamiento integral para las familias'
+    },
+    {
+      image: 'assets/fotos-fundacion/collage.webp',
+      alt: 'Collage de experiencias educativas y culturales de la fundación',
+      caption: 'Arte, lectura y tecnología para transformar territorios'
+    },
+    {
+      image: 'assets/fotos-fundacion/collage-profe.webp',
+      alt: 'Voluntariado y equipo FACOPEC reunidos con la comunidad',
+      caption: 'Redes solidarias que abrazan a la comunidad'
+    }
+  ];
+
+  heroCarousel: HeroCarouselSlide[] = this.fallbackCarouselSlides.map(slide => ({ ...slide }));
   heroCarouselIndex = 0;
   private carouselIntervalId: ReturnType<typeof setInterval> | null = null;
   private readonly carouselRotationMs = 20000;
@@ -126,34 +149,116 @@ export class HomeComponent implements OnInit, OnDestroy {
   private lastContentRefresh = Date.now();
 
   hero: HeroContent = {
-    eyebrow: '',
-    title: [],
-    lead: '',
-    stats: [],
-    actions: [],
-    verse: { reference: '', text: '', description: '' },
-    image: '',
-    imageAlt: ''
+    eyebrow: 'Misión con sentido social',
+    title: ['Transformamos vidas', 'a través de la educación y el cuidado'],
+    lead:
+      'Somos la Fundación Afrocolombiana Profe en Casa. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Cauca.',
+    stats: <HeroStat[]>[
+      { value: '+180', label: 'Estudiantes acompañados con tutorías y mentorías' },
+      { value: '35', label: 'Voluntarios activos en programas comunitarios' },
+      { value: '12', label: 'Barrios impactados con actividades presenciales y virtuales' }
+    ],
+    actions: <HeroAction[]>[
+      { label: 'Donar ahora', routerLink: '/donate', variant: 'primary', dataStrapiUid: 'hero.actions.donate' },
+      {
+        label: 'Ver programas',
+        href: '/home#programas',
+        variant: 'secondary',
+        dataStrapiUid: 'hero.actions.programs'
+      }
+    ],
+    verse: {
+      reference: 'Proverbios 3:13',
+      text: '"Feliz quien halla sabiduría"',
+      description:
+        'Creamos espacios seguros para aprender, compartir y crecer en comunidad. Creemos en el poder de la lectura, la tecnología y la fe para transformar historias.'
+    },
+    image: 'assets/ninos.jpg',
+    imageAlt: 'Familia afrocolombiana abrazada y sonriendo'
   };
 
-  carouselImages: CarouselImage[] = [];
+  carouselImages: CarouselImage[] = [
+    {
+      url: 'assets/fotos-fundacion/portada.webp',
+      alt: 'FACOPEC - Fundación Afrocolombiana Profe en Casa en acción'
+    },
+    {
+      url: 'assets/fotos-fundacion/collage.webp',
+      alt: 'Niños y niñas participando en actividades educativas'
+    },
+    {
+      url: 'assets/fotos-fundacion/collage-profe.webp',
+      alt: 'Profesores y estudiantes en sesiones de aprendizaje'
+    },
+    {
+      url: 'assets/fotos-fundacion/apoyo.webp',
+      alt: 'Apoyo y trabajo comunitario en FACOPEC'
+    }
+  ];
 
   globalLogoUrl = 'assets/logo.png';
   globalLogoAlt = 'Logo FACOPEC';
 
   identity = {
-    description: '',
-    dataStrapiUid: '',
-    values: <IdentityValue[]>[]
+    description:
+      'Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Desde el Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.',
+    dataStrapiUid: 'about.description',
+    values: <IdentityValue[]>[
+      {
+        title: 'Derechos humanos y dignidad',
+        description: 'Promovemos la defensa y reivindicación de los derechos de las Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras).',
+        icon: '👐🏾',
+        dataStrapiUid: 'about.values.rights'
+      },
+      {
+        title: 'Educación transformadora',
+        description: 'Impulsamos procesos educativos, tecnológicos y culturales que potencian talentos y vocaciones.',
+        icon: '💡',
+        dataStrapiUid: 'about.values.education'
+      },
+      {
+        title: 'Fe, cultura y comunidad',
+        description: 'Fortalecemos el tejido comunitario desde la espiritualidad, la identidad cultural y el trabajo colaborativo.',
+        icon: '🤲🏾',
+        dataStrapiUid: 'about.values.community'
+      }
+    ]
   };
 
-  impactHighlights: Array<{icon: string; imagePath: string; title: string; label: string; dataStrapiUid: string; theme: string}> = [];
+  impactHighlights = [
+    {
+      icon: '📚',
+      imagePath: 'assets/program-logos/educa.png',
+      title: 'Educación integral',
+      label: 'Tutoclubes de lectura y acompañamiento pedagógico',
+      dataStrapiUid: 'impact.education',
+      theme: 'teal'
+    },
+    {
+      icon: '🤝🏾',
+      imagePath: 'assets/program-logos/comunitario.png',
+      title: 'Tejido comunitario',
+      label: 'Trabajo con familias, líderes y aliados del territorio',
+      dataStrapiUid: 'impact.community',
+      theme: 'blue'
+    },
+    {
+      icon: '🌱',
+      imagePath: 'assets/program-logos/espiritual.png',
+      title: 'Valores y fe',
+      label: 'Formación espiritual, bienestar emocional y liderazgo',
+      dataStrapiUid: 'impact.faith',
+      theme: 'rose'
+    }
+  ];
 
   missionVision = {
-    mission: '',
-    vision: '',
-    dataStrapiUidMission: '',
-    dataStrapiUidVision: ''
+    mission:
+      'La Fundación Afrocolombiana Profe en Casa | FACOPEC se dedica a captar y canalizar recursos a nivel local, nacional e internacional para desarrollar proyectos que promuevan y reivindiquen los derechos humanos de las Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Trabajamos para empoderar a niños, niñas, adolescentes, jóvenes, hombres, mujeres y familias, potenciando sus capacidades y sueños mediante programas educativos, culturales, recreativos, y tecnológicos, entre otros, con el fin de maximizar su impacto positivo y fomentar su desarrollo como actores de cambio en sus comunidades.',
+    vision:
+      'Ser reconocidos como una fundación líder en la promoción de los derechos humanos y el desarrollo integral de las Comunidades NARP. Aspiramos a crear un futuro donde estas comunidades puedan desplegar plenamente su potencial en ámbitos tecnológicos, educativos, culturales y sociales, contribuyendo activamente al progreso social, económico y ambiental de Colombia y el mundo.',
+    dataStrapiUidMission: 'about.mission',
+    dataStrapiUidVision: 'about.vision'
   };
 
   identityExpanded: Record<IdentityCardKey, boolean> = {
@@ -162,21 +267,231 @@ export class HomeComponent implements OnInit, OnDestroy {
     vision: false
   };
 
-  activityCards: ActivityCard[] = [];
+  activityCards: ActivityCard[] = [
+    {
+      title: 'Tutorías Profe en Casa',
+      description: 'Refuerzo escolar personalizado, acompañamiento en tareas y aprendizaje basado en proyectos.',
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Tutor%C3%ADas',
+      icon: '🧠',
+      theme: 'teal',
+      dataStrapiUid: 'activities.tutorias'
+    },
+    {
+      title: 'Ruta Literaria María',
+      description: 'Lectura en voz alta, círculos literarios y creación de cuentos inspirados en nuestras raíces afro.',
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Ruta%20Literaria%20Mar%C3%ADa',
+      icon: '📖',
+      theme: 'blue',
+      dataStrapiUid: 'activities.rutaLiteraria'
+    },
+    {
+      title: 'Huerta y alimentación',
+      description: 'Huertas urbanas, cocina saludable y emprendimientos familiares con enfoque sostenible.',
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Huerta',
+      icon: '🥬',
+      theme: 'gold',
+      dataStrapiUid: 'activities.huerta'
+    },
+    {
+      title: 'Arte, danza y fe',
+      description: 'Laboratorios creativos, espacios de oración y actividades culturales para toda la comunidad.',
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Cultura',
+      icon: '🎨',
+      theme: 'rose',
+      dataStrapiUid: 'activities.arte'
+    }
+  ];
 
-  programLogos: ProgramLogo[] = [];
+  programLogos: ProgramLogo[] = [
+    { logo: 'assets/program-logos/guias.png', alt: 'Guías y Cuentos Cortos', href: 'https://cuentoscortosprofeencasa.blogspot.com/' },
+    { logo: 'assets/program-logos/guias-mate.png', alt: 'Guías de Matemáticas', href: 'https://matematicasprofeencasa.blogspot.com/' },
+    { logo: 'assets/program-logos/talleres-nivelacion.png', alt: 'Talleres de Nivelación', href: 'https://talleresdenivelacion.blogspot.com/' },
+    { logo: 'assets/program-logos/plan-lector.png', alt: 'Plan Lector', href: 'https://rutaliterariamaria.blogspot.com/' },
+    { logo: 'assets/program-logos/escuela-padres.png', alt: 'Escuela de Padres', href: 'https://consejosparapadresymadres.blogspot.com/' },
+    { logo: 'assets/program-logos/espiritual.png', alt: 'Formación Espiritual', href: 'https://escueladominicalcreciendoconcristo.blogspot.com/' },
+    { logo: 'assets/program-logos/comunidades-narp.png', alt: 'Comunidades NARP', href: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform' },
+    { logo: 'assets/program-logos/emplpeabilidad.png', alt: 'Empleabilidad', href: 'https://empleabilidad-facopec.blogspot.com/' },
+    { logo: 'assets/program-logos/salida-pedagogica.png', alt: 'Salidas Pedagógicas', href: 'https://salidaspedagogicas-facopec.blogspot.com/' },
+    { logo: 'assets/program-logos/educa.png', alt: 'FACOPEC Educa', href: 'https://facopeceduca.blogspot.com/' },
+    { logo: 'assets/program-logos/dona-ropa.png', alt: 'Dona Ropa', href: 'https://quetienespararegalar.blogspot.com/' },
+    { logo: 'assets/program-logos/comunitario.png', alt: 'Servicio Comunitario', href: 'https://serviciocomunitario-facopec.blogspot.com/' },
+    { logo: 'assets/program-logos/primaria.png', alt: 'Desafío Matemáticos', href: 'https://desafio-matematicos.blogspot.com/' }
+  ];
 
-  programCards: ProgramCard[] = [];
+  programCards: ProgramCard[] = [
+    {
+      title: 'Semillero Digital',
+      description:
+        'Talleres STEAM, alfabetización digital y mentorías vocacionales que conectan a jóvenes con oportunidades tecnológicas.',
+      highlights: ['Tecnología', 'Innovación', 'Mentorías'],
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Semillero%20Digital',
+      strapiCollection: 'programas',
+      strapiEntryId: 'semillero-digital',
+      logo: 'assets/program-logos/semillero-digital.svg',
+      logoAlt: 'Logo del programa Semillero Digital'
+    },
+    {
+      title: 'Club Familias que Acompañan',
+      description:
+        'Escuela de padres, orientación psicoemocional y redes solidarias para fortalecer el cuidado en casa.',
+      highlights: ['Familias', 'Bienestar', 'Prevención'],
+      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Familias',
+      strapiCollection: 'programas',
+      strapiEntryId: 'club-familias',
+      logo: 'assets/program-logos/club-familias.svg',
+      logoAlt: 'Logo del programa Club Familias que Acompañan'
+    }
+  ];
 
-  supporters: SupporterLogo[] = [];
+  supporters: SupporterLogo[] = [
+    {
+      src: 'assets/supporters/icbf-logo.svg',
+      alt: 'Instituto Colombiano de Bienestar Familiar',
+      caption: 'Instituto Colombiano de Bienestar Familiar',
+      dataStrapiUid: 'supporters.icbf'
+    },
+    {
+      src: 'assets/supporters/pnud-logo.svg',
+      alt: 'Programa de las Naciones Unidas para el Desarrollo',
+      caption: 'Programa de las Naciones Unidas para el Desarrollo',
+      dataStrapiUid: 'supporters.pnud'
+    }
+  ];
 
-  catalogItems: CatalogItem[] = [];
+  catalogItems: CatalogItem[] = [
+    {
+      title: 'Kit escolar completo',
+      description: 'Útiles, lecturas y materiales artísticos para un estudiante durante un trimestre.',
+      price: '$85.000 COP',
+      href: 'https://wa.me/p/5881121183974635/573215230283',
+      strapiCollection: 'catalogo-whatsapp',
+      strapiEntryId: 'kit-escolar'
+    },
+    {
+      title: 'Canasta solidaria',
+      description: 'Apoyo nutricional para familias con niñas y niños en refuerzo escolar durante un mes.',
+      price: '$70.000 COP',
+      href: 'https://wa.me/p/5979113203538798/573215230283',
+      strapiCollection: 'catalogo-whatsapp',
+      strapiEntryId: 'canasta-solidaria'
+    },
+    {
+      title: 'Apadrina una tutoría',
+      description: 'Financia sesiones personalizadas y acompañamiento pedagógico para un estudiante.',
+      price: '$45.000 COP',
+      href: 'https://wa.me/p/5332119887812567/573215230283',
+      strapiCollection: 'catalogo-whatsapp',
+      strapiEntryId: 'apadrina-tutoria'
+    }
+  ];
 
-  galleryItems: GalleryItem[] = [];
+  galleryItems: GalleryItem[] = [
+    {
+      title: 'Teatro Las Dos Aguas',
+      description: 'Salida pedagógica al Teatro Las Dos Aguas, una experiencia cultural que enriquece el aprendizaje de nuestros estudiantes.',
+      cover: 'assets/program-logos/salida-pedagogica.png',
+      type: 'image',
+      href: 'https://salidaspedagogicas-facopec.blogspot.com/2025/10/facopec-dteatro.html',
+      strapiCollection: 'galeria',
+      strapiEntryId: 'teatro-dos-aguas'
+    },
+    {
+      title: 'Museo de la Caña',
+      description: 'Salida pedagógica al Museo de la Caña - Hacienda El Paraíso, explorando nuestra historia y patrimonio cultural.',
+      cover: 'assets/program-logos/salida-pedagogica.png',
+      type: 'image',
+      href: 'https://salidaspedagogicas-facopec.blogspot.com/2025/04/museo-de-la-cana-hacienda-el-paraiso.html',
+      strapiCollection: 'galeria',
+      strapiEntryId: 'museo-cana'
+    },
+    {
+      title: 'Curso Manipulación de Alimentos',
+      description: 'Cooperación entre el SENA y la Fundación Afrocolombiana Profe en Casa para formación en manipulación de alimentos.',
+      cover: 'assets/program-logos/educa.png',
+      type: 'image',
+      href: 'https://www.facebook.com/Profeencasasedecds/posts/pfbid0jUg224nXfxCa3MWdo2jZFps1mNcWDkuidzGDShV1FfcZgo6rBYeXLaYovtE5E61vl',
+      strapiCollection: 'galeria',
+      strapiEntryId: 'curso-manipulacion-alimentos'
+    },
+    {
+      title: 'Desafío 5K',
+      description: 'Una carrera llena de mucha energía y alegría en Ciudad del Sur, promoviendo la actividad física y el espíritu comunitario.',
+      cover: 'assets/program-logos/comunitario.png',
+      type: 'image',
+      href: 'https://www.facebook.com/photo/?fbid=1007381601593265&set=pcb.1007384828259609',
+      strapiCollection: 'galeria',
+      strapiEntryId: 'desafio-5k'
+    },
+    {
+      title: 'Feria de Empleo',
+      description: 'Feria de empleo para conectar a nuestra comunidad con oportunidades laborales y fortalecer la empleabilidad.',
+      cover: 'assets/program-logos/emplpeabilidad.png',
+      type: 'image',
+      href: 'https://www.facebook.com/Profeencasasedecds/posts/pfbid0TLJhrPgsq3YMiVUiqbErE6nMvQ8xUnREvvTjkoxm3ZuRTMmpjAGeuyo5EaLk6v3xl',
+      strapiCollection: 'galeria',
+      strapiEntryId: 'feria-empleo'
+    }
+  ];
 
-  attendedPersons: AttendedPersonCardContent[] = [];
+  attendedPersons: AttendedPersonCardContent[] = [
+    {
+      program: 'Tutorías Profe en Casa',
+      count: 120,
+      description: 'Estudiantes en refuerzo escolar',
+      icon: '🧠',
+      theme: 'teal'
+    },
+    {
+      program: 'Ruta Literaria María',
+      count: 65,
+      description: 'Participantes en círculos de lectura',
+      icon: '📖',
+      theme: 'blue'
+    },
+    {
+      program: 'Semillero Digital',
+      count: 45,
+      description: 'Jóvenes en talleres STEAM',
+      icon: '💻',
+      theme: 'purple'
+    },
+    {
+      program: 'Club Familias',
+      count: 80,
+      description: 'Familias acompañadas',
+      icon: '👨‍👩‍👧‍👦',
+      theme: 'rose'
+    }
+  ];
 
-  eventCalendar: EventCalendarItemContent[] = [];
+  eventCalendar: EventCalendarItemContent[] = [
+    {
+      title: 'Taller de lectura en voz alta',
+      description: 'Círculo literario con familias',
+      eventDate: '2025-12-15T15:00:00',
+      location: 'Biblioteca Comunitaria',
+      category: 'taller',
+      color: 'blue',
+      isHighlighted: true
+    },
+    {
+      title: 'Reunión Club Familias',
+      description: 'Escuela de padres mensual',
+      eventDate: '2025-12-20T17:00:00',
+      location: 'Sede FACOPEC',
+      category: 'reunion',
+      color: 'rose'
+    },
+    {
+      title: 'Celebración Fin de Año',
+      description: 'Cierre de actividades 2025',
+      eventDate: '2025-12-22T14:00:00',
+      location: 'Parque Central',
+      category: 'celebracion',
+      color: 'gold',
+      isHighlighted: true
+    }
+  ];
 
   ngOnInit(): void {
     this.restartCarouselAutoPlay();
@@ -292,20 +607,22 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private applyHomeContent(content: HomePageContent): void {
-    // Apply hero content from CMS
+    const fallbackSupporters = [...this.supporters];
+    const fallbackGalleryCover = this.galleryItems[0]?.cover ?? '';
+
     if (content.hero) {
       const hero = content.hero;
       const heroMediaUrl = this.resolveMediaUrl(hero.image);
-      const heroAltText = hero.image?.alternativeText ?? hero.image?.caption ?? '';
+      const heroAltText = hero.image?.alternativeText ?? hero.image?.caption ?? this.hero.imageAlt;
       this.hero = {
-        eyebrow: hero.eyebrow ?? '',
-        title: hero.titleLines?.map(line => line.line).filter(Boolean) ?? [],
-        lead: hero.lead ?? '',
+        eyebrow: hero.eyebrow ?? this.hero.eyebrow,
+        title: hero.titleLines?.map(line => line.line).filter(Boolean) ?? this.hero.title,
+        lead: hero.lead ?? this.hero.lead,
         stats:
           hero.stats?.map(stat => ({
             label: stat.label ?? '',
             value: stat.value ?? ''
-          })).filter(stat => stat.label && stat.value) ?? [],
+          })).filter(stat => stat.label && stat.value) ?? this.hero.stats,
         actions:
           hero.actions?.map(action => {
             const url = action.url ?? '';
@@ -317,14 +634,14 @@ export class HomeComponent implements OnInit, OnDestroy {
               href: !isInternal ? url : undefined,
               dataStrapiUid: action.dataUid ?? ''
             } satisfies HeroAction;
-          }).filter(action => !!action.label && (!!action.routerLink || !!action.href)) ?? [],
+          }).filter(action => !!action.label && (!!action.routerLink || !!action.href)) ?? this.hero.actions,
         verse: {
-          reference: hero.verse?.reference ?? '',
-          text: hero.verse?.text ?? '',
-          description: hero.verse?.description ?? ''
+          reference: hero.verse?.reference ?? this.hero.verse.reference,
+          text: hero.verse?.text ?? this.hero.verse.text,
+          description: hero.verse?.description ?? this.hero.verse.description
         },
-        image: heroMediaUrl ?? '',
-        imageAlt: heroAltText
+        image: heroMediaUrl ?? this.hero.image,
+        imageAlt: heroAltText ?? this.hero.imageAlt
       };
 
       this.applyHeroCarousel(hero);
@@ -337,34 +654,31 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     }
 
-    // Apply identity from CMS
     if (content.identity) {
       this.identity = {
-        description: content.identity.description ?? '',
-        dataStrapiUid: content.identity.dataUid ?? '',
+        description: content.identity.description ?? this.identity.description,
+        dataStrapiUid: content.identity.dataUid ?? this.identity.dataStrapiUid,
         values:
           content.identity.values?.map(value => ({
             title: value.title,
             description: value.description ?? '',
             icon: value.icon ?? '✨',
             dataStrapiUid: value.dataUid ?? ''
-          })).filter(value => !!value.title) ?? []
+          })).filter(value => !!value.title) ?? this.identity.values
       };
     }
 
-    // Apply mission & vision from CMS
     if (content.missionVision) {
       this.missionVision = {
-        mission: content.missionVision.mission ?? '',
-        vision: content.missionVision.vision ?? '',
-        dataStrapiUidMission: content.missionVision.missionUid ?? '',
-        dataStrapiUidVision: content.missionVision.visionUid ?? ''
+        mission: content.missionVision.mission ?? this.missionVision.mission,
+        vision: content.missionVision.vision ?? this.missionVision.vision,
+        dataStrapiUidMission: content.missionVision.missionUid ?? this.missionVision.dataStrapiUidMission,
+        dataStrapiUidVision: content.missionVision.visionUid ?? this.missionVision.dataStrapiUidVision
       };
     }
 
-    // Apply activities from CMS
     if (content.activities?.length) {
-      this.activityCards = content.activities
+      const mapped = content.activities
         .map(activity => ({
           title: activity.title,
           description: activity.description ?? '',
@@ -374,68 +688,70 @@ export class HomeComponent implements OnInit, OnDestroy {
           dataStrapiUid: activity.dataUid ?? ''
         }))
         .filter(activity => !!activity.title);
+
+      if (mapped.length) {
+        this.activityCards = mapped;
+      }
     }
 
-    // Apply programs from CMS
     if (content.programs?.length) {
-      this.programCards = content.programs
-        .map((program) => {
-          const logoUrl = this.resolveMediaUrl(program.logo);
-          const logoAlt = program.logoAlt ?? program.title ?? '';
+      const fallbackPrograms = [...this.programCards];
+      const mapped = content.programs
+        .map((program, index) => {
+          const fallback = fallbackPrograms[index];
+          const logoUrl = this.resolveMediaUrl(program.logo) ?? fallback?.logo;
+          const logoAlt = program.logoAlt ?? program.title ?? fallback?.logoAlt ?? fallback?.title ?? '';
 
           return {
-            title: program.title ?? '',
-            description: program.description ?? '',
-            highlights: program.highlights?.filter(Boolean) ?? [],
-            href: program.link ?? '#',
-            strapiCollection: program.strapiCollection ?? '',
-            strapiEntryId: program.strapiEntryId ?? '',
+            title: program.title ?? fallback?.title ?? '',
+            description: program.description ?? fallback?.description ?? '',
+            highlights: program.highlights?.filter(Boolean) ?? fallback?.highlights ?? [],
+            href: program.link ?? fallback?.href ?? '#',
+            strapiCollection: program.strapiCollection ?? fallback?.strapiCollection ?? '',
+            strapiEntryId: program.strapiEntryId ?? fallback?.strapiEntryId ?? '',
             logo: logoUrl ?? undefined,
             logoAlt: logoAlt
           } satisfies ProgramCard;
         })
         .filter(program => !!program.title);
+
+      if (mapped.length) {
+        this.programCards = mapped;
+      }
     }
 
-    // Apply program logos from CMS
     if (content.programLogos?.length) {
-      this.programLogos = content.programLogos
-        .map((programLogo) => {
+      const fallbackLogos = [...this.programLogos];
+      const mapped = content.programLogos
+        .map((programLogo, index) => {
+          const fallback = fallbackLogos[index];
           const logoUrl = this.resolveMediaUrl(programLogo.logo);
 
           return {
-            logo: logoUrl ?? '',
-            alt: programLogo.alt ?? '',
-            href: programLogo.link ?? '#'
+            logo: logoUrl ?? fallback?.logo ?? '',
+            alt: programLogo.alt ?? fallback?.alt ?? '',
+            href: programLogo.link ?? fallback?.href ?? '#'
           } satisfies ProgramLogo;
         })
         .filter(logo => !!logo.alt);
+
+      if (mapped.length) {
+        this.programLogos = mapped;
+      }
     }
 
-    // Apply supporters from CMS
     if (content.supporters?.length) {
-      this.supporters = content.supporters
-        .map((supporter) => {
-          const mediaUrl = this.resolveMediaUrl(supporter.logo);
-          const caption = supporter.caption ?? supporter.name ?? '';
-
-          if (!mediaUrl && !supporter.name) {
-            return null;
-          }
-
-          return {
-            src: mediaUrl ?? '',
-            alt: supporter.name ?? 'Aliado FACOPEC',
-            caption,
-            dataStrapiUid: supporter.dataUid ?? ''
-          } satisfies SupporterLogo;
-        })
+      const mapped = content.supporters
+        .map((supporter, index) => this.mapSupporter(supporter, fallbackSupporters[index]))
         .filter((supporter): supporter is SupporterLogo => supporter !== null);
+
+      if (mapped.length) {
+        this.supporters = mapped;
+      }
     }
 
-    // Apply catalog from CMS
     if (content.catalog?.length) {
-      this.catalogItems = content.catalog
+      const mapped = content.catalog
         .map(item => ({
           title: item.title,
           description: item.description ?? '',
@@ -445,26 +761,32 @@ export class HomeComponent implements OnInit, OnDestroy {
           strapiEntryId: item.strapiEntryId ?? ''
         }))
         .filter(item => !!item.title);
+
+      if (mapped.length) {
+        this.catalogItems = mapped;
+      }
     }
 
-    // Apply gallery from CMS
     if (content.gallery?.length) {
-      this.galleryItems = content.gallery
+      const mapped = content.gallery
         .map(item => ({
           title: item.title,
           description: item.description ?? '',
-          cover: this.resolveMediaUrl(item.media) ?? '',
+          cover: this.resolveMediaUrl(item.media) ?? fallbackGalleryCover,
           type: (item.type as GalleryItem['type']) ?? 'image',
           href: item.link ?? '#',
           strapiCollection: item.strapiCollection ?? '',
           strapiEntryId: item.strapiEntryId ?? ''
         }))
         .filter(item => !!item.title && !!item.cover);
+
+      if (mapped.length) {
+        this.galleryItems = mapped;
+      }
     }
 
-    // Apply attended persons from CMS
     if (content.attendedPersons?.length) {
-      this.attendedPersons = content.attendedPersons
+      const mapped = content.attendedPersons
         .map(person => ({
           id: person.id,
           program: person.program,
@@ -474,11 +796,14 @@ export class HomeComponent implements OnInit, OnDestroy {
           theme: person.theme ?? 'teal'
         }))
         .filter(person => !!person.program);
+
+      if (mapped.length) {
+        this.attendedPersons = mapped;
+      }
     }
 
-    // Apply event calendar from CMS
     if (content.eventCalendar?.length) {
-      this.eventCalendar = content.eventCalendar
+      const mapped = content.eventCalendar
         .map(event => ({
           id: event.id,
           title: event.title,
@@ -492,6 +817,10 @@ export class HomeComponent implements OnInit, OnDestroy {
           link: event.link
         }))
         .filter(event => !!event.title && !!event.eventDate);
+
+      if (mapped.length) {
+        this.eventCalendar = mapped;
+      }
     }
 
     this.loading = false;
@@ -529,6 +858,22 @@ export class HomeComponent implements OnInit, OnDestroy {
       .filter(highlight => !!highlight.title);
   }
 
+  private mapSupporter(supporter: SupporterLogoContent, fallback?: SupporterLogo): SupporterLogo | null {
+    const mediaUrl = this.resolveMediaUrl(supporter.logo) ?? fallback?.src;
+    const caption = supporter.caption ?? supporter.name ?? fallback?.caption ?? '';
+
+    if (!mediaUrl && !supporter.name) {
+      return null;
+    }
+
+    return {
+      src: mediaUrl ?? '',
+      alt: supporter.name ?? fallback?.alt ?? 'Aliado FACOPEC',
+      caption,
+      dataStrapiUid: supporter.dataUid ?? fallback?.dataStrapiUid ?? ''
+    } satisfies SupporterLogo;
+  }
+
   private applyHeroCarousel(hero: HeroSectionContent): void {
     const slides: HeroCarouselSlide[] = [];
 
@@ -543,9 +888,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       slides.push({ image: imageUrl, alt, caption });
     });
 
-    // Only use CMS slides, no fallback
     if (slides.length) {
       this.setHeroCarousel(slides);
+    } else if (!this.heroCarousel.length) {
+      this.setHeroCarousel(this.fallbackCarouselSlides);
     }
   }
 

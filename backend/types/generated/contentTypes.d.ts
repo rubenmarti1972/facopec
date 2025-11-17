@@ -541,7 +541,6 @@ export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
     > &
       Schema.Attribute.Private;
     missionVision: Schema.Attribute.Component<'home.mission-vision', false>;
-    programLogos: Schema.Attribute.Component<'home.program-logo-simple', true>;
     programs: Schema.Attribute.Component<'home.program-card', true>;
     publishedAt: Schema.Attribute.DateTime;
     supporters: Schema.Attribute.Component<'shared.supporter-logo', true>;
