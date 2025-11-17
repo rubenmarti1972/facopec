@@ -21,9 +21,6 @@
                 <span class="calendar-event-compact__month">{{ event.eventDate | date: 'MMM' }}</span>
               </div>
               <div class="calendar-event-compact__content">
-                <div class="calendar-event-compact__logo" *ngIf="event.logo">
-                  <img [src]="buildMediaUrl(event.logo)" [alt]="event.logoAlt || event.title" />
-                </div>
                 <h4 class="calendar-event-compact__title">{{ event.title }}</h4>
                 <p class="calendar-event-compact__time" *ngIf="event.eventDate">
                   🕐 {{ event.eventDate | date: 'shortTime' }}

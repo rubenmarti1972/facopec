@@ -40,16 +40,6 @@
     },
     "link": {
       "type": "string"
-    },
-    "logo": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": ["images"]
-    },
-    "logoAlt": {
-      "type": "string",
-      "required": false
     }
   }
 }

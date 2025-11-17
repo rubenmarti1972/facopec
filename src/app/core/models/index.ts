@@ -607,8 +607,6 @@ export interface EventCalendarItemContent {
   color?: 'teal' | 'blue' | 'rose' | 'gold' | 'purple' | 'green';
   isHighlighted?: boolean;
   link?: string;
-  logo?: MediaAsset;
-  logoAlt?: string;
 }
 
 export interface HomePageContent {

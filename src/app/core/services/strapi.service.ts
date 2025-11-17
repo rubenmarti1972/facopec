@@ -69,8 +69,7 @@ export class StrapiService {
     'gallery.media',
     'attendedPersons',
     'attendedPersons.photo',
-    'eventCalendar',
-    'eventCalendar.logo'
+    'eventCalendar'
   ];
 
   // Error handling
