@@ -13,6 +13,11 @@ export default factories.createCoreController('api::home-page.home-page', ({ str
             stats: true,
             actions: true,
             verse: true,
+            carouselItems: {
+              populate: {
+                image: true,
+              },
+            },
           },
         },
         impactHighlights: true,
