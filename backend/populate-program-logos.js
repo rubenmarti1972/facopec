@@ -8,21 +8,21 @@ const BASE_URL = 'http://localhost:1337';
 const ADMIN_EMAIL = 'admin@facopec.org';
 const ADMIN_PASSWORD = 'Admin123456';
 
-// Los 13 programas que se muestran en el frontend con sus categorías
+// Los 13 programas que se muestran en el frontend
 const PROGRAM_LOGOS = [
-  { alt: 'Guías y Cuentos Cortos', link: 'https://cuentoscortosprofeencasa.blogspot.com/', category: 'lectura-literatura' },
-  { alt: 'Guías de Matemáticas', link: 'https://matematicasprofeencasa.blogspot.com/', category: 'academico' },
-  { alt: 'Talleres de Nivelación', link: 'https://talleresdenivelacion.blogspot.com/', category: 'academico' },
-  { alt: 'Plan Lector', link: 'https://rutaliterariamaria.blogspot.com/', category: 'lectura-literatura' },
-  { alt: 'Escuela de Padres', link: 'https://consejosparapadresymadres.blogspot.com/', category: 'formacion' },
-  { alt: 'Formación Espiritual', link: 'https://escueladominicalcreciendoconcristo.blogspot.com/', category: 'formacion' },
-  { alt: 'Comunidades NARP', link: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform', category: 'comunitario' },
-  { alt: 'Empleabilidad', link: 'https://empleabilidad-facopec.blogspot.com/', category: 'empleabilidad' },
-  { alt: 'Salidas Pedagógicas', link: 'https://salidaspedagogicas-facopec.blogspot.com/', category: 'actividades' },
-  { alt: 'FACOPEC Educa', link: 'https://facopeceduca.blogspot.com/', category: 'academico' },
-  { alt: 'Dona Ropa', link: 'https://quetienespararegalar.blogspot.com/', category: 'solidaridad' },
-  { alt: 'Servicio Comunitario', link: 'https://serviciocomunitario-facopec.blogspot.com/', category: 'comunitario' },
-  { alt: 'Desafío Matemáticos', link: 'https://desafio-matematicos.blogspot.com/', category: 'academico' }
+  { alt: 'Guías y Cuentos Cortos', link: 'https://cuentoscortosprofeencasa.blogspot.com/' },
+  { alt: 'Guías de Matemáticas', link: 'https://matematicasprofeencasa.blogspot.com/' },
+  { alt: 'Talleres de Nivelación', link: 'https://talleresdenivelacion.blogspot.com/' },
+  { alt: 'Plan Lector', link: 'https://rutaliterariamaria.blogspot.com/' },
+  { alt: 'Escuela de Padres', link: 'https://consejosparapadresymadres.blogspot.com/' },
+  { alt: 'Formación Espiritual', link: 'https://escueladominicalcreciendoconcristo.blogspot.com/' },
+  { alt: 'Comunidades NARP', link: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform' },
+  { alt: 'Empleabilidad', link: 'https://empleabilidad-facopec.blogspot.com/' },
+  { alt: 'Salidas Pedagógicas', link: 'https://salidaspedagogicas-facopec.blogspot.com/' },
+  { alt: 'FACOPEC Educa', link: 'https://facopeceduca.blogspot.com/' },
+  { alt: 'Dona Ropa', link: 'https://quetienespararegalar.blogspot.com/' },
+  { alt: 'Servicio Comunitario', link: 'https://serviciocomunitario-facopec.blogspot.com/' },
+  { alt: 'Desafío Matemáticos', link: 'https://desafio-matematicos.blogspot.com/' }
 ];
 
 async function getAdminToken() {

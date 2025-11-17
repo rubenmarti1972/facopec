@@ -19,19 +19,6 @@
     "link": {
       "type": "string",
       "required": true
-    },
-    "category": {
-      "type": "enumeration",
-      "enum": [
-        "academico",
-        "lectura-literatura",
-        "formacion",
-        "comunitario",
-        "empleabilidad",
-        "actividades",
-        "solidaridad"
-      ],
-      "default": "academico"
     }
   }
 }
