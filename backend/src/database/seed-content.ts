@@ -210,6 +210,27 @@ export async function seedDefaultContent(strapi: Strapi) {
     caption: 'Actividades educativas de FACOPEC',
   });
 
+  // Carousel images for hero section
+  const carouselImage1 = await uploadFileFromAssets(strapi, frontendAssetsDir, path.join('fotos-fundacion', 'portada.webp'), {
+    alternativeText: 'Equipo pedagógico acompañando actividades en FACOPEC',
+    caption: 'Educación y acompañamiento integral para las familias',
+  });
+
+  const carouselImage2 = await uploadFileFromAssets(strapi, frontendAssetsDir, path.join('fotos-fundacion', 'collage.webp'), {
+    alternativeText: 'Collage de experiencias educativas y culturales de la fundación',
+    caption: 'Arte, lectura y tecnología para transformar territorios',
+  });
+
+  const carouselImage3 = await uploadFileFromAssets(strapi, frontendAssetsDir, path.join('fotos-fundacion', 'collage-profe.webp'), {
+    alternativeText: 'Voluntariado y equipo FACOPEC reunidos con la comunidad',
+    caption: 'Redes solidarias que abrazan a la comunidad',
+  });
+
+  const carouselImage4 = await uploadFileFromAssets(strapi, frontendAssetsDir, path.join('fotos-fundacion', 'apoyo.webp'), {
+    alternativeText: 'Apoyo y trabajo comunitario en FACOPEC',
+    caption: 'Juntos construimos comunidad',
+  });
+
   const foundationLogo = await uploadFileFromAssets(strapi, frontendAssetsDir, 'logo.png', {
     alternativeText: 'Logo de la Fundación Afrocolombiana Profe en Casa',
     caption: 'Logo FACOPEC',
@@ -476,10 +497,32 @@ export async function seedDefaultContent(strapi: Strapi) {
       ],
       verse: {
         reference: 'Proverbios 3:13',
-        text: '“Feliz quien halla sabiduría”',
+        text: '"Feliz quien halla sabiduría"',
         description:
           'Creamos espacios seguros para aprender, compartir y crecer en comunidad. Creemos en el poder de la lectura, la tecnología y la fe para transformar historias.',
       },
+      carouselItems: [
+        {
+          image: carouselImage1?.id,
+          title: 'Educación integral',
+          description: 'Acompañamiento pedagógico y tutorías para estudiantes',
+        },
+        {
+          image: carouselImage2?.id,
+          title: 'Arte y cultura',
+          description: 'Experiencias educativas y culturales transformadoras',
+        },
+        {
+          image: carouselImage3?.id,
+          title: 'Trabajo comunitario',
+          description: 'Voluntariado y redes solidarias en acción',
+        },
+        {
+          image: carouselImage4?.id,
+          title: 'Apoyo familiar',
+          description: 'Fortaleciendo lazos y construyendo comunidad',
+        },
+      ],
     },
     impactHighlights: [
       { icon: '📚', title: 'Educación integral', label: 'Tutorías, clubes de lectura y acompañamiento pedagógico', dataUid: 'impact.education' },
@@ -641,6 +684,64 @@ export async function seedDefaultContent(strapi: Strapi) {
         link: 'https://www.youtube.com/watch?v=VN0qfM2Yg2w',
         strapiCollection: 'galeria',
         strapiEntryId: 'testimonio-video',
+      },
+    ],
+    attendedPersons: [
+      {
+        program: 'Tutorías Profe en Casa',
+        count: 120,
+        description: 'Estudiantes en refuerzo escolar',
+        icon: '🧠',
+        theme: 'teal',
+      },
+      {
+        program: 'Ruta Literaria María',
+        count: 65,
+        description: 'Participantes en círculos de lectura',
+        icon: '📖',
+        theme: 'blue',
+      },
+      {
+        program: 'Semillero Digital',
+        count: 45,
+        description: 'Jóvenes en talleres STEAM',
+        icon: '💻',
+        theme: 'purple',
+      },
+      {
+        program: 'Club Familias',
+        count: 80,
+        description: 'Familias acompañadas',
+        icon: '👨‍👩‍👧‍👦',
+        theme: 'rose',
+      },
+    ],
+    eventCalendar: [
+      {
+        title: 'Taller de lectura en voz alta',
+        description: 'Círculo literario con familias',
+        eventDate: '2025-12-15T15:00:00',
+        location: 'Biblioteca Comunitaria',
+        category: 'taller',
+        color: 'blue',
+        isHighlighted: true,
+      },
+      {
+        title: 'Reunión Club Familias',
+        description: 'Escuela de padres mensual',
+        eventDate: '2025-12-20T17:00:00',
+        location: 'Sede FACOPEC',
+        category: 'reunion',
+        color: 'rose',
+      },
+      {
+        title: 'Celebración Fin de Año',
+        description: 'Cierre de actividades 2025',
+        eventDate: '2025-12-22T14:00:00',
+        location: 'Parque Central',
+        category: 'celebracion',
+        color: 'gold',
+        isHighlighted: true,
       },
     ],
   });
