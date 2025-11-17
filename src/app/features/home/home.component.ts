@@ -868,6 +868,15 @@ export class HomeComponent implements OnInit, OnDestroy {
       slides.push({ image: imageUrl, alt, caption });
     });
 
+    if (!slides.length) {
+      const heroImage = this.resolveMediaUrl(hero.image);
+      const heroAlt = hero.image?.alternativeText ?? this.hero.imageAlt;
+
+      if (heroImage) {
+        slides.push({ image: heroImage, alt: heroAlt ?? 'Imagen destacada de FACOPEC' });
+      }
+    }
+
     if (slides.length) {
       this.setHeroCarousel(slides);
     } else if (!this.heroCarousel.length) {

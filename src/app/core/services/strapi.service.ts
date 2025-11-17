@@ -53,24 +53,87 @@ export class StrapiService {
   constructor(private http: HttpClient) {}
 
   /**
+   * Populate configuration for Strapi v5 (must specify nested relations explicitly)
+   */
+  private readonly homePagePopulateParams: Record<string, string> = {
+    'populate[hero][populate][image][fields][0]': 'url',
+    'populate[hero][populate][image][fields][1]': 'alternativeText',
+    'populate[hero][populate][image][populate][formats]': 'url',
+    'populate[hero][populate][titleLines]': 'text',
+    'populate[hero][populate][stats]': 'label,value',
+    'populate[hero][populate][actions]': 'label,routerLink,href,variant,dataStrapiUid',
+    'populate[hero][populate][verse]': 'reference,text,description',
+    'populate[hero][populate][carouselItems][populate][image][fields][0]': 'url',
+    'populate[hero][populate][carouselItems][populate][image][fields][1]': 'alternativeText',
+    'populate[hero][populate][carouselItems][populate][image][populate][formats]': 'url',
+    'populate[impactHighlights][populate][image][fields][0]': 'url',
+    'populate[impactHighlights][populate][image][fields][1]': 'alternativeText',
+    'populate[impactHighlights][populate][image][populate][formats]': 'url',
+    'populate[identity][populate][values]': 'title,description,icon,dataStrapiUid',
+    'populate[missionVision]': 'title,description',
+    'populate[activities]': 'title,description,href,icon,theme,dataStrapiUid',
+    'populate[programs][populate][logo][fields][0]': 'url',
+    'populate[programs][populate][logo][fields][1]': 'alternativeText',
+    'populate[programs][populate][logo][populate][formats]': 'url',
+    'populate[supporters][populate][logo][fields][0]': 'url',
+    'populate[supporters][populate][logo][fields][1]': 'alternativeText',
+    'populate[supporters][populate][logo][populate][formats]': 'url',
+    'populate[catalog]': 'title,description,price,href,strapiCollection,strapiEntryId',
+    'populate[gallery][populate][media][fields][0]': 'url',
+    'populate[gallery][populate][media][fields][1]': 'alternativeText',
+    'populate[gallery][populate][media][populate][formats]': 'url',
+    'populate[attendedPersons]': 'title,description,avatarUrl',
+    'populate[eventCalendar]': 'title,date,location,description'
+  };
+
+  private readonly donationsPagePopulateParams: Record<string, string> = {
+    'populate[donationAmounts]': 'label,description,amount',
+    'populate[metrics]': 'label,value',
+    'populate[highlights]': 'title,description,icon',
+    'populate[stories][populate][cover][fields][0]': 'url',
+    'populate[stories][populate][cover][fields][1]': 'alternativeText',
+    'populate[stories][populate][cover][populate][formats]': 'url',
+    'populate[supportActions]': 'title,description,href,icon',
+    'populate[paymentGateways]': 'title,description,href,icon'
+  };
+
+  private readonly globalSettingsPopulateParams: Record<string, string> = {
+    'populate[logo][fields][0]': 'url',
+    'populate[logo][fields][1]': 'alternativeText',
+    'populate[logo][populate][formats]': 'url',
+    'populate[navigation]': 'title,items',
+    'populate[navigation][populate][items]': 'label,href',
+    'populate[socialLinks]': 'label,href,icon'
+  };
+
+  /**
    * Obtiene la configuración global (navegación, redes, etc.).
    */
   public getGlobalSettings(): Observable<GlobalSettings> {
-    return this.fetchSingleType<GlobalSettings>('global');
+    return this.getCachedData(
+      'single-global-populated',
+      () => this.buildRequest<GlobalSettings>('/api/global', this.globalSettingsPopulateParams)
+    );
   }
 
   /**
    * Obtiene el contenido de la página de inicio.
    */
   public getHomePage(): Observable<HomePageContent> {
-    return this.fetchSingleType<HomePageContent>('home-page');
+    return this.getCachedData(
+      'single-home-page-populated',
+      () => this.buildRequest<HomePageContent>('/api/home-page', this.homePagePopulateParams)
+    );
   }
 
   /**
    * Obtiene el contenido de la página de donaciones.
    */
   public getDonationsPage(): Observable<DonationsPageContent> {
-    return this.fetchSingleType<DonationsPageContent>('donations-page');
+    return this.getCachedData(
+      'single-donations-page-populated',
+      () => this.buildRequest<DonationsPageContent>('/api/donations-page', this.donationsPagePopulateParams)
+    );
   }
 
   /**
@@ -584,24 +647,36 @@ export class StrapiService {
    * Force refresh of global settings by clearing cache and refetching
    */
   public refreshGlobalSettings(): Observable<GlobalSettings> {
-    this.clearCache('single-global-deep');
-    return this.fetchSingleType<GlobalSettings>('global', 'deep', true);
+    this.clearCache('single-global-populated');
+    return this.buildRequest<GlobalSettings>(
+      '/api/global',
+      this.globalSettingsPopulateParams,
+      { skipCache: true }
+    );
   }
 
   /**
    * Force refresh of home page content by clearing cache and refetching
    */
   public refreshHomePage(): Observable<HomePageContent> {
-    this.clearCache('single-home-page-deep');
-    return this.fetchSingleType<HomePageContent>('home-page', 'deep', true);
+    this.clearCache('single-home-page-populated');
+    return this.buildRequest<HomePageContent>(
+      '/api/home-page',
+      this.homePagePopulateParams,
+      { skipCache: true }
+    );
   }
 
   /**
    * Force refresh of donations page content by clearing cache and refetching
    */
   public refreshDonationsPage(): Observable<DonationsPageContent> {
-    this.clearCache('single-donations-page-deep');
-    return this.fetchSingleType<DonationsPageContent>('donations-page', 'deep', true);
+    this.clearCache('single-donations-page-populated');
+    return this.buildRequest<DonationsPageContent>(
+      '/api/donations-page',
+      this.donationsPagePopulateParams,
+      { skipCache: true }
+    );
   }
 
   /**
