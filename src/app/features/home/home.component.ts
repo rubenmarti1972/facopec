@@ -27,9 +27,9 @@ interface HeroVerse {
 }
 
 interface HeroCarouselSlide {
-  image: string;
+  url: string;
   alt: string;
-  caption?: string;
+  title?: string;
 }
 
 interface HeroContent {
@@ -120,24 +120,24 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private readonly fallbackCarouselSlides: HeroCarouselSlide[] = [
     {
-      image: 'assets/ninos.jpg',
+      url: 'assets/ninos.jpg',
       alt: 'Niñas y niños afrocolombianos compartiendo en comunidad',
-      caption: 'Aprendizajes con sentido desde Puerto Tejada'
+      title: 'Aprendizajes con sentido desde Puerto Tejada'
     },
     {
-      image: 'assets/fotos-fundacion/portada.webp',
+      url: 'assets/fotos-fundacion/portada.webp',
       alt: 'Equipo pedagógico acompañando actividades en FACOPEC',
-      caption: 'Educación y acompañamiento integral para las familias'
+      title: 'Educación y acompañamiento integral para las familias'
     },
     {
-      image: 'assets/fotos-fundacion/collage.webp',
+      url: 'assets/fotos-fundacion/collage.webp',
       alt: 'Collage de experiencias educativas y culturales de la fundación',
-      caption: 'Arte, lectura y tecnología para transformar territorios'
+      title: 'Arte, lectura y tecnología para transformar territorios'
     },
     {
-      image: 'assets/fotos-fundacion/collage-profe.webp',
+      url: 'assets/fotos-fundacion/collage-profe.webp',
       alt: 'Voluntariado y equipo FACOPEC reunidos con la comunidad',
-      caption: 'Redes solidarias que abrazan a la comunidad'
+      title: 'Redes solidarias que abrazan a la comunidad'
     }
   ];
 
@@ -176,25 +176,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     image: 'assets/ninos.jpg',
     imageAlt: 'Familia afrocolombiana abrazada y sonriendo'
   };
-
-  carouselImages: CarouselImage[] = [
-    {
-      url: 'assets/fotos-fundacion/portada.webp',
-      alt: 'FACOPEC - Fundación Afrocolombiana Profe en Casa en acción'
-    },
-    {
-      url: 'assets/fotos-fundacion/collage.webp',
-      alt: 'Niños y niñas participando en actividades educativas'
-    },
-    {
-      url: 'assets/fotos-fundacion/collage-profe.webp',
-      alt: 'Profesores y estudiantes en sesiones de aprendizaje'
-    },
-    {
-      url: 'assets/fotos-fundacion/apoyo.webp',
-      alt: 'Apoyo y trabajo comunitario en FACOPEC'
-    }
-  ];
 
   globalLogoUrl = 'assets/logo.png';
   globalLogoAlt = 'Logo FACOPEC';
@@ -863,9 +844,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         return;
       }
 
-      const caption = item.image?.caption ?? item.description ?? item.title ?? undefined;
-      const alt = item.image?.alternativeText ?? item.title ?? caption ?? 'Fotografía de FACOPEC';
-      slides.push({ image: imageUrl, alt, caption });
+      const title = item.image?.caption ?? item.description ?? item.title ?? undefined;
+      const alt = item.image?.alternativeText ?? item.title ?? title ?? 'Fotografía de FACOPEC';
+      slides.push({ url: imageUrl, alt, title });
     });
 
     if (slides.length) {
