@@ -26,6 +26,7 @@ const pluginsConfig = ({ env }: ConfigParams): PluginsConfig => ({
   },
   // Email plugin configuration with Brevo (formerly Sendinblue)
   email: {
+    enabled: true,
     config: {
       provider: 'nodemailer',
       providerOptions: {
