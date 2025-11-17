@@ -37,6 +37,11 @@
       "repeatable": true,
       "component": "home.program-card"
     },
+    "programLogos": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.program-logo-simple"
+    },
     "supporters": {
       "type": "component",
       "repeatable": true,
