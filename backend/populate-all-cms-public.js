@@ -111,7 +111,44 @@ async function updateHomePage() {
         vision: "Ser reconocidos como una fundación líder en la promoción de los derechos humanos y el desarrollo integral de las Comunidades NARP. Aspiramos a crear un futuro donde estas comunidades puedan desplegar plenamente su potencial en ámbitos tecnológicos, educativos, culturales y sociales, contribuyendo activamente al progreso social, económico y ambiental de Colombia y el mundo.",
         missionUid: "about.mission",
         visionUid: "about.vision"
-      }
+      },
+      activities: [
+        { title: "Tutorías Profe en Casa", description: "Refuerzo escolar personalizado, acompañamiento en tareas y aprendizaje basado en proyectos.", link: "https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Tutor%C3%ADas", icon: "🧠", theme: "teal", dataUid: "activities.tutorias" },
+        { title: "Ruta Literaria María", description: "Lectura en voz alta, círculos literarios y creación de cuentos inspirados en nuestras raíces afro.", link: "https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Ruta%20Literaria%20Mar%C3%ADa", icon: "📖", theme: "blue", dataUid: "activities.rutaLiteraria" },
+        { title: "Huerta y alimentación", description: "Huertas urbanas, cocina saludable y emprendimientos familiares con enfoque sostenible.", link: "https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Huerta", icon: "🥬", theme: "gold", dataUid: "activities.huerta" },
+        { title: "Arte, danza y fe", description: "Laboratorios creativos, espacios de oración y actividades culturales para toda la comunidad.", link: "https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Cultura", icon: "🎨", theme: "rose", dataUid: "activities.arte" }
+      ],
+      programs: [
+        { title: "Semillero Digital", description: "Talleres STEAM, alfabetización digital y mentorías vocacionales que conectan a jóvenes con oportunidades tecnológicas.", highlights: ["Tecnología", "Innovación", "Mentorías"], link: "https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Semillero%20Digital", strapiCollection: "programas", strapiEntryId: "semillero-digital" },
+        { title: "Club Familias que Acompañan", description: "Escuela de padres, orientación psicoemocional y redes solidarias para fortalecer el cuidado en casa.", highlights: ["Familias", "Bienestar", "Prevención"], link: "https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Familias", strapiCollection: "programas", strapiEntryId: "club-familias" }
+      ],
+      attendedPersons: [
+        { program: "Tutorías Profe en Casa", count: 120, description: "Estudiantes en refuerzo escolar", icon: "🧠", theme: "teal" },
+        { program: "Ruta Literaria María", count: 65, description: "Participantes en círculos de lectura", icon: "📖", theme: "blue" },
+        { program: "Semillero Digital", count: 45, description: "Jóvenes en talleres STEAM", icon: "💻", theme: "purple" },
+        { program: "Club Familias", count: 80, description: "Familias acompañadas", icon: "👨‍👩‍👧‍👦", theme: "rose" }
+      ],
+      eventCalendar: [
+        { title: "Taller de lectura en voz alta", description: "Círculo literario con familias", eventDate: "2025-12-15T15:00:00", location: "Biblioteca Comunitaria", category: "taller", color: "blue", isHighlighted: true },
+        { title: "Reunión Club Familias", description: "Escuela de padres mensual", eventDate: "2025-12-20T17:00:00", location: "Sede FACOPEC", category: "reunion", color: "rose" },
+        { title: "Celebración Fin de Año", description: "Cierre de actividades 2025", eventDate: "2025-12-22T14:00:00", location: "Parque Central", category: "celebracion", color: "gold", isHighlighted: true }
+      ],
+      catalog: [
+        { title: "Kit escolar completo", description: "Útiles, lecturas y materiales artísticos para un estudiante durante un trimestre.", price: "$85.000 COP", link: "https://wa.me/p/5881121183974635/573215230283", strapiCollection: "catalogo-whatsapp", strapiEntryId: "kit-escolar" },
+        { title: "Canasta solidaria", description: "Apoyo nutricional para familias con niñas y niños en refuerzo escolar durante un mes.", price: "$70.000 COP", link: "https://wa.me/p/5979113203538798/573215230283", strapiCollection: "catalogo-whatsapp", strapiEntryId: "canasta-solidaria" },
+        { title: "Apadrina una tutoría", description: "Financia sesiones personalizadas y acompañamiento pedagógico para un estudiante.", price: "$45.000 COP", link: "https://wa.me/p/5332119887812567/573215230283", strapiCollection: "catalogo-whatsapp", strapiEntryId: "apadrina-tutoria" }
+      ],
+      gallery: [
+        { title: "Teatro Las Dos Aguas", description: "Salida pedagógica al Teatro Las Dos Aguas, una experiencia cultural que enriquece el aprendizaje de nuestros estudiantes.", type: "image", link: "https://salidaspedagogicas-facopec.blogspot.com/2025/10/facopec-dteatro.html", strapiCollection: "galeria", strapiEntryId: "teatro-dos-aguas" },
+        { title: "Museo de la Caña", description: "Salida pedagógica al Museo de la Caña - Hacienda El Paraíso, explorando nuestra historia y patrimonio cultural.", type: "image", link: "https://salidaspedagogicas-facopec.blogspot.com/2025/04/museo-de-la-cana-hacienda-el-paraiso.html", strapiCollection: "galeria", strapiEntryId: "museo-cana" },
+        { title: "Curso Manipulación de Alimentos", description: "Cooperación entre el SENA y la Fundación Afrocolombiana Profe en Casa para formación en manipulación de alimentos.", type: "image", link: "https://www.facebook.com/Profeencasasedecds/posts/pfbid0jUg224nXfxCa3MWdo2jZFps1mNcWDkuidzGDShV1FfcZgo6rBYeXLaYovtE5E61vl", strapiCollection: "galeria", strapiEntryId: "curso-manipulacion-alimentos" },
+        { title: "Desafío 5K", description: "Una carrera llena de mucha energía y alegría en Ciudad del Sur, promoviendo la actividad física y el espíritu comunitario.", type: "image", link: "https://www.facebook.com/photo/?fbid=1007381601593265&set=pcb.1007384828259609", strapiCollection: "galeria", strapiEntryId: "desafio-5k" },
+        { title: "Feria de Empleo", description: "Feria de empleo para conectar a nuestra comunidad con oportunidades laborales y fortalecer la empleabilidad.", type: "image", link: "https://www.facebook.com/Profeencasasedecds/posts/pfbid0TLJhrPgsq3YMiVUiqbErE6nMvQ8xUnREvvTjkoxm3ZuRTMmpjAGeuyo5EaLk6v3xl", strapiCollection: "galeria", strapiEntryId: "feria-empleo" }
+      ],
+      supporters: [
+        { name: "Instituto Colombiano de Bienestar Familiar", caption: "Instituto Colombiano de Bienestar Familiar", dataUid: "supporters.icbf" },
+        { name: "Programa de las Naciones Unidas para el Desarrollo", caption: "Programa de las Naciones Unidas para el Desarrollo", dataUid: "supporters.pnud" }
+      ]
     }
   };
 
