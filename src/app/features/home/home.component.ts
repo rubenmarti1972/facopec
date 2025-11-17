@@ -485,8 +485,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     }
 
+    // Actualizar siempre, incluso si está vacío (para reflejar eliminaciones del CMS)
     if (content.attendedPersons !== undefined) {
-      const mapped = (content.attendedPersons ?? [])
+      const mapped = (content.attendedPersons || [])
         .map(person => ({
           id: person.id,
           program: person.program,
@@ -497,12 +498,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         }))
         .filter(person => !!person.program);
 
-      // Actualizar SIEMPRE, incluso si está vacío (para reflejar eliminaciones)
       this.attendedPersons = mapped;
     }
 
+    // Actualizar siempre, incluso si está vacío (para reflejar eliminaciones del CMS)
     if (content.eventCalendar !== undefined) {
-      const mapped = (content.eventCalendar ?? [])
+      const mapped = (content.eventCalendar || [])
         .map(event => ({
           id: event.id,
           title: event.title,
@@ -517,7 +518,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         }))
         .filter(event => !!event.title && !!event.eventDate);
 
-      // Actualizar SIEMPRE, incluso si está vacío (para reflejar eliminaciones)
       this.eventCalendar = mapped;
     }
 
