@@ -1,8 +1,7 @@
 <section class="section" id="inicio" data-strapi-collection="home" data-strapi-section="hero">
   <div class="container">
-    <!-- Layout sin sidebar del calendario - todo centrado -->
-    <div class="hero-stage" [class.hero-stage--with-calendar]="eventCalendar.length">
-      <!-- Calendario flotante a la izquierda (solo si hay eventos) -->
+    <div class="hero-stage">
+      <!-- Calendario flotante a la izquierda -->
       <aside class="calendar-sidebar" data-strapi-section="event-calendar" *ngIf="eventCalendar.length">
         <div class="calendar-widget">
           <div class="calendar-widget__header">
@@ -21,9 +20,6 @@
                 <span class="calendar-event-compact__month">{{ event.eventDate | date: 'MMM' }}</span>
               </div>
               <div class="calendar-event-compact__content">
-                <div class="calendar-event-compact__logo" *ngIf="event.logo">
-                  <img [src]="buildMediaUrl(event.logo)" [alt]="event.logoAlt || event.title" />
-                </div>
                 <h4 class="calendar-event-compact__title">{{ event.title }}</h4>
                 <p class="calendar-event-compact__time" *ngIf="event.eventDate">
                   🕐 {{ event.eventDate | date: 'shortTime' }}
@@ -76,7 +72,7 @@
           <!-- Carousel -->
           <div class="hero__carousel">
             <app-hero-carousel
-              [images]="heroCarousel"
+              [images]="carouselImages"
               [autoPlayInterval]="6000"
               [autoPlay]="true">
             </app-hero-carousel>
@@ -253,7 +249,7 @@
   </div>
 </section>
 
-<section class="section" id="programas" data-strapi-section="programs" *ngIf="programCards.length">
+<section class="section" id="programas" data-strapi-section="activities">
   <div class="container">
     <div class="section__heading">
       <span class="section__eyebrow">Programas</span>
@@ -264,25 +260,23 @@
     </div>
     <div class="programs-grid">
       <a
-        *ngFor="let program of programCards"
+        *ngFor="let program of programLogos"
         [href]="program.href"
         target="_blank"
         rel="noopener"
         class="program-card"
-        [attr.aria-label]="program.title"
-        [attr.data-strapi-collection]="program.strapiCollection"
-        [attr.data-strapi-entry]="program.strapiEntryId"
+        [attr.aria-label]="program.alt"
       >
         <div class="program-card__logo">
-          <img [src]="program.logo || 'assets/logo.png'" [alt]="program.logoAlt || program.title" loading="lazy" />
+          <img [src]="program.logo" [alt]="program.alt" loading="lazy" />
         </div>
-        <h3 class="program-card__title">{{ program.title }}</h3>
+        <h3 class="program-card__title">{{ program.alt }}</h3>
       </a>
     </div>
   </div>
 </section>
 
-<section class="section section--memorias" data-strapi-section="gallery" *ngIf="galleryItems.length">
+<section class="section section--memorias" data-strapi-section="gallery">
   <div class="container">
     <div class="section__heading">
       <span class="section__eyebrow">Memorias</span>

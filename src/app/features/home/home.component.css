@@ -2,18 +2,13 @@
   display: block;
 }
 
-/* Hero stage - adaptive layout */
+/* Hero stage - grid layout with calendar sidebar */
 .hero-stage {
   display: grid;
-  grid-template-columns: 1fr; /* Por defecto, sin sidebar */
+  grid-template-columns: 320px 1fr;
   gap: clamp(1.5rem, 2.5vw, 2.5rem);
   width: 100%;
   align-items: start;
-}
-
-/* Cuando HAY calendario, usar grid con sidebar */
-.hero-stage--with-calendar {
-  grid-template-columns: 320px 1fr;
 }
 
 .calendar-sidebar {
@@ -532,13 +527,12 @@
   animation-play-state: paused;
 }
 
-/* El track contiene 2 copias de los items, así que mover -50% crea el loop perfecto */
 @keyframes scroll-carousel {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(calc((-320px - 2rem) * 5));
   }
 }
 
@@ -649,7 +643,14 @@
     min-height: 350px;
   }
 
-  /* Ya no es necesario redefinir el keyframe, el -50% funciona para cualquier tamaño */
+  @keyframes scroll-carousel {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc((-280px - 2rem) * 5));
+    }
+  }
 
   .gallery-card__logo {
     flex: 0 0 160px;
