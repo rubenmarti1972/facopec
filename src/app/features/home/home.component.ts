@@ -720,6 +720,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     }
 
+    // IMPORTANTE: Usar programs del CMS para poblar programLogos si programLogos está vacío
     if (content.programLogos?.length) {
       const fallbackLogos = [...this.programLogos];
       const mapped = content.programLogos
@@ -734,6 +735,17 @@ export class HomeComponent implements OnInit, OnDestroy {
           } satisfies ProgramLogo;
         })
         .filter(logo => !!logo.alt);
+
+      if (mapped.length) {
+        this.programLogos = mapped;
+      }
+    } else if (content.programs?.length) {
+      // Si programLogos está vacío, usar programs como fuente de los logos
+      const mapped = content.programs.map(program => ({
+        logo: this.resolveMediaUrl(program.logo) ?? '',
+        alt: program.title ?? '',
+        href: program.link ?? '#'
+      })).filter(logo => !!logo.alt && !!logo.href);
 
       if (mapped.length) {
         this.programLogos = mapped;
