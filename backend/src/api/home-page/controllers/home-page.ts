@@ -41,6 +41,11 @@ export default factories.createCoreController('api::home-page.home-page', ({ str
             logo: true,
           },
         },
+        programLogos: {
+          populate: {
+            logo: true,
+          },
+        },
         supporters: {
           populate: {
             logo: true,

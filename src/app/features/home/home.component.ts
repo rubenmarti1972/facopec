@@ -720,6 +720,26 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     }
 
+    if (content.programLogos?.length) {
+      const fallbackLogos = [...this.programLogos];
+      const mapped = content.programLogos
+        .map((programLogo, index) => {
+          const fallback = fallbackLogos[index];
+          const logoUrl = this.resolveMediaUrl(programLogo.logo);
+
+          return {
+            logo: logoUrl ?? fallback?.logo ?? '',
+            alt: programLogo.alt ?? fallback?.alt ?? '',
+            href: programLogo.link ?? fallback?.href ?? '#'
+          } satisfies ProgramLogo;
+        })
+        .filter(logo => !!logo.alt);
+
+      if (mapped.length) {
+        this.programLogos = mapped;
+      }
+    }
+
     if (content.supporters?.length) {
       const mapped = content.supporters
         .map((supporter, index) => this.mapSupporter(supporter, fallbackSupporters[index]))
