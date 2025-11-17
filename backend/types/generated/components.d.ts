@@ -367,6 +367,20 @@ export interface HomeProgramCard extends Struct.ComponentSchema {
   };
 }
 
+export interface HomeProgramLogoSimple extends Struct.ComponentSchema {
+  collectionName: 'components_home_program_logo_simples';
+  info: {
+    description: 'Logo simple de programa con link externo';
+    displayName: 'Logo de Programa Simple';
+    icon: 'link';
+  };
+  attributes: {
+    alt: Schema.Attribute.String & Schema.Attribute.Required;
+    link: Schema.Attribute.String & Schema.Attribute.Required;
+    logo: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+  };
+}
+
 export interface HomeTitleLine extends Struct.ComponentSchema {
   collectionName: 'components_home_title_lines';
   info: {
@@ -526,6 +540,7 @@ declare module '@strapi/strapi' {
       'home.identity': HomeIdentity;
       'home.mission-vision': HomeMissionVision;
       'home.program-card': HomeProgramCard;
+      'home.program-logo-simple': HomeProgramLogoSimple;
       'home.title-line': HomeTitleLine;
       'home.verse': HomeVerse;
       'shared.catalog-item': SharedCatalogItem;
