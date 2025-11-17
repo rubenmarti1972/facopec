@@ -1,5 +1,93 @@
-<section class="container section">
-  <h1>Cuenta / Acceso</h1>
-  <p class="small">Autenticación y datos de usuario (si aplica en tu app).</p>
-  <div class="card"><p class="small">Aquí irá tu lógica de acceso/registro.</p></div>
+<section class="account-container">
+  <div class="account-wrapper">
+    <!-- Logged Out State - Show Login Form -->
+    <div *ngIf="!currentUser" class="login-section">
+      <div class="login-card">
+        <div class="login-header">
+          <h1>Iniciar Sesión</h1>
+          <p>Accede a tu cuenta de administrador</p>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+          <div class="form-group">
+            <label for="identifier">Correo Electrónico</label>
+            <input
+              id="identifier"
+              type="email"
+              formControlName="identifier"
+              placeholder="admin@facopec.org"
+              [class.error]="loginForm.get('identifier')?.invalid && loginForm.get('identifier')?.touched"
+            />
+            <div class="error-message" *ngIf="loginForm.get('identifier')?.invalid && loginForm.get('identifier')?.touched">
+              <span *ngIf="loginForm.get('identifier')?.errors?.['required']">El correo es requerido</span>
+              <span *ngIf="loginForm.get('identifier')?.errors?.['email']">Ingresa un correo válido</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input
+              id="password"
+              type="password"
+              formControlName="password"
+              placeholder="••••••••"
+              [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+            />
+            <div class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+              <span *ngIf="loginForm.get('password')?.errors?.['required']">La contraseña es requerida</span>
+              <span *ngIf="loginForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</span>
+            </div>
+          </div>
+
+          <div class="error-message server-error" *ngIf="errorMessage">
+            <strong>⚠️ {{ errorMessage }}</strong>
+          </div>
+
+          <button
+            type="submit"
+            class="btn-login"
+            [disabled]="loginForm.invalid || isLoading"
+          >
+            <span *ngIf="!isLoading">Iniciar Sesión</span>
+            <span *ngIf="isLoading">Iniciando sesión...</span>
+          </button>
+        </form>
+
+        <div class="login-footer">
+          <p class="info-text">
+            <strong>Credenciales por defecto:</strong><br>
+            Email: admin&#64;facopec.org<br>
+            Contraseña: Admin123456
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logged In State - Show User Info -->
+    <div *ngIf="currentUser" class="user-section">
+      <div class="user-card">
+        <div class="user-header">
+          <h1>¡Bienvenido!</h1>
+          <div class="user-info">
+            <div class="user-avatar">
+              <span>{{ currentUser.email.charAt(0).toUpperCase() }}</span>
+            </div>
+            <div class="user-details">
+              <h2>{{ currentUser.username || currentUser.email }}</h2>
+              <p>{{ currentUser.email }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-actions">
+          <button class="btn-primary" (click)="goToAdmin()">
+            <span>📊</span> Panel de Administración
+          </button>
+          <button class="btn-secondary" (click)="logout()">
+            <span>🚪</span> Cerrar Sesión
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
