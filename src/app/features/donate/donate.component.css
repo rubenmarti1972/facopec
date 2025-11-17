@@ -21,28 +21,30 @@
   text-align: center;
 }
 
-/* Simplified Payment Gateways */
+/* Simplified Payment Gateways - Horizontal Layout */
 .donation-gateways-simple {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
 }
 
 .donation-gateway-simple {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 1.5rem;
+  justify-content: center;
+  padding: 2rem 1.5rem;
   background: white;
   border-radius: 16px;
   border: 2px solid rgba(31, 155, 122, 0.15);
   transition: all 0.3s ease;
+  gap: 1.25rem;
 }
 
 .donation-gateway-simple:hover {
   border-color: rgba(31, 155, 122, 0.4);
   box-shadow: 0 8px 24px rgba(31, 155, 122, 0.12);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
 }
 
 .donation-gateway-simple__logo {
@@ -50,18 +52,32 @@
 }
 
 .donation-gateway-simple__badge {
-  font-size: 3.5rem;
+  font-size: 4rem;
   display: inline-block;
   transition: transform 0.3s ease;
 }
 
 .donation-gateway-simple:hover .donation-gateway-simple__badge {
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 
 .donation-gateway-simple__button {
-  flex: 0 0 auto;
-  min-width: 180px;
+  width: 100%;
+  text-align: center;
+  background: linear-gradient(135deg, #1f9b7a 0%, #1a7f65 100%);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(31, 155, 122, 0.25);
+}
+
+.donation-gateway-simple__button:hover {
+  background: linear-gradient(135deg, #1a7f65 0%, #156550 100%);
+  box-shadow: 0 6px 16px rgba(31, 155, 122, 0.35);
+  transform: translateY(-2px);
 }
 
 /* Theme variations */
@@ -92,18 +108,13 @@
   box-shadow: 0 8px 24px rgba(0, 112, 210, 0.12);
 }
 
-@media (max-width: 640px) {
-  .donation-gateway-simple {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
+/* Responsive: Stack vertically on mobile */
+@media (max-width: 768px) {
+  .donation-gateways-simple {
+    grid-template-columns: 1fr;
   }
 
   .donation-gateway-simple__badge {
-    font-size: 3rem;
-  }
-
-  .donation-gateway-simple__button {
-    width: 100%;
+    font-size: 3.5rem;
   }
 }

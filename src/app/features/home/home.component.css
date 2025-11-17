@@ -1233,32 +1233,6 @@
   padding: clamp(3.5rem, 7vw, 6rem) 0;
 }
 
-.employability-simple {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.employability-logo-center {
-  max-width: 400px;
-  width: 100%;
-  transition: transform 0.3s ease;
-}
-
-.employability-logo-center:hover {
-  transform: scale(1.05);
-}
-
-.employability-logo-center a {
-  display: block;
-}
-
-.employability-logo-center img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
 .employability-layout {
   display: grid;
   grid-template-columns: 1fr;
@@ -1279,24 +1253,20 @@
   gap: 2rem;
 }
 
-.employability-logo {
+/* Logo sin card - solo la imagen sin fondo ni sombras */
+.employability-logo-no-card {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
-  background: white;
-  border-radius: var(--radius-xl);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   max-width: 300px;
   margin: 0 auto;
 }
 
-.employability-logo img {
+.employability-logo-no-card img {
   width: 100%;
   max-width: 250px;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 4px 12px rgba(31, 155, 122, 0.15));
 }
 
 .employability-content {

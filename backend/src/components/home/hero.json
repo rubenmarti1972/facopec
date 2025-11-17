@@ -20,6 +20,11 @@
       "type": "media",
       "multiple": false
     },
+    "carouselItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.carousel-item"
+    },
     "stats": {
       "type": "component",
       "repeatable": true,
