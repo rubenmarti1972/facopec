@@ -532,7 +532,8 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(calc((-320px - 2rem) * 5));
+    /* Mueve exactamente la mitad del total de items (5 items de 10 total) */
+    transform: translateX(calc((-100% / 2)));
   }
 }
 
@@ -648,7 +649,8 @@
       transform: translateX(0);
     }
     100% {
-      transform: translateX(calc((-280px - 2rem) * 5));
+      /* Mueve exactamente la mitad del total de items (responsive) */
+      transform: translateX(calc((-100% / 2)));
     }
   }
 
