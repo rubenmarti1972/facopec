@@ -215,6 +215,49 @@ export async function seedDefaultContent(strapi: Strapi) {
     caption: 'Logo FACOPEC',
   });
 
+  // Upload carousel images
+  const carouselImages = [
+    {
+      path: path.join('fotos-fundacion', 'portada.webp'),
+      title: 'FACOPEC en acción',
+      alt: 'Equipo pedagógico acompañando actividades en FACOPEC',
+      description: 'Educación y acompañamiento integral para las familias',
+    },
+    {
+      path: path.join('fotos-fundacion', 'collage.webp'),
+      title: 'Experiencias educativas',
+      alt: 'Collage de experiencias educativas y culturales de la fundación',
+      description: 'Arte, lectura y tecnología para transformar territorios',
+    },
+    {
+      path: path.join('fotos-fundacion', 'collage-profe.webp'),
+      title: 'Comunidad FACOPEC',
+      alt: 'Voluntariado y equipo FACOPEC reunidos con la comunidad',
+      description: 'Redes solidarias que abrazan a la comunidad',
+    },
+    {
+      path: path.join('fotos-fundacion', 'apoyo.webp'),
+      title: 'Apoyo comunitario',
+      alt: 'Apoyo y trabajo comunitario en FACOPEC',
+      description: 'Trabajo en equipo por una comunidad más fuerte',
+    },
+  ];
+
+  const uploadedCarouselImages = [];
+  for (const img of carouselImages) {
+    const uploaded = await uploadFileFromAssets(strapi, frontendAssetsDir, img.path, {
+      alternativeText: img.alt,
+      caption: img.description,
+    });
+    if (uploaded) {
+      uploadedCarouselImages.push({
+        image: uploaded.id,
+        title: img.title,
+        description: img.description,
+      });
+    }
+  }
+
   const supportersAssets: Array<{ key: string; path: string; alt: string; caption: string }> = [
     {
       key: 'icbf',
@@ -240,6 +283,41 @@ export async function seedDefaultContent(strapi: Strapi) {
 
     if (uploaded) {
       supporterLogos.set(supporter.key, uploaded);
+    }
+  }
+
+  // Upload program logos
+  const programLogosAssets = [
+    { key: 'guias', file: 'guias.png', alt: 'Guías y Cuentos Cortos' },
+    { key: 'guias-mate', file: 'guias-mate.png', alt: 'Guías de Matemáticas' },
+    { key: 'talleres-nivelacion', file: 'talleres-nivelacion.png', alt: 'Talleres de Nivelación' },
+    { key: 'plan-lector', file: 'plan-lector.png', alt: 'Plan Lector - Ruta Literaria María' },
+    { key: 'escuela-padres', file: 'escuela-padres.png', alt: 'Escuela de Padres' },
+    { key: 'espiritual', file: 'espiritual.png', alt: 'Formación Espiritual' },
+    { key: 'comunidades-narp', file: 'comunidades-narp.png', alt: 'Comunidades NARP' },
+    { key: 'empleabilidad', file: 'emplpeabilidad.png', alt: 'Empleabilidad' },
+    { key: 'salida-pedagogica', file: 'salida-pedagogica.png', alt: 'Salidas Pedagógicas' },
+    { key: 'educa', file: 'educa.png', alt: 'FACOPEC Educa' },
+    { key: 'dona-ropa', file: 'dona-ropa.png', alt: 'Dona Ropa' },
+    { key: 'comunitario', file: 'comunitario.png', alt: 'Servicio Comunitario' },
+    { key: 'primaria', file: 'primaria.png', alt: 'Desafío Matemáticos Primaria' },
+  ];
+
+  const programLogos = new Map<string, UploadedFile>();
+
+  for (const logo of programLogosAssets) {
+    const uploaded = await uploadFileFromAssets(
+      strapi,
+      frontendAssetsDir,
+      path.join('program-logos', logo.file),
+      {
+        alternativeText: logo.alt,
+        caption: logo.alt,
+      }
+    );
+
+    if (uploaded) {
+      programLogos.set(logo.key, uploaded);
     }
   }
 
@@ -476,10 +554,11 @@ export async function seedDefaultContent(strapi: Strapi) {
       ],
       verse: {
         reference: 'Proverbios 3:13',
-        text: '“Feliz quien halla sabiduría”',
+        text: '"Feliz quien halla sabiduría"',
         description:
           'Creamos espacios seguros para aprender, compartir y crecer en comunidad. Creemos en el poder de la lectura, la tecnología y la fe para transformar historias.',
       },
+      carouselItems: uploadedCarouselImages,
     },
     impactHighlights: [
       { icon: '📚', title: 'Educación integral', label: 'Tutorías, clubes de lectura y acompañamiento pedagógico', dataUid: 'impact.education' },
@@ -527,6 +606,7 @@ export async function seedDefaultContent(strapi: Strapi) {
       {
         title: 'Tutorías Profe en Casa',
         description: 'Refuerzo escolar personalizado, acompañamiento en tareas y aprendizaje basado en proyectos.',
+        logo: programLogos.get('educa')?.id,
         icon: '🧠',
         theme: 'teal',
         link: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Tutor%C3%ADas',
@@ -535,6 +615,7 @@ export async function seedDefaultContent(strapi: Strapi) {
       {
         title: 'Ruta Literaria María',
         description: 'Lectura en voz alta, círculos literarios y creación de cuentos inspirados en nuestras raíces afro.',
+        logo: programLogos.get('plan-lector')?.id,
         icon: '📖',
         theme: 'blue',
         link: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Ruta%20Literaria%20Mar%C3%ADa',
@@ -543,6 +624,7 @@ export async function seedDefaultContent(strapi: Strapi) {
       {
         title: 'Huerta y alimentación',
         description: 'Huertas urbanas, cocina saludable y emprendimientos familiares con enfoque sostenible.',
+        logo: programLogos.get('comunitario')?.id,
         icon: '🥬',
         theme: 'gold',
         link: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Huerta',
@@ -551,6 +633,7 @@ export async function seedDefaultContent(strapi: Strapi) {
       {
         title: 'Arte, danza y fe',
         description: 'Laboratorios creativos, espacios de oración y actividades culturales para toda la comunidad.',
+        logo: programLogos.get('espiritual')?.id,
         icon: '🎨',
         theme: 'rose',
         link: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Cultura',
@@ -559,20 +642,121 @@ export async function seedDefaultContent(strapi: Strapi) {
     ],
     programs: [
       {
-        title: 'Semillero Digital',
-        description: 'Talleres STEAM, alfabetización digital y mentorías vocacionales para jóvenes.',
-        highlights: ['Tecnología', 'Innovación', 'Mentorías'],
-        link: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Semillero%20Digital',
+        title: 'Guías y Cuentos Cortos',
+        description: 'Material didáctico y cuentos cortos para el acompañamiento pedagógico en lectura y escritura.',
+        logo: programLogos.get('guias')?.id,
+        highlights: ['Lectura', 'Escritura', 'Creatividad'],
+        link: 'https://cuentoscortosprofeencasa.blogspot.com/',
         strapiCollection: 'programas',
-        strapiEntryId: 'semillero-digital',
+        strapiEntryId: 'guias-cuentos',
       },
       {
-        title: 'Club Familias que Acompañan',
-        description: 'Escuela de padres, orientación psicoemocional y redes solidarias para fortalecer el cuidado en casa.',
-        highlights: ['Familias', 'Bienestar', 'Prevención'],
-        link: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Familias',
+        title: 'Guías de Matemáticas',
+        description: 'Recursos didácticos para el aprendizaje y refuerzo de matemáticas en todos los niveles.',
+        logo: programLogos.get('guias-mate')?.id,
+        highlights: ['Matemáticas', 'Lógica', 'Razonamiento'],
+        link: 'https://matematicasprofeencasa.blogspot.com/',
         strapiCollection: 'programas',
-        strapiEntryId: 'club-familias',
+        strapiEntryId: 'guias-mate',
+      },
+      {
+        title: 'Talleres de Nivelación',
+        description: 'Refuerzo académico en áreas clave para estudiantes que necesitan apoyo adicional.',
+        logo: programLogos.get('talleres-nivelacion')?.id,
+        highlights: ['Refuerzo', 'Nivelación', 'Apoyo'],
+        link: 'https://talleresdenivelacion.blogspot.com/',
+        strapiCollection: 'programas',
+        strapiEntryId: 'talleres-nivelacion',
+      },
+      {
+        title: 'Ruta Literaria María',
+        description: 'Programa de lectura y análisis de la obra María de Jorge Isaacs, conectando literatura y territorio.',
+        logo: programLogos.get('plan-lector')?.id,
+        highlights: ['Literatura', 'Cultura', 'Identidad'],
+        link: 'https://rutaliterariamaria.blogspot.com/',
+        strapiCollection: 'programas',
+        strapiEntryId: 'ruta-literaria',
+      },
+      {
+        title: 'Escuela de Padres',
+        description: 'Formación y acompañamiento para padres y madres en la crianza y educación de sus hijos.',
+        logo: programLogos.get('escuela-padres')?.id,
+        highlights: ['Familias', 'Crianza', 'Educación'],
+        link: 'https://consejosparapadresymadres.blogspot.com/',
+        strapiCollection: 'programas',
+        strapiEntryId: 'escuela-padres',
+      },
+      {
+        title: 'Formación Espiritual',
+        description: 'Espacios de crecimiento espiritual, valores y fe para niños, jóvenes y familias.',
+        logo: programLogos.get('espiritual')?.id,
+        highlights: ['Fe', 'Valores', 'Espiritualidad'],
+        link: 'https://escueladominicalcreciendoconcristo.blogspot.com/',
+        strapiCollection: 'programas',
+        strapiEntryId: 'formacion-espiritual',
+      },
+      {
+        title: 'Comunidades NARP',
+        description: 'Certificación y reconocimiento para Comunidades Negras, Afrocolombianas, Raizales y Palenqueras.',
+        logo: programLogos.get('comunidades-narp')?.id,
+        highlights: ['Identidad', 'Derechos', 'Reconocimiento'],
+        link: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform',
+        strapiCollection: 'programas',
+        strapiEntryId: 'comunidades-narp',
+      },
+      {
+        title: 'Empleabilidad',
+        description: 'Formación y orientación laboral para jóvenes y adultos buscando mejorar su empleabilidad.',
+        logo: programLogos.get('empleabilidad')?.id,
+        highlights: ['Trabajo', 'Formación', 'Oportunidades'],
+        link: 'https://empleabilidad-facopec.blogspot.com/',
+        strapiCollection: 'programas',
+        strapiEntryId: 'empleabilidad',
+      },
+      {
+        title: 'Salidas Pedagógicas',
+        description: 'Experiencias educativas fuera del aula para enriquecer el aprendizaje y la cultura.',
+        logo: programLogos.get('salida-pedagogica')?.id,
+        highlights: ['Experiencias', 'Cultura', 'Aprendizaje'],
+        link: 'https://salidaspedagogicas-facopec.blogspot.com/',
+        strapiCollection: 'programas',
+        strapiEntryId: 'salidas-pedagogicas',
+      },
+      {
+        title: 'FACOPEC Educa',
+        description: 'Plataforma educativa con recursos, talleres y formación integral para la comunidad.',
+        logo: programLogos.get('educa')?.id,
+        highlights: ['Educación', 'Recursos', 'Formación'],
+        link: 'https://facopeceduca.blogspot.com/',
+        strapiCollection: 'programas',
+        strapiEntryId: 'facopec-educa',
+      },
+      {
+        title: 'Dona Ropa y Artículos',
+        description: 'Programa de donación de ropa y artículos para familias que lo necesitan.',
+        logo: programLogos.get('dona-ropa')?.id,
+        highlights: ['Donación', 'Solidaridad', 'Apoyo'],
+        link: 'https://quetienespararegalar.blogspot.com/',
+        strapiCollection: 'programas',
+        strapiEntryId: 'dona-ropa',
+      },
+      {
+        title: 'Servicio Comunitario',
+        description: 'Voluntariado y servicio comunitario para fortalecer el tejido social del territorio.',
+        logo: programLogos.get('comunitario')?.id,
+        highlights: ['Comunidad', 'Voluntariado', 'Servicio'],
+        link: 'https://serviciocomunitario-facopec.blogspot.com/',
+        strapiCollection: 'programas',
+        strapiEntryId: 'servicio-comunitario',
+      },
+      {
+        title: 'Desafío Matemáticos Primaria',
+        description: 'Retos y desafíos matemáticos para estudiantes de primaria, promoviendo el pensamiento lógico.',
+        logo: programLogos.get('primaria')?.id,
+        highlights: ['Matemáticas', 'Desafíos', 'Primaria'],
+        link: 'https://desafio-matematicos.blogspot.com/',
+        strapiCollection: 'programas',
+        strapiEntryId: 'desafio-matematicos',
       },
     ],
     supporters: [
@@ -641,6 +825,112 @@ export async function seedDefaultContent(strapi: Strapi) {
         link: 'https://www.youtube.com/watch?v=VN0qfM2Yg2w',
         strapiCollection: 'galeria',
         strapiEntryId: 'testimonio-video',
+      },
+    ],
+    attendedPersons: [
+      {
+        program: 'Tutorías Profe en Casa',
+        count: 120,
+        description: 'Estudiantes en refuerzo escolar',
+        icon: '🧠',
+        theme: 'teal',
+      },
+      {
+        program: 'Ruta Literaria María',
+        count: 65,
+        description: 'Participantes en círculos de lectura',
+        icon: '📖',
+        theme: 'blue',
+      },
+      {
+        program: 'Semillero Digital',
+        count: 45,
+        description: 'Jóvenes en talleres STEAM',
+        icon: '💻',
+        theme: 'purple',
+      },
+      {
+        program: 'Club Familias',
+        count: 80,
+        description: 'Familias acompañadas',
+        icon: '👨‍👩‍👧‍👦',
+        theme: 'rose',
+      },
+      {
+        program: 'Escuela de Padres',
+        count: 55,
+        description: 'Padres y madres en formación',
+        icon: '👪',
+        theme: 'gold',
+      },
+      {
+        program: 'Formación Espiritual',
+        count: 90,
+        description: 'Niños y jóvenes en crecimiento espiritual',
+        icon: '🙏',
+        theme: 'green',
+      },
+    ],
+    eventCalendar: [
+      {
+        title: 'Taller de lectura en voz alta',
+        description: 'Círculo literario con familias del barrio',
+        eventDate: '2025-12-15T15:00:00',
+        location: 'Biblioteca Comunitaria FACOPEC',
+        category: 'taller',
+        color: 'blue',
+        isHighlighted: true,
+        link: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/',
+      },
+      {
+        title: 'Reunión Club Familias',
+        description: 'Escuela de padres mensual - Tema: Comunicación asertiva',
+        eventDate: '2025-12-20T17:00:00',
+        location: 'Sede FACOPEC',
+        category: 'reunion',
+        color: 'rose',
+        isHighlighted: false,
+      },
+      {
+        title: 'Celebración Fin de Año',
+        description: 'Cierre de actividades 2025 con toda la comunidad',
+        eventDate: '2025-12-22T14:00:00',
+        location: 'Parque Central Puerto Tejada',
+        category: 'celebracion',
+        color: 'gold',
+        isHighlighted: true,
+        link: 'https://www.facebook.com/FundacionAfrocolombianaProfeEnCasa',
+      },
+      {
+        title: 'Salida Pedagógica - Teatro',
+        description: 'Visita al Teatro Las Dos Aguas para estudiantes',
+        eventDate: '2026-01-10T09:00:00',
+        endDate: '2026-01-10T17:00:00',
+        location: 'Teatro Las Dos Aguas, Cali',
+        category: 'actividad',
+        color: 'purple',
+        isHighlighted: true,
+        link: 'https://salidaspedagogicas-facopec.blogspot.com/',
+      },
+      {
+        title: 'Taller de Matemáticas Primaria',
+        description: 'Desafío matemático para estudiantes de 3° a 5°',
+        eventDate: '2026-01-18T14:00:00',
+        location: 'Sede FACOPEC',
+        category: 'taller',
+        color: 'teal',
+        isHighlighted: false,
+      },
+      {
+        title: 'Jornada de Empleabilidad',
+        description: 'Feria de empleo y formación para jóvenes y adultos',
+        eventDate: '2026-01-25T08:00:00',
+        endDate: '2026-01-25T16:00:00',
+        location: 'Plaza Principal Puerto Tejada',
+        category: 'evento',
+        color: 'green',
+        isHighlighted: true,
+        link: 'https://empleabilidad-facopec.blogspot.com/',
       },
     ],
   });
@@ -775,7 +1065,7 @@ export async function seedDefaultContent(strapi: Strapi) {
         order: 1,
       },
       {
-        title: 'Ruta literaria “María”',
+        title: 'Ruta literaria "María"',
         description: 'Lectura en familia, creación de relatos y visitas pedagógicas por el territorio afro.',
         tag: 'Cultura',
         link: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Ruta%20Literaria%20Mar%C3%ADa',
