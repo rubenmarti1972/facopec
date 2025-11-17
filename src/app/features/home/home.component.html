@@ -249,7 +249,7 @@
   </div>
 </section>
 
-<section class="section" id="programas" data-strapi-section="activities">
+<section class="section" id="programas" data-strapi-section="programs" *ngIf="programCards.length">
   <div class="container">
     <div class="section__heading">
       <span class="section__eyebrow">Programas</span>
@@ -260,17 +260,19 @@
     </div>
     <div class="programs-grid">
       <a
-        *ngFor="let program of programLogos"
+        *ngFor="let program of programCards"
         [href]="program.href"
         target="_blank"
         rel="noopener"
         class="program-card"
-        [attr.aria-label]="program.alt"
+        [attr.aria-label]="program.title"
+        [attr.data-strapi-collection]="program.strapiCollection"
+        [attr.data-strapi-entry]="program.strapiEntryId"
       >
         <div class="program-card__logo">
-          <img [src]="program.logo" [alt]="program.alt" loading="lazy" />
+          <img [src]="program.logo || 'assets/logo.png'" [alt]="program.logoAlt || program.title" loading="lazy" />
         </div>
-        <h3 class="program-card__title">{{ program.alt }}</h3>
+        <h3 class="program-card__title">{{ program.title }}</h3>
       </a>
     </div>
   </div>
