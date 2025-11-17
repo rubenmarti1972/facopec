@@ -148,96 +148,46 @@ export class HomeComponent implements OnInit, OnDestroy {
   private visibilityChangeHandler?: () => void;
   private lastContentRefresh = Date.now();
 
+  // Fallback mínimo - Solo se usa si el CMS falla
   hero: HeroContent = {
-    eyebrow: 'Misión con sentido social',
-    title: ['Transformamos vidas', 'a través de la educación y el cuidado'],
-    lead:
-      'Somos la Fundación Afrocolombiana Profe en Casa. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Cauca.',
-    stats: <HeroStat[]>[
-      { value: '+180', label: 'Estudiantes acompañados con tutorías y mentorías' },
-      { value: '35', label: 'Voluntarios activos en programas comunitarios' },
-      { value: '12', label: 'Barrios impactados con actividades presenciales y virtuales' }
-    ],
-    actions: <HeroAction[]>[
-      { label: 'Donar ahora', routerLink: '/donate', variant: 'primary', dataStrapiUid: 'hero.actions.donate' },
-      {
-        label: 'Ver programas',
-        href: '/home#programas',
-        variant: 'secondary',
-        dataStrapiUid: 'hero.actions.programs'
-      }
-    ],
+    eyebrow: 'Cargando...',
+    title: ['Fundación Afrocolombiana', 'Profe en Casa'],
+    lead: 'Cargando información desde el CMS...',
+    stats: [],
+    actions: [],
     verse: {
-      reference: 'Proverbios 3:13',
-      text: '"Feliz quien halla sabiduría"',
-      description:
-        'Creamos espacios seguros para aprender, compartir y crecer en comunidad. Creemos en el poder de la lectura, la tecnología y la fe para transformar historias.'
+      reference: '',
+      text: '',
+      description: ''
     },
-    image: 'assets/ninos.jpg',
-    imageAlt: 'Familia afrocolombiana abrazada y sonriendo'
+    image: 'assets/logo.png',
+    imageAlt: 'FACOPEC'
   };
 
   globalLogoUrl = 'assets/logo.png';
   globalLogoAlt = 'Logo FACOPEC';
 
+  // Fallback mínimo - Se llena del CMS
   identity = {
-    description:
-      'Somos FACOPEC, una fundación afrocolombiana que canaliza recursos locales, nacionales e internacionales para impulsar proyectos educativos, culturales, recreativos y tecnológicos en Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Desde el Cauca acompañamos a niñas, niños, adolescentes, jóvenes y familias para potenciar sus capacidades, fortalecer sus sueños y activar su liderazgo comunitario.',
+    description: '',
     dataStrapiUid: 'about.description',
-    values: <IdentityValue[]>[
-      {
-        title: 'Derechos humanos y dignidad',
-        description: 'Promovemos la defensa y reivindicación de los derechos de las Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras).',
-        icon: '👐🏾',
-        dataStrapiUid: 'about.values.rights'
-      },
-      {
-        title: 'Educación transformadora',
-        description: 'Impulsamos procesos educativos, tecnológicos y culturales que potencian talentos y vocaciones.',
-        icon: '💡',
-        dataStrapiUid: 'about.values.education'
-      },
-      {
-        title: 'Fe, cultura y comunidad',
-        description: 'Fortalecemos el tejido comunitario desde la espiritualidad, la identidad cultural y el trabajo colaborativo.',
-        icon: '🤲🏾',
-        dataStrapiUid: 'about.values.community'
-      }
-    ]
+    values: <IdentityValue[]>[]
   };
 
-  impactHighlights = [
-    {
-      icon: '📚',
-      imagePath: 'assets/program-logos/educa.png',
-      title: 'Educación integral',
-      label: 'Tutoclubes de lectura y acompañamiento pedagógico',
-      dataStrapiUid: 'impact.education',
-      theme: 'teal'
-    },
-    {
-      icon: '🤝🏾',
-      imagePath: 'assets/program-logos/comunitario.png',
-      title: 'Tejido comunitario',
-      label: 'Trabajo con familias, líderes y aliados del territorio',
-      dataStrapiUid: 'impact.community',
-      theme: 'blue'
-    },
-    {
-      icon: '🌱',
-      imagePath: 'assets/program-logos/espiritual.png',
-      title: 'Valores y fe',
-      label: 'Formación espiritual, bienestar emocional y liderazgo',
-      dataStrapiUid: 'impact.faith',
-      theme: 'rose'
-    }
-  ];
+  // Fallback mínimo - Se llena del CMS
+  impactHighlights: Array<{
+    icon: string;
+    imagePath: string;
+    title: string;
+    label: string;
+    dataStrapiUid: string;
+    theme: string;
+  }> = [];
 
+  // Fallback mínimo - Se llena del CMS
   missionVision = {
-    mission:
-      'La Fundación Afrocolombiana Profe en Casa | FACOPEC se dedica a captar y canalizar recursos a nivel local, nacional e internacional para desarrollar proyectos que promuevan y reivindiquen los derechos humanos de las Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Trabajamos para empoderar a niños, niñas, adolescentes, jóvenes, hombres, mujeres y familias, potenciando sus capacidades y sueños mediante programas educativos, culturales, recreativos, y tecnológicos, entre otros, con el fin de maximizar su impacto positivo y fomentar su desarrollo como actores de cambio en sus comunidades.',
-    vision:
-      'Ser reconocidos como una fundación líder en la promoción de los derechos humanos y el desarrollo integral de las Comunidades NARP. Aspiramos a crear un futuro donde estas comunidades puedan desplegar plenamente su potencial en ámbitos tecnológicos, educativos, culturales y sociales, contribuyendo activamente al progreso social, económico y ambiental de Colombia y el mundo.',
+    mission: '',
+    vision: '',
     dataStrapiUidMission: 'about.mission',
     dataStrapiUidVision: 'about.vision'
   };
@@ -248,40 +198,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     vision: false
   };
 
-  activityCards: ActivityCard[] = [
-    {
-      title: 'Tutorías Profe en Casa',
-      description: 'Refuerzo escolar personalizado, acompañamiento en tareas y aprendizaje basado en proyectos.',
-      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Tutor%C3%ADas',
-      icon: '🧠',
-      theme: 'teal',
-      dataStrapiUid: 'activities.tutorias'
-    },
-    {
-      title: 'Ruta Literaria María',
-      description: 'Lectura en voz alta, círculos literarios y creación de cuentos inspirados en nuestras raíces afro.',
-      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Ruta%20Literaria%20Mar%C3%ADa',
-      icon: '📖',
-      theme: 'blue',
-      dataStrapiUid: 'activities.rutaLiteraria'
-    },
-    {
-      title: 'Huerta y alimentación',
-      description: 'Huertas urbanas, cocina saludable y emprendimientos familiares con enfoque sostenible.',
-      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Huerta',
-      icon: '🥬',
-      theme: 'gold',
-      dataStrapiUid: 'activities.huerta'
-    },
-    {
-      title: 'Arte, danza y fe',
-      description: 'Laboratorios creativos, espacios de oración y actividades culturales para toda la comunidad.',
-      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Cultura',
-      icon: '🎨',
-      theme: 'rose',
-      dataStrapiUid: 'activities.arte'
-    }
-  ];
+  // Fallback mínimo - Se llena del CMS
+  activityCards: ActivityCard[] = [];
 
   programLogos: ProgramLogo[] = [
     { logo: 'assets/program-logos/guias.png', alt: 'Guías y Cuentos Cortos', href: 'https://cuentoscortosprofeencasa.blogspot.com/' },
@@ -299,180 +217,23 @@ export class HomeComponent implements OnInit, OnDestroy {
     { logo: 'assets/program-logos/primaria.png', alt: 'Desafío Matemáticos', href: 'https://desafio-matematicos.blogspot.com/' }
   ];
 
-  programCards: ProgramCard[] = [
-    {
-      title: 'Semillero Digital',
-      description:
-        'Talleres STEAM, alfabetización digital y mentorías vocacionales que conectan a jóvenes con oportunidades tecnológicas.',
-      highlights: ['Tecnología', 'Innovación', 'Mentorías'],
-      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Semillero%20Digital',
-      strapiCollection: 'programas',
-      strapiEntryId: 'semillero-digital',
-      logo: 'assets/program-logos/semillero-digital.svg',
-      logoAlt: 'Logo del programa Semillero Digital'
-    },
-    {
-      title: 'Club Familias que Acompañan',
-      description:
-        'Escuela de padres, orientación psicoemocional y redes solidarias para fortalecer el cuidado en casa.',
-      highlights: ['Familias', 'Bienestar', 'Prevención'],
-      href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Familias',
-      strapiCollection: 'programas',
-      strapiEntryId: 'club-familias',
-      logo: 'assets/program-logos/club-familias.svg',
-      logoAlt: 'Logo del programa Club Familias que Acompañan'
-    }
-  ];
+  // Fallback mínimo - Se llena del CMS
+  programCards: ProgramCard[] = [];
 
-  supporters: SupporterLogo[] = [
-    {
-      src: 'assets/supporters/icbf-logo.svg',
-      alt: 'Instituto Colombiano de Bienestar Familiar',
-      caption: 'Instituto Colombiano de Bienestar Familiar',
-      dataStrapiUid: 'supporters.icbf'
-    },
-    {
-      src: 'assets/supporters/pnud-logo.svg',
-      alt: 'Programa de las Naciones Unidas para el Desarrollo',
-      caption: 'Programa de las Naciones Unidas para el Desarrollo',
-      dataStrapiUid: 'supporters.pnud'
-    }
-  ];
+  // Fallback mínimo - Se llena del CMS
+  supporters: SupporterLogo[] = [];
 
-  catalogItems: CatalogItem[] = [
-    {
-      title: 'Kit escolar completo',
-      description: 'Útiles, lecturas y materiales artísticos para un estudiante durante un trimestre.',
-      price: '$85.000 COP',
-      href: 'https://wa.me/p/5881121183974635/573215230283',
-      strapiCollection: 'catalogo-whatsapp',
-      strapiEntryId: 'kit-escolar'
-    },
-    {
-      title: 'Canasta solidaria',
-      description: 'Apoyo nutricional para familias con niñas y niños en refuerzo escolar durante un mes.',
-      price: '$70.000 COP',
-      href: 'https://wa.me/p/5979113203538798/573215230283',
-      strapiCollection: 'catalogo-whatsapp',
-      strapiEntryId: 'canasta-solidaria'
-    },
-    {
-      title: 'Apadrina una tutoría',
-      description: 'Financia sesiones personalizadas y acompañamiento pedagógico para un estudiante.',
-      price: '$45.000 COP',
-      href: 'https://wa.me/p/5332119887812567/573215230283',
-      strapiCollection: 'catalogo-whatsapp',
-      strapiEntryId: 'apadrina-tutoria'
-    }
-  ];
+  // Fallback mínimo - Se llena del CMS
+  catalogItems: CatalogItem[] = [];
 
-  galleryItems: GalleryItem[] = [
-    {
-      title: 'Teatro Las Dos Aguas',
-      description: 'Salida pedagógica al Teatro Las Dos Aguas, una experiencia cultural que enriquece el aprendizaje de nuestros estudiantes.',
-      cover: 'assets/program-logos/salida-pedagogica.png',
-      type: 'image',
-      href: 'https://salidaspedagogicas-facopec.blogspot.com/2025/10/facopec-dteatro.html',
-      strapiCollection: 'galeria',
-      strapiEntryId: 'teatro-dos-aguas'
-    },
-    {
-      title: 'Museo de la Caña',
-      description: 'Salida pedagógica al Museo de la Caña - Hacienda El Paraíso, explorando nuestra historia y patrimonio cultural.',
-      cover: 'assets/program-logos/salida-pedagogica.png',
-      type: 'image',
-      href: 'https://salidaspedagogicas-facopec.blogspot.com/2025/04/museo-de-la-cana-hacienda-el-paraiso.html',
-      strapiCollection: 'galeria',
-      strapiEntryId: 'museo-cana'
-    },
-    {
-      title: 'Curso Manipulación de Alimentos',
-      description: 'Cooperación entre el SENA y la Fundación Afrocolombiana Profe en Casa para formación en manipulación de alimentos.',
-      cover: 'assets/program-logos/educa.png',
-      type: 'image',
-      href: 'https://www.facebook.com/Profeencasasedecds/posts/pfbid0jUg224nXfxCa3MWdo2jZFps1mNcWDkuidzGDShV1FfcZgo6rBYeXLaYovtE5E61vl',
-      strapiCollection: 'galeria',
-      strapiEntryId: 'curso-manipulacion-alimentos'
-    },
-    {
-      title: 'Desafío 5K',
-      description: 'Una carrera llena de mucha energía y alegría en Ciudad del Sur, promoviendo la actividad física y el espíritu comunitario.',
-      cover: 'assets/program-logos/comunitario.png',
-      type: 'image',
-      href: 'https://www.facebook.com/photo/?fbid=1007381601593265&set=pcb.1007384828259609',
-      strapiCollection: 'galeria',
-      strapiEntryId: 'desafio-5k'
-    },
-    {
-      title: 'Feria de Empleo',
-      description: 'Feria de empleo para conectar a nuestra comunidad con oportunidades laborales y fortalecer la empleabilidad.',
-      cover: 'assets/program-logos/emplpeabilidad.png',
-      type: 'image',
-      href: 'https://www.facebook.com/Profeencasasedecds/posts/pfbid0TLJhrPgsq3YMiVUiqbErE6nMvQ8xUnREvvTjkoxm3ZuRTMmpjAGeuyo5EaLk6v3xl',
-      strapiCollection: 'galeria',
-      strapiEntryId: 'feria-empleo'
-    }
-  ];
+  // Fallback mínimo - Se llena del CMS
+  galleryItems: GalleryItem[] = [];
 
-  attendedPersons: AttendedPersonCardContent[] = [
-    {
-      program: 'Tutorías Profe en Casa',
-      count: 120,
-      description: 'Estudiantes en refuerzo escolar',
-      icon: '🧠',
-      theme: 'teal'
-    },
-    {
-      program: 'Ruta Literaria María',
-      count: 65,
-      description: 'Participantes en círculos de lectura',
-      icon: '📖',
-      theme: 'blue'
-    },
-    {
-      program: 'Semillero Digital',
-      count: 45,
-      description: 'Jóvenes en talleres STEAM',
-      icon: '💻',
-      theme: 'purple'
-    },
-    {
-      program: 'Club Familias',
-      count: 80,
-      description: 'Familias acompañadas',
-      icon: '👨‍👩‍👧‍👦',
-      theme: 'rose'
-    }
-  ];
+  // Fallback mínimo - Se llena del CMS
+  attendedPersons: AttendedPersonCardContent[] = [];
 
-  eventCalendar: EventCalendarItemContent[] = [
-    {
-      title: 'Taller de lectura en voz alta',
-      description: 'Círculo literario con familias',
-      eventDate: '2025-12-15T15:00:00',
-      location: 'Biblioteca Comunitaria',
-      category: 'taller',
-      color: 'blue',
-      isHighlighted: true
-    },
-    {
-      title: 'Reunión Club Familias',
-      description: 'Escuela de padres mensual',
-      eventDate: '2025-12-20T17:00:00',
-      location: 'Sede FACOPEC',
-      category: 'reunion',
-      color: 'rose'
-    },
-    {
-      title: 'Celebración Fin de Año',
-      description: 'Cierre de actividades 2025',
-      eventDate: '2025-12-22T14:00:00',
-      location: 'Parque Central',
-      category: 'celebracion',
-      color: 'gold',
-      isHighlighted: true
-    }
-  ];
+  // Fallback mínimo - Se llena del CMS
+  eventCalendar: EventCalendarItemContent[] = [];
 
   ngOnInit(): void {
     this.restartCarouselAutoPlay();
