@@ -503,6 +503,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // Actualizar siempre, incluso si está vacío (para reflejar eliminaciones del CMS)
     if (content.eventCalendar !== undefined) {
+      console.log('🔍 eventCalendar RAW del CMS:', content.eventCalendar);
       const mapped = (content.eventCalendar || [])
         .map(event => ({
           id: event.id,
@@ -518,7 +519,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         }))
         .filter(event => !!event.title && !!event.eventDate);
 
+      console.log('✅ eventCalendar PROCESADO:', mapped.length, 'eventos');
       this.eventCalendar = mapped;
+    } else {
+      console.log('⚠️ content.eventCalendar es UNDEFINED');
     }
 
     this.loading = false;
