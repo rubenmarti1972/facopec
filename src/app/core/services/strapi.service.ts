@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
-import { map, catchError, tap, shareReplay } from 'rxjs/operators';
+import { map, catchError, tap, shareReplay, timeout } from 'rxjs/operators';
 import {
   Project,
   MediaItem,
@@ -42,6 +42,10 @@ export class StrapiService {
     )
   );
   private readonly cacheEnabled = Number.isFinite(this.cacheDurationMs) && this.cacheDurationMs > 0;
+
+  // Request timeout in milliseconds (5 seconds default)
+  // If CMS doesn't respond within this time, fallback to assets
+  private readonly requestTimeoutMs = environment.strapi?.requestTimeoutMs ?? 5000;
 
   // Cache management
   private cacheMap = new Map<string, Observable<unknown>>();
@@ -376,6 +380,8 @@ export class StrapiService {
     return this.http
       .get<StrapiResponse<unknown>>(requestUrl, { params: httpParams, headers })
       .pipe(
+        // Apply timeout to prevent indefinite waiting
+        timeout(this.requestTimeoutMs),
         map(response => this.normalizeResponse(response.data) as T),
         tap(() => {
           this.errors$.next(null);
@@ -532,7 +538,19 @@ export class StrapiService {
     let errorMessage = 'An error occurred';
     let errorData: StrapiError | null = null;
 
-    if (error instanceof Error) {
+    // Check if it's a timeout error
+    if (error instanceof Error && error.name === 'TimeoutError') {
+      errorMessage = `CMS request timeout after ${this.requestTimeoutMs}ms - using fallback assets`;
+      errorData = {
+        data: null,
+        error: {
+          status: 408,
+          name: 'TimeoutError',
+          message: errorMessage
+        }
+      };
+      console.warn('CMS Timeout:', errorMessage);
+    } else if (error instanceof Error) {
       errorMessage = error.message;
       errorData = {
         data: null,

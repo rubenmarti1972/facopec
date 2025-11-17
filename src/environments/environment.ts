@@ -7,7 +7,8 @@ export const environment = {
     publicUrl: 'http://localhost:1337',
     apiToken: '', // Not required for public APIs
     previewToken: '', // Only needed for draft/preview content
-    cacheDurationMs: 0 // Cache disabled in development
+    cacheDurationMs: 0, // Cache disabled in development
+    requestTimeoutMs: 10000 // 10 seconds timeout in development
   },
   paypal: {
     clientId: 'your-paypal-client-id-here',
