@@ -217,16 +217,16 @@ export async function seedDefaultContent(strapi: Strapi) {
 
   const supportersAssets: Array<{ key: string; path: string; alt: string; caption: string }> = [
     {
-      key: 'icbf',
-      path: path.join('supporters', 'icbf-logo.svg'),
+      key: 'bienestar',
+      path: path.join('supporters', 'logo-bienestar.png'),
       alt: 'Logo del Instituto Colombiano de Bienestar Familiar',
       caption: 'Aliado: Instituto Colombiano de Bienestar Familiar',
     },
     {
-      key: 'pnud',
-      path: path.join('supporters', 'pnud-logo.svg'),
-      alt: 'Logo del Programa de las Naciones Unidas para el Desarrollo',
-      caption: 'Aliado: Programa de las Naciones Unidas para el Desarrollo',
+      key: 'interior',
+      path: path.join('supporters', 'logo-interior.png'),
+      alt: 'Logo del Ministerio del Interior',
+      caption: 'Aliado: Ministerio del Interior',
     },
   ];
 
@@ -751,15 +751,15 @@ export async function seedDefaultContent(strapi: Strapi) {
         name: 'Instituto Colombiano de Bienestar Familiar',
         caption: 'Instituto Colombiano de Bienestar Familiar',
         link: 'https://www.icbf.gov.co',
-        dataUid: 'supporters.icbf',
-        logo: supporterLogos.get('icbf')?.id,
+        dataUid: 'supporters.bienestar',
+        logo: supporterLogos.get('bienestar')?.id,
       },
       {
-        name: 'Programa de las Naciones Unidas para el Desarrollo',
-        caption: 'Programa de las Naciones Unidas para el Desarrollo',
-        link: 'https://www.undp.org',
-        dataUid: 'supporters.pnud',
-        logo: supporterLogos.get('pnud')?.id,
+        name: 'Ministerio del Interior',
+        caption: 'Ministerio del Interior',
+        link: 'https://www.mininterior.gov.co',
+        dataUid: 'supporters.interior',
+        logo: supporterLogos.get('interior')?.id,
       },
     ],
     catalog: [
