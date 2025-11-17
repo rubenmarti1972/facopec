@@ -51,6 +51,9 @@ pnpm run build:prod
 - ✅ Signals para reactividad
 - ✅ TypeScript strict mode
 - ✅ Strapi CMS integrado
+- ✅ Carrusel de hero administrable desde CMS
+- ✅ Formulario de empleabilidad con validación
+- ✅ Pasarelas de pago (PSE, Nequi, PayPal) con diseño horizontal
 - ✅ PayPal + Transferencias bancarias
 - ✅ Sistema de colores de marca
 - ✅ Navegación administrable desde Strapi 5
