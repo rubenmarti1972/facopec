@@ -15,7 +15,8 @@ export const environment = {
     publicUrl: 'https://facopec-strapi.onrender.com',
     apiToken: '',          // si algún día usas tokens, los pones aquí a mano
     previewToken: '',
-    cacheDurationMs: 300000
+    cacheDurationMs: 300000,  // 5 minutes cache
+    requestTimeoutMs: 5000    // 5 seconds timeout - use fallback assets if CMS doesn't respond
   },
 
   // PayPal Configuration
