@@ -47,6 +47,32 @@ export class StrapiService {
   private cacheMap = new Map<string, Observable<unknown>>();
   private cacheTimestamps = new Map<string, number>();
 
+  // Populate fields for home-page (Strapi 5 requires explicit populate)
+  private readonly homePagePopulateFields = [
+    'hero',
+    'hero.image',
+    'hero.titleLines',
+    'hero.stats',
+    'hero.actions',
+    'hero.verse',
+    'impactHighlights',
+    'identity',
+    'identity.values',
+    'missionVision',
+    'activities',
+    'programs',
+    'programs.logo',
+    'supporters',
+    'supporters.logo',
+    'catalog',
+    'gallery',
+    'gallery.media',
+    'attendedPersons',
+    'attendedPersons.photo',
+    'eventCalendar',
+    'eventCalendar.logo'
+  ];
+
   // Error handling
   public errors$ = new BehaviorSubject<StrapiError | null>(null);
 
@@ -63,7 +89,7 @@ export class StrapiService {
    * Obtiene el contenido de la página de inicio.
    */
   public getHomePage(): Observable<HomePageContent> {
-    return this.fetchSingleType<HomePageContent>('home-page');
+    return this.fetchSingleType<HomePageContent>('home-page', this.homePagePopulateFields);
   }
 
   /**
@@ -592,8 +618,9 @@ export class StrapiService {
    * Force refresh of home page content by clearing cache and refetching
    */
   public refreshHomePage(): Observable<HomePageContent> {
-    this.clearCache('single-home-page-deep');
-    return this.fetchSingleType<HomePageContent>('home-page', 'deep', true);
+    const cacheKey = `single-home-page-${this.buildPopulateParam(this.homePagePopulateFields)}`;
+    this.clearCache(cacheKey);
+    return this.fetchSingleType<HomePageContent>('home-page', this.homePagePopulateFields, true);
   }
 
   /**

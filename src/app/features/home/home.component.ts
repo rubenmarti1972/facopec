@@ -515,7 +515,9 @@ export class HomeComponent implements OnInit, OnDestroy {
           category: event.category ?? 'evento',
           color: event.color ?? 'teal',
           isHighlighted: event.isHighlighted ?? false,
-          link: event.link
+          link: event.link,
+          logo: event.logo,
+          logoAlt: event.logoAlt
         }))
         .filter(event => !!event.title && !!event.eventDate);
 
@@ -625,6 +627,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private resolveMediaUrl(media?: MediaAsset | null): string | null {
+    return this.strapiService.buildMediaUrl(media);
+  }
+
+  buildMediaUrl(media?: any): string | null {
     return this.strapiService.buildMediaUrl(media);
   }
 
