@@ -22,6 +22,11 @@ export const APP_ROUTES: Routes = [
     data: { title: 'Proyectos - Fundación Afrocolombiana Pro Encasa' }
   },
   {
+    path: 'programas',
+    loadComponent: () => import('./features/programs/programs.component').then(m => m.ProgramsComponent),
+    data: { title: 'Programas - Fundación Afrocolombiana Pro Encasa' }
+  },
+  {
     path: 'reportes',
     loadComponent: () => import('./features/reports/reports.component').then(m => m.ReportsComponent),
     data: { title: 'Reportes - Fundación Afrocolombiana Pro Encasa' }
