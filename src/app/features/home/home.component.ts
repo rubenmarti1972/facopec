@@ -162,7 +162,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       { label: 'Donar ahora', routerLink: '/donate', variant: 'primary', dataStrapiUid: 'hero.actions.donate' },
       {
         label: 'Ver programas',
-        href: '/home#programas',
+        href: '#programas',
         variant: 'secondary',
         dataStrapiUid: 'hero.actions.programs'
       }
@@ -465,6 +465,25 @@ export class HomeComponent implements OnInit, OnDestroy {
   ];
 
   eventCalendar: EventCalendarItemContent[] = [
+    {
+      title: 'Cierre del programa de nivelación',
+      description: 'Cierre del programa de nivelación académica',
+      eventDate: '2025-11-27T15:00:00',
+      location: 'Sede FACOPEC',
+      category: 'evento',
+      color: 'teal',
+      isHighlighted: true
+    },
+    {
+      title: 'Mujeres Equidad y Empleo',
+      description: 'Programa de empleabilidad y formación para mujeres',
+      eventDate: '2025-11-10T09:00:00',
+      endDate: '2026-01-10T17:00:00',
+      location: 'Sede FACOPEC',
+      category: 'formacion',
+      color: 'purple',
+      isHighlighted: true
+    },
     {
       title: 'Taller de lectura en voz alta',
       description: 'Círculo literario con familias',

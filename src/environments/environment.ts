@@ -44,7 +44,7 @@ export const environment = {
     twitter: 'https://x.com/FundacionProfe',
     youtube: 'https://www.youtube.com/@fundacionafroprofeencasa',
     whatsapp: 'https://api.whatsapp.com/send/?phone=573215230283&text=Hola+%EF%BF%BD%2C+Quiero+mas+informaci%C3%B3n&type=phone_number&app_absent=0',
-    linkedIn: 'https://www.linkedin.com/company/facopec',
+    linkedIn: 'https://www.linkedin.com/in/fundación-afrocolombiana',
     tiktok: 'https://www.tiktok.com/@profeencasaoficial',
     telegram: 'https://t.me/Facopec'
   },
