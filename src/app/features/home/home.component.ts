@@ -159,10 +159,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       { value: '12', label: 'Barrios impactados con actividades presenciales y virtuales' }
     ],
     actions: <HeroAction[]>[
-      { label: 'Donar ahora', routerLink: '/donate', variant: 'primary', dataStrapiUid: 'hero.actions.donate' },
+      { label: 'Donar ahora', routerLink: '/donaciones', variant: 'primary', dataStrapiUid: 'hero.actions.donate' },
       {
         label: 'Ver programas',
-        href: '#programas',
+        routerLink: '/proyectos',
         variant: 'secondary',
         dataStrapiUid: 'hero.actions.programs'
       }
