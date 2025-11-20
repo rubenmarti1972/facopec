@@ -3,25 +3,30 @@
  * Ejecutar con: npm run add-missing-data
  */
 
-import Strapi from '@strapi/strapi';
+import 'ts-node/register/transpile-only';
+import { createStrapi } from '@strapi/strapi';
 
 async function addMissingData() {
-  const strapi = await Strapi().load();
+  process.env.SKIP_BOOTSTRAP_SEED = 'true';
 
-  console.log('📝 Agregando datos faltantes al CMS...');
+  const appDir = process.cwd();
+  const strapi = createStrapi({ appDir, distDir: appDir });
 
   try {
+    await strapi.start();
+
+    console.log('📝 Agregando datos faltantes al CMS...');
+
     // 1. AGREGAR PROGRAMA FALTANTE A programLogos
     console.log('\n1️⃣ Verificando programLogos en home-page...');
 
-    const homePage = await strapi.entityService.findOne(
-      'api::home-page.home-page',
-      1,
-      { populate: '*' }
-    );
+    const homePage = await strapi.db.query('api::home-page.home-page').findOne({
+      where: { id: 1 },
+      populate: '*'
+    });
 
     if (homePage) {
-      const currentLogos = homePage.programLogos || [];
+      const currentLogos = (homePage as any).programLogos || [];
       console.log(`   Programas actuales: ${currentLogos.length}`);
 
       // Verificar si ya existe "Escuela de Formación para Jóvenes"
@@ -44,7 +49,8 @@ async function addMissingData() {
           logo: educaLogo?.id
         });
 
-        await strapi.entityService.update('api::home-page.home-page', 1, {
+        await strapi.db.query('api::home-page.home-page').update({
+          where: { id: 1 },
           data: { programLogos: currentLogos }
         });
 
@@ -57,14 +63,13 @@ async function addMissingData() {
     // 2. AGREGAR EVENTOS FALTANTES AL CALENDARIO
     console.log('\n2️⃣ Verificando eventos en eventCalendar...');
 
-    const homePageWithEvents = await strapi.entityService.findOne(
-      'api::home-page.home-page',
-      1,
-      { populate: 'eventCalendar' }
-    );
+    const homePageWithEvents = await strapi.db.query('api::home-page.home-page').findOne({
+      where: { id: 1 },
+      populate: ['eventCalendar']
+    });
 
     if (homePageWithEvents) {
-      const currentEvents = homePageWithEvents.eventCalendar || [];
+      const currentEvents = (homePageWithEvents as any).eventCalendar || [];
       console.log(`   Eventos actuales: ${currentEvents.length}`);
 
       const eventsToAdd = [
@@ -102,7 +107,8 @@ async function addMissingData() {
         }
       }
 
-      await strapi.entityService.update('api::home-page.home-page', 1, {
+      await strapi.db.query('api::home-page.home-page').update({
+        where: { id: 1 },
         data: { eventCalendar: currentEvents }
       });
 
@@ -112,11 +118,10 @@ async function addMissingData() {
     // 3. ACTUALIZAR NAVEGACIÓN CON 8 CATEGORÍAS
     console.log('\n3️⃣ Actualizando navegación con 8 categorías...');
 
-    const global = await strapi.entityService.findOne(
-      'api::global.global',
-      1,
-      { populate: 'navigation' }
-    );
+    const global = await strapi.db.query('api::global.global').findOne({
+      where: { id: 1 },
+      populate: ['navigation']
+    });
 
     if (global) {
       const newNavigation = [
@@ -216,7 +221,8 @@ async function addMissingData() {
         },
       ];
 
-      await strapi.entityService.update('api::global.global', 1, {
+      await strapi.db.query('api::global.global').update({
+        where: { id: 1 },
         data: { navigation: newNavigation }
       });
 
