@@ -818,6 +818,16 @@ export async function seedDefaultContent(strapi: Strapi) {
         strapiCollection: 'programas',
         strapiEntryId: 'desafio-matematicos',
       },
+      {
+        title: 'Escuela de Formación para Jóvenes',
+        description: 'Formación en liderazgo, gobernanza y paz para personeros estudiantiles y líderes juveniles',
+        highlights: ['Liderazgo', 'Gobernanza', 'Paz'],
+        link: 'https://personerosestudiantilesylideres.blogspot.com/',
+        logo: programLogos.get('educa.png')?.id,
+        logoAlt: 'Escuela de Formación para Jóvenes',
+        strapiCollection: 'programas',
+        strapiEntryId: 'escuela-formacion-jovenes',
+      },
     ].filter(program => program.logo),
     supporters: [
       {
