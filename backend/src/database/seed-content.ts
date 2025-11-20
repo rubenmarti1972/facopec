@@ -265,62 +265,134 @@ export async function seedDefaultContent(strapi: Strapi) {
         dataUid: 'navigation.programs',
         children: [
           {
-            title: 'Para estudiantes',
-            dataUid: 'navigation.programs.students',
+            title: '📚 Educación y Refuerzo Académico',
+            dataUid: 'navigation.programs.education',
             items: [
+              {
+                label: 'Guías y Cuentos Cortos',
+                url: 'https://cuentoscortosprofeencasa.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.education.guias',
+              },
+              {
+                label: 'Guías de Matemáticas',
+                url: 'https://matematicasprofeencasa.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.education.mate',
+              },
               {
                 label: 'Talleres de Nivelación',
                 url: 'https://talleresdenivelacion.blogspot.com/',
                 target: '_blank',
-                dataUid: 'navigation.programs.students.talleres',
+                dataUid: 'navigation.programs.education.talleres',
+              },
+              {
+                label: 'Desafío Matemáticos',
+                url: 'https://desafio-matematicos.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.education.desafio',
+              },
+            ],
+          },
+          {
+            title: '📖 Cultura y Lectura',
+            dataUid: 'navigation.programs.culture',
+            items: [
+              {
+                label: 'Plan Lector - Ruta Literaria María',
+                url: 'https://rutaliterariamaria.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.culture.lector',
+              },
+            ],
+          },
+          {
+            title: '👨‍👩‍👧‍👦 Desarrollo Familiar y Comunitario',
+            dataUid: 'navigation.programs.family',
+            items: [
+              {
+                label: 'Escuela de Padres',
+                url: 'https://consejosparapadresymadres.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.family.parents',
+              },
+              {
+                label: 'Formación Espiritual',
+                url: 'https://escueladominicalcreciendoconcristo.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.family.spiritual',
+              },
+            ],
+          },
+          {
+            title: '💼 Empleabilidad y Desarrollo',
+            dataUid: 'navigation.programs.employability',
+            items: [
+              {
+                label: 'Empleabilidad',
+                url: 'https://empleabilidad-facopec.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.employability.work',
+              },
+            ],
+          },
+          {
+            title: '💻 Innovación y Tecnología Educativa',
+            dataUid: 'navigation.programs.technology',
+            items: [
+              {
+                label: 'FACOPEC Educa',
+                url: 'https://facopeceduca.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.technology.educa',
+              },
+            ],
+          },
+          {
+            title: '🌍 Etnoeducación y Cultura (Identidad)',
+            dataUid: 'navigation.programs.identity',
+            items: [
+              {
+                label: 'Comunidades NARP',
+                url: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform',
+                target: '_blank',
+                dataUid: 'navigation.programs.identity.narp',
+              },
+            ],
+          },
+          {
+            title: '🕊️ Liderazgo, Gobernanza y Paz',
+            dataUid: 'navigation.programs.leadership',
+            items: [
+              {
+                label: 'Escuela de Formación para Jóvenes',
+                url: 'https://personerosestudiantilesylideres.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.leadership.jovenes',
+              },
+            ],
+          },
+          {
+            title: '🎉 Impacto Directo y Bienestar',
+            dataUid: 'navigation.programs.impact',
+            items: [
+              {
+                label: 'Servicio Comunitario',
+                url: 'https://serviciocomunitario-facopec.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.impact.community',
+              },
+              {
+                label: 'Dona Ropa',
+                url: 'https://quetienespararegalar.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.impact.ropa',
               },
               {
                 label: 'Salidas Pedagógicas',
                 url: 'https://salidaspedagogicas-facopec.blogspot.com/',
                 target: '_blank',
-                dataUid: 'navigation.programs.students.salidas',
-              },
-              {
-                label: 'Personeros y Líderes',
-                url: 'https://personerosestudiantilesylideres.blogspot.com/',
-                target: '_blank',
-                dataUid: 'navigation.programs.students.personeros',
-              },
-              {
-                label: 'Obra María | Jorge Isaacs',
-                url: 'https://rutaliterariamaria.blogspot.com/',
-                target: '_blank',
-                dataUid: 'navigation.programs.students.obraMaria',
-              },
-            ],
-          },
-          {
-            title: 'Para fin de año 2025',
-            dataUid: 'navigation.programs.yearEnd',
-            items: [
-              {
-                label: 'Regalos de corazón',
-                url: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/2025/08/regalos-de-corazon-fundacion.html',
-                target: '_blank',
-                dataUid: 'navigation.programs.yearEnd.regalos',
-              },
-            ],
-          },
-          {
-            title: 'Para adultos',
-            dataUid: 'navigation.programs.adults',
-            items: [
-              {
-                label: 'Escuela de Padres | Virtual',
-                url: 'https://consejosparapadresymadres.blogspot.com/',
-                target: '_blank',
-                dataUid: 'navigation.programs.adults.parents',
-              },
-              {
-                label: 'Empleabilidad',
-                url: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Empleabilidad',
-                target: '_blank',
-                dataUid: 'navigation.programs.adults.jobs',
+                dataUid: 'navigation.programs.impact.salidas',
               },
             ],
           },
@@ -481,16 +553,17 @@ export async function seedDefaultContent(strapi: Strapi) {
     { filename: 'guias.png', alt: 'Guías y Cuentos Cortos', title: 'Guías y Cuentos Cortos', url: 'https://cuentoscortosprofeencasa.blogspot.com/' },
     { filename: 'guias-mate.png', alt: 'Guías de Matemáticas', title: 'Guías de Matemáticas', url: 'https://matematicasprofeencasa.blogspot.com/' },
     { filename: 'talleres-nivelacion.png', alt: 'Talleres de Nivelación', title: 'Talleres de Nivelación', url: 'https://talleresdenivelacion.blogspot.com/' },
+    { filename: 'primaria.png', alt: 'Desafío Matemáticos', title: 'Desafío Matemáticos', url: 'https://desafio-matematicos.blogspot.com/' },
     { filename: 'plan-lector.png', alt: 'Plan Lector', title: 'Ruta Literaria María', url: 'https://rutaliterariamaria.blogspot.com/' },
     { filename: 'escuela-padres.png', alt: 'Escuela de Padres', title: 'Escuela de Padres', url: 'https://consejosparapadresymadres.blogspot.com/' },
     { filename: 'espiritual.png', alt: 'Formación Espiritual', title: 'Formación Espiritual', url: 'https://escueladominicalcreciendoconcristo.blogspot.com/' },
-    { filename: 'comunidades-narp.png', alt: 'Comunidades NARP', title: 'Comunidades NARP', url: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform' },
     { filename: 'emplpeabilidad.png', alt: 'Empleabilidad', title: 'Empleabilidad', url: 'https://empleabilidad-facopec.blogspot.com/' },
-    { filename: 'salida-pedagogica.png', alt: 'Salidas Pedagógicas', title: 'Salidas Pedagógicas', url: 'https://salidaspedagogicas-facopec.blogspot.com/' },
+    { filename: 'educa.png', alt: 'Escuela de Formación para Jóvenes', title: 'Escuela de Formación para Jóvenes', url: 'https://personerosestudiantilesylideres.blogspot.com/' },
     { filename: 'educa.png', alt: 'FACOPEC Educa', title: 'FACOPEC Educa', url: 'https://facopeceduca.blogspot.com/' },
-    { filename: 'dona-ropa.png', alt: 'Dona Ropa', title: 'Qué Tienes Para Regalar', url: 'https://quetienespararegalar.blogspot.com/' },
+    { filename: 'comunidades-narp.png', alt: 'Comunidades NARP', title: 'Comunidades NARP', url: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform' },
     { filename: 'comunitario.png', alt: 'Servicio Comunitario', title: 'Servicio Comunitario', url: 'https://serviciocomunitario-facopec.blogspot.com/' },
-    { filename: 'primaria.png', alt: 'Desafío Matemáticos', title: 'Desafío Matemáticos', url: 'https://desafio-matematicos.blogspot.com/' },
+    { filename: 'dona-ropa.png', alt: 'Dona Ropa', title: 'Qué Tienes Para Regalar', url: 'https://quetienespararegalar.blogspot.com/' },
+    { filename: 'salida-pedagogica.png', alt: 'Salidas Pedagógicas', title: 'Salidas Pedagógicas', url: 'https://salidaspedagogicas-facopec.blogspot.com/' },
   ];
 
   const programLogos = new Map<string, UploadedFile>();
@@ -845,6 +918,25 @@ export async function seedDefaultContent(strapi: Strapi) {
       },
     ],
     eventCalendar: [
+      {
+        title: 'Cierre del programa de nivelación',
+        description: 'Cierre del programa de nivelación académica',
+        eventDate: '2025-11-27T15:00:00',
+        location: 'Sede FACOPEC',
+        category: 'evento',
+        color: 'teal',
+        isHighlighted: true,
+      },
+      {
+        title: 'Mujeres Equidad y Empleo',
+        description: 'Programa de empleabilidad y formación para mujeres',
+        eventDate: '2025-11-10T09:00:00',
+        endDate: '2026-01-10T17:00:00',
+        location: 'Sede FACOPEC',
+        category: 'formacion',
+        color: 'purple',
+        isHighlighted: true,
+      },
       {
         title: 'Taller de lectura en voz alta',
         description: 'Círculo literario con familias',
