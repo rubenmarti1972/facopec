@@ -16,6 +16,7 @@ interface HeroAction {
   label: string;
   routerLink?: string;
   href?: string;
+  fragment?: string;
   variant: 'primary' | 'secondary';
   dataStrapiUid: string;
 }
@@ -162,7 +163,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       { label: 'Donar ahora', routerLink: '/donaciones', variant: 'primary', dataStrapiUid: 'hero.actions.donate' },
       {
         label: 'Ver programas',
-        href: '#programas',
+        routerLink: '/home',
+        fragment: 'programas',
         variant: 'secondary',
         dataStrapiUid: 'hero.actions.programs'
       }

@@ -132,6 +132,7 @@
                     'btn-secondary': action.variant === 'secondary'
                   }"
                   [routerLink]="action.routerLink || null"
+                  [fragment]="action.fragment || undefined"
                   [href]="action.href || null"
                   [attr.data-strapi-uid]="action.dataStrapiUid"
                   [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
