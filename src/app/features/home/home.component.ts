@@ -162,7 +162,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       { label: 'Donar ahora', routerLink: '/donaciones', variant: 'primary', dataStrapiUid: 'hero.actions.donate' },
       {
         label: 'Ver programas',
-        routerLink: '/proyectos',
+        href: '#programas',
         variant: 'secondary',
         dataStrapiUid: 'hero.actions.programs'
       }
