@@ -851,8 +851,38 @@ export class HomeComponent implements OnInit, OnDestroy {
         }))
         .filter(event => !!event.title && !!event.eventDate);
 
+      // IMPORTANTE: Mezclar eventos del CMS con los hardcodeados en lugar de reemplazarlos
+      // Esto asegura que las actividades hardcodeadas siempre estén presentes
       if (mapped.length) {
-        this.eventCalendar = mapped;
+        const fallbackEvents = [
+          {
+            title: 'Cierre del programa de nivelación',
+            description: 'Cierre del programa de nivelación académica',
+            eventDate: '2025-11-27T15:00:00',
+            location: 'Sede FACOPEC',
+            category: 'evento',
+            color: 'teal',
+            isHighlighted: true
+          },
+          {
+            title: 'Mujeres Equidad y Empleo',
+            description: 'Programa de empleabilidad y formación para mujeres',
+            eventDate: '2025-11-10T09:00:00',
+            endDate: '2026-01-10T17:00:00',
+            location: 'Sede FACOPEC',
+            category: 'formacion',
+            color: 'purple',
+            isHighlighted: true
+          }
+        ];
+
+        // Combinar eventos hardcodeados con los del CMS, evitando duplicados por título
+        const existingTitles = new Set(mapped.map(e => e.title.toLowerCase()));
+        const additionalEvents = fallbackEvents.filter(
+          e => !existingTitles.has(e.title.toLowerCase())
+        );
+
+        this.eventCalendar = [...additionalEvents, ...mapped];
       }
     }
 

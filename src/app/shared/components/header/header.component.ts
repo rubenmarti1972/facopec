@@ -383,7 +383,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private applyNavigation(settings: GlobalSettings): void {
     if (settings.navigation?.length) {
       const mapped = this.mapNavigation(settings.navigation);
-      if (mapped.length) {
+
+      // IMPORTANTE: Contar el total de programas en la navegación del CMS
+      // Solo reemplazar la navegación hardcodeada si el CMS tiene al menos 13 programas
+      let totalPrograms = 0;
+      mapped.forEach(item => {
+        if (item.children) {
+          item.children.forEach(group => {
+            totalPrograms += group.items.length;
+          });
+        }
+      });
+
+      console.log(`Navegación del CMS tiene ${totalPrograms} programas. Requeridos: 13`);
+
+      // Solo usar la navegación del CMS si tiene al menos 13 programas
+      if (mapped.length && totalPrograms >= 13) {
         this.navigationItems = mapped;
 
         const donateEntry = mapped.find(item =>
@@ -399,6 +414,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
             dataStrapiUid: donateEntry.dataStrapiUid ?? 'navigation.donate'
           };
         }
+      } else {
+        console.log('Usando navegación hardcodeada (fallback) porque el CMS no tiene suficientes programas');
+        // Mantener la navegación hardcodeada si el CMS no tiene suficientes programas
       }
     }
 
