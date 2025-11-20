@@ -252,7 +252,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   /**
    * Aplicar navegación por defecto (fallback)
    * Se muestra inmediatamente incluso sin backend disponible
-   * Contiene los 14 programas hardcodeados en 7 categorías
+   * Contiene los 14 programas hardcodeados en 8 categorías
    */
   private applyDefaultNavigation(): void {
     this.navigationItems = [
@@ -323,11 +323,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 label: 'Empleabilidad',
                 href: 'https://empleabilidad-facopec.blogspot.com/',
                 target: '_blank'
-              },
-              {
-                label: 'Escuela de Formación para Jóvenes',
-                href: 'https://personerosestudiantilesylideres.blogspot.com/',
-                target: '_blank'
               }
             ]
           },
@@ -347,6 +342,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
               {
                 label: 'Comunidades NARP',
                 href: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform',
+                target: '_blank'
+              }
+            ]
+          },
+          {
+            title: '🕊️ Liderazgo, Gobernanza y Paz',
+            items: [
+              {
+                label: 'Escuela de Formación para Jóvenes',
+                href: 'https://personerosestudiantilesylideres.blogspot.com/',
                 target: '_blank'
               }
             ]

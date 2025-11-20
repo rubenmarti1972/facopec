@@ -912,7 +912,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         .filter(event => !!event.title && !!event.eventDate);
 
       // IMPORTANTE: Mezclar eventos del CMS con los hardcodeados en lugar de reemplazarlos
-      // Esto asegura que las actividades hardcodeadas siempre estén presentes
+      // Esto asegura que las 5 actividades hardcodeadas siempre estén presentes
       if (mapped.length) {
         const fallbackEvents: EventCalendarItemContent[] = [
           {
@@ -932,6 +932,33 @@ export class HomeComponent implements OnInit, OnDestroy {
             location: 'Sede FACOPEC',
             category: 'formacion' as const,
             color: 'purple' as const,
+            isHighlighted: true
+          },
+          {
+            title: 'Taller de lectura en voz alta',
+            description: 'Círculo literario con familias',
+            eventDate: '2025-12-15T15:00:00',
+            location: 'Biblioteca Comunitaria',
+            category: 'taller' as const,
+            color: 'blue' as const,
+            isHighlighted: true
+          },
+          {
+            title: 'Reunión Club Familias',
+            description: 'Escuela de padres mensual',
+            eventDate: '2025-12-20T17:00:00',
+            location: 'Sede FACOPEC',
+            category: 'reunion' as const,
+            color: 'rose' as const,
+            isHighlighted: false
+          },
+          {
+            title: 'Celebración Fin de Año',
+            description: 'Cierre de actividades 2025',
+            eventDate: '2025-12-22T14:00:00',
+            location: 'Parque Central',
+            category: 'celebracion' as const,
+            color: 'gold' as const,
             isHighlighted: true
           }
         ];
