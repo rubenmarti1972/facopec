@@ -974,6 +974,11 @@ export async function seedDefaultContent(strapi: Strapi) {
         isHighlighted: true,
       },
     ],
+    programLogos: programLogosData.map(item => ({
+      alt: item.alt,
+      link: item.url,
+      logo: programLogos.get(item.filename)?.id,
+    })).filter(item => item.logo),
   });
 
   await upsertSingleType(strapi, 'api::donations-page.donations-page', {
