@@ -124,22 +124,39 @@
 
               <!-- Acciones (botones apilados) -->
               <div class="hero__actions hero__actions--stacked" style="width: 100%; max-width: 400px;">
-                <a
-                  *ngFor="let action of hero.actions"
-                  class="btn"
-                  [ngClass]="{
-                    'btn-primary': action.variant === 'primary',
-                    'btn-secondary': action.variant === 'secondary'
-                  }"
-                  [routerLink]="action.routerLink || null"
-                  [fragment]="action.fragment || undefined"
-                  [href]="action.href || null"
-                  [attr.data-strapi-uid]="action.dataStrapiUid"
-                  [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
-                  [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
-                >
-                  {{ action.label }}
-                </a>
+                <ng-container *ngFor="let action of hero.actions">
+                  <!-- Botón "Ver programas" con click handler especial -->
+                  <button
+                    *ngIf="action.label === 'Ver programas'"
+                    type="button"
+                    class="btn"
+                    [ngClass]="{
+                      'btn-primary': action.variant === 'primary',
+                      'btn-secondary': action.variant === 'secondary'
+                    }"
+                    [attr.data-strapi-uid]="action.dataStrapiUid"
+                    (click)="openProgramsInHeader()"
+                  >
+                    {{ action.label }}
+                  </button>
+                  <!-- Otros botones con routerLink normal -->
+                  <a
+                    *ngIf="action.label !== 'Ver programas'"
+                    class="btn"
+                    [ngClass]="{
+                      'btn-primary': action.variant === 'primary',
+                      'btn-secondary': action.variant === 'secondary'
+                    }"
+                    [routerLink]="action.routerLink || null"
+                    [fragment]="action.fragment || undefined"
+                    [href]="action.href || null"
+                    [attr.data-strapi-uid]="action.dataStrapiUid"
+                    [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
+                    [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
+                  >
+                    {{ action.label }}
+                  </a>
+                </ng-container>
               </div>
             </div>
           </div>
