@@ -310,16 +310,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     { logo: 'assets/program-logos/guias.png', alt: 'Guías y Cuentos Cortos', href: 'https://cuentoscortosprofeencasa.blogspot.com/' },
     { logo: 'assets/program-logos/guias-mate.png', alt: 'Guías de Matemáticas', href: 'https://matematicasprofeencasa.blogspot.com/' },
     { logo: 'assets/program-logos/talleres-nivelacion.png', alt: 'Talleres de Nivelación', href: 'https://talleresdenivelacion.blogspot.com/' },
+    { logo: 'assets/program-logos/primaria.png', alt: 'Desafío Matemáticos', href: 'https://desafio-matematicos.blogspot.com/' },
     { logo: 'assets/program-logos/plan-lector.png', alt: 'Plan Lector', href: 'https://rutaliterariamaria.blogspot.com/' },
     { logo: 'assets/program-logos/escuela-padres.png', alt: 'Escuela de Padres', href: 'https://consejosparapadresymadres.blogspot.com/' },
     { logo: 'assets/program-logos/espiritual.png', alt: 'Formación Espiritual', href: 'https://escueladominicalcreciendoconcristo.blogspot.com/' },
-    { logo: 'assets/program-logos/comunidades-narp.png', alt: 'Comunidades NARP', href: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform' },
     { logo: 'assets/program-logos/emplpeabilidad.png', alt: 'Empleabilidad', href: 'https://empleabilidad-facopec.blogspot.com/' },
-    { logo: 'assets/program-logos/salida-pedagogica.png', alt: 'Salidas Pedagógicas', href: 'https://salidaspedagogicas-facopec.blogspot.com/' },
+    { logo: 'assets/program-logos/educa.png', alt: 'Escuela de Formación para Jóvenes', href: 'https://personerosestudiantilesylideres.blogspot.com/' },
     { logo: 'assets/program-logos/educa.png', alt: 'FACOPEC Educa', href: 'https://facopeceduca.blogspot.com/' },
-    { logo: 'assets/program-logos/dona-ropa.png', alt: 'Dona Ropa', href: 'https://quetienespararegalar.blogspot.com/' },
+    { logo: 'assets/program-logos/comunidades-narp.png', alt: 'Comunidades NARP', href: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform' },
     { logo: 'assets/program-logos/comunitario.png', alt: 'Servicio Comunitario', href: 'https://serviciocomunitario-facopec.blogspot.com/' },
-    { logo: 'assets/program-logos/primaria.png', alt: 'Desafío Matemáticos', href: 'https://desafio-matematicos.blogspot.com/' }
+    { logo: 'assets/program-logos/dona-ropa.png', alt: 'Dona Ropa', href: 'https://quetienespararegalar.blogspot.com/' },
+    { logo: 'assets/program-logos/salida-pedagogica.png', alt: 'Salidas Pedagógicas', href: 'https://salidaspedagogicas-facopec.blogspot.com/' }
   ];
 
   programCards: ProgramCard[] = [
@@ -712,8 +713,51 @@ export class HomeComponent implements OnInit, OnDestroy {
         }))
         .filter(activity => !!activity.title);
 
+      // IMPORTANTE: Mezclar actividades del CMS con las hardcodeadas en lugar de reemplazarlas
+      // Esto asegura que las actividades hardcodeadas siempre estén presentes
       if (mapped.length) {
-        this.activityCards = mapped;
+        const fallbackActivities: ActivityCard[] = [
+          {
+            title: 'Tutorías Profe en Casa',
+            description: 'Refuerzo escolar personalizado, acompañamiento en tareas y aprendizaje basado en proyectos.',
+            href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Tutor%C3%ADas',
+            icon: '🧠',
+            theme: 'teal',
+            dataStrapiUid: 'activities.tutorias'
+          },
+          {
+            title: 'Ruta Literaria María',
+            description: 'Lectura en voz alta, círculos literarios y creación de cuentos inspirados en nuestras raíces afro.',
+            href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Ruta%20Literaria%20Mar%C3%ADa',
+            icon: '📖',
+            theme: 'blue',
+            dataStrapiUid: 'activities.rutaLiteraria'
+          },
+          {
+            title: 'Huerta y alimentación',
+            description: 'Huertas urbanas, cocina saludable y emprendimientos familiares con enfoque sostenible.',
+            href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Huerta',
+            icon: '🥬',
+            theme: 'gold',
+            dataStrapiUid: 'activities.huerta'
+          },
+          {
+            title: 'Arte, danza y fe',
+            description: 'Laboratorios creativos, espacios de oración y actividades culturales para toda la comunidad.',
+            href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Cultura',
+            icon: '🎨',
+            theme: 'rose',
+            dataStrapiUid: 'activities.arte'
+          }
+        ];
+
+        // Combinar actividades hardcodeadas con las del CMS, evitando duplicados por título
+        const existingTitles = new Set(mapped.map(a => a.title.toLowerCase()));
+        const additionalActivities = fallbackActivities.filter(
+          a => !existingTitles.has(a.title.toLowerCase())
+        );
+
+        this.activityCards = [...additionalActivities, ...mapped];
       }
     }
 
@@ -743,7 +787,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     }
 
-    // IMPORTANTE: Usar programs del CMS para poblar programLogos si programLogos está vacío
+    // IMPORTANTE: Mezclar programLogos del CMS con los hardcodeados
+    // Esto asegura que los 14 programas hardcodeados siempre estén presentes
     if (content.programLogos?.length) {
       const fallbackLogos = [...this.programLogos];
       const mapped = content.programLogos
@@ -759,19 +804,32 @@ export class HomeComponent implements OnInit, OnDestroy {
         })
         .filter(logo => !!logo.alt);
 
+      // Combinar logos hardcodeados con los del CMS, evitando duplicados por href
       if (mapped.length) {
-        this.programLogos = mapped;
+        const existingHrefs = new Set(mapped.map(l => l.href.toLowerCase()));
+        const additionalLogos = fallbackLogos.filter(
+          l => !existingHrefs.has(l.href.toLowerCase())
+        );
+
+        this.programLogos = [...additionalLogos, ...mapped];
       }
     } else if (content.programs?.length) {
       // Si programLogos está vacío, usar programs como fuente de los logos
+      const fallbackLogos = [...this.programLogos];
       const mapped = content.programs.map(program => ({
         logo: this.resolveMediaUrl(program.logo) ?? '',
         alt: program.title ?? '',
         href: program.link ?? '#'
       })).filter(logo => !!logo.alt && !!logo.href);
 
+      // Combinar logos hardcodeados con los del CMS, evitando duplicados por href
       if (mapped.length) {
-        this.programLogos = mapped;
+        const existingHrefs = new Set(mapped.map(l => l.href.toLowerCase()));
+        const additionalLogos = fallbackLogos.filter(
+          l => !existingHrefs.has(l.href.toLowerCase())
+        );
+
+        this.programLogos = [...additionalLogos, ...mapped];
       }
     }
 
