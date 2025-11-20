@@ -854,14 +854,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       // IMPORTANTE: Mezclar eventos del CMS con los hardcodeados en lugar de reemplazarlos
       // Esto asegura que las actividades hardcodeadas siempre estén presentes
       if (mapped.length) {
-        const fallbackEvents = [
+        const fallbackEvents: EventCalendarItemContent[] = [
           {
             title: 'Cierre del programa de nivelación',
             description: 'Cierre del programa de nivelación académica',
             eventDate: '2025-11-27T15:00:00',
             location: 'Sede FACOPEC',
-            category: 'evento',
-            color: 'teal',
+            category: 'evento' as const,
+            color: 'teal' as const,
             isHighlighted: true
           },
           {
@@ -870,8 +870,8 @@ export class HomeComponent implements OnInit, OnDestroy {
             eventDate: '2025-11-10T09:00:00',
             endDate: '2026-01-10T17:00:00',
             location: 'Sede FACOPEC',
-            category: 'formacion',
-            color: 'purple',
+            category: 'formacion' as const,
+            color: 'purple' as const,
             isHighlighted: true
           }
         ];
