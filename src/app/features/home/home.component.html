@@ -106,37 +106,40 @@
               </div>
             </div>
 
-            <!-- Video insignia -->
-            <div class="hero__video">
-              <iframe
-                width="100%"
-                height="200"
-                src="https://www.youtube.com/embed/xPjOWsPz_lA"
-                title="Video insignia FACOPEC"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-                style="border-radius: 8px; max-width: 400px;"
-              ></iframe>
-            </div>
+            <!-- Video insignia y botones -->
+            <div class="hero__video-actions" style="display: flex; flex-direction: column; gap: 1.5rem; align-items: center;">
+              <!-- Video insignia -->
+              <div class="hero__video">
+                <iframe
+                  width="100%"
+                  height="200"
+                  src="https://www.youtube.com/embed/xPjOWsPz_lA"
+                  title="Video insignia FACOPEC"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                  style="border-radius: 8px; max-width: 400px;"
+                ></iframe>
+              </div>
 
-            <!-- Acciones (botones apilados) -->
-            <div class="hero__actions hero__actions--stacked">
-              <a
-                *ngFor="let action of hero.actions"
-                class="btn"
-                [ngClass]="{
-                  'btn-primary': action.variant === 'primary',
-                  'btn-secondary': action.variant === 'secondary'
-                }"
-                [routerLink]="action.routerLink || null"
-                [href]="action.href || null"
-                [attr.data-strapi-uid]="action.dataStrapiUid"
-                [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
-                [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
-              >
-                {{ action.label }}
-              </a>
+              <!-- Acciones (botones apilados) -->
+              <div class="hero__actions hero__actions--stacked" style="width: 100%; max-width: 400px;">
+                <a
+                  *ngFor="let action of hero.actions"
+                  class="btn"
+                  [ngClass]="{
+                    'btn-primary': action.variant === 'primary',
+                    'btn-secondary': action.variant === 'secondary'
+                  }"
+                  [routerLink]="action.routerLink || null"
+                  [href]="action.href || null"
+                  [attr.data-strapi-uid]="action.dataStrapiUid"
+                  [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
+                  [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
+                >
+                  {{ action.label }}
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -201,7 +204,7 @@
 
       <article class="card values-card" data-strapi-uid="about.values">
         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-          <img src="assets/logo.png" alt="Logo FACOPEC" style="width: 40px; height: 40px; object-fit: contain;" />
+          <img src="assets/program-logos/comunidades-narp.png" alt="Logo Comunidades NARP" style="width: 40px; height: 40px; object-fit: contain;" />
           <h3 class="identity-card__title" style="margin: 0;">Valores que nos guían</h3>
         </div>
         <ul class="values-card__list">
