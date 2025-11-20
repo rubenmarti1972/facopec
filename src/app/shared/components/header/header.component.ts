@@ -9,6 +9,7 @@ import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BRAND_COLORS } from '@core/design-system/brand-colors';
 import { StrapiService } from '@core/services/strapi.service';
+import { NavigationService } from '@core/services/navigation.service';
 import { NavigationEntry, NavigationGroup, NavigationChildLink, GlobalSettings } from '@core/models';
 
 /**
@@ -100,10 +101,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   particles: Array<{ left: number; delay: number; duration: number }> = [];
 
   private sub?: Subscription;
+  private navServiceSub?: Subscription;
 
   constructor(
     private router: Router,
-    private strapiService: StrapiService
+    private strapiService: StrapiService,
+    private navigationService: NavigationService
   ) {}
 
   ngOnInit(): void {
@@ -126,10 +129,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.dropdownIndex = null;
       }
     });
+
+    // Suscribirse al servicio de navegación para abrir dropdown de programas
+    this.navServiceSub = this.navigationService.onOpenProgramsDropdown$.subscribe(() => {
+      this.openProgramsDropdownMenu();
+    });
   }
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+    this.navServiceSub?.unsubscribe();
   }
 
   /** === Métodos públicos para el template === */
@@ -220,6 +229,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   /** Cerrar todos los submenús */
   closeAllSubmenus(): void {
     this.dropdownIndex = null;
+  }
+
+  /** Abrir el dropdown de programas en el header */
+  openProgramsDropdownMenu(): void {
+    // Buscar el índice del item "Programas" en la navegación
+    const programsIndex = this.navigationItems.findIndex(
+      item => item.id === 'nav-programs' || item.label === 'Programas'
+    );
+
+    if (programsIndex >= 0) {
+      this.dropdownIndex = programsIndex;
+      // Hacer scroll al header si es necesario
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
   }
 
   /** === Métodos privados === */
@@ -327,12 +352,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
             ]
           }
         ]
-      },
-      {
-        id: 'nav-home-programs',
-        label: 'Ver todos los programas',
-        routerLink: '/home',
-        fragment: 'programas'
       },
       {
         id: 'nav-projects',

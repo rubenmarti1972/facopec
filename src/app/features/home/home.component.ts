@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { StrapiService } from '@core/services/strapi.service';
 import { EmailService } from '@core/services/email.service';
+import { NavigationService } from '@core/services/navigation.service';
 import { HomePageContent, HeroSectionContent, HighlightContent, SupporterLogoContent, MediaAsset, GlobalSettings, AttendedPersonCardContent, EventCalendarItemContent } from '@core/models';
 import { HeroCarouselComponent, CarouselImage } from '@shared/components/hero-carousel/hero-carousel.component';
 
@@ -115,6 +116,7 @@ type IdentityCardKey = 'description' | 'mission' | 'vision';
 export class HomeComponent implements OnInit, OnDestroy {
   private readonly strapiService = inject(StrapiService);
   private readonly emailService = inject(EmailService);
+  private readonly navigationService = inject(NavigationService);
 
   loading = true;
   error: string | null = null;
@@ -1109,5 +1111,13 @@ export class HomeComponent implements OnInit, OnDestroy {
         }, 5000);
       }
     });
+  }
+
+  /**
+   * Abrir el dropdown de programas en el header
+   * Se activa al hacer clic en el botón "Ver programas"
+   */
+  openProgramsInHeader(): void {
+    this.navigationService.openProgramsDropdown();
   }
 }
