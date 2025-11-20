@@ -252,7 +252,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   /**
    * Aplicar navegación por defecto (fallback)
    * Se muestra inmediatamente incluso sin backend disponible
-   * Contiene los 13 programas hardcodeados
+   * Contiene los 14 programas hardcodeados en 7 categorías
    */
   private applyDefaultNavigation(): void {
     this.navigationItems = [
@@ -288,11 +288,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 label: 'Desafío Matemáticos',
                 href: 'https://desafio-matematicos.blogspot.com/',
                 target: '_blank'
-              },
-              {
-                label: 'FACOPEC Educa',
-                href: 'https://facopeceduca.blogspot.com/',
-                target: '_blank'
               }
             ]
           },
@@ -318,21 +313,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 label: 'Formación Espiritual',
                 href: 'https://escueladominicalcreciendoconcristo.blogspot.com/',
                 target: '_blank'
-              },
-              {
-                label: 'Comunidades NARP',
-                href: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform',
-                target: '_blank'
-              },
-              {
-                label: 'Servicio Comunitario',
-                href: 'https://serviciocomunitario-facopec.blogspot.com/',
-                target: '_blank'
-              },
-              {
-                label: 'Dona Ropa',
-                href: 'https://quetienespararegalar.blogspot.com/',
-                target: '_blank'
               }
             ]
           },
@@ -342,6 +322,46 @@ export class HeaderComponent implements OnInit, OnDestroy {
               {
                 label: 'Empleabilidad',
                 href: 'https://empleabilidad-facopec.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Escuela de Formación para Jóvenes',
+                href: 'https://personerosestudiantilesylideres.blogspot.com/',
+                target: '_blank'
+              }
+            ]
+          },
+          {
+            title: '💻 Innovación y Tecnología Educativa',
+            items: [
+              {
+                label: 'FACOPEC Educa',
+                href: 'https://facopeceduca.blogspot.com/',
+                target: '_blank'
+              }
+            ]
+          },
+          {
+            title: '🌍 Etnoeducación y Cultura (Identidad)',
+            items: [
+              {
+                label: 'Comunidades NARP',
+                href: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform',
+                target: '_blank'
+              }
+            ]
+          },
+          {
+            title: '🎉 Impacto Directo y Bienestar',
+            items: [
+              {
+                label: 'Servicio Comunitario',
+                href: 'https://serviciocomunitario-facopec.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Dona Ropa',
+                href: 'https://quetienespararegalar.blogspot.com/',
                 target: '_blank'
               },
               {
@@ -404,7 +424,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       const mapped = this.mapNavigation(settings.navigation);
 
       // IMPORTANTE: Contar el total de programas en la navegación del CMS
-      // Solo reemplazar la navegación hardcodeada si el CMS tiene al menos 13 programas
+      // Solo reemplazar la navegación hardcodeada si el CMS tiene al menos 14 programas
       let totalPrograms = 0;
       mapped.forEach(item => {
         if (item.children) {
@@ -414,10 +434,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       });
 
-      console.log(`Navegación del CMS tiene ${totalPrograms} programas. Requeridos: 13`);
+      console.log(`Navegación del CMS tiene ${totalPrograms} programas. Requeridos: 14`);
 
-      // Solo usar la navegación del CMS si tiene al menos 13 programas
-      if (mapped.length && totalPrograms >= 13) {
+      // Solo usar la navegación del CMS si tiene al menos 14 programas
+      if (mapped.length && totalPrograms >= 14) {
         this.navigationItems = mapped;
 
         const donateEntry = mapped.find(item =>
