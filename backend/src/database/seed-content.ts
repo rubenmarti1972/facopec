@@ -818,6 +818,16 @@ export async function seedDefaultContent(strapi: Strapi) {
         strapiCollection: 'programas',
         strapiEntryId: 'desafio-matematicos',
       },
+      {
+        title: 'Escuela de Formación para Jóvenes',
+        description: 'Formación en liderazgo, gobernanza y paz para personeros estudiantiles y líderes juveniles',
+        highlights: ['Liderazgo', 'Gobernanza', 'Paz'],
+        link: 'https://personerosestudiantilesylideres.blogspot.com/',
+        logo: programLogos.get('educa.png')?.id,
+        logoAlt: 'Escuela de Formación para Jóvenes',
+        strapiCollection: 'programas',
+        strapiEntryId: 'escuela-formacion-jovenes',
+      },
     ].filter(program => program.logo),
     supporters: [
       {
@@ -964,6 +974,11 @@ export async function seedDefaultContent(strapi: Strapi) {
         isHighlighted: true,
       },
     ],
+    programLogos: programLogosData.map(item => ({
+      alt: item.alt,
+      link: item.url,
+      logo: programLogos.get(item.filename)?.id,
+    })).filter(item => item.logo),
   });
 
   await upsertSingleType(strapi, 'api::donations-page.donations-page', {
