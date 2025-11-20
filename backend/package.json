@@ -13,6 +13,7 @@
     "build": "strapi build",
     "lint": "eslint ./src",
     "seed": "ts-node src/database/seed.ts",
+    "add-missing-data": "ts-node src/database/add-missing-data.ts",
     "upgrade:stable": "node upgrade-strapi-to-stable.mjs"
   },
   "dependencies": {
