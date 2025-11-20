@@ -227,6 +227,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   /**
    * Aplicar navegación por defecto (fallback)
    * Se muestra inmediatamente incluso sin backend disponible
+   * Contiene los 13 programas hardcodeados
    */
   private applyDefaultNavigation(): void {
     this.navigationItems = [
