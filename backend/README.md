@@ -128,9 +128,6 @@ Si necesitas recuperar el CMS tal como estaba en la rama original:
 
 1. Desde la carpeta `backend`, corre:
 
-```bash
-pnpm restore:db
-```
 
 Esto elimina cualquier `data/strapi.db` previo y lo recrea directamente desde `data/strapi.sql` usando `better-sqlite3` (no necesitas tener `sqlite3` instalado). La salida del comando muestra cuántos registros tiene `home_pages` y `globals` para confirmar que el dump cargó datos reales.
 
