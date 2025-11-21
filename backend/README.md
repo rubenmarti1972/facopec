@@ -126,21 +126,12 @@ Para evitar subir binarios al repositorio, el snapshot de la base SQLite ahora v
 
 Si necesitas recuperar el CMS tal como estaba en la rama original:
 
-1. Instala `sqlite3` si aún no lo tienes disponible en tu entorno.
-2. Elimina cualquier base previa para evitar mezclas o duplicados:
+1. Desde la carpeta `backend`, corre:
 
-```bash
-rm -f backend/data/strapi.db
-```
 
-3. Desde la raíz del repo, ejecuta:
+Esto elimina cualquier `data/strapi.db` previo y lo recrea directamente desde `data/strapi.sql` usando `better-sqlite3` (no necesitas tener `sqlite3` instalado). La salida del comando muestra cuántos registros tiene `home_pages` y `globals` para confirmar que el dump cargó datos reales.
 
-```bash
-cd backend
-sqlite3 data/strapi.db < data/strapi.sql
-```
-
-El comando recreará `data/strapi.db` con todas las tablas y datos incluidos en el dump (contenido, medias y roles). Luego podrás levantar Strapi con `pnpm develop` o `pnpm start` usando esa base de datos generada.
+Si al abrir el panel el CMS sigue vacío, valida que Strapi esté apuntando a SQLite (variables `DATABASE_CLIENT=sqlite` y `DATABASE_FILENAME=.tmp/data.db` en `.env`) o vuelve a ejecutar `pnpm restore:db` para regenerar la base antes de iniciar el servidor.
 
 ## Licencia
 
