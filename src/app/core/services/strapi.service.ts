@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { map, catchError, tap, shareReplay, timeout } from 'rxjs/operators';
 import {
@@ -538,39 +538,8 @@ export class StrapiService {
     let errorMessage = 'An error occurred';
     let errorData: StrapiError | null = null;
 
-    if (error instanceof HttpErrorResponse) {
-      const baseUrl = this.apiUrl || this.publicUrl || 'Strapi';
-
-      if (error.status === 0) {
-        errorMessage = `No se pudo conectar con el CMS (${baseUrl}). Verifica que el servidor esté en ejecución.`;
-        errorData = {
-          data: null,
-          error: {
-            status: 0,
-            name: 'NetworkError',
-            message: errorMessage,
-            details: {
-              url: error.url ?? undefined,
-              statusText: error.statusText ?? 'Connection refused'
-            }
-          }
-        } satisfies StrapiError;
-      } else {
-        errorMessage = `CMS responded with status ${error.status}: ${error.statusText || 'Error de servidor'}`;
-        errorData = {
-          data: null,
-          error: {
-            status: error.status,
-            name: 'HttpErrorResponse',
-            message: errorMessage,
-            details: {
-              url: error.url ?? undefined,
-              statusText: error.statusText ?? 'Unknown error'
-            }
-          }
-        } satisfies StrapiError;
-      }
-    } else if (error instanceof Error && error.name === 'TimeoutError') {
+    // Check if it's a timeout error
+    if (error instanceof Error && error.name === 'TimeoutError') {
       errorMessage = `CMS request timeout after ${this.requestTimeoutMs}ms - using fallback assets`;
       errorData = {
         data: null,

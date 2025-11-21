@@ -26,14 +26,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         if (error.error instanceof ErrorEvent) {
           // Client-side error
           errorMessage = `Error: ${error.error.message}`;
-        } else if (error.status === 0) {
-          // Network error or backend unreachable
-          const target = error.url ? ` (${error.url})` : '';
-          errorMessage = `No se pudo conectar con el servidor${target}. Verifica que el backend esté en ejecución.`;
         } else {
           // Server-side error
           errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-
+          
           switch (error.status) {
             case 401:
               errorMessage = 'Unauthorized: Please log in again';
