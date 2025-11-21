@@ -9,6 +9,38 @@
       </p>
     </div>
 
+    <!-- Organigrama al inicio -->
+    <div class="organigrama-section" style="margin: 3rem 0;">
+      <div class="section__heading" style="text-align: center; margin-bottom: 2rem;">
+        <span class="section__eyebrow">Estructura organizacional</span>
+        <h2 class="section__title">Organigrama</h2>
+        <p class="section__subtitle">Conoce nuestra estructura administrativa</p>
+      </div>
+
+      <div style="position: relative; width: 100%; height: 0; padding-top: 75%; padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden; border-radius: 8px; will-change: transform;">
+        <iframe
+          *ngIf="safeOrganigramaUrl"
+          loading="lazy"
+          style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0; margin: 0;"
+          [src]="safeOrganigramaUrl"
+          allowfullscreen="allowfullscreen"
+          allow="fullscreen"
+          title="Organigrama FACOPEC">
+        </iframe>
+      </div>
+      <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: #666;">
+        <a [href]="organigramaUrl" target="_blank" rel="noopener" style="text-decoration: none; color: inherit;">
+          Ver organigrama completo
+        </a>
+      </p>
+    </div>
+
+    <!-- Sección de Nuestra Identidad -->
+    <div class="section__heading" style="text-align: center; margin: 4rem 0 2rem;">
+      <span class="section__eyebrow">Nuestra identidad</span>
+      <h2 class="section__title">Quiénes somos</h2>
+    </div>
+
     <div class="identity__grid">
       <div class="identity-description-with-image">
         <article
@@ -99,68 +131,6 @@
             {{ identityExpanded.vision ? 'Ver menos' : 'Leer más' }}
           </button>
         </article>
-      </div>
-    </div>
-
-    <!-- Organigrama -->
-    <div class="organigrama-section" style="margin-top: 4rem;">
-      <div class="section__heading" style="text-align: center; margin-bottom: 2rem;">
-        <span class="section__eyebrow">Estructura organizacional</span>
-        <h2 class="section__title">Organigrama</h2>
-        <p class="section__subtitle">Conoce nuestra estructura administrativa</p>
-      </div>
-
-      <div class="organigrama" style="display: flex; flex-direction: column; align-items: center; gap: 2rem;">
-        <!-- Nivel 1: Asamblea General -->
-        <div class="org-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem 2rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 250px;">
-          <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">👥</div>
-          <h3 style="margin: 0; font-size: 1.1rem; font-weight: 600;">Asamblea General</h3>
-          <p style="margin: 0.25rem 0 0; font-size: 0.85rem; opacity: 0.9;">Máximo órgano de decisión</p>
-        </div>
-
-        <!-- Línea vertical -->
-        <div style="width: 2px; height: 30px; background: #cbd5e0;"></div>
-
-        <!-- Nivel 2: Junta Directiva -->
-        <div class="org-box" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 1.5rem 2rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 250px;">
-          <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📋</div>
-          <h3 style="margin: 0; font-size: 1.1rem; font-weight: 600;">Junta Directiva</h3>
-          <p style="margin: 0.25rem 0 0; font-size: 0.85rem; opacity: 0.9;">Dirección estratégica</p>
-        </div>
-
-        <!-- Línea vertical -->
-        <div style="width: 2px; height: 30px; background: #cbd5e0;"></div>
-
-        <!-- Nivel 3: Dirección Ejecutiva -->
-        <div class="org-box" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 1.5rem 2rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 250px;">
-          <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">⭐</div>
-          <h3 style="margin: 0; font-size: 1.1rem; font-weight: 600;">Dirección Ejecutiva</h3>
-          <p style="margin: 0.25rem 0 0; font-size: 0.85rem; opacity: 0.9;">Gestión operativa</p>
-        </div>
-
-        <!-- Línea vertical -->
-        <div style="width: 2px; height: 30px; background: #cbd5e0;"></div>
-
-        <!-- Nivel 4: Áreas operativas -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; width: 100%; max-width: 800px;">
-          <div class="org-box" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 1.25rem 1.5rem; border-radius: 10px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <div style="font-size: 1.3rem; margin-bottom: 0.5rem;">📚</div>
-            <h4 style="margin: 0; font-size: 1rem; font-weight: 600;">Área Educativa</h4>
-            <p style="margin: 0.25rem 0 0; font-size: 0.8rem; opacity: 0.9;">Programas académicos</p>
-          </div>
-
-          <div class="org-box" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; padding: 1.25rem 1.5rem; border-radius: 10px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <div style="font-size: 1.3rem; margin-bottom: 0.5rem;">🤝</div>
-            <h4 style="margin: 0; font-size: 1rem; font-weight: 600;">Área Social</h4>
-            <p style="margin: 0.25rem 0 0; font-size: 0.8rem; opacity: 0.9;">Trabajo comunitario</p>
-          </div>
-
-          <div class="org-box" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #2d3748; padding: 1.25rem 1.5rem; border-radius: 10px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <div style="font-size: 1.3rem; margin-bottom: 0.5rem;">💰</div>
-            <h4 style="margin: 0; font-size: 1rem; font-weight: 600;">Área Administrativa</h4>
-            <p style="margin: 0.25rem 0 0; font-size: 0.8rem; opacity: 0.8;">Gestión financiera</p>
-          </div>
-        </div>
       </div>
     </div>
   </div>
