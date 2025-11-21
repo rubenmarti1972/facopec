@@ -128,10 +128,13 @@ Si necesitas recuperar el CMS tal como estaba en la rama original:
 
 1. Desde la carpeta `backend`, corre:
 
+```bash
+pnpm restore:db
+```
 
-Esto elimina cualquier `data/strapi.db` previo y lo recrea directamente desde `data/strapi.sql` usando `better-sqlite3` (no necesitas tener `sqlite3` instalado). La salida del comando muestra cuántos registros tiene `home_pages` y `globals` para confirmar que el dump cargó datos reales.
+Esto elimina cualquier `data/strapi.db` previo y lo recrea directamente desde `data/strapi.sql` usando `better-sqlite3` (no necesitas tener `sqlite3` instalado). Ahora también muestra los totales de `donations_pages` (1) y `projects` (8) para que confirmes que todo el contenido histórico está incluido.
 
-Si al abrir el panel el CMS sigue vacío, valida que Strapi esté apuntando a SQLite (variables `DATABASE_CLIENT=sqlite` y `DATABASE_FILENAME=.tmp/data.db` en `.env`) o vuelve a ejecutar `pnpm restore:db` para regenerar la base antes de iniciar el servidor.
+Si ya tienes `data/strapi.db` generado, los scripts `pnpm develop` y `pnpm start` lo regenerarán **solo si falta** gracias a `node scripts/restore-sql.mjs --if-missing`. Para forzar un rebuild limpio (útil si ves el CMS vacío), ejecuta manualmente `pnpm restore:db` antes de arrancar Strapi.
 
 ## Licencia
 
