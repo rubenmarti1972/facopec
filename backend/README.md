@@ -120,6 +120,22 @@ La single type `global` incorpora ahora componentes anidados para construir la n
 3. Inicia el servidor con `pnpm develop` (desarrollo) o `pnpm start` (producción).
 4. Configura las variables de entorno del frontend (`environment.ts`) apuntando a la URL pública de Strapi y un token API válido.
 
+## Restaurar el contenido del CMS sin archivos binarios
+
+Para evitar subir binarios al repositorio, el snapshot de la base SQLite ahora vive como un volcado SQL de texto en `backend/data/strapi.sql`.
+
+Si necesitas recuperar el CMS tal como estaba en la rama original:
+
+1. Desde la carpeta `backend`, corre:
+
+```bash
+pnpm restore:db
+```
+
+Esto elimina cualquier `data/strapi.db` previo y lo recrea directamente desde `data/strapi.sql` usando `better-sqlite3` (no necesitas tener `sqlite3` instalado). La salida del comando muestra cuántos registros tiene `home_pages` y `globals` para confirmar que el dump cargó datos reales.
+
+Si al abrir el panel el CMS sigue vacío, valida que Strapi esté apuntando a SQLite (variables `DATABASE_CLIENT=sqlite` y `DATABASE_FILENAME=.tmp/data.db` en `.env`) o vuelve a ejecutar `pnpm restore:db` para regenerar la base antes de iniciar el servidor.
+
 ## Licencia
 
 Strapi Community Edition (open source). Puedes desplegarlo en cualquier proveedor compatible (Render, Railway, Fly.io, etc.).

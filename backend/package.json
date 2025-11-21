@@ -15,6 +15,7 @@
     "seed": "ts-node src/database/seed.ts",
     "add-missing-data": "ts-node src/database/add-missing-data.ts",
     "upload-images": "ts-node src/database/upload-images.ts",
+    "restore:db": "node scripts/restore-sql.mjs",
     "upgrade:stable": "node upgrade-strapi-to-stable.mjs"
   },
   "dependencies": {
