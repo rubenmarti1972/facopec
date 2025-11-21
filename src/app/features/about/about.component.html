@@ -35,12 +35,16 @@
       </p>
     </div>
 
-    <!-- Sección de Nuestra Identidad -->
-    <div class="section__heading" style="text-align: center; margin: 4rem 0 2rem;">
+    <section class="section" data-strapi-section="identity">
+  <div class="container">
+    <div class="identity__intro">
       <span class="section__eyebrow">Nuestra identidad</span>
-      <h2 class="section__title">Quiénes somos</h2>
+      <h2 class="identity__title">Formamos y acompañamos comunidades en el Cauca</h2>
+      <p class="identity__subtitle">
+        Presentamos la esencia de FACOPEC con una estructura clara para gestionar la información y comunicar nuestro
+        propósito de forma cercana.
+      </p>
     </div>
-
     <div class="identity__grid">
       <div class="identity-description-with-image">
         <article
@@ -48,8 +52,8 @@
           [class.identity-card--expanded]="identityExpanded.description"
           [attr.data-strapi-uid]="identity.dataStrapiUid"
         >
-          <h2 class="identity-card__title">Descripción de la fundación</h2>
-          <div class="identity-card__body" id="about-description">
+          <h3 class="identity-card__title">Descripción de la fundación</h3>
+          <div class="identity-card__body" id="identity-description">
             <p>{{ identity.description }}</p>
           </div>
           <button
@@ -57,7 +61,7 @@
             class="identity-card__toggle"
             (click)="toggleIdentityCard('description')"
             [attr.aria-expanded]="identityExpanded.description"
-            aria-controls="about-description"
+            aria-controls="identity-description"
           >
             {{ identityExpanded.description ? 'Ver menos' : 'Leer más' }}
           </button>
@@ -72,7 +76,7 @@
           <a href="https://fundacionafrocolombianaprofeencasa.blogspot.com/2025/04/valores.html" target="_blank" rel="noopener" title="Conoce más sobre nuestros valores">
             <img src="assets/program-logos/comunidades-narp.png" alt="Logo Comunidades NARP" style="width: 60px; height: 60px; object-fit: contain; cursor: pointer;" />
           </a>
-          <h2 class="identity-card__title" style="margin: 0;">Valores que nos guían</h2>
+          <h3 class="identity-card__title" style="margin: 0;">Valores que nos guían</h3>
         </div>
         <ul class="values-card__list">
           <li
@@ -96,8 +100,8 @@
           [attr.data-strapi-uid]="missionVision.dataStrapiUidMission"
         >
           <div class="identity-card__icon">🌟</div>
-          <h2 class="identity-card__title">Misión</h2>
-          <div class="identity-card__body" id="about-mission">
+          <h3 class="identity-card__title">Misión</h3>
+          <div class="identity-card__body" id="identity-mission">
             <p>{{ missionVision.mission }}</p>
           </div>
           <button
@@ -105,7 +109,7 @@
             class="identity-card__toggle"
             (click)="toggleIdentityCard('mission')"
             [attr.aria-expanded]="identityExpanded.mission"
-            aria-controls="about-mission"
+            aria-controls="identity-mission"
           >
             {{ identityExpanded.mission ? 'Ver menos' : 'Leer más' }}
           </button>
@@ -117,8 +121,8 @@
           [attr.data-strapi-uid]="missionVision.dataStrapiUidVision"
         >
           <div class="identity-card__icon">🚀</div>
-          <h2 class="identity-card__title">Visión</h2>
-          <div class="identity-card__body" id="about-vision">
+          <h3 class="identity-card__title">Visión</h3>
+          <div class="identity-card__body" id="identity-vision">
             <p>{{ missionVision.vision }}</p>
           </div>
           <button
@@ -126,7 +130,7 @@
             class="identity-card__toggle"
             (click)="toggleIdentityCard('vision')"
             [attr.aria-expanded]="identityExpanded.vision"
-            aria-controls="about-vision"
+            aria-controls="identity-vision"
           >
             {{ identityExpanded.vision ? 'Ver menos' : 'Leer más' }}
           </button>
