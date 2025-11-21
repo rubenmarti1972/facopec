@@ -7,3 +7,6 @@ dist
 
 # Strapi uploads (user-generated content)
 public/uploads/
+
+# Strapi database (SQLite)
+data/strapi.db
