@@ -13,17 +13,39 @@ export default factories.createCoreController('api::home-page.home-page', ({ str
             stats: true,
             actions: true,
             verse: true,
+            carouselItems: {
+              populate: {
+                image: true,
+              },
+            },
           },
         },
-        impactHighlights: true,
+        impactHighlights: {
+          populate: {
+            image: true,
+          },
+        },
         identity: {
           populate: {
             values: true,
           },
         },
         missionVision: true,
-        activities: true,
-        programs: true,
+        activities: {
+          populate: {
+            logo: true,
+          },
+        },
+        programs: {
+          populate: {
+            logo: true,
+          },
+        },
+        programLogos: {
+          populate: {
+            logo: true,
+          },
+        },
         supporters: {
           populate: {
             logo: true,
@@ -35,6 +57,8 @@ export default factories.createCoreController('api::home-page.home-page', ({ str
             media: true,
           },
         },
+        attendedPersons: true,
+        eventCalendar: true,
       },
     });
 

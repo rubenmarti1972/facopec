@@ -407,6 +407,7 @@ export interface OrganizationInfo {
   address?: OrganizationAddress | null;
   hours?: OrganizationHours | null;
   socialLinks?: OrganizationSocialLink[];
+  organigramaUrl?: string;
 }
 
 // ============================================================================
@@ -557,6 +558,13 @@ export interface ProgramCardContent {
   logoAlt?: string;
 }
 
+export interface ProgramLogoSimpleContent {
+  id?: number;
+  logo?: MediaAsset;
+  alt: string;
+  link: string;
+}
+
 export interface SupporterLogoContent {
   id?: number;
   name?: string;
@@ -617,6 +625,7 @@ export interface HomePageContent {
   missionVision?: MissionVisionContent;
   activities?: ActivityCardContent[];
   programs?: ProgramCardContent[];
+  programLogos?: ProgramLogoSimpleContent[];
   supporters?: SupporterLogoContent[];
   catalog?: CatalogItemContent[];
   gallery?: GalleryItemContent[];

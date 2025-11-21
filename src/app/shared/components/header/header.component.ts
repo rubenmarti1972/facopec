@@ -9,6 +9,7 @@ import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BRAND_COLORS } from '@core/design-system/brand-colors';
 import { StrapiService } from '@core/services/strapi.service';
+import { NavigationService } from '@core/services/navigation.service';
 import { NavigationEntry, NavigationGroup, NavigationChildLink, GlobalSettings } from '@core/models';
 
 /**
@@ -100,10 +101,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   particles: Array<{ left: number; delay: number; duration: number }> = [];
 
   private sub?: Subscription;
+  private navServiceSub?: Subscription;
 
   constructor(
     private router: Router,
-    private strapiService: StrapiService
+    private strapiService: StrapiService,
+    private navigationService: NavigationService
   ) {}
 
   ngOnInit(): void {
@@ -126,10 +129,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.dropdownIndex = null;
       }
     });
+
+    // Suscribirse al servicio de navegación para abrir dropdown de programas
+    this.navServiceSub = this.navigationService.onOpenProgramsDropdown$.subscribe(() => {
+      this.openProgramsDropdownMenu();
+    });
   }
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+    this.navServiceSub?.unsubscribe();
   }
 
   /** === Métodos públicos para el template === */
@@ -222,11 +231,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.dropdownIndex = null;
   }
 
+  /** Abrir el dropdown de programas en el header */
+  openProgramsDropdownMenu(): void {
+    // Buscar el índice del item "Programas" en la navegación
+    const programsIndex = this.navigationItems.findIndex(
+      item => item.id === 'nav-programs' || item.label === 'Programas'
+    );
+
+    if (programsIndex >= 0) {
+      this.dropdownIndex = programsIndex;
+      // Hacer scroll al header si es necesario
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  }
+
   /** === Métodos privados === */
 
   /**
    * Aplicar navegación por defecto (fallback)
    * Se muestra inmediatamente incluso sin backend disponible
+   * Contiene los 14 programas hardcodeados en 8 categorías
    */
   private applyDefaultNavigation(): void {
     this.navigationItems = [
@@ -262,11 +288,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 label: 'Desafío Matemáticos',
                 href: 'https://desafio-matematicos.blogspot.com/',
                 target: '_blank'
-              },
-              {
-                label: 'FACOPEC Educa',
-                href: 'https://facopeceduca.blogspot.com/',
-                target: '_blank'
               }
             ]
           },
@@ -292,21 +313,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 label: 'Formación Espiritual',
                 href: 'https://escueladominicalcreciendoconcristo.blogspot.com/',
                 target: '_blank'
-              },
-              {
-                label: 'Comunidades NARP',
-                href: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform',
-                target: '_blank'
-              },
-              {
-                label: 'Servicio Comunitario',
-                href: 'https://serviciocomunitario-facopec.blogspot.com/',
-                target: '_blank'
-              },
-              {
-                label: 'Dona Ropa',
-                href: 'https://quetienespararegalar.blogspot.com/',
-                target: '_blank'
               }
             ]
           },
@@ -316,6 +322,51 @@ export class HeaderComponent implements OnInit, OnDestroy {
               {
                 label: 'Empleabilidad',
                 href: 'https://empleabilidad-facopec.blogspot.com/',
+                target: '_blank'
+              }
+            ]
+          },
+          {
+            title: '💻 Innovación y Tecnología Educativa',
+            items: [
+              {
+                label: 'FACOPEC Educa',
+                href: 'https://facopeceduca.blogspot.com/',
+                target: '_blank'
+              }
+            ]
+          },
+          {
+            title: '🌍 Etnoeducación y Cultura (Identidad)',
+            items: [
+              {
+                label: 'Comunidades NARP',
+                href: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform',
+                target: '_blank'
+              }
+            ]
+          },
+          {
+            title: '🕊️ Liderazgo, Gobernanza y Paz',
+            items: [
+              {
+                label: 'Escuela de Formación para Jóvenes',
+                href: 'https://personerosestudiantilesylideres.blogspot.com/',
+                target: '_blank'
+              }
+            ]
+          },
+          {
+            title: '🎉 Impacto Directo y Bienestar',
+            items: [
+              {
+                label: 'Servicio Comunitario',
+                href: 'https://serviciocomunitario-facopec.blogspot.com/',
+                target: '_blank'
+              },
+              {
+                label: 'Dona Ropa',
+                href: 'https://quetienespararegalar.blogspot.com/',
                 target: '_blank'
               },
               {
@@ -376,7 +427,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private applyNavigation(settings: GlobalSettings): void {
     if (settings.navigation?.length) {
       const mapped = this.mapNavigation(settings.navigation);
-      if (mapped.length) {
+
+      // IMPORTANTE: Contar el total de programas en la navegación del CMS
+      // Solo reemplazar la navegación hardcodeada si el CMS tiene al menos 14 programas
+      let totalPrograms = 0;
+      mapped.forEach(item => {
+        if (item.children) {
+          item.children.forEach(group => {
+            totalPrograms += group.items.length;
+          });
+        }
+      });
+
+      console.log(`Navegación del CMS tiene ${totalPrograms} programas. Requeridos: 14`);
+
+      // Solo usar la navegación del CMS si tiene al menos 14 programas
+      if (mapped.length && totalPrograms >= 14) {
         this.navigationItems = mapped;
 
         const donateEntry = mapped.find(item =>
@@ -392,6 +458,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
             dataStrapiUid: donateEntry.dataStrapiUid ?? 'navigation.donate'
           };
         }
+      } else {
+        console.log('Usando navegación hardcodeada (fallback) porque el CMS no tiene suficientes programas');
+        // Mantener la navegación hardcodeada si el CMS no tiene suficientes programas
       }
     }
 

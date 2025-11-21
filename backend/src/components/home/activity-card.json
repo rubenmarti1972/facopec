@@ -14,6 +14,11 @@
     "icon": {
       "type": "string"
     },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
     "theme": {
       "type": "enumeration",
       "enum": ["teal", "blue", "rose", "gold"],

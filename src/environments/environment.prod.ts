@@ -5,31 +5,32 @@
 export const environment = {
   production: true,
 
-  // Base URLs - Use environment variables or CI/CD provided values
-  apiUrl: process.env['API_URL'] || 'https://api.fundacionafro.org',
-  appUrl: process.env['APP_URL'] || 'https://www.fundacionafro.org',
+  // Base URLs
+  apiUrl: 'https://facopec-strapi.onrender.com',
+  appUrl: 'https://fundacion-afrocolombiana.web.app',
 
   // Strapi Configuration
   strapi: {
-    url: process.env['STRAPI_URL'] || 'https://cms.fundacionafro.org',
-    publicUrl: process.env['STRAPI_PUBLIC_URL'] || process.env['STRAPI_URL'] || 'https://cms.fundacionafro.org',
-    apiToken: process.env['STRAPI_API_KEY'] || '',
-    previewToken: process.env['STRAPI_PREVIEW_TOKEN'] || '',
-    cacheDurationMs: Number(process.env['STRAPI_CACHE_MS'] ?? 300000)
+    url: 'https://facopec-strapi.onrender.com',
+    publicUrl: 'https://facopec-strapi.onrender.com',
+    apiToken: '',          // si algún día usas tokens, los pones aquí a mano
+    previewToken: '',
+    cacheDurationMs: 300000,  // 5 minutes cache
+    requestTimeoutMs: 5000    // 5 seconds timeout - use fallback assets if CMS doesn't respond
   },
 
   // PayPal Configuration
   paypal: {
-    clientId: process.env['PAYPAL_CLIENT_ID'] || '',
-    mode: 'live', // Production uses live mode
+    clientId: '',          // aquí pones el ID si algún día lo necesitas en el front
+    mode: 'live',
     currency: 'USD',
     apiUrl: 'https://api.paypal.com'
   },
 
   // Women's Bank Configuration (Bank Transfer Details)
   womansBank: {
-    accountNumber: process.env['WOMANS_BANK_ACCOUNT'] || '',
-    routingNumber: process.env['WOMANS_BANK_ROUTING'] || '',
+    accountNumber: '',
+    routingNumber: '',
     bankName: 'Banco Femenino Latinoamericano',
     accountHolder: 'Fundación Afrocolombiana Pro Encasa NIT: 900XXXXXX-X',
     swiftCode: 'SWFTCOCO'
@@ -61,7 +62,7 @@ export const environment = {
     twitter: 'https://x.com/FundacionProfe',
     youtube: 'https://www.youtube.com/@fundacionafroprofeencasa',
     whatsapp: 'https://api.whatsapp.com/send/?phone=573215230283&text=Hola+%EF%BF%BD%2C+Quiero+mas+informaci%C3%B3n&type=phone_number&app_absent=0',
-    linkedIn: 'https://www.linkedin.com/company/facopec',
+    linkedIn: 'https://www.linkedin.com/in/fundación-afrocolombiana',
     tiktok: 'https://www.tiktok.com/@profeencasaoficial',
     telegram: 'https://t.me/Facopec'
   },
@@ -75,7 +76,7 @@ export const environment = {
   // Security
   security: {
     enableCSRF: true,
-    corsOrigins: process.env['CORS_ORIGINS']?.split(',') || ['https://www.fundacionafro.org'],
+    corsOrigins: ['https://fundacion-afrocolombiana.web.app'],
     secureHeaders: true,
     contentSecurityPolicy: {
       defaultSrc: ["'self'"],

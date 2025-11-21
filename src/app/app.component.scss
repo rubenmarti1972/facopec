@@ -8,14 +8,14 @@ $white: var(--color-white, #ffffff);
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 90vh;
   background: transparent;
 }
 
 .main-content {
   flex: 1;
   width: 100%;
-  margin-top: 96px; // Account for fixed header
+  margin-top: 1px; // Account for fixed header
 }
 
 .loading-overlay {

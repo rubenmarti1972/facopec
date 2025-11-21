@@ -9,6 +9,42 @@
       </p>
     </div>
 
+    <!-- Organigrama al inicio -->
+    <div class="organigrama-section" style="margin: 3rem 0;">
+      <div class="section__heading" style="text-align: center; margin-bottom: 2rem;">
+        <span class="section__eyebrow">Estructura organizacional</span>
+        <h2 class="section__title">Organigrama</h2>
+        <p class="section__subtitle">Conoce nuestra estructura administrativa</p>
+      </div>
+
+      <div style="position: relative; width: 100%; height: 0; padding-top: 75%; padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden; border-radius: 8px; will-change: transform;">
+        <iframe
+          *ngIf="safeOrganigramaUrl"
+          loading="lazy"
+          style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0; margin: 0;"
+          [src]="safeOrganigramaUrl"
+          allowfullscreen="allowfullscreen"
+          allow="fullscreen"
+          title="Organigrama FACOPEC">
+        </iframe>
+      </div>
+      <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: #666;">
+        <a [href]="organigramaUrl" target="_blank" rel="noopener" style="text-decoration: none; color: inherit;">
+          Ver organigrama completo
+        </a>
+      </p>
+    </div>
+
+    <section class="section" data-strapi-section="identity">
+  <div class="container">
+    <div class="identity__intro">
+      <span class="section__eyebrow">Nuestra identidad</span>
+      <h2 class="identity__title">Formamos y acompañamos comunidades en el Cauca</h2>
+      <p class="identity__subtitle">
+        Presentamos la esencia de FACOPEC con una estructura clara para gestionar la información y comunicar nuestro
+        propósito de forma cercana.
+      </p>
+    </div>
     <div class="identity__grid">
       <div class="identity-description-with-image">
         <article
@@ -16,8 +52,8 @@
           [class.identity-card--expanded]="identityExpanded.description"
           [attr.data-strapi-uid]="identity.dataStrapiUid"
         >
-          <h2 class="identity-card__title">Descripción de la fundación</h2>
-          <div class="identity-card__body" id="about-description">
+          <h3 class="identity-card__title">Descripción de la fundación</h3>
+          <div class="identity-card__body" id="identity-description">
             <p>{{ identity.description }}</p>
           </div>
           <button
@@ -25,7 +61,7 @@
             class="identity-card__toggle"
             (click)="toggleIdentityCard('description')"
             [attr.aria-expanded]="identityExpanded.description"
-            aria-controls="about-description"
+            aria-controls="identity-description"
           >
             {{ identityExpanded.description ? 'Ver menos' : 'Leer más' }}
           </button>
@@ -36,7 +72,12 @@
       </div>
 
       <article class="card values-card" data-strapi-uid="about.values">
-        <h2 class="identity-card__title">Valores que nos guían</h2>
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+          <a href="https://fundacionafrocolombianaprofeencasa.blogspot.com/2025/04/valores.html" target="_blank" rel="noopener" title="Conoce más sobre nuestros valores">
+            <img src="assets/program-logos/comunidades-narp.png" alt="Logo Comunidades NARP" style="width: 60px; height: 60px; object-fit: contain; cursor: pointer;" />
+          </a>
+          <h3 class="identity-card__title" style="margin: 0;">Valores que nos guían</h3>
+        </div>
         <ul class="values-card__list">
           <li
             class="values-card__item"
@@ -59,8 +100,8 @@
           [attr.data-strapi-uid]="missionVision.dataStrapiUidMission"
         >
           <div class="identity-card__icon">🌟</div>
-          <h2 class="identity-card__title">Misión</h2>
-          <div class="identity-card__body" id="about-mission">
+          <h3 class="identity-card__title">Misión</h3>
+          <div class="identity-card__body" id="identity-mission">
             <p>{{ missionVision.mission }}</p>
           </div>
           <button
@@ -68,7 +109,7 @@
             class="identity-card__toggle"
             (click)="toggleIdentityCard('mission')"
             [attr.aria-expanded]="identityExpanded.mission"
-            aria-controls="about-mission"
+            aria-controls="identity-mission"
           >
             {{ identityExpanded.mission ? 'Ver menos' : 'Leer más' }}
           </button>
@@ -80,8 +121,8 @@
           [attr.data-strapi-uid]="missionVision.dataStrapiUidVision"
         >
           <div class="identity-card__icon">🚀</div>
-          <h2 class="identity-card__title">Visión</h2>
-          <div class="identity-card__body" id="about-vision">
+          <h3 class="identity-card__title">Visión</h3>
+          <div class="identity-card__body" id="identity-vision">
             <p>{{ missionVision.vision }}</p>
           </div>
           <button
@@ -89,7 +130,7 @@
             class="identity-card__toggle"
             (click)="toggleIdentityCard('vision')"
             [attr.aria-expanded]="identityExpanded.vision"
-            aria-controls="about-vision"
+            aria-controls="identity-vision"
           >
             {{ identityExpanded.vision ? 'Ver menos' : 'Leer más' }}
           </button>

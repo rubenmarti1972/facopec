@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { StrapiService } from '@core/services/strapi.service';
 import { EmailService } from '@core/services/email.service';
+import { NavigationService } from '@core/services/navigation.service';
 import { HomePageContent, HeroSectionContent, HighlightContent, SupporterLogoContent, MediaAsset, GlobalSettings, AttendedPersonCardContent, EventCalendarItemContent } from '@core/models';
 import { HeroCarouselComponent, CarouselImage } from '@shared/components/hero-carousel/hero-carousel.component';
 
@@ -16,6 +17,7 @@ interface HeroAction {
   label: string;
   routerLink?: string;
   href?: string;
+  fragment?: string;
   variant: 'primary' | 'secondary';
   dataStrapiUid: string;
 }
@@ -114,6 +116,7 @@ type IdentityCardKey = 'description' | 'mission' | 'vision';
 export class HomeComponent implements OnInit, OnDestroy {
   private readonly strapiService = inject(StrapiService);
   private readonly emailService = inject(EmailService);
+  private readonly navigationService = inject(NavigationService);
 
   loading = true;
   error: string | null = null;
@@ -159,10 +162,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       { value: '12', label: 'Barrios impactados con actividades presenciales y virtuales' }
     ],
     actions: <HeroAction[]>[
-      { label: 'Donar ahora', routerLink: '/donate', variant: 'primary', dataStrapiUid: 'hero.actions.donate' },
+      { label: 'Donar ahora', routerLink: '/donaciones', variant: 'primary', dataStrapiUid: 'hero.actions.donate' },
       {
         label: 'Ver programas',
-        href: '/home#programas',
+        routerLink: '/home',
+        fragment: 'programas',
         variant: 'secondary',
         dataStrapiUid: 'hero.actions.programs'
       }
@@ -306,16 +310,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     { logo: 'assets/program-logos/guias.png', alt: 'Guías y Cuentos Cortos', href: 'https://cuentoscortosprofeencasa.blogspot.com/' },
     { logo: 'assets/program-logos/guias-mate.png', alt: 'Guías de Matemáticas', href: 'https://matematicasprofeencasa.blogspot.com/' },
     { logo: 'assets/program-logos/talleres-nivelacion.png', alt: 'Talleres de Nivelación', href: 'https://talleresdenivelacion.blogspot.com/' },
+    { logo: 'assets/program-logos/primaria.png', alt: 'Desafío Matemáticos', href: 'https://desafio-matematicos.blogspot.com/' },
     { logo: 'assets/program-logos/plan-lector.png', alt: 'Plan Lector', href: 'https://rutaliterariamaria.blogspot.com/' },
     { logo: 'assets/program-logos/escuela-padres.png', alt: 'Escuela de Padres', href: 'https://consejosparapadresymadres.blogspot.com/' },
     { logo: 'assets/program-logos/espiritual.png', alt: 'Formación Espiritual', href: 'https://escueladominicalcreciendoconcristo.blogspot.com/' },
-    { logo: 'assets/program-logos/comunidades-narp.png', alt: 'Comunidades NARP', href: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform' },
     { logo: 'assets/program-logos/emplpeabilidad.png', alt: 'Empleabilidad', href: 'https://empleabilidad-facopec.blogspot.com/' },
-    { logo: 'assets/program-logos/salida-pedagogica.png', alt: 'Salidas Pedagógicas', href: 'https://salidaspedagogicas-facopec.blogspot.com/' },
+    { logo: 'assets/program-logos/educa.png', alt: 'Escuela de Formación para Jóvenes', href: 'https://personerosestudiantilesylideres.blogspot.com/' },
     { logo: 'assets/program-logos/educa.png', alt: 'FACOPEC Educa', href: 'https://facopeceduca.blogspot.com/' },
-    { logo: 'assets/program-logos/dona-ropa.png', alt: 'Dona Ropa', href: 'https://quetienespararegalar.blogspot.com/' },
+    { logo: 'assets/program-logos/comunidades-narp.png', alt: 'Comunidades NARP', href: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform' },
     { logo: 'assets/program-logos/comunitario.png', alt: 'Servicio Comunitario', href: 'https://serviciocomunitario-facopec.blogspot.com/' },
-    { logo: 'assets/program-logos/primaria.png', alt: 'Desafío Matemáticos', href: 'https://desafio-matematicos.blogspot.com/' }
+    { logo: 'assets/program-logos/dona-ropa.png', alt: 'Dona Ropa', href: 'https://quetienespararegalar.blogspot.com/' },
+    { logo: 'assets/program-logos/salida-pedagogica.png', alt: 'Salidas Pedagógicas', href: 'https://salidaspedagogicas-facopec.blogspot.com/' }
   ];
 
   programCards: ProgramCard[] = [
@@ -465,6 +470,25 @@ export class HomeComponent implements OnInit, OnDestroy {
   ];
 
   eventCalendar: EventCalendarItemContent[] = [
+    {
+      title: 'Cierre del programa de nivelación',
+      description: 'Cierre del programa de nivelación académica',
+      eventDate: '2025-11-27T15:00:00',
+      location: 'Sede FACOPEC',
+      category: 'evento',
+      color: 'teal',
+      isHighlighted: true
+    },
+    {
+      title: 'Mujeres Equidad y Empleo',
+      description: 'Programa de empleabilidad y formación para mujeres',
+      eventDate: '2025-11-10T09:00:00',
+      endDate: '2026-01-10T17:00:00',
+      location: 'Sede FACOPEC',
+      category: 'formacion',
+      color: 'purple',
+      isHighlighted: true
+    },
     {
       title: 'Taller de lectura en voz alta',
       description: 'Círculo literario con familias',
@@ -689,8 +713,51 @@ export class HomeComponent implements OnInit, OnDestroy {
         }))
         .filter(activity => !!activity.title);
 
+      // IMPORTANTE: Mezclar actividades del CMS con las hardcodeadas en lugar de reemplazarlas
+      // Esto asegura que las actividades hardcodeadas siempre estén presentes
       if (mapped.length) {
-        this.activityCards = mapped;
+        const fallbackActivities: ActivityCard[] = [
+          {
+            title: 'Tutorías Profe en Casa',
+            description: 'Refuerzo escolar personalizado, acompañamiento en tareas y aprendizaje basado en proyectos.',
+            href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Tutor%C3%ADas',
+            icon: '🧠',
+            theme: 'teal',
+            dataStrapiUid: 'activities.tutorias'
+          },
+          {
+            title: 'Ruta Literaria María',
+            description: 'Lectura en voz alta, círculos literarios y creación de cuentos inspirados en nuestras raíces afro.',
+            href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Ruta%20Literaria%20Mar%C3%ADa',
+            icon: '📖',
+            theme: 'blue',
+            dataStrapiUid: 'activities.rutaLiteraria'
+          },
+          {
+            title: 'Huerta y alimentación',
+            description: 'Huertas urbanas, cocina saludable y emprendimientos familiares con enfoque sostenible.',
+            href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Huerta',
+            icon: '🥬',
+            theme: 'gold',
+            dataStrapiUid: 'activities.huerta'
+          },
+          {
+            title: 'Arte, danza y fe',
+            description: 'Laboratorios creativos, espacios de oración y actividades culturales para toda la comunidad.',
+            href: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Cultura',
+            icon: '🎨',
+            theme: 'rose',
+            dataStrapiUid: 'activities.arte'
+          }
+        ];
+
+        // Combinar actividades hardcodeadas con las del CMS, evitando duplicados por título
+        const existingTitles = new Set(mapped.map(a => a.title.toLowerCase()));
+        const additionalActivities = fallbackActivities.filter(
+          a => !existingTitles.has(a.title.toLowerCase())
+        );
+
+        this.activityCards = [...additionalActivities, ...mapped];
       }
     }
 
@@ -717,6 +784,52 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       if (mapped.length) {
         this.programCards = mapped;
+      }
+    }
+
+    // IMPORTANTE: Mezclar programLogos del CMS con los hardcodeados
+    // Esto asegura que los 14 programas hardcodeados siempre estén presentes
+    if (content.programLogos?.length) {
+      const fallbackLogos = [...this.programLogos];
+      const mapped = content.programLogos
+        .map((programLogo, index) => {
+          const fallback = fallbackLogos[index];
+          const logoUrl = this.resolveMediaUrl(programLogo.logo);
+
+          return {
+            logo: logoUrl ?? fallback?.logo ?? '',
+            alt: programLogo.alt ?? fallback?.alt ?? '',
+            href: programLogo.link ?? fallback?.href ?? '#'
+          } satisfies ProgramLogo;
+        })
+        .filter(logo => !!logo.alt);
+
+      // Combinar logos hardcodeados con los del CMS, evitando duplicados por href
+      if (mapped.length) {
+        const existingHrefs = new Set(mapped.map(l => l.href.toLowerCase()));
+        const additionalLogos = fallbackLogos.filter(
+          l => !existingHrefs.has(l.href.toLowerCase())
+        );
+
+        this.programLogos = [...additionalLogos, ...mapped];
+      }
+    } else if (content.programs?.length) {
+      // Si programLogos está vacío, usar programs como fuente de los logos
+      const fallbackLogos = [...this.programLogos];
+      const mapped = content.programs.map(program => ({
+        logo: this.resolveMediaUrl(program.logo) ?? '',
+        alt: program.title ?? '',
+        href: program.link ?? '#'
+      })).filter(logo => !!logo.alt && !!logo.href);
+
+      // Combinar logos hardcodeados con los del CMS, evitando duplicados por href
+      if (mapped.length) {
+        const existingHrefs = new Set(mapped.map(l => l.href.toLowerCase()));
+        const additionalLogos = fallbackLogos.filter(
+          l => !existingHrefs.has(l.href.toLowerCase())
+        );
+
+        this.programLogos = [...additionalLogos, ...mapped];
       }
     }
 
@@ -798,8 +911,65 @@ export class HomeComponent implements OnInit, OnDestroy {
         }))
         .filter(event => !!event.title && !!event.eventDate);
 
+      // IMPORTANTE: Mezclar eventos del CMS con los hardcodeados en lugar de reemplazarlos
+      // Esto asegura que las 5 actividades hardcodeadas siempre estén presentes
       if (mapped.length) {
-        this.eventCalendar = mapped;
+        const fallbackEvents: EventCalendarItemContent[] = [
+          {
+            title: 'Cierre del programa de nivelación',
+            description: 'Cierre del programa de nivelación académica',
+            eventDate: '2025-11-27T15:00:00',
+            location: 'Sede FACOPEC',
+            category: 'evento' as const,
+            color: 'teal' as const,
+            isHighlighted: true
+          },
+          {
+            title: 'Mujeres Equidad y Empleo',
+            description: 'Programa de empleabilidad y formación para mujeres',
+            eventDate: '2025-11-10T09:00:00',
+            endDate: '2026-01-10T17:00:00',
+            location: 'Sede FACOPEC',
+            category: 'formacion' as const,
+            color: 'purple' as const,
+            isHighlighted: true
+          },
+          {
+            title: 'Taller de lectura en voz alta',
+            description: 'Círculo literario con familias',
+            eventDate: '2025-12-15T15:00:00',
+            location: 'Biblioteca Comunitaria',
+            category: 'taller' as const,
+            color: 'blue' as const,
+            isHighlighted: true
+          },
+          {
+            title: 'Reunión Club Familias',
+            description: 'Escuela de padres mensual',
+            eventDate: '2025-12-20T17:00:00',
+            location: 'Sede FACOPEC',
+            category: 'reunion' as const,
+            color: 'rose' as const,
+            isHighlighted: false
+          },
+          {
+            title: 'Celebración Fin de Año',
+            description: 'Cierre de actividades 2025',
+            eventDate: '2025-12-22T14:00:00',
+            location: 'Parque Central',
+            category: 'celebracion' as const,
+            color: 'gold' as const,
+            isHighlighted: true
+          }
+        ];
+
+        // Combinar eventos hardcodeados con los del CMS, evitando duplicados por título
+        const existingTitles = new Set(mapped.map(e => e.title.toLowerCase()));
+        const additionalEvents = fallbackEvents.filter(
+          e => !existingTitles.has(e.title.toLowerCase())
+        );
+
+        this.eventCalendar = [...additionalEvents, ...mapped];
       }
     }
 
@@ -878,6 +1048,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   private setHeroCarousel(slides: HeroCarouselSlide[]): void {
     this.heroCarousel = slides.map(slide => ({ ...slide }));
     this.heroCarouselIndex = 0;
+
+    // Update carouselImages for the app-hero-carousel component
+    this.carouselImages = slides.map(slide => ({
+      url: slide.image,
+      alt: slide.alt,
+      title: slide.caption
+    }));
+
     this.restartCarouselAutoPlay();
   }
 
@@ -1018,5 +1196,13 @@ export class HomeComponent implements OnInit, OnDestroy {
         }, 5000);
       }
     });
+  }
+
+  /**
+   * Abrir el dropdown de programas en el header
+   * Se activa al hacer clic en el botón "Ver programas"
+   */
+  openProgramsInHeader(): void {
+    this.navigationService.openProgramsDropdown();
   }
 }

@@ -580,6 +580,7 @@ export interface ApiOrganizationInfoOrganizationInfo
     logo: Schema.Attribute.Media;
     mission: Schema.Attribute.Text;
     name: Schema.Attribute.String;
+    organigramaUrl: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     socialLinks: Schema.Attribute.Component<'global.social-link', true>;
     updatedAt: Schema.Attribute.DateTime;

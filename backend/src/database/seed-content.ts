@@ -217,16 +217,16 @@ export async function seedDefaultContent(strapi: Strapi) {
 
   const supportersAssets: Array<{ key: string; path: string; alt: string; caption: string }> = [
     {
-      key: 'icbf',
-      path: path.join('supporters', 'icbf-logo.svg'),
+      key: 'bienestar',
+      path: path.join('supporters', 'logo-bienestar.png'),
       alt: 'Logo del Instituto Colombiano de Bienestar Familiar',
       caption: 'Aliado: Instituto Colombiano de Bienestar Familiar',
     },
     {
-      key: 'pnud',
-      path: path.join('supporters', 'pnud-logo.svg'),
-      alt: 'Logo del Programa de las Naciones Unidas para el Desarrollo',
-      caption: 'Aliado: Programa de las Naciones Unidas para el Desarrollo',
+      key: 'interior',
+      path: path.join('supporters', 'logo-interior.png'),
+      alt: 'Logo del Ministerio del Interior',
+      caption: 'Aliado: Ministerio del Interior',
     },
   ];
 
@@ -265,62 +265,134 @@ export async function seedDefaultContent(strapi: Strapi) {
         dataUid: 'navigation.programs',
         children: [
           {
-            title: 'Para estudiantes',
-            dataUid: 'navigation.programs.students',
+            title: '📚 Educación y Refuerzo Académico',
+            dataUid: 'navigation.programs.education',
             items: [
+              {
+                label: 'Guías y Cuentos Cortos',
+                url: 'https://cuentoscortosprofeencasa.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.education.guias',
+              },
+              {
+                label: 'Guías de Matemáticas',
+                url: 'https://matematicasprofeencasa.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.education.mate',
+              },
               {
                 label: 'Talleres de Nivelación',
                 url: 'https://talleresdenivelacion.blogspot.com/',
                 target: '_blank',
-                dataUid: 'navigation.programs.students.talleres',
+                dataUid: 'navigation.programs.education.talleres',
+              },
+              {
+                label: 'Desafío Matemáticos',
+                url: 'https://desafio-matematicos.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.education.desafio',
+              },
+            ],
+          },
+          {
+            title: '📖 Cultura y Lectura',
+            dataUid: 'navigation.programs.culture',
+            items: [
+              {
+                label: 'Plan Lector - Ruta Literaria María',
+                url: 'https://rutaliterariamaria.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.culture.lector',
+              },
+            ],
+          },
+          {
+            title: '👨‍👩‍👧‍👦 Desarrollo Familiar y Comunitario',
+            dataUid: 'navigation.programs.family',
+            items: [
+              {
+                label: 'Escuela de Padres',
+                url: 'https://consejosparapadresymadres.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.family.parents',
+              },
+              {
+                label: 'Formación Espiritual',
+                url: 'https://escueladominicalcreciendoconcristo.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.family.spiritual',
+              },
+            ],
+          },
+          {
+            title: '💼 Empleabilidad y Desarrollo',
+            dataUid: 'navigation.programs.employability',
+            items: [
+              {
+                label: 'Empleabilidad',
+                url: 'https://empleabilidad-facopec.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.employability.work',
+              },
+            ],
+          },
+          {
+            title: '💻 Innovación y Tecnología Educativa',
+            dataUid: 'navigation.programs.technology',
+            items: [
+              {
+                label: 'FACOPEC Educa',
+                url: 'https://facopeceduca.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.technology.educa',
+              },
+            ],
+          },
+          {
+            title: '🌍 Etnoeducación y Cultura (Identidad)',
+            dataUid: 'navigation.programs.identity',
+            items: [
+              {
+                label: 'Comunidades NARP',
+                url: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform',
+                target: '_blank',
+                dataUid: 'navigation.programs.identity.narp',
+              },
+            ],
+          },
+          {
+            title: '🕊️ Liderazgo, Gobernanza y Paz',
+            dataUid: 'navigation.programs.leadership',
+            items: [
+              {
+                label: 'Escuela de Formación para Jóvenes',
+                url: 'https://personerosestudiantilesylideres.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.leadership.jovenes',
+              },
+            ],
+          },
+          {
+            title: '🎉 Impacto Directo y Bienestar',
+            dataUid: 'navigation.programs.impact',
+            items: [
+              {
+                label: 'Servicio Comunitario',
+                url: 'https://serviciocomunitario-facopec.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.impact.community',
+              },
+              {
+                label: 'Dona Ropa',
+                url: 'https://quetienespararegalar.blogspot.com/',
+                target: '_blank',
+                dataUid: 'navigation.programs.impact.ropa',
               },
               {
                 label: 'Salidas Pedagógicas',
                 url: 'https://salidaspedagogicas-facopec.blogspot.com/',
                 target: '_blank',
-                dataUid: 'navigation.programs.students.salidas',
-              },
-              {
-                label: 'Personeros y Líderes',
-                url: 'https://personerosestudiantilesylideres.blogspot.com/',
-                target: '_blank',
-                dataUid: 'navigation.programs.students.personeros',
-              },
-              {
-                label: 'Obra María | Jorge Isaacs',
-                url: 'https://rutaliterariamaria.blogspot.com/',
-                target: '_blank',
-                dataUid: 'navigation.programs.students.obraMaria',
-              },
-            ],
-          },
-          {
-            title: 'Para fin de año 2025',
-            dataUid: 'navigation.programs.yearEnd',
-            items: [
-              {
-                label: 'Regalos de corazón',
-                url: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/2025/08/regalos-de-corazon-fundacion.html',
-                target: '_blank',
-                dataUid: 'navigation.programs.yearEnd.regalos',
-              },
-            ],
-          },
-          {
-            title: 'Para adultos',
-            dataUid: 'navigation.programs.adults',
-            items: [
-              {
-                label: 'Escuela de Padres | Virtual',
-                url: 'https://consejosparapadresymadres.blogspot.com/',
-                target: '_blank',
-                dataUid: 'navigation.programs.adults.parents',
-              },
-              {
-                label: 'Empleabilidad',
-                url: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Empleabilidad',
-                target: '_blank',
-                dataUid: 'navigation.programs.adults.jobs',
+                dataUid: 'navigation.programs.impact.salidas',
               },
             ],
           },
@@ -453,7 +525,60 @@ export async function seedDefaultContent(strapi: Strapi) {
         dataUid: 'organization.social.whatsapp',
       },
     ],
+    organigramaUrl: 'https://www.canva.com/design/DAG5Qgbtdg8/YDQsqBd1PqH4WtBZybKmEQ/view?embed',
   });
+
+  // Upload carousel images
+  const carouselImage1 = await uploadFileFromAssets(strapi, frontendAssetsDir, 'ninos.jpg', {
+    alternativeText: 'Niñas y niños afrocolombianos compartiendo en comunidad',
+    caption: 'Aprendizajes con sentido desde Puerto Tejada',
+  });
+
+  const carouselImage2 = await uploadFileFromAssets(strapi, frontendAssetsDir, path.join('fotos-fundacion', 'portada.webp'), {
+    alternativeText: 'Equipo pedagógico acompañando actividades en FACOPEC',
+    caption: 'Educación y acompañamiento integral para las familias',
+  });
+
+  const carouselImage3 = await uploadFileFromAssets(strapi, frontendAssetsDir, path.join('fotos-fundacion', 'collage.webp'), {
+    alternativeText: 'Collage de experiencias educativas y culturales de la fundación',
+    caption: 'Arte, lectura y tecnología para transformar territorios',
+  });
+
+  const carouselImage4 = await uploadFileFromAssets(strapi, frontendAssetsDir, path.join('fotos-fundacion', 'collage-profe.webp'), {
+    alternativeText: 'Voluntariado y equipo FACOPEC reunidos con la comunidad',
+    caption: 'Redes solidarias que abrazan a la comunidad',
+  });
+
+  // Upload program logos
+  const programLogosData = [
+    { filename: 'guias.png', alt: 'Guías y Cuentos Cortos', title: 'Guías y Cuentos Cortos', url: 'https://cuentoscortosprofeencasa.blogspot.com/' },
+    { filename: 'guias-mate.png', alt: 'Guías de Matemáticas', title: 'Guías de Matemáticas', url: 'https://matematicasprofeencasa.blogspot.com/' },
+    { filename: 'talleres-nivelacion.png', alt: 'Talleres de Nivelación', title: 'Talleres de Nivelación', url: 'https://talleresdenivelacion.blogspot.com/' },
+    { filename: 'primaria.png', alt: 'Desafío Matemáticos', title: 'Desafío Matemáticos', url: 'https://desafio-matematicos.blogspot.com/' },
+    { filename: 'plan-lector.png', alt: 'Plan Lector', title: 'Ruta Literaria María', url: 'https://rutaliterariamaria.blogspot.com/' },
+    { filename: 'escuela-padres.png', alt: 'Escuela de Padres', title: 'Escuela de Padres', url: 'https://consejosparapadresymadres.blogspot.com/' },
+    { filename: 'espiritual.png', alt: 'Formación Espiritual', title: 'Formación Espiritual', url: 'https://escueladominicalcreciendoconcristo.blogspot.com/' },
+    { filename: 'emplpeabilidad.png', alt: 'Empleabilidad', title: 'Empleabilidad', url: 'https://empleabilidad-facopec.blogspot.com/' },
+    { filename: 'educa.png', alt: 'Escuela de Formación para Jóvenes', title: 'Escuela de Formación para Jóvenes', url: 'https://personerosestudiantilesylideres.blogspot.com/' },
+    { filename: 'educa.png', alt: 'FACOPEC Educa', title: 'FACOPEC Educa', url: 'https://facopeceduca.blogspot.com/' },
+    { filename: 'comunidades-narp.png', alt: 'Comunidades NARP', title: 'Comunidades NARP', url: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform' },
+    { filename: 'comunitario.png', alt: 'Servicio Comunitario', title: 'Servicio Comunitario', url: 'https://serviciocomunitario-facopec.blogspot.com/' },
+    { filename: 'dona-ropa.png', alt: 'Dona Ropa', title: 'Qué Tienes Para Regalar', url: 'https://quetienespararegalar.blogspot.com/' },
+    { filename: 'salida-pedagogica.png', alt: 'Salidas Pedagógicas', title: 'Salidas Pedagógicas', url: 'https://salidaspedagogicas-facopec.blogspot.com/' },
+  ];
+
+  const programLogos = new Map<string, UploadedFile>();
+  for (const logo of programLogosData) {
+    const uploaded = await uploadFileFromAssets(
+      strapi,
+      frontendAssetsDir,
+      path.join('program-logos', logo.filename),
+      { alternativeText: logo.alt, caption: logo.title }
+    );
+    if (uploaded) {
+      programLogos.set(logo.filename, uploaded);
+    }
+  }
 
   await upsertSingleType(strapi, 'api::home-page.home-page', {
     hero: {
@@ -465,6 +590,12 @@ export async function seedDefaultContent(strapi: Strapi) {
       lead:
         'Somos la Fundación Afrocolombiana Profe en Casa. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Cauca.',
       image: heroImage?.id,
+      carouselItems: [
+        { title: 'Aprendizajes con sentido', description: 'Desde Puerto Tejada', image: carouselImage1?.id },
+        { title: 'Educación integral', description: 'Para las familias', image: carouselImage2?.id },
+        { title: 'Arte y tecnología', description: 'Transformando territorios', image: carouselImage3?.id },
+        { title: 'Redes solidarias', description: 'Que abrazan a la comunidad', image: carouselImage4?.id },
+      ].filter(item => item.image),
       stats: [
         { value: '+180', label: 'Estudiantes acompañados con tutorías y mentorías' },
         { value: '35', label: 'Voluntarios activos en programas comunitarios' },
@@ -476,7 +607,7 @@ export async function seedDefaultContent(strapi: Strapi) {
       ],
       verse: {
         reference: 'Proverbios 3:13',
-        text: '“Feliz quien halla sabiduría”',
+        text: '"Feliz quien halla sabiduría"',
         description:
           'Creamos espacios seguros para aprender, compartir y crecer en comunidad. Creemos en el poder de la lectura, la tecnología y la fe para transformar historias.',
       },
@@ -559,20 +690,144 @@ export async function seedDefaultContent(strapi: Strapi) {
     ],
     programs: [
       {
-        title: 'Semillero Digital',
-        description: 'Talleres STEAM, alfabetización digital y mentorías vocacionales para jóvenes.',
-        highlights: ['Tecnología', 'Innovación', 'Mentorías'],
-        link: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Semillero%20Digital',
+        title: 'Guías y Cuentos Cortos',
+        description: 'Cuentos cortos y guías de lectura para niñas y niños',
+        highlights: ['Lectura', 'Creatividad'],
+        link: 'https://cuentoscortosprofeencasa.blogspot.com/',
+        logo: programLogos.get('guias.png')?.id,
+        logoAlt: 'Guías y Cuentos Cortos',
         strapiCollection: 'programas',
-        strapiEntryId: 'semillero-digital',
+        strapiEntryId: 'guias-cuentos',
       },
       {
-        title: 'Club Familias que Acompañan',
-        description: 'Escuela de padres, orientación psicoemocional y redes solidarias para fortalecer el cuidado en casa.',
-        highlights: ['Familias', 'Bienestar', 'Prevención'],
-        link: 'https://fundacionafrocolombianaprofeencasa.blogspot.com/search/label/Familias',
+        title: 'Guías de Matemáticas',
+        description: 'Recursos educativos para el aprendizaje de matemáticas',
+        highlights: ['Matemáticas', 'Educación'],
+        link: 'https://matematicasprofeencasa.blogspot.com/',
+        logo: programLogos.get('guias-mate.png')?.id,
+        logoAlt: 'Guías de Matemáticas',
         strapiCollection: 'programas',
-        strapiEntryId: 'club-familias',
+        strapiEntryId: 'guias-matematicas',
+      },
+      {
+        title: 'Talleres de Nivelación',
+        description: 'Refuerzo escolar y nivelación académica',
+        highlights: ['Nivelación', 'Refuerzo'],
+        link: 'https://talleresdenivelacion.blogspot.com/',
+        logo: programLogos.get('talleres-nivelacion.png')?.id,
+        logoAlt: 'Talleres de Nivelación',
+        strapiCollection: 'programas',
+        strapiEntryId: 'talleres-nivelacion',
+      },
+      {
+        title: 'Ruta Literaria María',
+        description: 'Plan lector basado en la obra María de Jorge Isaacs',
+        highlights: ['Literatura', 'Cultura'],
+        link: 'https://rutaliterariamaria.blogspot.com/',
+        logo: programLogos.get('plan-lector.png')?.id,
+        logoAlt: 'Ruta Literaria María',
+        strapiCollection: 'programas',
+        strapiEntryId: 'ruta-literaria',
+      },
+      {
+        title: 'Escuela de Padres',
+        description: 'Consejos y acompañamiento para madres y padres',
+        highlights: ['Familias', 'Orientación'],
+        link: 'https://consejosparapadresymadres.blogspot.com/',
+        logo: programLogos.get('escuela-padres.png')?.id,
+        logoAlt: 'Escuela de Padres',
+        strapiCollection: 'programas',
+        strapiEntryId: 'escuela-padres',
+      },
+      {
+        title: 'Formación Espiritual',
+        description: 'Escuela dominical y crecimiento con Cristo',
+        highlights: ['Fe', 'Espiritualidad'],
+        link: 'https://escueladominicalcreciendoconcristo.blogspot.com/',
+        logo: programLogos.get('espiritual.png')?.id,
+        logoAlt: 'Formación Espiritual',
+        strapiCollection: 'programas',
+        strapiEntryId: 'formacion-espiritual',
+      },
+      {
+        title: 'Comunidades NARP',
+        description: 'Certificado de reconocimiento para Comunidades Negras, Afrocolombianas, Raizales y Palenqueras',
+        highlights: ['Identidad', 'Reconocimiento'],
+        link: 'https://docs.google.com/forms/d/e/1FAIpQLScI9v2p8Rgp892XzGbEcrN-yKsyMh4A5h1UGmRDeZw_9RqIGQ/viewform',
+        logo: programLogos.get('comunidades-narp.png')?.id,
+        logoAlt: 'Comunidades NARP',
+        strapiCollection: 'programas',
+        strapiEntryId: 'comunidades-narp',
+      },
+      {
+        title: 'Empleabilidad',
+        description: 'Formación y oportunidades laborales para la comunidad',
+        highlights: ['Empleo', 'Formación'],
+        link: 'https://empleabilidad-facopec.blogspot.com/',
+        logo: programLogos.get('emplpeabilidad.png')?.id,
+        logoAlt: 'Empleabilidad',
+        strapiCollection: 'programas',
+        strapiEntryId: 'empleabilidad',
+      },
+      {
+        title: 'Salidas Pedagógicas',
+        description: 'Experiencias educativas fuera del aula',
+        highlights: ['Educación', 'Cultura'],
+        link: 'https://salidaspedagogicas-facopec.blogspot.com/',
+        logo: programLogos.get('salida-pedagogica.png')?.id,
+        logoAlt: 'Salidas Pedagógicas',
+        strapiCollection: 'programas',
+        strapiEntryId: 'salidas-pedagogicas',
+      },
+      {
+        title: 'FACOPEC Educa',
+        description: 'Plataforma educativa de la fundación',
+        highlights: ['Educación', 'Recursos'],
+        link: 'https://facopeceduca.blogspot.com/',
+        logo: programLogos.get('educa.png')?.id,
+        logoAlt: 'FACOPEC Educa',
+        strapiCollection: 'programas',
+        strapiEntryId: 'facopec-educa',
+      },
+      {
+        title: 'Qué Tienes Para Regalar',
+        description: 'Programa de donación de ropa y artículos',
+        highlights: ['Solidaridad', 'Donaciones'],
+        link: 'https://quetienespararegalar.blogspot.com/',
+        logo: programLogos.get('dona-ropa.png')?.id,
+        logoAlt: 'Qué Tienes Para Regalar',
+        strapiCollection: 'programas',
+        strapiEntryId: 'dona-ropa',
+      },
+      {
+        title: 'Servicio Comunitario',
+        description: 'Trabajo voluntario y servicio a la comunidad',
+        highlights: ['Comunidad', 'Voluntariado'],
+        link: 'https://serviciocomunitario-facopec.blogspot.com/',
+        logo: programLogos.get('comunitario.png')?.id,
+        logoAlt: 'Servicio Comunitario',
+        strapiCollection: 'programas',
+        strapiEntryId: 'servicio-comunitario',
+      },
+      {
+        title: 'Desafío Matemáticos',
+        description: 'Retos y actividades matemáticas para primaria',
+        highlights: ['Matemáticas', 'Primaria'],
+        link: 'https://desafio-matematicos.blogspot.com/',
+        logo: programLogos.get('primaria.png')?.id,
+        logoAlt: 'Desafío Matemáticos',
+        strapiCollection: 'programas',
+        strapiEntryId: 'desafio-matematicos',
+      },
+      {
+        title: 'Escuela de Formación para Jóvenes',
+        description: 'Formación en liderazgo, gobernanza y paz para personeros estudiantiles y líderes juveniles',
+        highlights: ['Liderazgo', 'Gobernanza', 'Paz'],
+        link: 'https://personerosestudiantilesylideres.blogspot.com/',
+        logo: programLogos.get('educa.png')?.id,
+        logoAlt: 'Escuela de Formación para Jóvenes',
+        strapiCollection: 'programas',
+        strapiEntryId: 'escuela-formacion-jovenes',
       },
     ],
     supporters: [
@@ -580,15 +835,15 @@ export async function seedDefaultContent(strapi: Strapi) {
         name: 'Instituto Colombiano de Bienestar Familiar',
         caption: 'Instituto Colombiano de Bienestar Familiar',
         link: 'https://www.icbf.gov.co',
-        dataUid: 'supporters.icbf',
-        logo: supporterLogos.get('icbf')?.id,
+        dataUid: 'supporters.bienestar',
+        logo: supporterLogos.get('bienestar')?.id,
       },
       {
-        name: 'Programa de las Naciones Unidas para el Desarrollo',
-        caption: 'Programa de las Naciones Unidas para el Desarrollo',
-        link: 'https://www.undp.org',
-        dataUid: 'supporters.pnud',
-        logo: supporterLogos.get('pnud')?.id,
+        name: 'Ministerio del Interior',
+        caption: 'Ministerio del Interior',
+        link: 'https://www.mininterior.gov.co',
+        dataUid: 'supporters.interior',
+        logo: supporterLogos.get('interior')?.id,
       },
     ],
     catalog: [
@@ -641,6 +896,83 @@ export async function seedDefaultContent(strapi: Strapi) {
         link: 'https://www.youtube.com/watch?v=VN0qfM2Yg2w',
         strapiCollection: 'galeria',
         strapiEntryId: 'testimonio-video',
+      },
+    ],
+    attendedPersons: [
+      {
+        program: 'Tutorías Profe en Casa',
+        count: 120,
+        description: 'Estudiantes en refuerzo escolar',
+        icon: '🧠',
+        theme: 'teal',
+      },
+      {
+        program: 'Ruta Literaria María',
+        count: 65,
+        description: 'Participantes en círculos de lectura',
+        icon: '📖',
+        theme: 'blue',
+      },
+      {
+        program: 'Semillero Digital',
+        count: 45,
+        description: 'Jóvenes en talleres STEAM',
+        icon: '💻',
+        theme: 'purple',
+      },
+      {
+        program: 'Club Familias',
+        count: 80,
+        description: 'Familias acompañadas',
+        icon: '👨‍👩‍👧‍👦',
+        theme: 'rose',
+      },
+    ],
+    eventCalendar: [
+      {
+        title: 'Cierre del programa de nivelación',
+        description: 'Cierre del programa de nivelación académica',
+        eventDate: '2025-11-27T15:00:00',
+        location: 'Sede FACOPEC',
+        category: 'evento',
+        color: 'teal',
+        isHighlighted: true,
+      },
+      {
+        title: 'Mujeres Equidad y Empleo',
+        description: 'Programa de empleabilidad y formación para mujeres',
+        eventDate: '2025-11-10T09:00:00',
+        endDate: '2026-01-10T17:00:00',
+        location: 'Sede FACOPEC',
+        category: 'formacion',
+        color: 'purple',
+        isHighlighted: true,
+      },
+      {
+        title: 'Taller de lectura en voz alta',
+        description: 'Círculo literario con familias',
+        eventDate: '2025-12-15T15:00:00',
+        location: 'Biblioteca Comunitaria',
+        category: 'taller',
+        color: 'blue',
+        isHighlighted: true,
+      },
+      {
+        title: 'Reunión Club Familias',
+        description: 'Escuela de padres mensual',
+        eventDate: '2025-12-20T17:00:00',
+        location: 'Sede FACOPEC',
+        category: 'reunion',
+        color: 'rose',
+      },
+      {
+        title: 'Celebración Fin de Año',
+        description: 'Cierre de actividades 2025',
+        eventDate: '2025-12-22T14:00:00',
+        location: 'Parque Central',
+        category: 'celebracion',
+        color: 'gold',
+        isHighlighted: true,
       },
     ],
   });
