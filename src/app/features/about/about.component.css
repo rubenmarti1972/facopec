@@ -128,7 +128,7 @@
 
 .values-card__item {
   opacity: 0;
-  animation: fadeInUp 0.6s ease-out backwards;
+  animation: fadeInUp 0.6s ease-out both;
 }
 
 .values-card__item:nth-child(1) { animation-delay: 0.5s; }
