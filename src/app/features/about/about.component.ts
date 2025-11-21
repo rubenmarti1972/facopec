@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { StrapiService } from '@core/services/strapi.service';
 import { HomePageContent } from '@core/models';
 
@@ -21,9 +22,14 @@ type IdentityCardKey = 'description' | 'mission' | 'vision';
 })
 export class AboutComponent implements OnInit {
   private readonly strapiService = inject(StrapiService);
+  private readonly sanitizer = inject(DomSanitizer);
 
   loading = true;
   error: string | null = null;
+
+  // URL del organigrama con fallback hardcodeado
+  organigramaUrl = 'https://www.canva.com/design/DAG5Qgbtdg8/YDQsqBd1PqH4WtBZybKmEQ/view?embed';
+  safeOrganigramaUrl: SafeResourceUrl | null = null;
 
   identity = {
     description:
@@ -68,7 +74,9 @@ export class AboutComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.safeOrganigramaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.organigramaUrl);
     this.loadContent();
+    this.loadOrganizationInfo();
     this.setupAutoRefresh();
   }
 
@@ -83,6 +91,21 @@ export class AboutComponent implements OnInit {
         console.error('Error loading about content from Strapi', error);
         this.error = error instanceof Error ? error.message : 'No se pudo cargar el contenido institucional.';
         this.loading = false;
+      }
+    });
+  }
+
+  private loadOrganizationInfo(): void {
+    this.strapiService.getOrganizationInfo().subscribe({
+      next: orgInfo => {
+        if (orgInfo?.organigramaUrl) {
+          this.organigramaUrl = orgInfo.organigramaUrl;
+          this.safeOrganigramaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.organigramaUrl);
+        }
+      },
+      error: error => {
+        console.error('Error loading organization info from Strapi', error);
+        // Mantener el fallback hardcodeado si hay error
       }
     });
   }

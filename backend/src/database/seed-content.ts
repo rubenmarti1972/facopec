@@ -525,6 +525,7 @@ export async function seedDefaultContent(strapi: Strapi) {
         dataUid: 'organization.social.whatsapp',
       },
     ],
+    organigramaUrl: 'https://www.canva.com/design/DAG5Qgbtdg8/YDQsqBd1PqH4WtBZybKmEQ/view?embed',
   });
 
   // Upload carousel images

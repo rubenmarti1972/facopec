@@ -407,6 +407,7 @@ export interface OrganizationInfo {
   address?: OrganizationAddress | null;
   hours?: OrganizationHours | null;
   socialLinks?: OrganizationSocialLink[];
+  organigramaUrl?: string;
 }
 
 // ============================================================================
