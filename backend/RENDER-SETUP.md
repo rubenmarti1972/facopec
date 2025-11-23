@@ -144,6 +144,13 @@ Start Command: pnpm run start
 - ✅ Verifica que todas las variables estén en Render
 - ✅ Revisa los logs de build
 
+### "Port scan timeout reached"
+
+- ✅ Render necesita que el comando de inicio abra un puerto (web service)
+- ✅ Usa **Start Command: `pnpm run start`** para levantar Strapi
+- ✅ **No** uses `pnpm run seed` ni `pnpm run seed:production` como comando principal: son scripts cortos que cierran el proceso y Render detiene el despliegue al no detectar el puerto
+- ✅ El seed se ejecuta automáticamente al iniciar Strapi en producción; solo necesitas configurar correctamente las variables de entorno
+
 ### "Los datos se pierden"
 
 - ✅ Estás usando PostgreSQL (no SQLite)
