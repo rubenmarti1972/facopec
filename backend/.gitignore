@@ -4,9 +4,24 @@ build
 !.tmp/.gitkeep
 dist
 .env
+.env.local
+.env.production
 
 # Strapi uploads (user-generated content)
 public/uploads/
 
-# Strapi database (SQLite)
+# Strapi database (SQLite & PostgreSQL dumps)
 data/strapi.db
+data/strapi-postgres.sql
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
