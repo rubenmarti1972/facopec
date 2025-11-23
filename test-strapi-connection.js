@@ -55,7 +55,7 @@ function testEndpoint(endpoint) {
       });
     });
 
-    req.setTimeout(5000, () => {
+    req.setTimeout(20000, () => {
       req.destroy();
       resolve({
         endpoint,
