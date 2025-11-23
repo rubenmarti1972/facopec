@@ -12,10 +12,13 @@ export default {
       strapi.log.error('Error syncing public permissions:', error);
     }
 
-    // Solo ejecutar seed si se solicita explícitamente o si la DB está vacía
+    // En producción, SIEMPRE verificar si necesitamos seed
+    // En desarrollo, solo si se pide explícitamente
+    const isProduction = process.env.NODE_ENV === 'production';
     const shouldSeed =
       process.env.FORCE_SEED === 'true' ||
-      process.env.SEED_ON_BOOTSTRAP === 'true';
+      process.env.SEED_ON_BOOTSTRAP === 'true' ||
+      isProduction;
 
     if (process.env.SKIP_BOOTSTRAP_SEED === 'true' || !shouldSeed) {
       strapi.log.info('Skipping default content seed during bootstrap.');
@@ -33,15 +36,19 @@ export default {
         strapi.log.info(
           '✅ La base de datos ya contiene datos. Omitiendo seed automático.'
         );
-        strapi.log.info(
-          '   Para forzar el seed, usa: FORCE_SEED=true npm run develop'
-        );
+        if (!isProduction) {
+          strapi.log.info(
+            '   Para forzar el seed, usa: FORCE_SEED=true npm run develop'
+          );
+        }
         return;
       }
 
       strapi.log.info('🌱 Ejecutando seed inicial de contenido...');
+      strapi.log.info('📦 Poblando base de datos PostgreSQL en producción...');
       await seedDefaultContent(strapi);
       strapi.log.info('✅ Seed completado exitosamente.');
+      strapi.log.info('📝 Credenciales: facopec@facopec.org / F4c0pec@2025');
     } catch (error) {
       strapi.log.error('Error while seeding default content during bootstrap:', error);
     }
