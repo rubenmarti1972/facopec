@@ -33,13 +33,21 @@ async function checkAndSeed() {
     await client.connect();
     console.log('✅ Conectado a PostgreSQL');
 
-    // Verificar si hay usuarios admin
-    const result = await client.query('SELECT COUNT(*) as count FROM admin_users');
-    const userCount = parseInt(result.rows[0].count);
+    // Verificar si hay CONTENIDO real (no solo usuarios)
+    // Checamos la tabla globals que contiene configuración del sitio
+    let hasContent = false;
 
-    console.log(`📊 Usuarios admin encontrados: ${userCount}`);
+    try {
+      const globalResult = await client.query('SELECT COUNT(*) as count FROM globals');
+      const globalCount = parseInt(globalResult.rows[0].count);
+      hasContent = globalCount > 0;
+      console.log(`📊 Registros en globals: ${globalCount}`);
+    } catch (e) {
+      // Si la tabla no existe, definitivamente necesitamos seed
+      console.log('ℹ️  Tabla globals no existe - se necesita seed');
+    }
 
-    if (userCount === 0) {
+    if (!hasContent) {
       console.log('🌱 Base de datos vacía - ejecutando seed...');
       console.log('');
 
@@ -67,7 +75,7 @@ async function checkAndSeed() {
         console.error('   SEED_ON_BOOTSTRAP=true pnpm run seed');
       }
     } else {
-      console.log('✅ Base de datos ya tiene usuarios - omitiendo seed');
+      console.log('✅ Base de datos ya tiene datos - omitiendo seed');
     }
 
     await client.end();
