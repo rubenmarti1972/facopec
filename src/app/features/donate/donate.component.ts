@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { StrapiService } from '@core/services/strapi.service';
+import { CmsFallbackService } from '@core/services/cms-fallback.service';
 import { EmailService, PartnerFormData } from '@core/services/email.service';
 import { DonationsPageContent, MediaAsset } from '@core/models';
+import { ImageFallbackDirective } from '@shared/directives/image-fallback.directive';
 
 type DonationType = 'once' | 'monthly';
 
@@ -54,13 +56,14 @@ interface PaymentGateway {
 @Component({
   selector: 'app-donate',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, ImageFallbackDirective],
   templateUrl: './donate.component.html',
   styleUrls: ['./donate.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DonateComponent implements OnInit {
   private readonly strapiService = inject(StrapiService);
+  private readonly fallbackService = inject(CmsFallbackService);
   private readonly emailService = inject(EmailService);
   private readonly cdr = inject(ChangeDetectorRef);
 
@@ -359,6 +362,14 @@ export class DonateComponent implements OnInit {
   }
 
   private applyDonationsContent(content: DonationsPageContent): void {
+    // FALLBACK AGRESIVO: Si el CMS está caído, no modificar nada
+    // Mantener todos los datos hardcodeados
+    if (this.fallbackService.isCmsDown()) {
+      console.log('[DonateComponent] CMS caído, usando solo datos hardcodeados');
+      this.loading = false;
+      return;
+    }
+
     if (content.heroTitle) {
       const parts = content.heroTitle.split('|').map(part => part.trim()).filter(Boolean);
       this.heroTitlePrimary = parts[0] ?? content.heroTitle;
@@ -471,8 +482,17 @@ export class DonateComponent implements OnInit {
     this.loading = false;
   }
 
-  private resolveMediaUrl(media?: MediaAsset | null): string | null {
-    return this.strapiService.buildMediaUrl(media);
+  private resolveMediaUrl(media?: MediaAsset | null, fallbackImage?: string): string | null {
+    // Si el CMS está caído, retornar la imagen de fallback directamente
+    if (this.fallbackService.isCmsDown() && fallbackImage) {
+      return fallbackImage;
+    }
+
+    // Intentar obtener la URL del CMS
+    const cmsUrl = this.strapiService.buildMediaUrl(media);
+
+    // Si no hay URL del CMS, usar fallback
+    return cmsUrl ?? fallbackImage ?? null;
   }
 
   /**
