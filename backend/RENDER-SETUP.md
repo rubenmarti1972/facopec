@@ -150,6 +150,7 @@ Start Command: pnpm run start
 - ✅ Usa **Start Command: `pnpm run start`** para levantar Strapi
 - ✅ **No** uses `pnpm run seed` ni `pnpm run seed:production` como comando principal: son scripts cortos que cierran el proceso y Render detiene el despliegue al no detectar el puerto
 - ✅ El seed se ejecuta automáticamente al iniciar Strapi en producción; solo necesitas configurar correctamente las variables de entorno
+- ✅ **Si Render inicia con SQLite, el CMS quedará vacío en cada redeploy.** Asegúrate de que `DATABASE_CLIENT=postgres` esté configurado en Environment para obligar a Strapi a usar PostgreSQL
 
 ### "Los datos se pierden"
 
