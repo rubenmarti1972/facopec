@@ -229,10 +229,39 @@ export class CmsFallbackService {
   }
 
   /**
-   * Valida si una URL de imagen es válida (no vacía, no null)
+   * Valida si una URL de imagen es válida (no vacía, no null, no undefined)
+   * Más estricto: verifica que sea una URL real
    */
   isValidImageUrl(url: string | null | undefined): boolean {
-    return !!url && url.trim().length > 0;
+    if (!url || typeof url !== 'string') {
+      return false;
+    }
+
+    const trimmed = url.trim();
+
+    // URL vacía
+    if (trimmed.length === 0) {
+      return false;
+    }
+
+    // URL debe empezar con / o http
+    if (!trimmed.startsWith('/') && !trimmed.startsWith('http')) {
+      return false;
+    }
+
+    // URL no debe ser placeholder o undefined string
+    if (trimmed === 'undefined' || trimmed === 'null') {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Valida si un MediaAsset tiene una URL válida
+   */
+  hasValidMedia(media?: MediaAsset | null): boolean {
+    return !!(media?.url && this.isValidImageUrl(media.url));
   }
 
   /**

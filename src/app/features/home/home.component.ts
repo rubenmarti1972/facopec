@@ -642,10 +642,18 @@ export class HomeComponent implements OnInit, OnDestroy {
       const heroMediaUrl = this.resolveMediaUrl(hero.image);
       const heroAltText = hero.image?.alternativeText ?? hero.image?.caption ?? this.hero.imageAlt;
 
-      // FALLBACK AGRESIVO: Si el CMS está caído o no tiene imagen, usar la hardcodeada
-      const finalHeroImage = this.fallbackService.isCmsDown()
-        ? this.hero.image
-        : (heroMediaUrl ?? this.hero.image);
+      // FALLBACK AGRESIVO:
+      // 1. Si el CMS está caído → usar hardcodeada
+      // 2. Si la URL del CMS es inválida/vacía → usar hardcodeada
+      // 3. Si la URL del CMS es válida → usar la del CMS
+      let finalHeroImage = this.hero.image; // Por defecto hardcodeada
+
+      if (!this.fallbackService.isCmsDown() && heroMediaUrl && this.fallbackService.isValidImageUrl(heroMediaUrl)) {
+        // Solo usar imagen del CMS si es válida
+        finalHeroImage = heroMediaUrl;
+      } else if (!this.fallbackService.isCmsDown() && (!heroMediaUrl || !this.fallbackService.isValidImageUrl(heroMediaUrl))) {
+        console.warn('[HomeComponent] Hero image del CMS inválida, usando hardcodeada');
+      }
 
       this.hero = {
         eyebrow: hero.eyebrow ?? this.hero.eyebrow,
@@ -1049,23 +1057,35 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     const slides: HeroCarouselSlide[] = [];
+    let hasValidSlides = false;
 
-    hero.carouselItems?.forEach(item => {
+    // Intentar construir slides del CMS con validación estricta
+    hero.carouselItems?.forEach((item, index) => {
       const imageUrl = this.resolveMediaUrl(item.image);
-      if (!imageUrl) {
-        return;
-      }
 
-      const caption = item.image?.caption ?? item.description ?? item.title ?? undefined;
-      const alt = item.image?.alternativeText ?? item.title ?? caption ?? 'Fotografía de FACOPEC';
-      slides.push({ image: imageUrl, alt, caption });
+      // VALIDACIÓN ESTRICTA: verificar que la URL sea válida
+      if (imageUrl && this.fallbackService.isValidImageUrl(imageUrl)) {
+        const caption = item.image?.caption ?? item.description ?? item.title ?? undefined;
+        const alt = item.image?.alternativeText ?? item.title ?? caption ?? 'Fotografía de FACOPEC';
+        slides.push({ image: imageUrl, alt, caption });
+        hasValidSlides = true;
+      } else {
+        // Si la imagen del CMS es inválida, usar la hardcodeada correspondiente
+        console.warn(`[HomeComponent] Imagen ${index} del carrusel inválida, usando fallback`);
+        const fallbackSlide = this.fallbackCarouselSlides[index];
+        if (fallbackSlide) {
+          slides.push(fallbackSlide);
+        }
+      }
     });
 
-    if (slides.length) {
-      this.setHeroCarousel(slides);
-    } else if (!this.heroCarousel.length) {
-      // Si el CMS no tiene slides, usar los hardcodeados
+    // Si no hay slides válidos del CMS, usar todos los hardcodeados
+    if (!hasValidSlides || slides.length === 0) {
+      console.log('[HomeComponent] No hay slides válidos del CMS, usando carrusel hardcodeado completo');
       this.setHeroCarousel(this.fallbackCarouselSlides);
+    } else {
+      // Usar los slides (mezcla de CMS + fallback)
+      this.setHeroCarousel(slides);
     }
   }
 
@@ -1074,10 +1094,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.heroCarouselIndex = 0;
 
     // Update carouselImages for the app-hero-carousel component
-    this.carouselImages = slides.map(slide => ({
+    // Incluir fallbackUrl para que la directiva ImageFallback pueda usarlo
+    this.carouselImages = slides.map((slide, index) => ({
       url: slide.image,
       alt: slide.alt,
-      title: slide.caption
+      title: slide.caption,
+      fallbackUrl: this.fallbackCarouselSlides[index]?.image || 'assets/fotos-fundacion/portada.webp'
     }));
 
     this.restartCarouselAutoPlay();
