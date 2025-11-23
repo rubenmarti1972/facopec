@@ -228,26 +228,26 @@ export async function seedDefaultContent(strapi: Strapi) {
     }
 
     if (shouldResetPassword) {
-      updateData.password = adminPassword;
+      await strapi.admin.services.user.resetPasswordByEmail(adminEmail, adminPassword);
     }
 
     if (Object.keys(updateData).length > 0) {
-      await strapi.admin.services.user.update({
-        id: existingAdmin.id,
+      await strapi.db.query('admin::user').update({
+        where: { id: existingAdmin.id },
         data: updateData,
       });
+    }
 
-      const updatesApplied = [
-        updateData.isActive ? 'activado' : null,
-        updateData.roles ? 'rol super admin aplicado' : null,
-        shouldResetPassword ? 'contraseña restablecida' : null,
-      ]
-        .filter(Boolean)
-        .join(' | ');
+    const updatesApplied = [
+      updateData.isActive ? 'activado' : null,
+      updateData.roles ? 'rol super admin aplicado' : null,
+      shouldResetPassword ? 'contraseña restablecida' : null,
+    ]
+      .filter(Boolean)
+      .join(' | ');
 
-      strapi.log.info(
-        `Superusuario ${adminUsername} actualizado (${updatesApplied || 'sin cambios adicionales'}).`
-      );
+    if (updatesApplied) {
+      strapi.log.info(`Superusuario ${adminUsername} actualizado (${updatesApplied}).`);
     } else {
       strapi.log.info(`Superusuario ${adminUsername} ya existe.`);
     }
