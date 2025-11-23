@@ -193,6 +193,7 @@ export async function seedDefaultContent(strapi: Strapi) {
           firstname: 'FACOPEC',
           lastname: 'Administrador',
           isActive: true,
+          blocked: false,
           roles: [superAdminRole.id],
         },
       });
@@ -212,6 +213,10 @@ export async function seedDefaultContent(strapi: Strapi) {
 
     if (!existingAdmin.isActive) {
       updateData.isActive = true;
+    }
+
+    if (existingAdmin.blocked) {
+      updateData.blocked = false;
     }
 
     if (superAdminRole && !hasSuperAdminRole) {

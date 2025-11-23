@@ -72,6 +72,9 @@ STRAPI_TELEMETRY_DISABLED=true
 SEED_ADMIN_USERNAME=admin
 SEED_ADMIN_EMAIL=admin@facopec.org
 SEED_ADMIN_PASSWORD=TuPasswordSegura123!
+# Si el admin se bloqueó en producción, forzar desbloqueo y reset
+# (solo durante el siguiente arranque)
+SEED_ADMIN_FORCE_RESET=true
 ```
 
 ---
