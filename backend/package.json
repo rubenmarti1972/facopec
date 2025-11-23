@@ -20,6 +20,7 @@
     "restore:db": "node scripts/restore-sql.mjs",
     "setup:postgres": "node scripts/setup-postgres.mjs",
     "migrate:postgres": "node scripts/migrate-sqlite-to-postgres.mjs",
+    "migrate:verify": "node scripts/migrate-and-verify.mjs",
     "upgrade:stable": "node upgrade-strapi-to-stable.mjs"
   },
   "dependencies": {
