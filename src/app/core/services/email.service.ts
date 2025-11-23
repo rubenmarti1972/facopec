@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+
 
 export interface EmailPayload {
   to: string;
@@ -34,7 +35,7 @@ export interface PartnerFormData {
 })
 export class EmailService {
   private readonly http = inject(HttpClient);
-  private readonly foundationEmail = 'profeencasasedeciudaddelsur@gmail.com';
+  private readonly foundationEmail = 'lucasmartinez220372@gmail.com';
   private readonly strapiUrl = environment.strapi?.url || 'http://localhost:1337';
 
   /**
@@ -69,7 +70,7 @@ export class EmailService {
    * Conecta con el endpoint /api/email/send en Strapi
    * que a su vez usa nodemailer con Gmail para enviar el correo
    */
-  private sendEmail(payload: EmailPayload): Observable<any> {
+ /*  private sendEmail(payload: EmailPayload): Observable<any> {
     console.log('📧 Enviando email a:', payload.to);
     console.log('📝 Asunto:', payload.subject);
 
@@ -94,7 +95,29 @@ export class EmailService {
         });
       })
     );
+  } */
+ private sendEmail(payload: EmailPayload): Observable<any> {
+  console.log('📧 Enviando email a:', payload.to);
+  console.log('📝 Asunto:', payload.subject);
+  console.log('🌍 Strapi URL:', this.strapiUrl);
+
+  if (!this.strapiUrl) {
+    console.error('❌ strapiUrl no está configurada en environment');
+    return throwError(() => new Error('strapiUrl no configurada'));
   }
+
+  return this.http.post(`${this.strapiUrl}/api/email/send`, payload).pipe(
+    map((response: any) => {
+      console.log('✅ Email enviado exitosamente:', response);
+      return response;
+    }),
+    catchError(error => {
+      console.error('❌ Error al enviar email:', error);
+      console.log('📧 Datos del email (falló el envío):', payload);
+      return throwError(() => error); // 👈 IMPORTANTE: ahora sí lanzamos el error
+    })
+  );
+}
 
   /**
    * Construye el HTML del email de empleabilidad
@@ -166,7 +189,7 @@ export class EmailService {
   /**
    * Envía un formulario de contacto genérico
    */
-  sendContactForm(formData: any): Observable<{ success: boolean; message: string }> {
+  /* sendContactForm(formData: any): Observable<{ success: boolean; message: string }> {
     const emailPayload: EmailPayload = {
       to: this.foundationEmail,
       subject: `Nuevo mensaje de contacto - ${formData.subject || 'Sin asunto'}`,
@@ -184,7 +207,25 @@ export class EmailService {
       })
     );
   }
+ */
+sendContactForm(formData: any): Observable<{ success: boolean; message: string }> {
+  const emailPayload: EmailPayload = {
+    to: this.foundationEmail,
+    subject: `Nuevo mensaje de contacto - ${formData.subject || 'Sin asunto'}`,
+    html: this.buildContactEmailHtml(formData),
+    replyTo: formData.email
+  };
 
+  return this.sendEmail(emailPayload).pipe(
+    map(() => ({ success: true, message: 'Mensaje enviado exitosamente' })),
+    catchError(error => {
+      console.error('Error al enviar email:', error);
+      console.log('Datos del formulario que se enviarían:', formData);
+      console.log('Destinatario:', this.foundationEmail);
+      return of({ success: false, message: 'No se pudo enviar el mensaje (revisa logs del servidor)' });
+    })
+  );
+}
   /**
    * Construye el HTML del email de contacto
    */
