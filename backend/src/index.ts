@@ -1,5 +1,5 @@
 import type { Strapi } from '@strapi/types/dist/core';
-import { seedDefaultContent } from './database/seed-content';
+import { logContentSnapshot, seedDefaultContent } from './database/seed-content';
 import syncPublicPermissions from '../config/utils/sync-public-permissions';
 
 export default {
@@ -60,6 +60,7 @@ export default {
         strapi.log.info(
           '✅ La base de datos ya contiene Global, Organización, Home, Donations y proyectos publicados. Omitiendo seed automático.'
         );
+        await logContentSnapshot(strapi);
         if (!isProduction) {
           strapi.log.info(
             '   Para forzar el seed, usa: FORCE_SEED=true npm run develop'
@@ -87,6 +88,7 @@ export default {
       await seedDefaultContent(strapi);
       strapi.log.info('✅ Seed completado exitosamente.');
       strapi.log.info('📝 Credenciales: facopec@facopec.org / F4c0pec@2025');
+      await logContentSnapshot(strapi);
     } catch (error) {
       strapi.log.error('Error while seeding default content during bootstrap:', error);
     }

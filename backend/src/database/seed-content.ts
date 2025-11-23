@@ -59,6 +59,40 @@ async function logAdminStatus(strapi: Strapi, email: string) {
   }
 }
 
+export async function logContentSnapshot(strapi: Strapi) {
+  const singleTypeUids = [
+    'api::global.global',
+    'api::organization-info.organization-info',
+    'api::home-page.home-page',
+    'api::donations-page.donations-page',
+  ] as const;
+
+  const singleTypeStatuses = await Promise.all(
+    singleTypeUids.map(async (uid) => {
+      const entry = await strapi.db.query(uid).findOne({ select: ['id', 'publishedAt'] });
+      return {
+        uid,
+        hasEntry: Boolean(entry?.id),
+        published: Boolean(entry?.publishedAt),
+      };
+    })
+  );
+
+  const singleTypeSummary = singleTypeStatuses
+    .map((entry) => `${entry.uid}: ${entry.hasEntry ? '✓' : '✗'}${entry.published ? '' : ' (sin publicar)'}`)
+    .join(' | ');
+
+  const [totalProjects, publishedProjects] = await Promise.all([
+    strapi.db.query('api::project.project').count(),
+    strapi.db
+      .query('api::project.project')
+      .count({ where: { publishedAt: { $notNull: true } } }),
+  ]);
+
+  strapi.log.info(`📊 Estado del CMS -> Singles: ${singleTypeSummary}`);
+  strapi.log.info(`📊 Proyectos: ${publishedProjects}/${totalProjects} publicados`);
+}
+
 type EntityData = Record<string, unknown>;
 
 type UploadedFile = {
@@ -1226,10 +1260,32 @@ export async function seedDefaultContent(strapi: Strapi) {
       },
     ];
 
+    const publishDate = new Date();
+
     for (const project of projects) {
-      await strapi.entityService.create('api::project.project', { data: project });
+      await strapi.entityService.create('api::project.project', {
+        data: { ...project, publishedAt: publishDate },
+      });
     }
   }
 
+  const unpublishedProjects = Array.isArray(existingProjects)
+    ? existingProjects.filter((project: { id?: number; publishedAt?: Date | string | null }) => !project?.publishedAt)
+    : [];
+
+  for (const project of unpublishedProjects) {
+    if (!project?.id) {
+      continue;
+    }
+
+    await strapi.db.query('api::project.project').update({
+      where: { id: project.id },
+      data: { publishedAt: new Date() },
+    });
+
+    strapi.log.warn(`Proyecto ${project.id} no estaba publicado; se publicó durante el seed.`);
+  }
+
+  await logContentSnapshot(strapi);
   strapi.log.info('Seed completed successfully.');
 }
