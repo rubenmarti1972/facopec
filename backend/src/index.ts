@@ -4,34 +4,64 @@ import syncPublicPermissions from '../config/utils/sync-public-permissions';
 
 async function ensureSuperAdmin(strapi: Strapi) {
   try {
-    // Servicios correctos en Strapi 5
-    const userService = (strapi as any).service('admin::user');
-    const roleService = (strapi as any).service('admin::role');
-
-    // ¿Ya existe algún admin?
-    const hasAdmin = await userService.exists();
-    if (hasAdmin) {
-      strapi.log.info('👤 Ya existe al menos un admin, no se crea otro.');
-      return;
-    }
-
-    // Rol super admin
-    const superAdminRole = await roleService.getSuperAdmin();
-
     const email = process.env.ADMIN_EMAIL || 'facopec@facopec.org';
     const password = process.env.ADMIN_PASSWORD || 'F4c0pec@2025';
 
-    await userService.create({
-      email,
-      firstname: 'FACOPEC',
-      lastname: 'Admin',
-      password,
-      registrationToken: null,
-      isActive: true,
-      roles: [superAdminRole.id],
+    const authService = (strapi as any).service('admin::auth');
+    const roleService = (strapi as any).service('admin::role');
+    const superAdminRole = await roleService.getSuperAdmin();
+
+    // Buscar usuario admin por email
+    const existingUser = await (strapi as any).db
+      .query('admin::user')
+      .findOne({
+        where: { email },
+        populate: ['roles'],
+      });
+
+    if (!existingUser) {
+      // No existe -> lo creamos desde cero como SUPER ADMIN
+      const hashedPassword = await authService.hashPassword(password);
+
+      await (strapi as any).db.query('admin::user').create({
+        data: {
+          email,
+          firstname: 'FACOPEC',
+          lastname: 'Admin',
+          password: hashedPassword,
+          isActive: true,
+          roles: [superAdminRole.id],
+        },
+      });
+
+      strapi.log.info(`✅ SUPER ADMIN creado: ${email}`);
+      return;
+    }
+
+    // Sí existe -> asegurar que tenga rol SUPER ADMIN y la clave correcta
+    const hasSuperAdminRole =
+      Array.isArray(existingUser.roles) &&
+      existingUser.roles.some(
+        (r: any) => r?.id === superAdminRole.id || r?.code === 'strapi-super-admin'
+      );
+
+    const dataToUpdate: any = {};
+
+    if (!hasSuperAdminRole) {
+      dataToUpdate.roles = [superAdminRole.id];
+    }
+
+    // Forzamos la contraseña a la que tú conoces
+    const hashedPassword = await authService.hashPassword(password);
+    dataToUpdate.password = hashedPassword;
+    dataToUpdate.isActive = true;
+
+    await (strapi as any).db.query('admin::user').update({
+      where: { id: existingUser.id },
+      data: dataToUpdate,
     });
 
-    strapi.log.info(`✅ SUPER ADMIN creado: ${email}`);
+    strapi.log.info(`✅ SUPER ADMIN actualizado: ${email}`);
   } catch (error) {
     strapi.log.error('❌ Error asegurando SUPER ADMIN:', error);
   }
@@ -48,7 +78,7 @@ export default {
       strapi.log.error('Error syncing public permissions:', error);
     }
 
-    // 2) Asegurar que exista un SUPER ADMIN
+    // 2) Asegurar que exista / se repare el SUPER ADMIN
     await ensureSuperAdmin(strapi);
 
     // 3) Seed de contenido (tu lógica original)
@@ -74,16 +104,17 @@ export default {
 
       const singleTypeStatuses = await Promise.all(
         singleTypeUids.map(async (uid) => {
-        const entry = await strapi.db
-          .query(uid)
-          .findOne({ select: ['id', 'publishedAt'] });
+          const entry = await strapi.db
+            .query(uid)
+            .findOne({ select: ['id', 'publishedAt'] });
 
-        return {
-          uid,
-          hasEntry: Boolean(entry?.id),
-          isPublished: Boolean(entry?.publishedAt),
-        };
-      }));
+          return {
+            uid,
+            hasEntry: Boolean(entry?.id),
+            isPublished: Boolean(entry?.publishedAt),
+          };
+        })
+      );
 
       const missingSingles = singleTypeStatuses.filter(
         (entry) => !entry.hasEntry || !entry.isPublished
