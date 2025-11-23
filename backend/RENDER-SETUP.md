@@ -159,6 +159,32 @@ Start Command: pnpm run start
 
 ---
 
+## 📦 Poblar Producción con los Mismos Datos que Local
+
+Una vez que el arranque en Render funcione, la base de datos queda vacía. Usa los scripts de población existentes para copiar el mismo contenido que tienes en local.
+
+1. **Confirma credenciales del Admin de producción** (las que creaste en `https://tu-backend.onrender.com/admin`).
+2. **Desde tu máquina local** (no necesita SSH en Render), ejecuta:
+   ```bash
+   cd backend
+   STRAPI_BASE_URL=https://tu-backend.onrender.com \
+   STRAPI_ADMIN_EMAIL=admin@facopec.org \
+   STRAPI_ADMIN_PASSWORD="tu-password-admin" \
+   node populate-all-cms.js
+   ```
+   - Los scripts llaman a la API de Strapi usando `STRAPI_BASE_URL`; por defecto apuntan a `http://localhost:1337`, por eso es obligatorio sobreescribirla con la URL pública de Render.
+   - Usa el email y contraseña reales del Admin de producción (no los valores por defecto) para que la autenticación funcione.
+3. **Verifica el contenido** en `https://tu-backend.onrender.com/admin` o con:
+   ```bash
+   curl https://tu-backend.onrender.com/api/home-page
+   curl https://tu-backend.onrender.com/api/global
+   ```
+4. **Persistencia**: si el contenido aparece después de refrescar la página o tras un redeploy, está guardado en PostgreSQL y ya queda disponible para el frontend.
+
+> ℹ️ Estos scripts solo envían datos vía API; no requieren acceso directo a la base de datos ni interrumpen el servicio en Render.
+
+---
+
 ## 🔄 Actualizar Secretos
 
 ```bash
