@@ -83,14 +83,29 @@ export default {
 
     // 3) Seed de contenido (tu lógica original)
     const isProduction = process.env.NODE_ENV === 'production';
+    const seedStore = strapi.store({ type: 'core', name: 'facopec-seed' });
+    const seedCompleted = Boolean(
+      await seedStore.get({ key: 'defaultContentSeeded' })
+    );
     const shouldSeed =
       process.env.FORCE_SEED === 'true' ||
       process.env.SEED_ON_BOOTSTRAP === 'true' ||
-      isProduction;
+      (isProduction && !seedCompleted);
 
-    if (process.env.SKIP_BOOTSTRAP_SEED === 'true' || !shouldSeed) {
+    if (process.env.SKIP_BOOTSTRAP_SEED === 'true') {
       strapi.log.info('Skipping default content seed during bootstrap.');
       strapi.log.info('Para ejecutar el seed, usa: SEED_ON_BOOTSTRAP=true npm run develop');
+      return;
+    }
+
+    if (!shouldSeed) {
+      if (seedCompleted) {
+        strapi.log.info('Seed inicial ya marcado como completado; no se vuelve a ejecutar.');
+        strapi.log.info('Para forzar el seed nuevamente, usa FORCE_SEED=true o SEED_ON_BOOTSTRAP=true.');
+      } else {
+        strapi.log.info('Skipping default content seed during bootstrap.');
+        strapi.log.info('Para ejecutar el seed, usa: SEED_ON_BOOTSTRAP=true npm run develop');
+      }
       return;
     }
 
@@ -156,6 +171,7 @@ export default {
       strapi.log.info('🌱 Ejecutando seed inicial de contenido...');
       strapi.log.info('📦 Poblando base de datos PostgreSQL en producción...');
       await seedDefaultContent(strapi);
+      await seedStore.set({ key: 'defaultContentSeeded', value: true });
       strapi.log.info('✅ Seed completado exitosamente.');
       strapi.log.info('📝 Credenciales: facopec@facopec.org / F4c0pec@2025');
     } catch (error) {
