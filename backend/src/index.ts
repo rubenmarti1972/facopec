@@ -4,35 +4,29 @@ import syncPublicPermissions from '../config/utils/sync-public-permissions';
 
 async function ensureSuperAdmin(strapi: Strapi) {
   try {
-    const adminUserService = (strapi as any).admin.services.user;
-    const adminRoleService = (strapi as any).admin.services.role;
+    // Servicios correctos en Strapi 5
+    const userService = (strapi as any).service('admin::user');
+    const roleService = (strapi as any).service('admin::role');
 
-    // Rol super admin
-    const superAdminRole = await adminRoleService.findOne({
-      code: 'strapi-super-admin',
-    });
-
-    // Buscar si YA existe algún super admin
-    const existingAdmins = await adminUserService.findMany();
-    const hasSuperAdmin = Array.isArray(existingAdmins) &&
-      existingAdmins.some((user: any) =>
-        Array.isArray(user.roles) &&
-        user.roles.some((r: any) => r.code === 'strapi-super-admin')
-      );
-
-    if (hasSuperAdmin) {
-      strapi.log.info('👤 Ya existe al menos un SUPER ADMIN, no se crea otro.');
+    // ¿Ya existe algún admin?
+    const hasAdmin = await userService.exists();
+    if (hasAdmin) {
+      strapi.log.info('👤 Ya existe al menos un admin, no se crea otro.');
       return;
     }
+
+    // Rol super admin
+    const superAdminRole = await roleService.getSuperAdmin();
 
     const email = process.env.ADMIN_EMAIL || 'facopec@facopec.org';
     const password = process.env.ADMIN_PASSWORD || 'F4c0pec@2025';
 
-    await adminUserService.create({
+    await userService.create({
       email,
       firstname: 'FACOPEC',
       lastname: 'Admin',
       password,
+      registrationToken: null,
       isActive: true,
       roles: [superAdminRole.id],
     });
@@ -57,7 +51,7 @@ export default {
     // 2) Asegurar que exista un SUPER ADMIN
     await ensureSuperAdmin(strapi);
 
-    // 3) Seed de contenido (tu lógica tal cual)
+    // 3) Seed de contenido (tu lógica original)
     const isProduction = process.env.NODE_ENV === 'production';
     const shouldSeed =
       process.env.FORCE_SEED === 'true' ||
@@ -80,17 +74,16 @@ export default {
 
       const singleTypeStatuses = await Promise.all(
         singleTypeUids.map(async (uid) => {
-          const entry = await strapi.db
-            .query(uid)
-            .findOne({ select: ['id', 'publishedAt'] });
+        const entry = await strapi.db
+          .query(uid)
+          .findOne({ select: ['id', 'publishedAt'] });
 
-          return {
-            uid,
-            hasEntry: Boolean(entry?.id),
-            isPublished: Boolean(entry?.publishedAt),
-          };
-        })
-      );
+        return {
+          uid,
+          hasEntry: Boolean(entry?.id),
+          isPublished: Boolean(entry?.publishedAt),
+        };
+      }));
 
       const missingSingles = singleTypeStatuses.filter(
         (entry) => !entry.hasEntry || !entry.isPublished
