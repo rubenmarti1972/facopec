@@ -12,6 +12,7 @@
     "start": "strapi start",
     "build": "strapi build",
     "predevelop": "node scripts/restore-sql.mjs --if-missing",
+    "prestart": "node scripts/auto-seed-if-empty.mjs",
     "lint": "eslint ./src",
     "seed": "ts-node src/database/seed.ts",
     "seed:production": "NODE_ENV=production SEED_ON_BOOTSTRAP=true ts-node src/database/seed.ts",
