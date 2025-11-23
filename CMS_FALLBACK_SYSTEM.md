@@ -401,5 +401,5 @@ Para preguntas o problemas con el sistema de fallback, consultar:
 - 🟢 Experiencia de usuario consistente
 
 **Última actualización**: 2025-11-23
-**Versión**: 2.0.0 - Sistema completo en todos los componentes principales
-**Commits**: 4 commits (sistema base + donate + projects + header)
+**Versión**: 2.1.0 - Sistema completo con validación estricta de URLs
+**Commits**: 6 commits (sistema base + donate + projects + header + validación URLs)
