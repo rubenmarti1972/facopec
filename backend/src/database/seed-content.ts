@@ -1,9 +1,30 @@
 import type { UID } from '@strapi/types';
 import type { Strapi } from '@strapi/types/dist/core';
-import grantSuperAdminAll from '../../config/utils/grant-super-admin-all';
-import syncPublicPermissions from '../../config/utils/sync-public-permissions';
 import path from 'path';
 import fs from 'fs/promises';
+import grantSuperAdminAll from '../../config/utils/grant-super-admin-all';
+import syncPublicPermissions from '../../config/utils/sync-public-permissions';
+
+async function ensureSuperAdminRole(strapi: Strapi) {
+  const roleQuery = strapi.db.query('admin::role');
+  const existingRole = await roleQuery.findOne({ where: { code: 'strapi-super-admin' } });
+
+  if (existingRole) {
+    return existingRole;
+  }
+
+  const createdRole = await roleQuery.create({
+    data: {
+      name: 'Super Admin',
+      code: 'strapi-super-admin',
+      description:
+        'Rol con acceso total al Content Manager, Plugins y Settings. Creado automáticamente en bootstrap.',
+    },
+  });
+
+  strapi.log.warn('Rol strapi-super-admin no existía; se creó automáticamente.');
+  return createdRole;
+}
 
 type EntityData = Record<string, unknown>;
 
@@ -163,46 +184,85 @@ export async function seedDefaultContent(strapi: Strapi) {
   const adminEmail = process.env.SEED_ADMIN_EMAIL || 'facopec@facopec.org';
   const adminPassword = process.env.SEED_ADMIN_PASSWORD || 'F4c0pec@2025';
 
-  const superAdminRole = await strapi.db
-    .query('admin::role')
-    .findOne({ where: { code: 'strapi-super-admin' } });
+  const superAdminRole = await ensureSuperAdminRole(strapi);
 
   await grantSuperAdminAll(strapi);
   await syncPublicPermissions(strapi);
-  if (!superAdminRole) {
-    strapi.log.warn(
-      'No se encontró el rol de super administrador; omitiendo la creación automática del usuario facopec.'
-    );
-  }
 
   const existingAdmin = await strapi.db
     .query('admin::user')
-    .findOne({ where: { email: adminEmail } });
+    .findOne({ where: { email: adminEmail }, populate: ['roles'] });
 
   if (!existingAdmin) {
-    if (superAdminRole) {
-      await strapi.admin.services.user.create({
-        data: {
-          username: adminUsername,
-          email: adminEmail,
-          password: adminPassword,
-          firstname: 'FACOPEC',
-          lastname: 'Administrador',
-          isActive: true,
-          roles: [superAdminRole.id],
-        },
-      });
+    await strapi.admin.services.user.create({
+      data: {
+        username: adminUsername,
+        email: adminEmail,
+        password: adminPassword,
+        firstname: 'FACOPEC',
+        lastname: 'Administrador',
+        isActive: true,
+        blocked: false,
+        roles: [superAdminRole.id],
+      },
+    });
 
-      strapi.log.info(
-        `Superusuario ${adminUsername} creado con correo ${adminEmail}. Usa las variables de entorno SEED_ADMIN_* para personalizarlo.`
-      );
-    } else {
+    strapi.log.info(
+      `Superusuario ${adminUsername} creado con correo ${adminEmail}. Usa las variables de entorno SEED_ADMIN_* para personalizarlo.`
+    );
+  } else {
+    const hasSuperAdminRole = (existingAdmin.roles ?? []).some(
+      (role: { id?: number; code?: string }) =>
+        role?.id === superAdminRole?.id || role?.code === 'strapi-super-admin'
+    );
+
+    const shouldResetPassword = process.env.SEED_ADMIN_FORCE_RESET === 'true';
+    const updateData: Record<string, unknown> = {};
+
+    if (!existingAdmin.isActive) {
+      updateData.isActive = true;
+    }
+
+    if (existingAdmin.blocked) {
+      updateData.blocked = false;
+    }
+
+    if (superAdminRole && !hasSuperAdminRole) {
+      updateData.roles = [superAdminRole.id];
+    } else if (!superAdminRole) {
       strapi.log.warn(
-        'Superusuario facopec no creado automáticamente porque no existe el rol strapi-super-admin aún.'
+        'Rol de super admin no encontrado; no se pudo reforzar permisos del usuario administrador.'
       );
     }
-  } else {
-    strapi.log.info(`Superusuario ${adminUsername} ya existe.`);
+
+    if (shouldResetPassword) {
+      updateData.password = adminPassword;
+    }
+
+    // Limpia tokens que puedan dejar el usuario bloqueado o como invitado pendiente
+    updateData.registrationToken = null;
+    updateData.passwordResetToken = null;
+
+    if (Object.keys(updateData).length > 0) {
+      await strapi.admin.services.user.update({
+        id: existingAdmin.id,
+        data: updateData,
+      });
+
+      const updatesApplied = [
+        updateData.isActive ? 'activado' : null,
+        updateData.roles ? 'rol super admin aplicado' : null,
+        shouldResetPassword ? 'contraseña restablecida' : null,
+      ]
+        .filter(Boolean)
+        .join(' | ');
+
+      strapi.log.info(
+        `Superusuario ${adminUsername} actualizado (${updatesApplied || 'sin cambios adicionales'}).`
+      );
+    } else {
+      strapi.log.info(`Superusuario ${adminUsername} ya existe.`);
+    }
   }
 
   const heroImage = await uploadFileFromAssets(strapi, frontendAssetsDir, 'ninos.jpg', {
