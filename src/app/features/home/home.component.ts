@@ -5,8 +5,10 @@ import { RouterLink } from '@angular/router';
 import { StrapiService } from '@core/services/strapi.service';
 import { EmailService } from '@core/services/email.service';
 import { NavigationService } from '@core/services/navigation.service';
+import { CmsFallbackService } from '@core/services/cms-fallback.service';
 import { HomePageContent, HeroSectionContent, HighlightContent, SupporterLogoContent, MediaAsset, GlobalSettings, AttendedPersonCardContent, EventCalendarItemContent } from '@core/models';
 import { HeroCarouselComponent, CarouselImage } from '@shared/components/hero-carousel/hero-carousel.component';
+import { ImageFallbackDirective } from '@shared/directives/image-fallback.directive';
 
 interface HeroStat {
   label: string;
@@ -109,7 +111,7 @@ type IdentityCardKey = 'description' | 'mission' | 'vision';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, HeroCarouselComponent],
+  imports: [CommonModule, FormsModule, RouterLink, HeroCarouselComponent, ImageFallbackDirective],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -117,6 +119,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private readonly strapiService = inject(StrapiService);
   private readonly emailService = inject(EmailService);
   private readonly navigationService = inject(NavigationService);
+  private readonly fallbackService = inject(CmsFallbackService);
 
   loading = true;
   error: string | null = null;
@@ -638,6 +641,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       const hero = content.hero;
       const heroMediaUrl = this.resolveMediaUrl(hero.image);
       const heroAltText = hero.image?.alternativeText ?? hero.image?.caption ?? this.hero.imageAlt;
+
+      // FALLBACK AGRESIVO: Si el CMS está caído o no tiene imagen, usar la hardcodeada
+      const finalHeroImage = this.fallbackService.isCmsDown()
+        ? this.hero.image
+        : (heroMediaUrl ?? this.hero.image);
+
       this.hero = {
         eyebrow: hero.eyebrow ?? this.hero.eyebrow,
         title: hero.titleLines?.map(line => line.line).filter(Boolean) ?? this.hero.title,
@@ -664,7 +673,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           text: hero.verse?.text ?? this.hero.verse.text,
           description: hero.verse?.description ?? this.hero.verse.description
         },
-        image: heroMediaUrl ?? this.hero.image,
+        image: finalHeroImage,
         imageAlt: heroAltText ?? this.hero.imageAlt
       };
 
@@ -980,6 +989,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   private loadGlobalBranding(): void {
     this.strapiService.getGlobalSettings().subscribe({
       next: (settings: GlobalSettings) => {
+        // Si el CMS está caído, no intentar usar su logo
+        if (this.fallbackService.isCmsDown()) {
+          console.log('[HomeComponent] CMS caído, usando logo hardcodeado');
+          return;
+        }
+
         const logoUrl = this.strapiService.buildMediaUrl(settings.logo);
         if (logoUrl) {
           this.globalLogoUrl = logoUrl;
@@ -988,6 +1003,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       },
       error: error => {
         console.warn('No se pudo cargar el logo global desde Strapi.', error);
+        // El logo hardcodeado ya está establecido, no hay que hacer nada
       }
     });
   }
@@ -1025,6 +1041,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private applyHeroCarousel(hero: HeroSectionContent): void {
+    // FALLBACK AGRESIVO: Si el CMS está caído, usar solo slides hardcodeados
+    if (this.fallbackService.isCmsDown()) {
+      console.log('[HomeComponent] CMS caído, usando carrusel hardcodeado');
+      this.setHeroCarousel(this.fallbackCarouselSlides);
+      return;
+    }
+
     const slides: HeroCarouselSlide[] = [];
 
     hero.carouselItems?.forEach(item => {
@@ -1041,6 +1064,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (slides.length) {
       this.setHeroCarousel(slides);
     } else if (!this.heroCarousel.length) {
+      // Si el CMS no tiene slides, usar los hardcodeados
       this.setHeroCarousel(this.fallbackCarouselSlides);
     }
   }

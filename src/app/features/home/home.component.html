@@ -102,7 +102,7 @@
               <p class="callout__title">{{ hero.verse.text }}</p>
               <p class="callout__text">{{ hero.verse.description }}</p>
               <div class="callout__media" aria-hidden="true">
-                <img [src]="globalLogoUrl" [alt]="globalLogoAlt" loading="lazy" />
+                <img [src]="globalLogoUrl" [alt]="globalLogoAlt" loading="lazy" [appImageFallback]="'assets/logo.png'" />
               </div>
             </div>
 
