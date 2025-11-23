@@ -26,6 +26,39 @@ async function ensureSuperAdminRole(strapi: Strapi) {
   return createdRole;
 }
 
+async function logAdminStatus(strapi: Strapi, email: string) {
+  const admin = await strapi.db
+    .query('admin::user')
+    .findOne({ where: { email }, populate: ['roles'] });
+
+  if (!admin) {
+    strapi.log.warn(`No se encontró el admin con email ${email} después del seed.`);
+    return;
+  }
+
+  const roleCodes = (admin.roles ?? [])
+    .map((role: { code?: string; name?: string }) => role?.code || role?.name)
+    .filter(Boolean);
+
+  const statusParts = [
+    admin.isActive === false ? 'inactivo' : 'activo',
+    admin.blocked ? 'bloqueado' : 'desbloqueado',
+    roleCodes.length > 0 ? `roles=[${roleCodes.join(', ')}]` : 'roles=[]',
+  ];
+
+  strapi.log.info(`Estado del admin ${email}: ${statusParts.join(' | ')}`);
+
+  if (!roleCodes.includes('strapi-super-admin')) {
+    strapi.log.warn(
+      'El admin no tiene rol strapi-super-admin; revisa las migraciones y vuelve a ejecutar el seed.'
+    );
+  }
+
+  if (admin.registrationToken || admin.passwordResetToken) {
+    strapi.log.warn('El admin sigue con tokens pendientes; limpia manualmente en la base de datos si el login falla.');
+  }
+}
+
 type EntityData = Record<string, unknown>;
 
 type UploadedFile = {
@@ -210,6 +243,8 @@ export async function seedDefaultContent(strapi: Strapi) {
     strapi.log.info(
       `Superusuario ${adminUsername} creado con correo ${adminEmail}. Usa las variables de entorno SEED_ADMIN_* para personalizarlo.`
     );
+
+    await logAdminStatus(strapi, adminEmail);
   } else {
     const hasSuperAdminRole = (existingAdmin.roles ?? []).some(
       (role: { id?: number; code?: string }) =>
@@ -263,6 +298,8 @@ export async function seedDefaultContent(strapi: Strapi) {
     } else {
       strapi.log.info(`Superusuario ${adminUsername} ya existe.`);
     }
+
+    await logAdminStatus(strapi, adminEmail);
   }
 
   const heroImage = await uploadFileFromAssets(strapi, frontendAssetsDir, 'ninos.jpg', {
