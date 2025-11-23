@@ -8,6 +8,12 @@ const dumpPath = resolve(backendRoot, 'data/strapi.sql');
 
 function main() {
   try {
+    // NUNCA ejecutar en producción con PostgreSQL
+    if (process.env.NODE_ENV === 'production' && process.env.DATABASE_CLIENT === 'postgres') {
+      console.log('ℹ️  Producción con PostgreSQL detectada - omitiendo restore-sql.mjs');
+      return;
+    }
+
     const skipIfPresent = process.argv.includes('--if-missing');
 
     if (skipIfPresent && existsSync(dbPath)) {
