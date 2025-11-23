@@ -58,6 +58,37 @@ EMAIL_FROM=tu-email@gmail.com
 
 ⚠️ **Importante**: Sin estas credenciales configuradas, el endpoint de email devolverá un error `400 Bad Request` con el código `SMTP_CREDENTIALS_MISSING`. Los detalles del email se registrarán en los logs del servidor para propósitos de depuración.
 
+### Configuración de Cloudinary (Almacenamiento de imágenes)
+
+El proyecto está configurado para usar **Cloudinary** como proveedor de almacenamiento de imágenes. Esto permite subir y gestionar todas las imágenes del CMS en la nube de forma gratuita (hasta 25GB).
+
+**Pasos para configurar Cloudinary:**
+
+1. Regístrate en [Cloudinary](https://cloudinary.com/users/register/free)
+2. Ve a tu **Dashboard** después de iniciar sesión
+3. Copia los siguientes datos de tu cuenta:
+   - **Cloud name** (nombre de tu nube)
+   - **API Key** (clave API)
+   - **API Secret** (secreto API)
+4. Agrega estas variables a tu `.env`:
+
+```bash
+UPLOAD_PROVIDER=cloudinary
+CLOUDINARY_NAME=tu-cloud-name
+CLOUDINARY_KEY=tu-api-key
+CLOUDINARY_SECRET=tu-api-secret
+```
+
+**Fallback a almacenamiento local:**
+
+Si prefieres no usar Cloudinary en desarrollo, puedes cambiar el proveedor a `local`:
+
+```bash
+UPLOAD_PROVIDER=local
+```
+
+Esto guardará las imágenes en el directorio `public/uploads` del servidor.
+
 ## Scripts disponibles
 
 - `pnpm develop`: inicia Strapi en modo desarrollo con recarga en caliente.
