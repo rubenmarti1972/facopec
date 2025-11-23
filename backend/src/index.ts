@@ -2,18 +2,58 @@ import type { Strapi } from '@strapi/types/dist/core';
 import { seedDefaultContent } from './database/seed-content';
 import syncPublicPermissions from '../config/utils/sync-public-permissions';
 
+async function ensureSuperAdmin(strapi: Strapi) {
+  try {
+    const adminUserService = (strapi as any).admin.services.user;
+    const adminRoleService = (strapi as any).admin.services.role;
+
+    const adminCount = await adminUserService.count();
+
+    if (adminCount > 0) {
+      strapi.log.info('👤 Ya existe al menos un usuario admin, se omite creación de SUPER ADMIN.');
+      return;
+    }
+
+    strapi.log.info('⚙️ No hay administradores. Creando SUPER ADMIN por defecto...');
+
+    const superAdminRole = await adminRoleService.findOne({
+      code: 'strapi-super-admin',
+    });
+
+    const email = process.env.ADMIN_EMAIL || 'facopec@facopec.org';
+    const password = process.env.ADMIN_PASSWORD || 'F4c0pec@2025';
+
+    await adminUserService.create({
+      email,
+      firstname: 'FACOPEC',
+      lastname: 'Admin',
+      password,
+      registrationToken: null,
+      isActive: true,
+      roles: [superAdminRole.id],
+    });
+
+    strapi.log.info(`✅ SUPER ADMIN creado correctamente (${email}).`);
+  } catch (error) {
+    strapi.log.error('❌ Error creando SUPER ADMIN:', error);
+  }
+}
+
 export default {
   register() {},
+
   async bootstrap({ strapi }: { strapi: Strapi }) {
-    // Always sync public permissions on bootstrap
+    // 1) Sincronizar permisos públicos SIEMPRE
     try {
       await syncPublicPermissions(strapi);
     } catch (error) {
       strapi.log.error('Error syncing public permissions:', error);
     }
 
-    // En producción, SIEMPRE verificar si necesitamos seed
-    // En desarrollo, solo si se pide explícitamente
+    // 2) Asegurar que exista al menos un SUPER ADMIN
+    await ensureSuperAdmin(strapi);
+
+    // 3) Lógica de seed de contenido
     const isProduction = process.env.NODE_ENV === 'production';
     const shouldSeed =
       process.env.FORCE_SEED === 'true' ||
@@ -36,7 +76,10 @@ export default {
 
       const singleTypeStatuses = await Promise.all(
         singleTypeUids.map(async (uid) => {
-          const entry = await strapi.db.query(uid).findOne({ select: ['id', 'publishedAt'] });
+          const entry = await strapi.db
+            .query(uid)
+            .findOne({ select: ['id', 'publishedAt'] });
+
           return {
             uid,
             hasEntry: Boolean(entry?.id),
@@ -86,9 +129,12 @@ export default {
       strapi.log.info('📦 Poblando base de datos PostgreSQL en producción...');
       await seedDefaultContent(strapi);
       strapi.log.info('✅ Seed completado exitosamente.');
-      strapi.log.info('📝 Credenciales: facopec@facopec.org / F4c0pec@2025');
+      strapi.log.info('📝 Credenciales por defecto: facopec@facopec.org / F4c0pec@2025');
     } catch (error) {
-      strapi.log.error('Error while seeding default content during bootstrap:', error);
+      strapi.log.error(
+        'Error while seeding default content during bootstrap:',
+        error
+      );
     }
   },
 };
