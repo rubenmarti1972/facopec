@@ -26,15 +26,39 @@ export default {
       return;
     }
 
-    // Verificar si ya hay contenido en la base de datos
     try {
-      const existingGlobal = await strapi.db
-        .query('api::global.global')
-        .findMany({ limit: 1 });
+      const singleTypeUids = [
+        'api::global.global',
+        'api::organization-info.organization-info',
+        'api::home-page.home-page',
+        'api::donations-page.donations-page',
+      ] as const;
 
-      if (existingGlobal && existingGlobal.length > 0 && !process.env.FORCE_SEED) {
+      const singleTypeStatuses = await Promise.all(
+        singleTypeUids.map(async (uid) => {
+          const entry = await strapi.db.query(uid).findOne({ select: ['id', 'publishedAt'] });
+          return {
+            uid,
+            hasEntry: Boolean(entry?.id),
+            isPublished: Boolean(entry?.publishedAt),
+          };
+        })
+      );
+
+      const missingSingles = singleTypeStatuses.filter(
+        (entry) => !entry.hasEntry || !entry.isPublished
+      );
+
+      const publishedProjects = await strapi.db
+        .query('api::project.project')
+        .count({ where: { publishedAt: { $notNull: true } } });
+
+      const hasAllSingles = missingSingles.length === 0;
+      const hasProjects = publishedProjects > 0;
+
+      if (hasAllSingles && hasProjects && !process.env.FORCE_SEED) {
         strapi.log.info(
-          '✅ La base de datos ya contiene datos. Omitiendo seed automático.'
+          '✅ La base de datos ya contiene Global, Organización, Home, Donations y proyectos publicados. Omitiendo seed automático.'
         );
         if (!isProduction) {
           strapi.log.info(
@@ -42,6 +66,20 @@ export default {
           );
         }
         return;
+      }
+
+      if (missingSingles.length > 0 || !hasProjects) {
+        strapi.log.warn('⚠️  Faltan datos publicados en producción. Ejecutando seed...');
+        if (missingSingles.length > 0) {
+          strapi.log.warn(
+            `   Tipos sin publicar: ${missingSingles
+              .map((entry) => entry.uid)
+              .join(', ')}`
+          );
+        }
+        if (!hasProjects) {
+          strapi.log.warn('   No hay proyectos publicados en la base de datos.');
+        }
       }
 
       strapi.log.info('🌱 Ejecutando seed inicial de contenido...');

@@ -177,10 +177,14 @@ export async function seedDefaultContent(strapi: Strapi) {
 
   const existingAdmin = await strapi.db
     .query('admin::user')
-    .findOne({ where: { email: adminEmail } });
+    .findOne({ where: { email: adminEmail }, populate: ['roles'] });
 
   if (!existingAdmin) {
-    if (superAdminRole) {
+    if (!superAdminRole) {
+      strapi.log.warn(
+        'Superusuario facopec no creado automáticamente porque no existe el rol strapi-super-admin aún.'
+      );
+    } else {
       await strapi.admin.services.user.create({
         data: {
           username: adminUsername,
@@ -189,6 +193,7 @@ export async function seedDefaultContent(strapi: Strapi) {
           firstname: 'FACOPEC',
           lastname: 'Administrador',
           isActive: true,
+          blocked: false,
           roles: [superAdminRole.id],
         },
       });
@@ -196,13 +201,56 @@ export async function seedDefaultContent(strapi: Strapi) {
       strapi.log.info(
         `Superusuario ${adminUsername} creado con correo ${adminEmail}. Usa las variables de entorno SEED_ADMIN_* para personalizarlo.`
       );
-    } else {
-      strapi.log.warn(
-        'Superusuario facopec no creado automáticamente porque no existe el rol strapi-super-admin aún.'
-      );
     }
   } else {
-    strapi.log.info(`Superusuario ${adminUsername} ya existe.`);
+    const hasSuperAdminRole = (existingAdmin.roles ?? []).some(
+      (role: { id?: number; code?: string }) =>
+        role?.id === superAdminRole?.id || role?.code === 'strapi-super-admin'
+    );
+
+    const shouldResetPassword = process.env.SEED_ADMIN_FORCE_RESET === 'true';
+    const updateData: Record<string, unknown> = {};
+
+    if (!existingAdmin.isActive) {
+      updateData.isActive = true;
+    }
+
+    if (existingAdmin.blocked) {
+      updateData.blocked = false;
+    }
+
+    if (superAdminRole && !hasSuperAdminRole) {
+      updateData.roles = [superAdminRole.id];
+    } else if (!superAdminRole) {
+      strapi.log.warn(
+        'Rol de super admin no encontrado; no se pudo reforzar permisos del usuario administrador.'
+      );
+    }
+
+    if (shouldResetPassword) {
+      updateData.password = adminPassword;
+    }
+
+    if (Object.keys(updateData).length > 0) {
+      await strapi.admin.services.user.update({
+        id: existingAdmin.id,
+        data: updateData,
+      });
+
+      const updatesApplied = [
+        updateData.isActive ? 'activado' : null,
+        updateData.roles ? 'rol super admin aplicado' : null,
+        shouldResetPassword ? 'contraseña restablecida' : null,
+      ]
+        .filter(Boolean)
+        .join(' | ');
+
+      strapi.log.info(
+        `Superusuario ${adminUsername} actualizado (${updatesApplied || 'sin cambios adicionales'}).`
+      );
+    } else {
+      strapi.log.info(`Superusuario ${adminUsername} ya existe.`);
+    }
   }
 
   const heroImage = await uploadFileFromAssets(strapi, frontendAssetsDir, 'ninos.jpg', {

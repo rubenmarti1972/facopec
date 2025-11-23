@@ -6,7 +6,14 @@ import type { ConfigParams } from './utils/env';
 type DatabaseConfig = Config.Database<'sqlite'> | Config.Database<'postgres'>;
 
 const databaseConfig = ({ env }: ConfigParams): DatabaseConfig => {
-  const client = (process.env.DATABASE_CLIENT ?? '').toLowerCase();
+  const client = (env('DATABASE_CLIENT', 'sqlite') ?? '').toLowerCase();
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  if (isProduction && client !== 'postgres') {
+    throw new Error(
+      'DATABASE_CLIENT debe ser "postgres" en producción para que los datos del CMS persistan en Render.'
+    );
+  }
 
   if (client !== 'postgres') {
     // ✅ Usar ruta absoluta al directorio raíz del proyecto backend
