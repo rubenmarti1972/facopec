@@ -174,7 +174,7 @@ https://app.sendgrid.com/email_activity
 
 1. **Límite gratuito**: 100 emails/día es suficiente para empezar
 2. **Producción**: Si necesitas más, el plan "Essentials" ($20/mes) da 50,000 emails/mes
-3. **Dominio propio**: Puedes configurar tu propio dominio (ej: `contacto@facopec.org`) en SendGrid
+3. **Dominio propio**: Puedes configurar tu propio dominio (ej: `profeencasasedeciudaddelsur@gmail.com`) en SendGrid
 
 ---
 
