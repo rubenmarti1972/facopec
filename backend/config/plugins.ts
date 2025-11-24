@@ -59,11 +59,13 @@ const pluginsConfig = ({ env }: ConfigParams): PluginsConfig => ({
       settings: {
         defaultFrom: env(
           'EMAIL_FROM',
-          'profeencasasedeciudaddelsur@gmail.com',
+          //'profeencasasedeciudaddelsur@gmail.com',
+          'lucasmartinez220372@gmail.com',
         ),
         defaultReplyTo: env(
           'EMAIL_REPLY_TO',
-          'profeencasasedeciudaddelsur@gmail.com',
+          //'profeencasasedeciudaddelsur@gmail.com',
+          'lucasmartinez220372@gmail.com',
         ),
       },
     },
