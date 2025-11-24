@@ -1,100 +1,121 @@
 /**
  * Email controller for FACOPEC
  * Handles sending emails from contact forms, partnership requests, etc.
+ *
+ * Updated to use Brevo HTTP API because SMTP connections time out on Render free tier.
  */
+
+const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 
 export default {
   async send(ctx) {
+    const { to, subject, html, text, from, replyTo } = ctx.request.body || {};
+
+    if (!to || !subject) {
+      return ctx.badRequest('Missing required fields: "to" and "subject" are required');
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(to)) {
+      return ctx.badRequest('Invalid email format for "to" field');
+    }
+
+    if (replyTo && !emailRegex.test(replyTo)) {
+      return ctx.badRequest('Invalid email format for "replyTo" field');
+    }
+
+    if (from && !emailRegex.test(from)) {
+      return ctx.badRequest('Invalid email format for "from" field');
+    }
+
+    const brevoApiKey = process.env.BREVO_API_KEY;
+    const senderEmail = process.env.EMAIL_FROM;
+    const replyToEmail = replyTo || process.env.EMAIL_REPLY_TO || senderEmail;
+
+    if (!brevoApiKey) {
+      strapi.log.error('BREVO_API_KEY is not configured; cannot send email');
+      return ctx.internalServerError('Email service is not configured. Please contact the administrator.');
+    }
+
+    if (!senderEmail) {
+      strapi.log.error('EMAIL_FROM is not configured; cannot send email');
+      return ctx.internalServerError('Sender email is not configured. Please contact the administrator.');
+    }
+
+    const payload = {
+      sender: {
+        email: senderEmail,
+        name: 'FACOPEC',
+      },
+      to: [
+        { email: to },
+      ],
+      subject,
+      htmlContent: html ?? text ?? '',
+      textContent: text ?? '',
+      replyTo: replyToEmail
+        ? {
+            email: replyToEmail,
+          }
+        : undefined,
+    };
+
     try {
-      const { to, subject, html, text, replyTo } = ctx.request.body;
+      const response = await fetch(BREVO_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'api-key': brevoApiKey,
+        },
+        body: JSON.stringify(payload),
+      });
 
-      // Validate required fields
-      if (!to || !subject || (!html && !text)) {
-        return ctx.badRequest('Missing required fields: to, subject, and html or text');
-      }
+      const responseText = await response.text();
+      let responseData;
 
-      // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(to)) {
-        return ctx.badRequest('Invalid email format for "to" field');
-      }
-
-      if (replyTo && !emailRegex.test(replyTo)) {
-        return ctx.badRequest('Invalid email format for "replyTo" field');
-      }
-
-      // Check if email plugin is available
-      if (!strapi.plugins?.email?.services?.email) {
-        strapi.log.error('Email plugin is not available or not properly configured');
-
-        // Log email details for debugging in development
-        if (process.env.NODE_ENV === 'development') {
-          strapi.log.warn('Email would have been sent:', { to, subject, replyTo });
+      if (responseText) {
+        try {
+          responseData = JSON.parse(responseText);
+        } catch (parseError) {
+          strapi.log.warn('Could not parse Brevo response JSON', {
+            responseText,
+            error: parseError instanceof Error ? parseError.message : parseError,
+          });
         }
-
-        return ctx.badRequest({
-          success: false,
-          message: 'Email service is not configured. Please contact the administrator.',
-          error: 'SMTP_NOT_CONFIGURED'
-        });
       }
 
-      // Check if SMTP credentials are configured
-      const hasSmtpUser = !!process.env.BREVO_SMTP_USER;
-      const hasSmtpKey = !!process.env.BREVO_SMTP_KEY;
-
-      if (!hasSmtpUser || !hasSmtpKey) {
-        strapi.log.error('SMTP credentials are not configured in environment variables');
-
-        // Log email details for debugging
-        strapi.log.warn('Email details (not sent):', {
+      if (!response.ok) {
+        strapi.log.error('Failed to send email via Brevo', {
+          status: response.status,
+          statusText: response.statusText,
           to,
           subject,
-          replyTo,
-          reason: 'Missing SMTP credentials (BREVO_SMTP_USER or BREVO_SMTP_KEY)'
+          brevoResponse: responseData ?? responseText,
         });
 
-        return ctx.badRequest({
-          success: false,
-          message: 'Email service is not fully configured. Please contact the administrator.',
-          error: 'SMTP_CREDENTIALS_MISSING',
-          details: process.env.NODE_ENV === 'development' ? {
-            hasSmtpUser,
-            hasSmtpKey
-          } : undefined
+        return ctx.internalServerError({
+          data: null,
+          error: `Failed to send email via Brevo (status ${response.status}). Please try again later.`,
         });
       }
 
-      // Send email using Strapi's email plugin
-      await strapi.plugins['email'].services.email.send({
+      strapi.log.info('Email sent successfully via Brevo', {
         to,
-        from: process.env.SMTP_DEFAULT_FROM || 'notificaciones.facopec@gmail.com',
-        replyTo: replyTo || process.env.SMTP_DEFAULT_REPLY_TO || 'profeencasasedeciudaddelsur@gmail.com',
         subject,
-        text: text || '',
-        html: html || text,
+        messageId: responseData?.messageId,
       });
-
-      // Log successful email send
-      strapi.log.info(`Email sent successfully to ${to} with subject: ${subject}`);
 
       return ctx.send({
-        success: true,
-        message: 'Email sent successfully',
-        to,
-        subject
+        data: { sent: true },
+        error: null,
       });
     } catch (error) {
-      strapi.log.error('Error sending email:', error);
+      strapi.log.error('Error sending email via Brevo', error);
 
-      // Return detailed error in development, generic in production
-      const isDev = process.env.NODE_ENV === 'development';
-
-      return ctx.internalServerError(
-        isDev
-          ? `Failed to send email: ${error.message}`
-          : 'Failed to send email. Please try again later.'
-      );
+      return ctx.internalServerError({
+        data: null,
+        error: 'Unexpected error while sending email. Please try again later.',
+      });
     }
   },
 };
