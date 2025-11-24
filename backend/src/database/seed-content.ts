@@ -536,7 +536,7 @@ export async function seedDefaultContent(strapi: Strapi) {
     ],
     logo: foundationLogo?.id,
     banner: heroImage?.id,
-    contactEmail: 'contacto@facopec.org',
+    contactEmail: 'profeencasasedeciudaddelsur@gmail.com',
     contactPhone: '+57 321 523 0283',
     address: {
       street: 'Calle 5 #4-32',
