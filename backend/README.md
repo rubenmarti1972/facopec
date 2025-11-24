@@ -28,35 +28,19 @@ Por defecto el proyecto arranca con SQLite, por lo que no necesitas ningún serv
 
 ### Configuración del servicio de correo (Email)
 
-El proyecto incluye un endpoint `/api/email/send` para enviar correos desde formularios de contacto, empleabilidad y alianzas. Para que funcione correctamente, debes configurar las credenciales SMTP en tu archivo `.env`:
+El proyecto incluye un endpoint `/api/email/send` para enviar correos desde formularios de contacto, empleabilidad y alianzas. Debido a que el plan gratuito de Render bloquea las conexiones SMTP, el envío ahora se realiza mediante la **API HTTP de Brevo (Sendinblue)**. El plugin de email de Strapi puede mantenerse configurado, pero **no** se usa para este endpoint.
 
-**Opción 1: Brevo (Recomendado - 300 emails/día GRATIS)**
-
-1. Regístrate en [Brevo](https://app.brevo.com/account/register) (anteriormente Sendinblue)
-2. Ve a **SMTP & API** → **SMTP** en tu panel
-3. Copia tu **Login** (email) y crea una **Master Password** o SMTP key
-4. Agrega estas variables a tu `.env`:
+1. Regístrate en [Brevo](https://app.brevo.com/account/register) (anteriormente Sendinblue).
+2. Ve a **SMTP & API** → **API Keys** y genera una clave (por ejemplo, tipo *Transactional*).
+3. Agrega estas variables a tu `.env`:
 
 ```bash
-BREVO_SMTP_USER=tu-email@gmail.com
-BREVO_SMTP_KEY=tu-smtp-key-aqui
+BREVO_API_KEY=tu-api-key-de-brevo
 EMAIL_FROM=profeencasasedeciudaddelsur@gmail.com
 EMAIL_REPLY_TO=profeencasasedeciudaddelsur@gmail.com
 ```
 
-**Opción 2: Gmail SMTP**
-
-Si prefieres usar Gmail, configura:
-
-```bash
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-BREVO_SMTP_USER=tu-email@gmail.com
-BREVO_SMTP_KEY=tu-app-password  # Usa una App Password, no tu contraseña normal
-EMAIL_FROM=tu-email@gmail.com
-```
-
-⚠️ **Importante**: Sin estas credenciales configuradas, el endpoint de email devolverá un error `400 Bad Request` con el código `SMTP_CREDENTIALS_MISSING`. Los detalles del email se registrarán en los logs del servidor para propósitos de depuración.
+⚠️ **Importante**: Sin `BREVO_API_KEY` o `EMAIL_FROM`, el endpoint devolverá un error 500 indicando que el servicio de correo no está configurado.
 
 ## Scripts disponibles
 
