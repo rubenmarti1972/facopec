@@ -4,7 +4,7 @@
  * Implements caching and error handling
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { map, catchError, tap, shareReplay, timeout } from 'rxjs/operators';
@@ -26,6 +26,7 @@ import {
   ProjectCardSummary
 } from '../models';
 import { environment } from '@environments/environment';
+import { CmsFallbackService } from './cms-fallback.service';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,9 @@ export class StrapiService {
 
   // Error handling
   public errors$ = new BehaviorSubject<StrapiError | null>(null);
+
+  // Fallback service
+  private readonly fallbackService = inject(CmsFallbackService);
 
   constructor(private http: HttpClient) {}
 
@@ -385,6 +389,8 @@ export class StrapiService {
         map(response => this.normalizeResponse(response.data) as T),
         tap(() => {
           this.errors$.next(null);
+          // CMS respondió exitosamente, marcarlo como disponible
+          this.fallbackService.markCmsAsUp();
         }),
         catchError(error => this.handleError(error)),
         // Only use shareReplay when caching is enabled
@@ -555,6 +561,9 @@ export class StrapiService {
             }
           }
         } satisfies StrapiError;
+
+        // Marcar CMS como caído por error de red
+        this.fallbackService.markCmsAsDown();
       } else {
         errorMessage = `CMS responded with status ${error.status}: ${error.statusText || 'Error de servidor'}`;
         errorData = {
@@ -581,6 +590,9 @@ export class StrapiService {
         }
       };
       console.warn('CMS Timeout:', errorMessage);
+
+      // Marcar CMS como caído por timeout
+      this.fallbackService.markCmsAsDown();
     } else if (error instanceof Error) {
       errorMessage = error.message;
       errorData = {

@@ -1,7 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StrapiService } from '@core/services/strapi.service';
+import { CmsFallbackService } from '@core/services/cms-fallback.service';
 import { ProjectCardSummary } from '@core/models';
+import { ImageFallbackDirective } from '@shared/directives/image-fallback.directive';
 
 interface ProjectLink {
   title: string;
@@ -20,12 +22,13 @@ interface ProgramLogo {
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ImageFallbackDirective],
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css']
 })
 export class ProjectsComponent implements OnInit {
   private readonly strapiService = inject(StrapiService);
+  private readonly fallbackService = inject(CmsFallbackService);
 
   loading = true;
   error: string | null = null;
@@ -86,6 +89,14 @@ export class ProjectsComponent implements OnInit {
   }
 
   private applyProjects(projects: ProjectCardSummary[]): void {
+    // FALLBACK AGRESIVO: Si el CMS está caído, mantener proyectos hardcodeados
+    if (this.fallbackService.isCmsDown()) {
+      console.log('[ProjectsComponent] CMS caído, usando proyectos hardcodeados');
+      this.loading = false;
+      return;
+    }
+
+    // Si el CMS tiene proyectos, usarlos
     if (projects.length) {
       this.projects = projects
         .map(project => ({
@@ -101,6 +112,7 @@ export class ProjectsComponent implements OnInit {
         }))
         .filter(project => !!project.title && !!project.href);
     }
+    // Si el CMS no tiene proyectos, mantener los hardcodeados (ya están definidos)
 
     this.loading = false;
   }

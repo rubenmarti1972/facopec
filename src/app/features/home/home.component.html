@@ -9,12 +9,9 @@
             <h3 class="calendar-widget__title">Calendario</h3>
           </div>
           <div class="calendar-widget__events">
-            <article
-              class="calendar-event-compact"
-              *ngFor="let event of eventCalendar"
+            <article class="calendar-event-compact" *ngFor="let event of eventCalendar"
               [class.calendar-event-compact--highlighted]="event.isHighlighted"
-              [ngClass]="event.color ? 'calendar-event-compact--' + event.color : ''"
-            >
+              [ngClass]="event.color ? 'calendar-event-compact--' + event.color : ''">
               <div class="calendar-event-compact__date">
                 <span class="calendar-event-compact__day">{{ event.eventDate | date: 'dd' }}</span>
                 <span class="calendar-event-compact__month">{{ event.eventDate | date: 'MMM' }}</span>
@@ -35,12 +32,9 @@
         <div class="hero">
           <!-- Fila superior: Logos, Eyebrow y Título -->
           <div class="hero__header">
-            <a
-              class="hero__logo hero__logo--left"
-              href="https://drive.google.com/file/d/1DaXPhYcz1iWEhAhjzPC7rOJxnF-JQhGg/view?usp=sharing"
-              target="_blank"
-              rel="noopener"
-              title="Ministerio del Interior">
+            <a class="hero__logo hero__logo--left"
+              href="https://drive.google.com/file/d/1DaXPhYcz1iWEhAhjzPC7rOJxnF-JQhGg/view?usp=sharing" target="_blank"
+              rel="noopener" title="Ministerio del Interior">
               <img src="assets/supporters/logo-interior.png" alt="Logo Ministerio del Interior de Colombia" />
               <div class="hero__logo-text">
                 <span class="hero__logo-title">MINISTERIO DEL INTERIOR</span>
@@ -55,12 +49,9 @@
               </h1>
             </div>
 
-            <a
-              class="hero__logo hero__logo--right"
-              href="https://www.icbf.gov.co/pj-4829-fundacion-afrocolombiana-profe-en-casa"
-              target="_blank"
-              rel="noopener"
-              title="ICBF">
+            <a class="hero__logo hero__logo--right"
+              href="https://www.icbf.gov.co/pj-4829-fundacion-afrocolombiana-profe-en-casa" target="_blank"
+              rel="noopener" title="ICBF">
               <img src="assets/supporters/logo-bienestar.png" alt="Logo Instituto Colombiano de Bienestar Familiar" />
               <div class="hero__logo-text">
                 <span class="hero__logo-title">ICBF</span>
@@ -71,10 +62,7 @@
 
           <!-- Carousel -->
           <div class="hero__carousel">
-            <app-hero-carousel
-              [images]="carouselImages"
-              [autoPlayInterval]="2000"
-              [autoPlay]="true">
+            <app-hero-carousel [images]="carouselImages" [autoPlayInterval]="2000" [autoPlay]="true">
             </app-hero-carousel>
           </div>
 
@@ -83,7 +71,8 @@
             <!-- Impact strip -->
             <div class="impact-strip" data-strapi-section="impact">
               <div class="impact-strip__items">
-                <div class="impact-strip__item" *ngFor="let item of impactHighlights" [attr.data-strapi-uid]="item.dataStrapiUid">
+                <div class="impact-strip__item" *ngFor="let item of impactHighlights"
+                  [attr.data-strapi-uid]="item.dataStrapiUid">
                   <div class="impact-strip__icon">
                     <img *ngIf="item.imagePath" [src]="item.imagePath" [alt]="item.title" loading="lazy" />
                     <span *ngIf="!item.imagePath" class="impact-strip__icon-emoji">{{ item.icon }}</span>
@@ -102,62 +91,54 @@
               <p class="callout__title">{{ hero.verse.text }}</p>
               <p class="callout__text">{{ hero.verse.description }}</p>
               <div class="callout__media" aria-hidden="true">
-                <img [src]="globalLogoUrl" [alt]="globalLogoAlt" loading="lazy" />
+                <img [src]="globalLogoUrl" [alt]="globalLogoAlt" loading="lazy"
+                  [appImageFallback]="'assets/logo.png'" />
               </div>
             </div>
 
             <!-- Video insignia y botones -->
-            <div class="hero__video-actions" style="display: flex; flex-direction: column; gap: 1.5rem; align-items: center;">
+            <div class="hero__video-actions"
+              style="display: flex; flex-direction: column; gap: 1.5rem; align-items: center;">
               <!-- Video insignia -->
               <div class="hero__video">
-                <iframe
-                  width="100%"
-                  height="200"
-                  src="https://www.youtube.com/embed/xPjOWsPz_lA"
-                  title="Video insignia FACOPEC"
-                  frameborder="0"
+                <iframe width="100%" height="200" src="https://www.youtube.com/embed/xPjOWsPz_lA"
+                  title="Video insignia FACOPEC" frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen
-                  style="border-radius: 8px; max-width: 400px;"
-                ></iframe>
+                  allowfullscreen style="border-radius: 8px; max-width: 400px;"></iframe>
               </div>
 
               <!-- Acciones (botones apilados) -->
               <div class="hero__actions hero__actions--stacked" style="width: 100%; max-width: 400px;">
                 <ng-container *ngFor="let action of hero.actions">
                   <!-- Botón "Ver programas" con click handler especial -->
-                  <button
-                    *ngIf="action.label === 'Ver programas'"
-                    type="button"
-                    class="btn"
-                    [ngClass]="{
+                  <button *ngIf="action.label === 'Ver programas'" type="button" class="btn" [ngClass]="{
                       'btn-primary': action.variant === 'primary',
                       'btn-secondary': action.variant === 'secondary'
-                    }"
-                    [attr.data-strapi-uid]="action.dataStrapiUid"
-                    (click)="openProgramsInHeader()"
-                  >
+                    }" [attr.data-strapi-uid]="action.dataStrapiUid" (click)="openProgramsInHeader()">
                     {{ action.label }}
                   </button>
                   <!-- Otros botones con routerLink normal -->
-                  <a
-                    *ngIf="action.label !== 'Ver programas'"
-                    class="btn"
-                    [ngClass]="{
+                  <a *ngIf="action.label !== 'Ver programas'" class="btn" [ngClass]="{
                       'btn-primary': action.variant === 'primary',
                       'btn-secondary': action.variant === 'secondary'
-                    }"
-                    [routerLink]="action.routerLink || null"
-                    [fragment]="action.fragment || undefined"
-                    [href]="action.href || null"
-                    [attr.data-strapi-uid]="action.dataStrapiUid"
+                    }" [routerLink]="action.routerLink || null" [fragment]="action.fragment || undefined"
+                    [href]="action.href || null" [attr.data-strapi-uid]="action.dataStrapiUid"
                     [attr.target]="action.href?.startsWith('http') ? '_blank' : null"
-                    [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null"
-                  >
+                    [attr.rel]="action.href?.startsWith('http') ? 'noopener' : null">
                     {{ action.label }}
                   </a>
                 </ng-container>
               </div>
+              <div class="hero__personero" style="margin-top: 1rem; display: flex; justify-content: center;">
+                <a href="https://abcpersonero.blogspot.com/" target="_blank" rel="noopener"
+                  title="Contribuye con FACOPEC">
+                  <img src="assets/program-logos/personero.webp" alt="Programa Personero - Contribuye con FACOPEC"
+                    loading="lazy" style= "width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block;" />
+              <!--     <img src="assets/program-logos/personero.webp" alt="Programa Personero - Contribuye con FACOPEC"
+                    loading="lazy" style="max-width: 220px; height: auto; display: block;" /> -->
+                </a>
+              </div>
+
             </div>
           </div>
         </div>
@@ -169,7 +150,8 @@
             <p class="section__subtitle">Estos son los datos de nuestra comunidad a lo largo del año</p>
           </div>
           <div class="attended-grid">
-            <article class="card attended-card attended-card--{{ person.theme }}" *ngFor="let person of attendedPersons">
+            <article class="card attended-card attended-card--{{ person.theme }}"
+              *ngFor="let person of attendedPersons">
               <div class="attended-card__icon">{{ person.icon }}</div>
               <div class="attended-card__content">
                 <h3 class="attended-card__program">{{ person.program }}</h3>
@@ -196,43 +178,36 @@
     </div>
     <div class="identity__grid">
       <div class="identity-description-with-image">
-        <article
-          class="card identity-card identity-card--description"
+        <article class="card identity-card identity-card--description"
           [class.identity-card--expanded]="identityExpanded.description"
-          [attr.data-strapi-uid]="identity.dataStrapiUid"
-        >
+          [attr.data-strapi-uid]="identity.dataStrapiUid">
           <h3 class="identity-card__title">Descripción de la fundación</h3>
           <div class="identity-card__body" id="identity-description">
             <p>{{ identity.description }}</p>
           </div>
-          <button
-            type="button"
-            class="identity-card__toggle"
-            (click)="toggleIdentityCard('description')"
-            [attr.aria-expanded]="identityExpanded.description"
-            aria-controls="identity-description"
-          >
+          <button type="button" class="identity-card__toggle" (click)="toggleIdentityCard('description')"
+            [attr.aria-expanded]="identityExpanded.description" aria-controls="identity-description">
             {{ identityExpanded.description ? 'Ver menos' : 'Leer más' }}
           </button>
         </article>
         <div class="identity-image">
-          <img src="assets/fotos-fundacion/apoyo.webp" alt="Fundación Afrocolombiana Profe en Casa en acción" loading="lazy" />
+          <img src="assets/fotos-fundacion/apoyo.webp" alt="Fundación Afrocolombiana Profe en Casa en acción"
+            loading="lazy" />
         </div>
       </div>
 
       <article class="card values-card" data-strapi-uid="about.values">
         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-          <a href="https://fundacionafrocolombianaprofeencasa.blogspot.com/2025/04/valores.html" target="_blank" rel="noopener" title="Conoce más sobre nuestros valores">
-            <img src="assets/program-logos/comunidades-narp.png" alt="Logo Comunidades NARP" style="width: 60px; height: 60px; object-fit: contain; cursor: pointer;" />
+          <a href="https://fundacionafrocolombianaprofeencasa.blogspot.com/2025/04/valores.html" target="_blank"
+            rel="noopener" title="Conoce más sobre nuestros valores">
+            <img src="assets/program-logos/comunidades-narp.png" alt="Logo Comunidades NARP"
+              style="width: 60px; height: 60px; object-fit: contain; cursor: pointer;" />
           </a>
           <h3 class="identity-card__title" style="margin: 0;">Valores que nos guían</h3>
         </div>
         <ul class="values-card__list">
-          <li
-            class="values-card__item"
-            *ngFor="let value of identity.values"
-            [attr.data-strapi-uid]="value.dataStrapiUid"
-          >
+          <li class="values-card__item" *ngFor="let value of identity.values"
+            [attr.data-strapi-uid]="value.dataStrapiUid">
             <span class="values-card__icon">{{ value.icon }}</span>
             <div class="values-card__copy">
               <p class="values-card__title">{{ value.title }}</p>
@@ -243,44 +218,28 @@
       </article>
 
       <div class="identity__pair">
-        <article
-          class="card identity-card"
-          [class.identity-card--expanded]="identityExpanded.mission"
-          [attr.data-strapi-uid]="missionVision.dataStrapiUidMission"
-        >
+        <article class="card identity-card" [class.identity-card--expanded]="identityExpanded.mission"
+          [attr.data-strapi-uid]="missionVision.dataStrapiUidMission">
           <div class="identity-card__icon">🌟</div>
           <h3 class="identity-card__title">Misión</h3>
           <div class="identity-card__body" id="identity-mission">
             <p>{{ missionVision.mission }}</p>
           </div>
-          <button
-            type="button"
-            class="identity-card__toggle"
-            (click)="toggleIdentityCard('mission')"
-            [attr.aria-expanded]="identityExpanded.mission"
-            aria-controls="identity-mission"
-          >
+          <button type="button" class="identity-card__toggle" (click)="toggleIdentityCard('mission')"
+            [attr.aria-expanded]="identityExpanded.mission" aria-controls="identity-mission">
             {{ identityExpanded.mission ? 'Ver menos' : 'Leer más' }}
           </button>
         </article>
 
-        <article
-          class="card identity-card"
-          [class.identity-card--expanded]="identityExpanded.vision"
-          [attr.data-strapi-uid]="missionVision.dataStrapiUidVision"
-        >
+        <article class="card identity-card" [class.identity-card--expanded]="identityExpanded.vision"
+          [attr.data-strapi-uid]="missionVision.dataStrapiUidVision">
           <div class="identity-card__icon">🚀</div>
           <h3 class="identity-card__title">Visión</h3>
           <div class="identity-card__body" id="identity-vision">
             <p>{{ missionVision.vision }}</p>
           </div>
-          <button
-            type="button"
-            class="identity-card__toggle"
-            (click)="toggleIdentityCard('vision')"
-            [attr.aria-expanded]="identityExpanded.vision"
-            aria-controls="identity-vision"
-          >
+          <button type="button" class="identity-card__toggle" (click)="toggleIdentityCard('vision')"
+            [attr.aria-expanded]="identityExpanded.vision" aria-controls="identity-vision">
             {{ identityExpanded.vision ? 'Ver menos' : 'Leer más' }}
           </button>
         </article>
@@ -299,14 +258,8 @@
       </p>
     </div>
     <div class="programs-grid">
-      <a
-        *ngFor="let program of programLogos"
-        [href]="program.href"
-        target="_blank"
-        rel="noopener"
-        class="program-card"
-        [attr.aria-label]="program.alt"
-      >
+      <a *ngFor="let program of programLogos" [href]="program.href" target="_blank" rel="noopener" class="program-card"
+        [attr.aria-label]="program.alt">
         <div class="program-card__logo">
           <img [src]="program.logo" [alt]="program.alt" loading="lazy" />
         </div>
@@ -325,19 +278,11 @@
     <div class="gallery-carousel">
       <div class="gallery-carousel__track">
         <!-- First set -->
-        <a
-          class="gallery-card"
-          *ngFor="let item of galleryItems; let i = index"
-          [href]="item.href"
-          target="_blank"
-          rel="noopener"
-          [attr.data-strapi-collection]="item.strapiCollection"
-          [attr.data-strapi-entry]="item.strapiEntryId"
-          [class.gallery-card--teal]="i % 4 === 0"
-          [class.gallery-card--blue]="i % 4 === 1"
-          [class.gallery-card--rose]="i % 4 === 2"
-          [class.gallery-card--gold]="i % 4 === 3"
-        >
+        <a class="gallery-card" *ngFor="let item of galleryItems; let i = index" [href]="item.href" target="_blank"
+          rel="noopener" [attr.data-strapi-collection]="item.strapiCollection"
+          [attr.data-strapi-entry]="item.strapiEntryId" [class.gallery-card--teal]="i % 4 === 0"
+          [class.gallery-card--blue]="i % 4 === 1" [class.gallery-card--rose]="i % 4 === 2"
+          [class.gallery-card--gold]="i % 4 === 3">
           <div class="gallery-card__logo">
             <img [src]="item.cover" [alt]="item.title" loading="lazy" />
           </div>
@@ -347,19 +292,11 @@
           </div>
         </a>
         <!-- Duplicate set for infinite scroll -->
-        <a
-          class="gallery-card"
-          *ngFor="let item of galleryItems; let i = index"
-          [href]="item.href"
-          target="_blank"
-          rel="noopener"
-          [attr.data-strapi-collection]="item.strapiCollection"
-          [attr.data-strapi-entry]="item.strapiEntryId"
-          [class.gallery-card--teal]="i % 4 === 0"
-          [class.gallery-card--blue]="i % 4 === 1"
-          [class.gallery-card--rose]="i % 4 === 2"
-          [class.gallery-card--gold]="i % 4 === 3"
-        >
+        <a class="gallery-card" *ngFor="let item of galleryItems; let i = index" [href]="item.href" target="_blank"
+          rel="noopener" [attr.data-strapi-collection]="item.strapiCollection"
+          [attr.data-strapi-entry]="item.strapiEntryId" [class.gallery-card--teal]="i % 4 === 0"
+          [class.gallery-card--blue]="i % 4 === 1" [class.gallery-card--rose]="i % 4 === 2"
+          [class.gallery-card--gold]="i % 4 === 3">
           <div class="gallery-card__logo">
             <img [src]="item.cover" [alt]="item.title" loading="lazy" />
           </div>
@@ -388,7 +325,8 @@
       <div class="employability-form">
         <h2 class="employability-form__title">¿Te interesa nuestro programa de empleabilidad?</h2>
         <p class="employability-form__description">
-          Completa este formulario y nos pondremos en contacto contigo para apoyarte en tu proceso de formación y búsqueda de empleo.
+          Completa este formulario y nos pondremos en contacto contigo para apoyarte en tu proceso de formación y
+          búsqueda de empleo.
         </p>
 
         <form *ngIf="!employabilityFormSubmitted" (ngSubmit)="submitEmployabilityForm()" #employabilityFormRef="ngForm">
@@ -398,39 +336,21 @@
 
           <div class="form-field">
             <label for="employability-name">Nombre completo *</label>
-            <input
-              type="text"
-              id="employability-name"
-              name="name"
-              [(ngModel)]="employabilityForm.name"
-              required
-              placeholder="Tu nombre completo"
-            />
+            <input type="text" id="employability-name" name="name" [(ngModel)]="employabilityForm.name" required
+              placeholder="Tu nombre completo" />
           </div>
 
           <div class="form-row">
             <div class="form-field">
               <label for="employability-email">Correo electrónico *</label>
-              <input
-                type="email"
-                id="employability-email"
-                name="email"
-                [(ngModel)]="employabilityForm.email"
-                required
-                placeholder="tu@email.com"
-              />
+              <input type="email" id="employability-email" name="email" [(ngModel)]="employabilityForm.email" required
+                placeholder="tu@email.com" />
             </div>
 
             <div class="form-field">
               <label for="employability-phone">Teléfono *</label>
-              <input
-                type="tel"
-                id="employability-phone"
-                name="phone"
-                [(ngModel)]="employabilityForm.phone"
-                required
-                placeholder="+57 300 123 4567"
-              />
+              <input type="tel" id="employability-phone" name="phone" [(ngModel)]="employabilityForm.phone" required
+                placeholder="+57 300 123 4567" />
             </div>
           </div>
 
@@ -449,16 +369,12 @@
 
           <div class="form-field">
             <label for="employability-interests">Áreas de interés</label>
-            <textarea
-              id="employability-interests"
-              name="interests"
-              [(ngModel)]="employabilityForm.interests"
-              rows="3"
-              placeholder="Cuéntanos en qué áreas te gustaría trabajar o formarte..."
-            ></textarea>
+            <textarea id="employability-interests" name="interests" [(ngModel)]="employabilityForm.interests" rows="3"
+              placeholder="Cuéntanos en qué áreas te gustaría trabajar o formarte..."></textarea>
           </div>
 
-          <button type="submit" class="btn btn--primary employability-form__submit" [disabled]="!employabilityFormRef.valid || employabilityFormSubmitting">
+          <button type="submit" class="btn btn--primary employability-form__submit"
+            [disabled]="!employabilityFormRef.valid || employabilityFormSubmitting">
             <span *ngIf="!employabilityFormSubmitting">Enviar solicitud</span>
             <span *ngIf="employabilityFormSubmitting">Enviando...</span>
           </button>

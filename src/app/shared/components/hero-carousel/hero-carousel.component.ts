@@ -1,16 +1,18 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ImageFallbackDirective } from '@shared/directives/image-fallback.directive';
 
 export interface CarouselImage {
   url: string;
   alt: string;
   title?: string;
+  fallbackUrl?: string;
 }
 
 @Component({
   selector: 'app-hero-carousel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ImageFallbackDirective],
   template: `
     <div class="carousel-container">
       <div class="carousel-wrapper">
@@ -24,6 +26,7 @@ export interface CarouselImage {
             <img
               [src]="image.url"
               [alt]="image.alt"
+              [appImageFallback]="image.fallbackUrl || 'assets/fotos-fundacion/portada.webp'"
               class="carousel-image"
               loading="lazy">
             <div class="carousel-overlay"></div>

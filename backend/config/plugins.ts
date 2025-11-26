@@ -59,7 +59,8 @@ const pluginsConfig = ({ env }: ConfigParams): PluginsConfig => ({
       settings: {
         defaultFrom: env(
           'EMAIL_FROM',
-          'profeencasasedeciudaddelsur@gmail.com',
+          'notificacionesfacopec@gmail.com',
+          
         ),
         defaultReplyTo: env(
           'EMAIL_REPLY_TO',

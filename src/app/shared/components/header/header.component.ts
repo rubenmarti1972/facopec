@@ -9,8 +9,10 @@ import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BRAND_COLORS } from '@core/design-system/brand-colors';
 import { StrapiService } from '@core/services/strapi.service';
+import { CmsFallbackService } from '@core/services/cms-fallback.service';
 import { NavigationService } from '@core/services/navigation.service';
 import { NavigationEntry, NavigationGroup, NavigationChildLink, GlobalSettings } from '@core/models';
+import { ImageFallbackDirective } from '@shared/directives/image-fallback.directive';
 
 /**
  * View model para items de navegación en el template
@@ -65,7 +67,7 @@ interface PrimaryCtaLink {
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ImageFallbackDirective],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
@@ -106,6 +108,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private strapiService: StrapiService,
+    private fallbackService: CmsFallbackService,
     private navigationService: NavigationService
   ) {}
 
@@ -425,6 +428,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private applyNavigation(settings: GlobalSettings): void {
+    // FALLBACK AGRESIVO: Si el CMS está caído, no modificar nada
+    // Mantener navegación, logo y nombre del sitio hardcodeados
+    if (this.fallbackService.isCmsDown()) {
+      console.log('[HeaderComponent] CMS caído, usando navegación y logo hardcodeados');
+      this.loading = false;
+      return;
+    }
+
     if (settings.navigation?.length) {
       const mapped = this.mapNavigation(settings.navigation);
 
@@ -470,11 +481,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.siteNameSecondary = secondary ?? '';
     }
 
+    // Solo actualizar el logo si el CMS no está caído y tiene un logo válido
     const mediaUrl = this.strapiService.buildMediaUrl(settings.logo);
     if (mediaUrl) {
       this.logoUrl = mediaUrl;
       this.logoAlt = settings.logo?.alternativeText ?? settings.logo?.caption ?? this.logoAlt;
     }
+    // Si el CMS no tiene logo, mantener el hardcodeado (assets/logo.png)
 
     this.loading = false;
   }

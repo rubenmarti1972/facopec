@@ -35,7 +35,7 @@ export interface PartnerFormData {
 })
 export class EmailService {
   private readonly http = inject(HttpClient);
-  private readonly foundationEmail = 'lucasmartinez220372@gmail.com';
+  private readonly foundationEmail = 'profeencasasedeciudaddelsur@gmail.com';
   private readonly strapiUrl = environment.strapi?.url || 'http://localhost:1337';
 
   /**
