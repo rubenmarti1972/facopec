@@ -181,6 +181,8 @@
   display: flex;
   gap: 1rem;
   align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .financial__logo {
@@ -188,8 +190,12 @@
   height: 64px;
   object-fit: contain;
   border-radius: 12px;
-  background: rgba(20, 97, 75, 0.08);
-  padding: 0.5rem;
+}
+
+.financial__brand-text {
+  display: grid;
+  gap: 0.25rem;
+  justify-items: center;
 }
 
 .financial__title {
@@ -211,41 +217,88 @@
 .financial__table-wrapper {
   margin-top: 1rem;
   border: 1px solid rgba(15, 42, 61, 0.08);
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 10px 35px rgba(15, 42, 61, 0.08);
+  box-shadow: 0 12px 35px rgba(15, 42, 61, 0.1);
+  background: radial-gradient(circle at top left, rgba(20, 97, 75, 0.05), transparent 55%), #fff;
 }
 
 .financial__table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
+  background: transparent;
+}
+
+.financial__table colgroup col:nth-child(2),
+.financial__table colgroup col:nth-child(3),
+.financial__table colgroup col:nth-child(4) {
+  width: 22%;
 }
 
 .financial__table th,
 .financial__table td {
-  padding: 14px 16px;
-  text-align: left;
-  border-bottom: 1px solid rgba(15, 42, 61, 0.06);
+  padding: 15px 18px;
+  border-bottom: 1px solid rgba(15, 42, 61, 0.05);
 }
 
 .financial__table th {
-  background: linear-gradient(90deg, rgba(20, 97, 75, 0.08), rgba(20, 97, 75, 0.04));
+  background: linear-gradient(90deg, rgba(20, 97, 75, 0.12), rgba(20, 97, 75, 0.05));
   color: #0f2a3d;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   font-size: 0.85rem;
 }
 
+.financial__table tbody tr:nth-child(odd) {
+  background: rgba(20, 97, 75, 0.03);
+}
+
 .financial__table tbody tr:hover {
-  background: rgba(20, 97, 75, 0.04);
+  background: rgba(20, 97, 75, 0.08);
 }
 
 .financial__table tfoot td {
   font-weight: 800;
   color: #0f2a3d;
-  background: rgba(15, 42, 61, 0.04);
+  background: rgba(15, 42, 61, 0.06);
+}
+
+.project-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  color: #0f2a3d;
+}
+
+.project-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #178f6b, #0d4f3b);
+  box-shadow: 0 0 0 4px rgba(23, 143, 107, 0.15);
+}
+
+.numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: #0f2a3d;
+}
+
+.numeric.highlight {
+  font-weight: 800;
+  color: #145b45;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(15, 42, 61, 0.06);
+  color: #0f2a3d;
+  font-weight: 700;
 }
 
 .financial__note {
@@ -268,7 +321,13 @@
   justify-content: space-between;
   gap: 1rem;
   align-items: center;
+  flex-wrap: wrap;
   margin-bottom: 1rem;
+}
+
+.financial__chart-title {
+  display: grid;
+  gap: 0.25rem;
 }
 
 .financial__legend {
@@ -277,6 +336,31 @@
   align-items: center;
   font-weight: 600;
   color: #0f2a3d;
+}
+
+.financial__chart-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.chip {
+  border: 1px solid rgba(15, 42, 61, 0.18);
+  background: #fff;
+  color: #0f2a3d;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chip--active {
+  background: linear-gradient(90deg, rgba(23, 143, 107, 0.18), rgba(13, 79, 59, 0.2));
+  border-color: rgba(23, 143, 107, 0.5);
+  color: #0d4f3b;
+  box-shadow: 0 6px 16px rgba(23, 143, 107, 0.25);
 }
 
 .legend__swatch {
@@ -347,6 +431,83 @@
   justify-content: space-between;
   color: rgba(16, 36, 59, 0.8);
   font-size: 0.95rem;
+}
+
+.financial__donut-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.financial__donut-card {
+  border: 1px solid rgba(15, 42, 61, 0.08);
+  border-radius: 14px;
+  padding: 1rem;
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  background: linear-gradient(180deg, rgba(23, 143, 107, 0.04), transparent);
+  box-shadow: 0 8px 24px rgba(15, 42, 61, 0.08);
+}
+
+.financial__donut {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  position: relative;
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 0 0 10px rgba(15, 42, 61, 0.05);
+}
+
+.financial__donut-center {
+  width: 86px;
+  height: 86px;
+  background: #fff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: #0f2a3d;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.financial__donut-percent {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #145b45;
+}
+
+.financial__donut-name {
+  font-weight: 700;
+  color: #0f2a3d;
+  text-align: center;
+}
+
+.financial__donut-values {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  color: rgba(16, 36, 59, 0.8);
+  margin: 0;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot--executed {
+  background: linear-gradient(135deg, #178f6b, #0d4f3b);
+}
+
+.dot--balance {
+  background: rgba(15, 42, 61, 0.2);
 }
 
 .button {

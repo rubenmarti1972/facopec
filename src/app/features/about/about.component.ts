@@ -56,6 +56,7 @@ export class AboutComponent implements OnInit {
   ];
 
   chartVisible = false;
+  chartType: 'bars' | 'pie' = 'bars';
 
   // URL del organigrama con fallback hardcodeado
   organigramaUrl = 'https://www.canva.com/design/DAG5Qgbtdg8/YDQsqBd1PqH4WtBZybKmEQ/view?embed';
@@ -127,12 +128,21 @@ export class AboutComponent implements OnInit {
     return Math.round((executed / projectIncome) * 100);
   }
 
+  getDonutBackground(percent: number): string {
+    const clamped = Math.min(100, Math.max(0, percent));
+    return `conic-gradient(#178f6b 0% ${clamped}%, rgba(15, 42, 61, 0.12) ${clamped}% 100%)`;
+  }
+
   trackByProjectName(_index: number, project: { name: string }): string {
     return project.name;
   }
 
   toggleChartVisibility(): void {
     this.chartVisible = !this.chartVisible;
+  }
+
+  setChartType(type: 'bars' | 'pie'): void {
+    this.chartType = type;
   }
 
   printFinancialReport(): void {

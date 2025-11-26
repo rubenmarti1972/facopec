@@ -145,7 +145,7 @@
         <div class="financial__header">
           <div class="financial__brand">
             <img src="assets/logo.png" alt="Logo de la Fundación Avanza" class="financial__logo" />
-            <div>
+            <div class="financial__brand-text">
               <span class="section__eyebrow">Informe Financiero anual por proyecto (simulado)</span>
               <h2 class="financial__title">Fundación Avanza – Año 2025</h2>
               <p class="financial__subtitle">Seguimiento a ingresos, ejecución y saldos por cada iniciativa estratégica.</p>
@@ -165,6 +165,12 @@
 
         <div class="financial__table-wrapper">
           <table class="financial__table" aria-label="Informe financiero anual 2025">
+            <colgroup>
+              <col />
+              <col />
+              <col />
+              <col />
+            </colgroup>
             <thead>
               <tr>
                 <th scope="col">Proyecto</th>
@@ -175,18 +181,25 @@
             </thead>
             <tbody>
               <tr *ngFor="let project of financialProjects; trackBy: trackByProjectName">
-                <th scope="row">{{ project.name }}</th>
-                <td>{{ project.income | number: '1.0-0' }}</td>
-                <td>{{ project.executed | number: '1.0-0' }}</td>
-                <td>{{ (project.income - project.executed) | number: '1.0-0' }}</td>
+                <th scope="row">
+                  <div class="project-name">
+                    <span class="project-dot"></span>
+                    <span>{{ project.name }}</span>
+                  </div>
+                </th>
+                <td class="numeric">{{ project.income | number: '1.0-0' }}</td>
+                <td class="numeric highlight">{{ project.executed | number: '1.0-0' }}</td>
+                <td class="numeric">
+                  <span class="pill">{{ (project.income - project.executed) | number: '1.0-0' }}</span>
+                </td>
               </tr>
             </tbody>
             <tfoot>
               <tr>
                 <td>TOTAL GENERAL</td>
-                <td>{{ executionTotals.income | number: '1.0-0' }}</td>
-                <td>{{ executionTotals.executed | number: '1.0-0' }}</td>
-                <td>{{ executionTotals.balance | number: '1.0-0' }}</td>
+                <td class="numeric">{{ executionTotals.income | number: '1.0-0' }}</td>
+                <td class="numeric">{{ executionTotals.executed | number: '1.0-0' }}</td>
+                <td class="numeric">{{ executionTotals.balance | number: '1.0-0' }}</td>
               </tr>
             </tfoot>
           </table>
@@ -196,16 +209,34 @@
 
         <div class="financial__chart" *ngIf="chartVisible">
           <div class="financial__chart-header">
-            <div>
+            <div class="financial__chart-title">
               <p class="section__eyebrow">Visualización</p>
               <h3>Ejecución por proyecto</h3>
+            </div>
+            <div class="financial__chart-controls" role="group" aria-label="Tipo de gráfico">
+              <button
+                type="button"
+                class="chip"
+                [class.chip--active]="chartType === 'bars'"
+                (click)="setChartType('bars')"
+              >
+                Barras
+              </button>
+              <button
+                type="button"
+                class="chip"
+                [class.chip--active]="chartType === 'pie'"
+                (click)="setChartType('pie')"
+              >
+                Circular
+              </button>
             </div>
             <div class="financial__legend">
               <span class="legend__swatch legend__swatch--executed"></span> Ejecutado
               <span class="legend__swatch legend__swatch--balance"></span> Saldo
             </div>
           </div>
-          <ul class="financial__chart-list">
+          <ul class="financial__chart-list" *ngIf="chartType === 'bars'">
             <li *ngFor="let project of financialProjects" class="financial__chart-item">
               <div class="financial__chart-label">
                 <span>{{ project.name }}</span>
@@ -225,6 +256,24 @@
                 <span>Ejecutado: {{ project.executed | number: '1.0-0' }} COP</span>
                 <span>Saldo: {{ (project.income - project.executed) | number: '1.0-0' }} COP</span>
               </div>
+            </li>
+          </ul>
+
+          <ul class="financial__donut-grid" *ngIf="chartType === 'pie'">
+            <li *ngFor="let project of financialProjects" class="financial__donut-card">
+              <div class="financial__donut" [style.background]="getDonutBackground(getExecutionPercent(project.income, project.executed))">
+                <div class="financial__donut-center">
+                  <span class="financial__donut-percent">{{ getExecutionPercent(project.income, project.executed) }}%</span>
+                  <small>ejecutado</small>
+                </div>
+              </div>
+              <p class="financial__donut-name">{{ project.name }}</p>
+              <p class="financial__donut-values">
+                <span class="dot dot--executed"></span>{{ project.executed | number: '1.0-0' }} COP
+              </p>
+              <p class="financial__donut-values">
+                <span class="dot dot--balance"></span>{{ (project.income - project.executed) | number: '1.0-0' }} COP
+              </p>
             </li>
           </ul>
         </div>
