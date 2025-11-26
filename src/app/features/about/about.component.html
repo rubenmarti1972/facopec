@@ -36,106 +36,246 @@
     </div>
 
     <section class="section" data-strapi-section="identity">
-  <div class="container">
-    <div class="identity__intro">
-      <span class="section__eyebrow">Nuestra identidad</span>
-      <h2 class="identity__title">Formamos y acompañamos comunidades en el Cauca</h2>
-      <p class="identity__subtitle">
-        Presentamos la esencia de FACOPEC con una estructura clara para gestionar la información y comunicar nuestro
-        propósito de forma cercana.
-      </p>
-    </div>
-    <div class="identity__grid">
-      <div class="identity-description-with-image">
-        <article
-          class="card identity-card identity-card--description"
-          [class.identity-card--expanded]="identityExpanded.description"
-          [attr.data-strapi-uid]="identity.dataStrapiUid"
-        >
-          <h3 class="identity-card__title">Descripción de la fundación</h3>
-          <div class="identity-card__body" id="identity-description">
-            <p>{{ identity.description }}</p>
-          </div>
-          <button
-            type="button"
-            class="identity-card__toggle"
-            (click)="toggleIdentityCard('description')"
-            [attr.aria-expanded]="identityExpanded.description"
-            aria-controls="identity-description"
-          >
-            {{ identityExpanded.description ? 'Ver menos' : 'Leer más' }}
-          </button>
-        </article>
-        <div class="identity-image">
-          <img src="assets/fotos-fundacion/apoyo.webp" alt="Fundación Afrocolombiana Profe en Casa en acción" loading="lazy" />
+      <div class="container">
+        <div class="identity__intro">
+          <span class="section__eyebrow">Nuestra identidad</span>
+          <h2 class="identity__title">Formamos y acompañamos comunidades en el Cauca</h2>
+          <p class="identity__subtitle">
+            Presentamos la esencia de FACOPEC con una estructura clara para gestionar la información y comunicar nuestro
+            propósito de forma cercana.
+          </p>
         </div>
-      </div>
-
-      <article class="card values-card" data-strapi-uid="about.values">
-        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-          <a href="https://fundacionafrocolombianaprofeencasa.blogspot.com/2025/04/valores.html" target="_blank" rel="noopener" title="Conoce más sobre nuestros valores">
-            <img src="assets/program-logos/comunidades-narp.png" alt="Logo Comunidades NARP" style="width: 60px; height: 60px; object-fit: contain; cursor: pointer;" />
-          </a>
-          <h3 class="identity-card__title" style="margin: 0;">Valores que nos guían</h3>
-        </div>
-        <ul class="values-card__list">
-          <li
-            class="values-card__item"
-            *ngFor="let value of identity.values"
-            [attr.data-strapi-uid]="value.dataStrapiUid"
-          >
-            <span class="values-card__icon">{{ value.icon }}</span>
-            <div class="values-card__copy">
-              <p class="values-card__title">{{ value.title }}</p>
-              <p class="values-card__description">{{ value.description }}</p>
+        <div class="identity__grid">
+          <div class="identity-description-with-image">
+            <article
+              class="card identity-card identity-card--description"
+              [class.identity-card--expanded]="identityExpanded.description"
+              [attr.data-strapi-uid]="identity.dataStrapiUid"
+            >
+              <h3 class="identity-card__title">Descripción de la fundación</h3>
+              <div class="identity-card__body" id="identity-description">
+                <p>{{ identity.description }}</p>
+              </div>
+              <button
+                type="button"
+                class="identity-card__toggle"
+                (click)="toggleIdentityCard('description')"
+                [attr.aria-expanded]="identityExpanded.description"
+                aria-controls="identity-description"
+              >
+                {{ identityExpanded.description ? 'Ver menos' : 'Leer más' }}
+              </button>
+            </article>
+            <div class="identity-image">
+              <img src="assets/fotos-fundacion/apoyo.webp" alt="Fundación Afrocolombiana Profe en Casa en acción" loading="lazy" />
             </div>
-          </li>
-        </ul>
-      </article>
-
-      <div class="identity__pair">
-        <article
-          class="card identity-card"
-          [class.identity-card--expanded]="identityExpanded.mission"
-          [attr.data-strapi-uid]="missionVision.dataStrapiUidMission"
-        >
-          <div class="identity-card__icon">🌟</div>
-          <h3 class="identity-card__title">Misión</h3>
-          <div class="identity-card__body" id="identity-mission">
-            <p>{{ missionVision.mission }}</p>
           </div>
-          <button
-            type="button"
-            class="identity-card__toggle"
-            (click)="toggleIdentityCard('mission')"
-            [attr.aria-expanded]="identityExpanded.mission"
-            aria-controls="identity-mission"
-          >
-            {{ identityExpanded.mission ? 'Ver menos' : 'Leer más' }}
-          </button>
-        </article>
 
-        <article
-          class="card identity-card"
-          [class.identity-card--expanded]="identityExpanded.vision"
-          [attr.data-strapi-uid]="missionVision.dataStrapiUidVision"
-        >
-          <div class="identity-card__icon">🚀</div>
-          <h3 class="identity-card__title">Visión</h3>
-          <div class="identity-card__body" id="identity-vision">
-            <p>{{ missionVision.vision }}</p>
+          <article class="card values-card" data-strapi-uid="about.values">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+              <a href="https://fundacionafrocolombianaprofeencasa.blogspot.com/2025/04/valores.html" target="_blank" rel="noopener" title="Conoce más sobre nuestros valores">
+                <img src="assets/program-logos/comunidades-narp.png" alt="Logo Comunidades NARP" style="width: 60px; height: 60px; object-fit: contain; cursor: pointer;" />
+              </a>
+              <h3 class="identity-card__title" style="margin: 0;">Valores que nos guían</h3>
+            </div>
+            <ul class="values-card__list">
+              <li
+                class="values-card__item"
+                *ngFor="let value of identity.values"
+                [attr.data-strapi-uid]="value.dataStrapiUid"
+              >
+                <span class="values-card__icon">{{ value.icon }}</span>
+                <div class="values-card__copy">
+                  <p class="values-card__title">{{ value.title }}</p>
+                  <p class="values-card__description">{{ value.description }}</p>
+                </div>
+              </li>
+            </ul>
+          </article>
+
+          <div class="identity__pair">
+            <article
+              class="card identity-card"
+              [class.identity-card--expanded]="identityExpanded.mission"
+              [attr.data-strapi-uid]="missionVision.dataStrapiUidMission"
+            >
+              <div class="identity-card__icon">🌟</div>
+              <h3 class="identity-card__title">Misión</h3>
+              <div class="identity-card__body" id="identity-mission">
+                <p>{{ missionVision.mission }}</p>
+              </div>
+              <button
+                type="button"
+                class="identity-card__toggle"
+                (click)="toggleIdentityCard('mission')"
+                [attr.aria-expanded]="identityExpanded.mission"
+                aria-controls="identity-mission"
+              >
+                {{ identityExpanded.mission ? 'Ver menos' : 'Leer más' }}
+              </button>
+            </article>
+
+            <article
+              class="card identity-card"
+              [class.identity-card--expanded]="identityExpanded.vision"
+              [attr.data-strapi-uid]="missionVision.dataStrapiUidVision"
+            >
+              <div class="identity-card__icon">🚀</div>
+              <h3 class="identity-card__title">Visión</h3>
+              <div class="identity-card__body" id="identity-vision">
+                <p>{{ missionVision.vision }}</p>
+              </div>
+              <button
+                type="button"
+                class="identity-card__toggle"
+                (click)="toggleIdentityCard('vision')"
+                [attr.aria-expanded]="identityExpanded.vision"
+                aria-controls="identity-vision"
+              >
+                {{ identityExpanded.vision ? 'Ver menos' : 'Leer más' }}
+              </button>
+            </article>
           </div>
-          <button
-            type="button"
-            class="identity-card__toggle"
-            (click)="toggleIdentityCard('vision')"
-            [attr.aria-expanded]="identityExpanded.vision"
-            aria-controls="identity-vision"
-          >
-            {{ identityExpanded.vision ? 'Ver menos' : 'Leer más' }}
-          </button>
-        </article>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
+
+    <section class="section financial" id="financial-report">
+      <div class="container">
+        <div class="financial__header">
+          <div class="financial__brand">
+            <img src="assets/logo.png" alt="Logo de la Fundación Avanza" class="financial__logo" />
+            <div class="financial__brand-text">
+              <span class="section__eyebrow">Informe Financiero anual por proyecto (simulado)</span>
+              <h2 class="financial__title">Fundación Avanza – Año 2025</h2>
+              <p class="financial__subtitle">Seguimiento a ingresos, ejecución y saldos por cada iniciativa estratégica.</p>
+            </div>
+          </div>
+          <div class="financial__actions">
+            <button type="button" class="button button--ghost" (click)="toggleChartVisibility()" [attr.aria-pressed]="chartVisible">
+              <span class="button__icon" aria-hidden="true">📊</span>
+              {{ chartVisible ? 'Ocultar gráfico' : 'Ver ejecución por proyecto' }}
+            </button>
+            <button type="button" class="button button--primary" (click)="printFinancialReport()">
+              <span class="button__icon" aria-hidden="true">⬇️</span>
+              Descargar PDF
+            </button>
+          </div>
+        </div>
+
+        <div class="financial__table-wrapper">
+          <table class="financial__table" aria-label="Informe financiero anual 2025">
+            <colgroup>
+              <col />
+              <col />
+              <col />
+              <col />
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col">Proyecto</th>
+                <th scope="col">Ingresos (COP)</th>
+                <th scope="col">Ejecutado (COP)</th>
+                <th scope="col">Saldo (COP)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let project of financialProjects; trackBy: trackByProjectName">
+                <th scope="row">
+                  <div class="project-name">
+                    <span class="project-dot"></span>
+                    <span>{{ project.name }}</span>
+                  </div>
+                </th>
+                <td class="numeric">{{ project.income | number: '1.0-0' }}</td>
+                <td class="numeric highlight">{{ project.executed | number: '1.0-0' }}</td>
+                <td class="numeric">
+                  <span class="pill">{{ (project.income - project.executed) | number: '1.0-0' }}</span>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>TOTAL GENERAL</td>
+                <td class="numeric">{{ executionTotals.income | number: '1.0-0' }}</td>
+                <td class="numeric">{{ executionTotals.executed | number: '1.0-0' }}</td>
+                <td class="numeric">{{ executionTotals.balance | number: '1.0-0' }}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <p class="financial__note">Los valores son simulados para fines de presentación y seguimiento interno.</p>
+
+        <div class="financial__chart" *ngIf="chartVisible">
+          <div class="financial__chart-header">
+            <div class="financial__chart-title">
+              <p class="section__eyebrow">Visualización</p>
+              <h3>Ejecución por proyecto</h3>
+            </div>
+            <div class="financial__chart-controls" role="group" aria-label="Tipo de gráfico">
+              <button
+                type="button"
+                class="chip"
+                [class.chip--active]="chartType === 'bars'"
+                (click)="setChartType('bars')"
+              >
+                Barras
+              </button>
+              <button
+                type="button"
+                class="chip"
+                [class.chip--active]="chartType === 'pie'"
+                (click)="setChartType('pie')"
+              >
+                Circular
+              </button>
+            </div>
+            <div class="financial__legend">
+              <span class="legend__swatch legend__swatch--executed"></span> Ejecutado
+              <span class="legend__swatch legend__swatch--balance"></span> Saldo
+            </div>
+          </div>
+          <ul class="financial__chart-list" *ngIf="chartType === 'bars'">
+            <li *ngFor="let project of financialProjects" class="financial__chart-item">
+              <div class="financial__chart-label">
+                <span>{{ project.name }}</span>
+                <span class="financial__chart-percent">{{ getExecutionPercent(project.income, project.executed) }}% ejecutado</span>
+              </div>
+              <div class="financial__bar">
+                <span
+                  class="financial__bar-segment financial__bar-segment--executed"
+                  [style.width.%]="getExecutionPercent(project.income, project.executed)"
+                ></span>
+                <span
+                  class="financial__bar-segment financial__bar-segment--balance"
+                  [style.width.%]="100 - getExecutionPercent(project.income, project.executed)"
+                ></span>
+              </div>
+              <div class="financial__bar-values">
+                <span>Ejecutado: {{ project.executed | number: '1.0-0' }} COP</span>
+                <span>Saldo: {{ (project.income - project.executed) | number: '1.0-0' }} COP</span>
+              </div>
+            </li>
+          </ul>
+
+          <ul class="financial__donut-grid" *ngIf="chartType === 'pie'">
+            <li *ngFor="let project of financialProjects" class="financial__donut-card">
+              <div class="financial__donut" [style.background]="getDonutBackground(getExecutionPercent(project.income, project.executed))">
+                <div class="financial__donut-center">
+                  <span class="financial__donut-percent">{{ getExecutionPercent(project.income, project.executed) }}%</span>
+                  <small>ejecutado</small>
+                </div>
+              </div>
+              <p class="financial__donut-name">{{ project.name }}</p>
+              <p class="financial__donut-values">
+                <span class="dot dot--executed"></span>{{ project.executed | number: '1.0-0' }} COP
+              </p>
+              <p class="financial__donut-values">
+                <span class="dot dot--balance"></span>{{ (project.income - project.executed) | number: '1.0-0' }} COP
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
