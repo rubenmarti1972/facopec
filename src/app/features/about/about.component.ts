@@ -145,13 +145,12 @@ export class AboutComponent implements OnInit {
     this.chartType = type;
   }
 
+  private formatCurrency(value: number): string {
+    return value.toLocaleString('es-CO');
+  }
+
   printFinancialReport(): void {
     if (typeof window === 'undefined') {
-      return;
-    }
-
-    const section = document.getElementById('financial-report');
-    if (!section) {
       return;
     }
 
@@ -161,17 +160,64 @@ export class AboutComponent implements OnInit {
       return;
     }
 
+    const tableRows = this.financialProjects
+      .map(
+        project => `
+          <tr>
+            <th scope="row">${project.name}</th>
+            <td>${this.formatCurrency(project.income)}</td>
+            <td>${this.formatCurrency(project.executed)}</td>
+            <td>${this.formatCurrency(project.income - project.executed)}</td>
+          </tr>
+        `
+      )
+      .join('');
+
+    const bars = this.financialProjects
+      .map(project => {
+        const executedPercent = this.getExecutionPercent(project.income, project.executed);
+        const balancePercent = 100 - executedPercent;
+        return `
+          <li class="bar-item">
+            <div class="bar-label">
+              <span>${project.name}</span>
+              <span class="bar-percent">${executedPercent}% ejecutado</span>
+            </div>
+            <div class="bar-track" aria-hidden="true">
+              <span class="bar-executed" style="width:${executedPercent}%;"></span>
+              <span class="bar-balance" style="width:${balancePercent}%;"></span>
+            </div>
+            <div class="bar-values">
+              <span>Ejecutado: ${this.formatCurrency(project.executed)} COP</span>
+              <span>Saldo: ${this.formatCurrency(project.income - project.executed)} COP</span>
+            </div>
+          </li>
+        `;
+      })
+      .join('');
+
+    const { income, executed, balance } = this.executionTotals;
+
     const styles = `
-      body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #0f2a3d; padding: 24px; }
-      h1 { margin: 0 0 8px; color: #0f2a3d; }
-      p { margin: 0 0 12px; color: #3c4f63; }
-      table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-      th, td { border-bottom: 1px solid rgba(15, 42, 61, 0.1); padding: 10px 12px; text-align: left; }
-      th { background: rgba(20, 97, 75, 0.08); color: #14614b; text-transform: uppercase; letter-spacing: 0.04em; font-size: 12px; }
-      tfoot td { font-weight: 700; color: #0f2a3d; }
-      .summary { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
-      .summary img { height: 48px; width: 48px; object-fit: contain; }
-      .badge { background: rgba(20, 97, 75, 0.1); color: #14614b; padding: 6px 12px; border-radius: 999px; font-weight: 600; font-size: 12px; display: inline-block; }
+      body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #0f2a3d; padding: 32px; background: #f5f7f8; }
+      h1 { margin: 0 0 6px; color: #0f2a3d; letter-spacing: 0.01em; }
+      p { margin: 0; color: #3c4f63; }
+      table { width: 100%; border-collapse: collapse; margin-top: 12px; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(15, 42, 61, 0.08); }
+      th, td { border-bottom: 1px solid rgba(15, 42, 61, 0.1); padding: 12px 14px; text-align: left; }
+      th { background: rgba(20, 97, 75, 0.12); color: #14614b; text-transform: uppercase; letter-spacing: 0.04em; font-size: 12px; }
+      tfoot td { font-weight: 700; color: #0f2a3d; background: rgba(15, 42, 61, 0.06); }
+      .summary { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+      .summary img { height: 96px; width: 96px; object-fit: contain; animation: logoRotate 16s linear infinite; }
+      .badge { background: rgba(20, 97, 75, 0.12); color: #14614b; padding: 7px 12px; border-radius: 999px; font-weight: 700; font-size: 13px; display: inline-block; }
+      .bars { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 12px; }
+      .bar-item { background: #fff; border: 1px solid rgba(15, 42, 61, 0.08); border-radius: 14px; padding: 12px 14px; box-shadow: 0 10px 30px rgba(15, 42, 61, 0.06); }
+      .bar-label { display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: #0f2a3d; }
+      .bar-percent { color: #178f6b; font-weight: 800; }
+      .bar-track { position: relative; display: flex; width: 100%; height: 12px; border-radius: 999px; overflow: hidden; background: rgba(20, 97, 75, 0.12); margin: 10px 0; }
+      .bar-executed { background: linear-gradient(90deg, #178f6b, #0d4f3b); }
+      .bar-balance { background: rgba(15, 42, 61, 0.12); }
+      .bar-values { display: flex; justify-content: space-between; color: #3c4f63; font-size: 13px; }
+      @keyframes logoRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     `;
 
     printWindow.document.write(`
@@ -186,10 +232,32 @@ export class AboutComponent implements OnInit {
             <div>
               <h1>Fundación Avanza – Año 2025</h1>
               <span class="badge">Informe financiero anual por proyecto</span>
-              <p>Datos simulados para fines informativos.</p>
             </div>
           </div>
-          ${section.innerHTML}
+          <table aria-label="Informe financiero anual 2025">
+            <thead>
+              <tr>
+                <th scope="col">Proyecto</th>
+                <th scope="col">Ingresos (COP)</th>
+                <th scope="col">Ejecutado (COP)</th>
+                <th scope="col">Saldo (COP)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRows}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>TOTAL GENERAL</td>
+                <td>${this.formatCurrency(income)}</td>
+                <td>${this.formatCurrency(executed)}</td>
+                <td>${this.formatCurrency(balance)}</td>
+              </tr>
+            </tfoot>
+          </table>
+          <ul class="bars" aria-label="Ejecución por proyecto">
+            ${bars}
+          </ul>
         </body>
       </html>
     `);

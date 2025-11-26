@@ -186,10 +186,11 @@
 }
 
 .financial__logo {
-  width: 64px;
-  height: 64px;
+  width: 88px;
+  height: 88px;
   object-fit: contain;
-  border-radius: 12px;
+  border-radius: 50%;
+  animation: financialLogoRotate 18s linear infinite;
 }
 
 .financial__brand-text {
@@ -305,6 +306,15 @@
   margin-top: 0.75rem;
   color: rgba(16, 36, 59, 0.7);
   font-size: 0.95rem;
+}
+
+@keyframes financialLogoRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .financial__chart {
