@@ -27,6 +27,36 @@ export class AboutComponent implements OnInit {
   loading = true;
   error: string | null = null;
 
+  financialProjects = [
+    {
+      name: 'Programa Tecnología Rural',
+      income: 980_000_000,
+      executed: 820_000_000
+    },
+    {
+      name: 'Becas de Innovación Juvenil',
+      income: 720_000_000,
+      executed: 645_000_000
+    },
+    {
+      name: 'Formación Docente en TIC',
+      income: 550_000_000,
+      executed: 490_000_000
+    },
+    {
+      name: 'Laboratorio STEAM para Comunidades',
+      income: 430_000_000,
+      executed: 398_000_000
+    },
+    {
+      name: 'Programa de Alfabetización Digital',
+      income: 370_000_000,
+      executed: 350_000_000
+    }
+  ];
+
+  chartVisible = false;
+
   // URL del organigrama con fallback hardcodeado
   organigramaUrl = 'https://www.canva.com/design/DAG5Qgbtdg8/YDQsqBd1PqH4WtBZybKmEQ/view?embed';
   safeOrganigramaUrl: SafeResourceUrl | null = null;
@@ -78,6 +108,84 @@ export class AboutComponent implements OnInit {
     this.loadContent();
     this.loadOrganizationInfo();
     this.setupAutoRefresh();
+  }
+
+  get executionTotals(): { income: number; executed: number; balance: number } {
+    const income = this.financialProjects.reduce((sum, project) => sum + project.income, 0);
+    const executed = this.financialProjects.reduce((sum, project) => sum + project.executed, 0);
+    return {
+      income,
+      executed,
+      balance: income - executed
+    };
+  }
+
+  getExecutionPercent(projectIncome: number, executed: number): number {
+    if (!projectIncome) {
+      return 0;
+    }
+    return Math.round((executed / projectIncome) * 100);
+  }
+
+  trackByProjectName(_index: number, project: { name: string }): string {
+    return project.name;
+  }
+
+  toggleChartVisibility(): void {
+    this.chartVisible = !this.chartVisible;
+  }
+
+  printFinancialReport(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const section = document.getElementById('financial-report');
+    if (!section) {
+      return;
+    }
+
+    const printWindow = window.open('', '_blank', 'width=900,height=650');
+
+    if (!printWindow) {
+      return;
+    }
+
+    const styles = `
+      body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #0f2a3d; padding: 24px; }
+      h1 { margin: 0 0 8px; color: #0f2a3d; }
+      p { margin: 0 0 12px; color: #3c4f63; }
+      table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+      th, td { border-bottom: 1px solid rgba(15, 42, 61, 0.1); padding: 10px 12px; text-align: left; }
+      th { background: rgba(20, 97, 75, 0.08); color: #14614b; text-transform: uppercase; letter-spacing: 0.04em; font-size: 12px; }
+      tfoot td { font-weight: 700; color: #0f2a3d; }
+      .summary { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+      .summary img { height: 48px; width: 48px; object-fit: contain; }
+      .badge { background: rgba(20, 97, 75, 0.1); color: #14614b; padding: 6px 12px; border-radius: 999px; font-weight: 600; font-size: 12px; display: inline-block; }
+    `;
+
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Informe Financiero 2025</title>
+          <style>${styles}</style>
+        </head>
+        <body>
+          <div class="summary">
+            <img src="${location.origin}/assets/logo.png" alt="Logo Fundación Avanza">
+            <div>
+              <h1>Fundación Avanza – Año 2025</h1>
+              <span class="badge">Informe financiero anual por proyecto</span>
+              <p>Datos simulados para fines informativos.</p>
+            </div>
+          </div>
+          ${section.innerHTML}
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
   }
 
   toggleIdentityCard(key: IdentityCardKey): void {
