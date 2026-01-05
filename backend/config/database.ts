@@ -42,10 +42,13 @@ const databaseConfig = ({ env }: ConfigParams): DatabaseConfig => {
         user: env('DATABASE_USERNAME', 'strapi'),
         password: env('DATABASE_PASSWORD', 'strapi'),
         schema: env('DATABASE_SCHEMA', 'public'),
-        ssl: env.bool('DATABASE_SSL', false),
+        ssl: env.bool('DATABASE_SSL', true) ? { rejectUnauthorized: false } : false,
+//        ssl: env.bool('DATABASE_SSL', false),
       },
     },
   } satisfies Config.Database<'postgres'>;
 };
+
+
 
 export default databaseConfig;
