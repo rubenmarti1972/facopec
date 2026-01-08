@@ -49,7 +49,7 @@ Este documento detalla la estructura exacta que debe tener el CMS (Strapi) para 
     "isHighlighted": false
   },
   {
-    "title": "Celebración Fin de Año",
+    "title": "Celebración Fin de Año alo",
     "description": "Cierre de actividades 2025",
     "eventDate": "2025-12-22T14:00:00",
     "location": "Parque Central",

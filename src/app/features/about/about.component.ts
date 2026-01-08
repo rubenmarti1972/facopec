@@ -91,9 +91,9 @@ export class AboutComponent implements OnInit {
 
   missionVision = {
     mission:
-      'La Fundación Afrocolombiana Profe en Casa | FACOPEC se dedica a captar y canalizar recursos a nivel local, nacional e internacional para desarrollar proyectos que promuevan y reivindiquen los derechos humanos de las Comunidades NARP (Negras, Afrocolombianas, Raizales y Palenqueras). Trabajamos para empoderar a niños, niñas, adolescentes, jóvenes, hombres, mujeres y familias, potenciando sus capacidades y sueños mediante programas educativos, culturales, recreativos, y tecnológicos, entre otros, con el fin de maximizar su impacto positivo y fomentar su desarrollo como actores de cambio en sus comunidades.',
+      'La misión de la Fundación Afrocolombiana Profe en Casa  | (FACOPEC) es transformar vidas mediante una educación inclusiva y de calidad. Nos dedicamos a gestionar recursos para desarrollar proyectos que promuevan y defiendan los derechos humanos de las comunidades Negras, afrocolombianas, raizales y palenqueras (NARP). A través de la filantropía, empoderamos a individuos y familias, potenciando sus capacidades mediante programas educativos, culturales, recreativos y tecnológicos, con el objetivo de maximizar el impacto positivo y fomentar el desarrollo como agentes de cambio.',
     vision:
-      'Ser reconocidos como una fundación líder en la promoción de los derechos humanos y el desarrollo integral de las Comunidades NARP. Aspiramos a crear un futuro donde estas comunidades puedan desplegar plenamente su potencial en ámbitos tecnológicos, educativos, culturales y sociales, contribuyendo activamente al progreso social, económico y ambiental de Colombia y el mundo.',
+    'La visión de la Fundación Afrocolombiana Profe en Casa | (FACOPEC) es ser reconocidos como una entidad líder en la promoción de los derechos humanos y el desarrollo integral de las comunidades (NARP) Negras, afrocolombianas, raizales y palenqueras. Aspiramos a forjar un futuro donde estas comunidades desarrollen plenamente su potencial en los ámbitos tecnológicos, educativos, culturales y sociales, contribuyendo activamente al progreso social, económico y ambiental de Colombia y del mundo.',
     dataStrapiUidMission: 'about.mission',
     dataStrapiUidVision: 'about.vision'
   };

@@ -4,7 +4,8 @@
       <span class="section__eyebrow">Nosotros</span>
       <h1 class="about__title">Fundación Afrocolombiana Profe en Casa</h1>
       <p class="about__lead">
-        Somos un movimiento educativo y comunitario que articula fe, cultura y tecnología para crear oportunidades reales en el
+        Somos un movimiento educativo y comunitario que articula fe, cultura y tecnología para crear oportunidades
+        reales en el
         Cauca y las comunidades afrocolombianas de Colombia.
       </p>
     </div>
@@ -17,15 +18,11 @@
         <p class="section__subtitle">Conoce nuestra estructura administrativa</p>
       </div>
 
-      <div style="position: relative; width: 100%; height: 0; padding-top: 75%; padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden; border-radius: 8px; will-change: transform;">
-        <iframe
-          *ngIf="safeOrganigramaUrl"
-          loading="lazy"
+      <div
+        style="position: relative; width: 100%; height: 0; padding-top: 75%; padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden; border-radius: 8px; will-change: transform;">
+        <iframe *ngIf="safeOrganigramaUrl" loading="lazy"
           style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0; margin: 0;"
-          [src]="safeOrganigramaUrl"
-          allowfullscreen="allowfullscreen"
-          allow="fullscreen"
-          title="Organigrama FACOPEC">
+          [src]="safeOrganigramaUrl" allowfullscreen="allowfullscreen" allow="fullscreen" title="Organigrama FACOPEC">
         </iframe>
       </div>
       <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: #666;">
@@ -47,43 +44,36 @@
         </div>
         <div class="identity__grid">
           <div class="identity-description-with-image">
-            <article
-              class="card identity-card identity-card--description"
+            <article class="card identity-card identity-card--description"
               [class.identity-card--expanded]="identityExpanded.description"
-              [attr.data-strapi-uid]="identity.dataStrapiUid"
-            >
+              [attr.data-strapi-uid]="identity.dataStrapiUid">
               <h3 class="identity-card__title">Descripción de la fundación</h3>
               <div class="identity-card__body" id="identity-description">
                 <p>{{ identity.description }}</p>
               </div>
-              <button
-                type="button"
-                class="identity-card__toggle"
-                (click)="toggleIdentityCard('description')"
-                [attr.aria-expanded]="identityExpanded.description"
-                aria-controls="identity-description"
-              >
+              <button type="button" class="identity-card__toggle" (click)="toggleIdentityCard('description')"
+                [attr.aria-expanded]="identityExpanded.description" aria-controls="identity-description">
                 {{ identityExpanded.description ? 'Ver menos' : 'Leer más' }}
               </button>
             </article>
             <div class="identity-image">
-              <img src="assets/fotos-fundacion/apoyo.webp" alt="Fundación Afrocolombiana Profe en Casa en acción" loading="lazy" />
+              <img src="assets/fotos-fundacion/apoyo.webp" alt="Fundación Afrocolombiana Profe en Casa en acción"
+                loading="lazy" />
             </div>
           </div>
 
           <article class="card values-card" data-strapi-uid="about.values">
             <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-              <a href="https://fundacionafrocolombianaprofeencasa.blogspot.com/2025/04/valores.html" target="_blank" rel="noopener" title="Conoce más sobre nuestros valores">
-                <img src="assets/program-logos/comunidades-narp.png" alt="Logo Comunidades NARP" style="width: 60px; height: 60px; object-fit: contain; cursor: pointer;" />
+              <a href="https://fundacionafrocolombianaprofeencasa.blogspot.com/2025/04/valores.html" target="_blank"
+                rel="noopener" title="Conoce más sobre nuestros valores">
+                <img src="assets/program-logos/comunidades-narp.png" alt="Logo Comunidades NARP"
+                  style="width: 60px; height: 60px; object-fit: contain; cursor: pointer;" />
               </a>
               <h3 class="identity-card__title" style="margin: 0;">Valores que nos guían</h3>
             </div>
             <ul class="values-card__list">
-              <li
-                class="values-card__item"
-                *ngFor="let value of identity.values"
-                [attr.data-strapi-uid]="value.dataStrapiUid"
-              >
+              <li class="values-card__item" *ngFor="let value of identity.values"
+                [attr.data-strapi-uid]="value.dataStrapiUid">
                 <span class="values-card__icon">{{ value.icon }}</span>
                 <div class="values-card__copy">
                   <p class="values-card__title">{{ value.title }}</p>
@@ -94,44 +84,28 @@
           </article>
 
           <div class="identity__pair">
-            <article
-              class="card identity-card"
-              [class.identity-card--expanded]="identityExpanded.mission"
-              [attr.data-strapi-uid]="missionVision.dataStrapiUidMission"
-            >
+            <article class="card identity-card" [class.identity-card--expanded]="identityExpanded.mission"
+              [attr.data-strapi-uid]="missionVision.dataStrapiUidMission">
               <div class="identity-card__icon">🌟</div>
               <h3 class="identity-card__title">Misión</h3>
               <div class="identity-card__body" id="identity-mission">
                 <p>{{ missionVision.mission }}</p>
               </div>
-              <button
-                type="button"
-                class="identity-card__toggle"
-                (click)="toggleIdentityCard('mission')"
-                [attr.aria-expanded]="identityExpanded.mission"
-                aria-controls="identity-mission"
-              >
+              <button type="button" class="identity-card__toggle" (click)="toggleIdentityCard('mission')"
+                [attr.aria-expanded]="identityExpanded.mission" aria-controls="identity-mission">
                 {{ identityExpanded.mission ? 'Ver menos' : 'Leer más' }}
               </button>
             </article>
 
-            <article
-              class="card identity-card"
-              [class.identity-card--expanded]="identityExpanded.vision"
-              [attr.data-strapi-uid]="missionVision.dataStrapiUidVision"
-            >
+            <article class="card identity-card" [class.identity-card--expanded]="identityExpanded.vision"
+              [attr.data-strapi-uid]="missionVision.dataStrapiUidVision">
               <div class="identity-card__icon">🚀</div>
               <h3 class="identity-card__title">Visión</h3>
               <div class="identity-card__body" id="identity-vision">
                 <p>{{ missionVision.vision }}</p>
               </div>
-              <button
-                type="button"
-                class="identity-card__toggle"
-                (click)="toggleIdentityCard('vision')"
-                [attr.aria-expanded]="identityExpanded.vision"
-                aria-controls="identity-vision"
-              >
+              <button type="button" class="identity-card__toggle" (click)="toggleIdentityCard('vision')"
+                [attr.aria-expanded]="identityExpanded.vision" aria-controls="identity-vision">
                 {{ identityExpanded.vision ? 'Ver menos' : 'Leer más' }}
               </button>
             </article>
@@ -142,136 +116,32 @@
 
     <section class="section financial" id="financial-report">
       <div class="container">
-        <div class="financial__header">
-          <div class="financial__brand">
-            <img src="assets/logo.png" alt="Logo de la Fundación Avanza" class="financial__logo" />
-            <div class="financial__brand-text">
-              <h2 class="financial__title">Fundación Avanza – Año 2025</h2>
-              <p class="financial__subtitle">Seguimiento a ingresos, ejecución y saldos por cada iniciativa estratégica.</p>
-            </div>
-          </div>
-          <div class="financial__actions">
-            <button type="button" class="button button--ghost" (click)="toggleChartVisibility()" [attr.aria-pressed]="chartVisible">
-              <span class="button__icon" aria-hidden="true">📊</span>
-              {{ chartVisible ? 'Ocultar gráfico' : 'Ver ejecución por proyecto' }}
-            </button>
-            <button type="button" class="button button--primary" (click)="printFinancialReport()">
-              <span class="button__icon" aria-hidden="true">⬇️</span>
-              Descargar PDF
-            </button>
-          </div>
+        <div class="financial__header" style="text-align:center; margin-bottom: 1.5rem;">
+          <span class="section__eyebrow">Transparencia</span>
+          <h2 class="section__title">Informe financiero 2025</h2>
+          <p style="text-align: center; margin-top: 0.75rem; font-size: 0.95rem; color: #555;">
+            Fundación Afrocolombiana Profe en Casa – Seguimiento a ingresos, ejecución y saldos por cada iniciativa
+            estratégica.
+          </p>
         </div>
 
-        <div class="financial__table-wrapper">
-          <table class="financial__table" aria-label="Informe financiero anual 2025">
-            <colgroup>
-              <col />
-              <col />
-              <col />
-              <col />
-            </colgroup>
-            <thead>
-              <tr>
-                <th scope="col">Proyecto</th>
-                <th scope="col">Ingresos (COP)</th>
-                <th scope="col">Ejecutado (COP)</th>
-                <th scope="col">Saldo (COP)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let project of financialProjects; trackBy: trackByProjectName">
-                <th scope="row">
-                  <div class="project-name">
-                    <span class="project-dot"></span>
-                    <span>{{ project.name }}</span>
-                  </div>
-                </th>
-                <td class="numeric">{{ project.income | number: '1.0-0' }}</td>
-                <td class="numeric highlight">{{ project.executed | number: '1.0-0' }}</td>
-                <td class="numeric">
-                  <span class="pill">{{ (project.income - project.executed) | number: '1.0-0' }}</span>
-                </td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td>TOTAL GENERAL</td>
-                <td class="numeric">{{ executionTotals.income | number: '1.0-0' }}</td>
-                <td class="numeric">{{ executionTotals.executed | number: '1.0-0' }}</td>
-                <td class="numeric">{{ executionTotals.balance | number: '1.0-0' }}</td>
-              </tr>
-            </tfoot>
-          </table>
+        <div style="position: relative; width: 100%; height: 0; padding-top: 56.25%;
+      padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16);
+      margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+      border-radius: 8px; will-change: transform;">
+          <iframe loading="lazy"
+            style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0; margin: 0;"
+            src="https://www.canva.com/design/DAG9yX_kdhU/KP-NDNXXyRx7dT1umN42pw/watch?embed"
+            allowfullscreen="allowfullscreen" allow="fullscreen"
+            title="Informe financiero 2025 - Fundación Afrocolombiana Profe en Casa">
+          </iframe>
         </div>
-        <div class="financial__chart" *ngIf="chartVisible">
-          <div class="financial__chart-header">
-            <div class="financial__chart-title">
-              <p class="section__eyebrow">Visualización</p>
-              <h3>Ejecución por proyecto</h3>
-            </div>
-            <div class="financial__chart-controls" role="group" aria-label="Tipo de gráfico">
-              <button
-                type="button"
-                class="chip"
-                [class.chip--active]="chartType === 'bars'"
-                (click)="setChartType('bars')"
-              >
-                Barras
-              </button>
-              <button
-                type="button"
-                class="chip"
-                [class.chip--active]="chartType === 'pie'"
-                (click)="setChartType('pie')"
-              >
-                Circular
-              </button>
-            </div>
-            <div class="financial__legend">
-              <span class="legend__swatch legend__swatch--executed"></span> Ejecutado
-              <span class="legend__swatch legend__swatch--balance"></span> Saldo
-            </div>
-          </div>
-          <ul class="financial__chart-list" *ngIf="chartType === 'bars'">
-            <li *ngFor="let project of financialProjects" class="financial__chart-item">
-              <div class="financial__chart-label">
-                <span>{{ project.name }}</span>
-                <span class="financial__chart-percent">{{ getExecutionPercent(project.income, project.executed) }}% ejecutado</span>
-              </div>
-              <div class="financial__bar">
-                <span
-                  class="financial__bar-segment financial__bar-segment--executed"
-                  [style.width.%]="getExecutionPercent(project.income, project.executed)"
-                ></span>
-                <span
-                  class="financial__bar-segment financial__bar-segment--balance"
-                  [style.width.%]="100 - getExecutionPercent(project.income, project.executed)"
-                ></span>
-              </div>
-              <div class="financial__bar-values">
-                <span>Ejecutado: {{ project.executed | number: '1.0-0' }} COP</span>
-                <span>Saldo: {{ (project.income - project.executed) | number: '1.0-0' }} COP</span>
-              </div>
-            </li>
-          </ul>
 
-          <ul class="financial__donut-grid" *ngIf="chartType === 'pie'">
-            <li *ngFor="let project of financialProjects" class="financial__donut-card">
-              <div class="financial__donut" [style.background]="getDonutBackground(getExecutionPercent(project.income, project.executed))">
-                <div class="financial__donut-center">
-                  <span class="financial__donut-percent">{{ getExecutionPercent(project.income, project.executed) }}%</span>
-                  <small>ejecutado</small>
-                </div>
-              </div>
-              <p class="financial__donut-name">{{ project.name }}</p>
-              <p class="financial__donut-values">
-                <span class="dot dot--executed"></span>{{ project.executed | number: '1.0-0' }} COP
-              </p>
-              <p class="financial__donut-values">
-                <span class="dot dot--balance"></span>{{ (project.income - project.executed) | number: '1.0-0' }} COP
-              </p>
-            </li>
-          </ul>
-        </div>
+        <p style="text-align:center; margin-top: 0.75rem;">
+          <a href="https://www.canva.com/design/DAG9yX_kdhU/KP-NDNXXyRx7dT1umN42pw/watch?utm_content=DAG9yX_kdhU&utm_campaign=designshare&utm_medium=embeds&utm_source=link"
+            target="_blank" rel="noopener" style="text-decoration:none;">
+            
+          </a>
+        </p>
       </div>
     </section>
