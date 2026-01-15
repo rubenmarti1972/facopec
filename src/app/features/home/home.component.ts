@@ -182,7 +182,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   hero: HeroContent = {
     eyebrow: "Misión con sentido social",
-    title: ["Transformamos vidas", "a través de la educación y el cuidado"],
+    title: ["Educación, cuidado y defensa", "de derechos para el fortalecimiento étnico", "y social de nuestras comunidades"],
     lead: "Somos la Fundación Afrocolombiana Profe en Casa. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Cauca.",
     stats: <HeroStat[]>[
       {

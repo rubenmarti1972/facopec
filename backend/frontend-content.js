@@ -19,8 +19,9 @@ const homePageContent = {
   hero: {
     eyebrow: 'Misión con sentido social',
     titleLines: [
-      { line: 'Transformamos vidas' },
-      { line: 'a través de la educación y el cuidado' }
+      { line: 'Educación, cuidado y defensa' },
+      { line: 'de derechos para el fortalecimiento étnico' },
+      { line: 'y social de nuestras comunidades' }
     ],
     lead:
       'Somos la Fundación Afrocolombiana Profe en Casa. Desde Puerto Tejada impulsamos procesos educativos, culturales y espirituales para niñas, niños, adolescentes y sus familias en el Cauca.',

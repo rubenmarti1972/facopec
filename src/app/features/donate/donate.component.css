@@ -224,3 +224,69 @@
     font-size: 2rem;
   }
 }
+
+
+.donation-copybox {
+  width: 100%;
+  text-align: left;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.donation-copybox__title {
+  margin: 0;
+  font-weight: 800;
+  color: #0f2a3d;
+}
+
+.donation-copybox__subtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(16, 36, 59, 0.75);
+}
+
+.donation-copybox__row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 42, 61, 0.12);
+  background: rgba(15, 42, 61, 0.04);
+}
+
+.donation-copybox__code {
+  font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 800;
+  color: #0f2a3d;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.donation-copybox__btn {
+  border: 0;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 0.55rem 0.85rem;
+  font-weight: 800;
+  color: #0f2a3d;
+  background: rgba(34, 197, 94, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  white-space: nowrap;
+}
+
+.donation-copybox__btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(34, 197, 94, 0.25);
+  background: rgba(34, 197, 94, 0.24);
+}
+
+.donation-copy-feedback {
+  margin-top: 0.75rem;
+  font-weight: 700;
+  color: #145b45;
+  text-align: center;
+}

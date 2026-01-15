@@ -15,12 +15,8 @@
           <div class="donation-form__group">
             <h3 class="donation-form__title">Montos sugeridos</h3>
             <div class="donation-amounts">
-              <button
-                *ngFor="let amount of donationAmounts"
-                (click)="selectAmount(amount.value)"
-                class="donation-option"
-                [class.donation-option--active]="selectedAmount() === amount.value"
-              >
+              <button *ngFor="let amount of donationAmounts" (click)="selectAmount(amount.value)"
+                class="donation-option" [class.donation-option--active]="selectedAmount() === amount.value">
                 <span class="donation-option__icon">{{ amount.icon }}</span>
                 <span class="donation-option__label">{{ amount.label }}</span>
                 <span class="donation-option__impact">{{ amount.impact }}</span>
@@ -32,37 +28,25 @@
             <h3 class="donation-form__title">Monto personalizado</h3>
             <div class="donation-input">
               <span>$</span>
-              <input
-                type="number"
-                [(ngModel)]="customAmount"
-                (input)="onCustomAmountChange()"
-                placeholder="Ingresa tu monto"
-                aria-label="Monto personalizado para donar"
-              />
+              <input type="number" [(ngModel)]="customAmount" (input)="onCustomAmountChange()"
+                placeholder="Ingresa tu monto" aria-label="Monto personalizado para donar" />
             </div>
           </div>
 
           <div class="donation-form__group">
             <h3 class="donation-form__title">Tipo de donación</h3>
             <div class="donation-type">
-              <button
-                type="button"
-                class="donation-type__option"
-                [class.donation-type__option--active]="donationType() === 'once'"
-                (click)="donationType.set('once')"
-              >
+              <button type="button" class="donation-type__option"
+                [class.donation-type__option--active]="donationType() === 'once'" (click)="donationType.set('once')">
                 <span class="donation-type__icon">💝</span>
                 <div>
                   <strong>Única</strong>
                   <p>Realiza un aporte puntual cuando quieras.</p>
                 </div>
               </button>
-              <button
-                type="button"
-                class="donation-type__option"
+              <button type="button" class="donation-type__option"
                 [class.donation-type__option--active]="donationType() === 'monthly'"
-                (click)="donationType.set('monthly')"
-              >
+                (click)="donationType.set('monthly')">
                 <span class="donation-type__icon">🔄</span>
                 <div>
                   <strong>Mensual</strong>
@@ -75,22 +59,44 @@
           <div class="donation-form__group donation-form__gateways" id="pasarelas">
             <h3 class="donation-form__title">Pasarelas de pago</h3>
             <div class="donation-gateways-row">
-              <article
-                class="donation-gateway-compact"
-                *ngFor="let gateway of paymentGateways"
-                [ngClass]="'donation-gateway-compact--' + gateway.theme"
-              >
+              <article class="donation-gateway-compact" *ngFor="let gateway of paymentGateways"
+                [ngClass]="'donation-gateway-compact--' + gateway.theme">
                 <div class="donation-gateway-compact__badge">
                   <span>{{ gateway.badge }}</span>
                 </div>
-                <a
+
+                <ng-container *ngIf="gateway.theme === 'bank' || gateway.theme === 'nequi'; else normalGateway">
+                  <div class="donation-copybox">
+                    <p class="donation-copybox__title">{{ gateway.name }}</p>
+                    <p class="donation-copybox__subtitle">{{ gateway.description }}</p>
+
+                    <div class="donation-copybox__row">
+                      <code class="donation-copybox__code">{{ gateway.copyValue }}</code>
+                      <button type="button" class="donation-copybox__btn"
+                        (click)="copyText(gateway.copyValue, gateway.copyMessage)">
+                        Copiar
+                      </button>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <ng-template #normalGateway>
+                  <a class="donation-gateway-compact__button btn-donate-gradient" [href]="gateway.href" target="_blank"
+                    rel="noopener">
+                    {{ gateway.actionLabel }}
+                  </a>
+                </ng-template>
+
+                <!-- <a
                   class="donation-gateway-compact__button btn-donate-gradient"
                   [href]="gateway.href"
                   target="_blank"
                   rel="noopener"
                 >
                   {{ gateway.actionLabel }}
-                </a>
+                </a> -->
+
+
               </article>
             </div>
           </div>
@@ -100,12 +106,8 @@
             <span>{{ getImpactMessage() }}</span>
           </div>
 
-          <button
-            type="button"
-            class="donation-submit btn btn--primary"
-            (click)="processDonation()"
-            [disabled]="selectedAmount() === 0"
-          >
+          <button type="button" class="donation-submit btn btn--primary" (click)="processDonation()"
+            [disabled]="selectedAmount() === 0">
             <span *ngIf="selectedAmount() > 0">Donar {{ selectedAmount() | number:'1.0-0':'es-CO' }} COP</span>
             <span *ngIf="selectedAmount() === 0">Selecciona un monto para donar</span>
           </button>
@@ -141,11 +143,8 @@
           {{ heroDescription }}
         </p>
         <div class="donation-hero__stats">
-          <div
-            class="donation-hero__stat"
-            *ngFor="let stat of donationStats"
-            [attr.data-strapi-uid]="stat.dataStrapiUid"
-          >
+          <div class="donation-hero__stat" *ngFor="let stat of donationStats"
+            [attr.data-strapi-uid]="stat.dataStrapiUid">
             <span class="donation-hero__stat-value">{{ stat.value }}</span>
             <span class="donation-hero__stat-label">{{ stat.label }}</span>
           </div>
@@ -182,12 +181,8 @@
       </div>
 
       <div class="donation-impact">
-        <article
-          class="donation-impact__card"
-          *ngFor="let highlight of donationHighlights"
-          [ngClass]="'donation-impact__card--' + highlight.theme"
-          [attr.data-strapi-uid]="highlight.dataStrapiUid"
-        >
+        <article class="donation-impact__card" *ngFor="let highlight of donationHighlights"
+          [ngClass]="'donation-impact__card--' + highlight.theme" [attr.data-strapi-uid]="highlight.dataStrapiUid">
           <span class="donation-impact__icon">{{ highlight.icon }}</span>
           <h3>{{ highlight.title }}</h3>
           <p>{{ highlight.description }}</p>
@@ -202,7 +197,8 @@
         <span class="section__eyebrow">Historias en imágenes</span>
         <h2 class="section__title">Tu aporte en acción</h2>
         <p class="section__subtitle">
-          Descubre cómo transformamos vidas a través de nuestros programas educativos, culturales y comunitarios en el Cauca.
+          Descubre cómo transformamos vidas a través de nuestros programas educativos, culturales y comunitarios en el
+          Cauca.
         </p>
       </div>
 
@@ -213,8 +209,10 @@
           </div>
           <div class="donation-gallery__body">
             <h3 class="donation-gallery__title">Tutorías Profe en Casa</h3>
-            <p class="donation-gallery__description">Acompañamiento educativo personalizado para niños y niñas en sus hogares.</p>
-            <p class="donation-gallery__impact">Tu donación permite brindar kits educativos y tutorías especializadas.</p>
+            <p class="donation-gallery__description">Acompañamiento educativo personalizado para niños y niñas en sus
+              hogares.</p>
+            <p class="donation-gallery__impact">Tu donación permite brindar kits educativos y tutorías especializadas.
+            </p>
           </div>
         </article>
 
@@ -224,8 +222,10 @@
           </div>
           <div class="donation-gallery__body">
             <h3 class="donation-gallery__title">Actividades culturales</h3>
-            <p class="donation-gallery__description">Talleres de arte, música y danza que fortalecen la identidad afrocolombiana.</p>
-            <p class="donation-gallery__impact">Cada aporte financia materiales y espacios para la expresión artística.</p>
+            <p class="donation-gallery__description">Talleres de arte, música y danza que fortalecen la identidad
+              afrocolombiana.</p>
+            <p class="donation-gallery__impact">Cada aporte financia materiales y espacios para la expresión artística.
+            </p>
           </div>
         </article>
 
@@ -235,8 +235,10 @@
           </div>
           <div class="donation-gallery__body">
             <h3 class="donation-gallery__title">Apoyo comunitario</h3>
-            <p class="donation-gallery__description">Encuentros familiares y redes de apoyo que fortalecen la comunidad.</p>
-            <p class="donation-gallery__impact">Tu contribución sostiene espacios de crecimiento y desarrollo familiar.</p>
+            <p class="donation-gallery__description">Encuentros familiares y redes de apoyo que fortalecen la comunidad.
+            </p>
+            <p class="donation-gallery__impact">Tu contribución sostiene espacios de crecimiento y desarrollo familiar.
+            </p>
           </div>
         </article>
       </div>
@@ -254,7 +256,8 @@
           </p>
         </div>
 
-        <form class="partner-form" *ngIf="!partnerFormSubmitted" (ngSubmit)="submitPartnerForm($event)" #partnerFormRef="ngForm">
+        <form class="partner-form" *ngIf="!partnerFormSubmitted" (ngSubmit)="submitPartnerForm($event)"
+          #partnerFormRef="ngForm">
           <div *ngIf="partnerFormError" class="form-error">
             {{ partnerFormError }}
           </div>
@@ -262,39 +265,22 @@
           <div class="partner-form__row">
             <div class="form-field">
               <label for="partner-name">Nombre completo *</label>
-              <input
-                type="text"
-                id="partner-name"
-                name="name"
-                [(ngModel)]="partnerForm.name"
-                required
-                placeholder="Tu nombre"
-              />
+              <input type="text" id="partner-name" name="name" [(ngModel)]="partnerForm.name" required
+                placeholder="Tu nombre" />
             </div>
 
             <div class="form-field">
               <label for="partner-email">Correo electrónico *</label>
-              <input
-                type="email"
-                id="partner-email"
-                name="email"
-                [(ngModel)]="partnerForm.email"
-                required
-                placeholder="tu@email.com"
-              />
+              <input type="email" id="partner-email" name="email" [(ngModel)]="partnerForm.email" required
+                placeholder="tu@email.com" />
             </div>
           </div>
 
           <div class="partner-form__row">
             <div class="form-field">
               <label for="partner-phone">Teléfono</label>
-              <input
-                type="tel"
-                id="partner-phone"
-                name="phone"
-                [(ngModel)]="partnerForm.phone"
-                placeholder="+57 300 123 4567"
-              />
+              <input type="tel" id="partner-phone" name="phone" [(ngModel)]="partnerForm.phone"
+                placeholder="+57 300 123 4567" />
             </div>
 
             <div class="form-field">
@@ -312,16 +298,12 @@
 
           <div class="form-field">
             <label for="partner-message">Mensaje (opcional)</label>
-            <textarea
-              id="partner-message"
-              name="message"
-              [(ngModel)]="partnerForm.message"
-              rows="4"
-              placeholder="Cuéntanos cómo quieres ayudar..."
-            ></textarea>
+            <textarea id="partner-message" name="message" [(ngModel)]="partnerForm.message" rows="4"
+              placeholder="Cuéntanos cómo quieres ayudar..."></textarea>
           </div>
 
-          <button type="submit" class="btn btn--primary partner-form__submit" [disabled]="!partnerFormRef.valid || partnerFormSubmitting">
+          <button type="submit" class="btn btn--primary partner-form__submit"
+            [disabled]="!partnerFormRef.valid || partnerFormSubmitting">
             <span *ngIf="!partnerFormSubmitting">Enviar solicitud</span>
             <span *ngIf="partnerFormSubmitting">Enviando...</span>
           </button>
@@ -353,29 +335,17 @@
       </div>
 
       <div class="grid-3">
-        <article
-          class="card support-card"
-          *ngFor="let action of supportActions"
-          [attr.data-strapi-uid]="action.dataStrapiUid"
-        >
+        <article class="card support-card" *ngFor="let action of supportActions"
+          [attr.data-strapi-uid]="action.dataStrapiUid">
           <div class="support-card__icon" [ngClass]="'support-card__icon--' + action.theme">{{ action.icon }}</div>
           <h3 class="card__title">{{ action.title }}</h3>
           <p class="card__text">{{ action.description }}</p>
-          <a
-            class="card__link"
-            *ngIf="action.href.startsWith('http')"
-            [href]="action.href"
-            target="_blank"
-            rel="noopener"
-          >
+          <a class="card__link" *ngIf="action.href.startsWith('http')" [href]="action.href" target="_blank"
+            rel="noopener">
             {{ action.linkLabel }}
             <span aria-hidden="true">↗</span>
           </a>
-          <a
-            class="card__link"
-            *ngIf="!action.href.startsWith('http')"
-            [routerLink]="action.href"
-          >
+          <a class="card__link" *ngIf="!action.href.startsWith('http')" [routerLink]="action.href">
             {{ action.linkLabel }}
           </a>
         </article>

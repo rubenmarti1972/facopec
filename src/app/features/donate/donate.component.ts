@@ -44,13 +44,24 @@ interface SupportAction {
   dataStrapiUid: string;
 }
 
-interface PaymentGateway {
+/* interface PaymentGateway {
   name: string;
   description: string;
   href: string;
   actionLabel: string;
   badge: string;
   theme: 'pse' | 'nequi' | 'international';
+} */
+
+interface PaymentGateway {
+  name: string;
+  description: string;
+  href: string;
+  actionLabel: string;
+  badge: string;
+  theme: 'pse' | 'nequi' | 'international' | 'bank';
+  copyValue?: string;
+  copyMessage?: string;
 }
 
 @Component({
@@ -191,7 +202,7 @@ export class DonateComponent implements OnInit {
       dataStrapiUid: 'donations.actions.share',
     },
   ];
-
+/* 
   paymentGateways: PaymentGateway[] = [
     {
       name: 'Pagos PSE (Colombia)',
@@ -220,7 +231,51 @@ export class DonateComponent implements OnInit {
       badge: '🌍 PayPal',
       theme: 'international',
     },
-  ];
+  ]; */
+
+  paymentGateways: PaymentGateway[] = [
+  {
+    name: 'Pagos PSE (Colombia)',
+    description:
+      'Conéctate con tu banco a través de la pasarela PSE y realiza transferencias seguras desde cualquier entidad nacional.',
+    href: 'https://www.pse.com.co/persona',
+    actionLabel: 'Donar con PSE',
+    badge: '🇨🇴 PSE',
+    theme: 'pse',
+  },
+
+  {
+    name: 'Banco de la Mujer',
+    description: 'FUNDA AFRO PROFE EN CASA · CTA AHORRO',
+    href: '#',
+    actionLabel: 'Copiar cuenta',
+    badge: '👩‍💼 Banco',
+    theme: 'bank',
+    copyValue: '40214711869501',
+    copyMessage: 'Cuenta Banco de la Mujer copiada',
+  },
+
+  {
+    name: 'Nequi',
+    description: 'Copia el número y paga desde tu app.',
+    href: '#',
+    actionLabel: 'Copiar número',
+    badge: '💜 Nequi',
+    theme: 'nequi',
+    copyValue: '3215230283',
+    copyMessage: 'Número Nequi copiado',
+  },
+
+  {
+    name: 'PayPal',
+    description:
+      'Haz tu aporte desde el exterior con tarjeta de crédito o cuenta PayPal en una plataforma segura para aliados globales.',
+    href: 'https://www.paypal.com/donate',
+    actionLabel: 'Donar con PayPal',
+    badge: '🌍 PayPal',
+    theme: 'international',
+  },
+];
 
   ngOnInit(): void {
     this.loadContent();
@@ -528,5 +583,24 @@ export class DonateComponent implements OnInit {
 
     window.addEventListener('visibilitychange', handleVisibilityChange);
   }
+
+  copyMessage = '';
+
+copyText(text?: string, message?: string): void {
+  if (!text) return;
+
+  const msg = message ?? 'Copiado';
+
+  navigator.clipboard.writeText(text).then(() => {
+    this.copyMessage = msg;
+    this.cdr.markForCheck();
+    setTimeout(() => {
+      this.copyMessage = '';
+      this.cdr.markForCheck();
+    }, 2500);
+  });
+}
+
+
 }
 
