@@ -245,11 +245,11 @@ export class DonateComponent implements OnInit {
   },
 
   {
-    name: 'Banco de la Mujer',
-    description: 'FUNDA AFRO PROFE EN CASA · CTA AHORRO',
+    name: '',
+    description: '',
     href: '#',
     actionLabel: 'Copiar cuenta',
-    badge: '👩‍💼 Banco',
+    badge: '👩‍💼 Banco Mundo Mujer',
     theme: 'bank',
     copyValue: '40214711869501',
     copyMessage: 'Cuenta Banco de la Mujer copiada',
@@ -276,6 +276,10 @@ export class DonateComponent implements OnInit {
     theme: 'international',
   },
 ];
+bankInfo = {
+  documentNumber: '901621222',
+  accountNumber: '40214711869501'
+};
 
   ngOnInit(): void {
     this.loadContent();

@@ -65,7 +65,7 @@
                   <span>{{ gateway.badge }}</span>
                 </div>
 
-                <ng-container *ngIf="gateway.theme === 'bank' || gateway.theme === 'nequi'; else normalGateway">
+                <!-- ng-container *ngIf="gateway.theme === 'bank' || gateway.theme === 'nequi'; else normalGateway">
                   <div class="donation-copybox">
                     <p class="donation-copybox__title">{{ gateway.name }}</p>
                     <p class="donation-copybox__subtitle">{{ gateway.description }}</p>
@@ -78,7 +78,90 @@
                       </button>
                     </div>
                   </div>
-                </ng-container>
+                </ng-container> -->
+
+                <ng-container [ngSwitch]="gateway.theme">
+
+  <!-- ✅ BANCO MUNDO MUJER -->
+  <div *ngSwitchCase="'bank'" class="donation-copybox">
+    <p class="donation-copybox__title">{{ gateway.name }}</p>
+    <p class="donation-copybox__subtitle">{{ gateway.description }}</p>
+
+    <dl class="donation-details">
+      <div class="donation-details__row">
+        <dt>Nombre de quien recibe</dt>
+        <dd>Fundación Profe en Casa</dd>
+      </div>
+
+      <div class="donation-details__row">
+        <dt>Tipo de documento</dt>
+        <dd>NIT</dd>
+      </div>
+
+      <div class="donation-details__row donation-details__row--copy">
+        <dt>Número de documento</dt>
+        <dd>
+          <code class="donation-details__code">{{ bankInfo.documentNumber }}</code>
+          <button type="button" class="donation-details__btn" (click)="copyText(bankInfo.documentNumber, 'NIT copiado')">
+            Copiar
+          </button>
+        </dd>
+      </div>
+
+      <div class="donation-details__row">
+        <dt>Banco</dt>
+        <dd>BANCO MUNDO MUJER</dd>
+      </div>
+
+      <div class="donation-details__row">
+        <dt>Tipo de cuenta</dt>
+        <dd>Ahorros</dd>
+      </div>
+
+      <div class="donation-details__row donation-details__row--copy">
+        <dt>Número de cuenta</dt>
+        <dd>
+          <code class="donation-details__code">{{ bankInfo.accountNumber }}</code>
+          <button type="button" class="donation-details__btn" (click)="copyText(bankInfo.accountNumber, 'Cuenta copiada')">
+            Copiar
+          </button>
+        </dd>
+      </div>
+    </dl>
+  </div>
+
+  <!-- ✅ NEQUI (solo número copiable) -->
+  <div *ngSwitchCase="'nequi'" class="donation-copybox">
+    <p class="donation-copybox__title">{{ gateway.name }}</p>
+    <p class="donation-copybox__subtitle">{{ gateway.description }}</p>
+
+    <div class="donation-copybox__row">
+      <code class="donation-copybox__code">{{ gateway.copyValue }}</code>
+      <button
+        type="button"
+        class="donation-copybox__btn"
+        (click)="copyText(gateway.copyValue, gateway.copyMessage)"
+        [disabled]="!gateway.copyValue"
+      >
+        Copiar
+      </button>
+    </div>
+  </div>
+
+  <!-- ✅ PSE / PAYPAL (botón normal) -->
+  <ng-container *ngSwitchDefault>
+    <a
+      class="donation-gateway-compact__button btn-donate-gradient"
+      [href]="gateway.href"
+      target="_blank"
+      rel="noopener"
+    >
+      {{ gateway.actionLabel }}
+    </a>
+  </ng-container>
+
+</ng-container>
+
 
                 <ng-template #normalGateway>
                   <a class="donation-gateway-compact__button btn-donate-gradient" [href]="gateway.href" target="_blank"
