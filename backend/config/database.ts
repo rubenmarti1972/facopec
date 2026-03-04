@@ -1,7 +1,6 @@
 // backend/config/database.ts
 import type { Config } from '@strapi/types/dist/core';
 import type { ConfigParams } from './utils/env';
-
 export default ({ env }: ConfigParams): Config.Database<'postgres'> => {
   const raw = env('DATABASE_URL');
 
@@ -17,6 +16,8 @@ export default ({ env }: ConfigParams): Config.Database<'postgres'> => {
   const user = decodeURIComponent(u.username);
   const password = decodeURIComponent(u.password);
 
+  const useSSL = env.bool('DATABASE_SSL', false);
+
   return {
     connection: {
       client: 'postgres',
@@ -27,7 +28,7 @@ export default ({ env }: ConfigParams): Config.Database<'postgres'> => {
         user,
         password,
         schema: env('DATABASE_SCHEMA', 'public'),
-        ssl: { rejectUnauthorized: false },
+        ssl: useSSL ? { rejectUnauthorized: false } : false,
       },
     },
   };

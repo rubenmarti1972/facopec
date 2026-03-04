@@ -169,6 +169,21 @@ export class HomeComponent implements OnInit, OnDestroy {
       alt: "Voluntariado y equipo FACOPEC reunidos con la comunidad",
       caption: "Redes solidarias que abrazan a la comunidad",
     },
+    {
+      image: "assets/fotos-fundacion/personero.webp",
+      alt: "Personero estudiantil",
+      caption: "Personero estudiantil",
+    },
+    {
+      image: "assets/fotos-fundacion/lideres1.webp",
+      alt: "Lideres derecho a la vida 1",
+      caption: "Lideres estudiantiles para la protección del derecho a la vida",
+    },
+     {
+      image: "assets/fotos-fundacion/lideres2.webp",
+      alt: "Lideres derecho a la vida",
+      caption: "Lideres estudiantiles para la protección del derecho a la vida",
+    },
   ];
 
   heroCarousel: HeroCarouselSlide[] = this.fallbackCarouselSlides.map(
@@ -226,10 +241,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       alt: "Una misión con sentido social",
     },
     {
-      url: "assets/fotos-fundacion/banner2.jpg",
-      alt: "Poster Fortalecimiento líderes estudiantiles",
-    },
-    {
       url: "assets/fotos-fundacion/portada.webp",
       alt: "FACOPEC - Fundación Afrocolombiana Profe en Casa en acción",
     },
@@ -245,6 +256,19 @@ export class HomeComponent implements OnInit, OnDestroy {
       url: "assets/fotos-fundacion/apoyo.webp",
       alt: "Apoyo y trabajo comunitario en FACOPEC",
     },
+    {
+      url: "assets/fotos-fundacion/personero.webp",
+      alt: "Personero estudiantil",
+    },
+    {
+      url: "assets/fotos-fundacion/lideres1.webp",
+      alt: "Lideres derecho a la vida 1",
+    },
+     {
+      url: "assets/fotos-fundacion/lideres2.webp",
+      alt: "Lideres derecho a la vida 2",
+    },
+    
   ];
 
   globalLogoUrl = "assets/logo.png";

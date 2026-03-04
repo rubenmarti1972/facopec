@@ -7,15 +7,15 @@ import { Routes } from '@angular/router';
 
 export const APP_ROUTES: Routes = [
   {
-    path: '',
-    redirectTo: '/inicio',
-    pathMatch: 'full'
-  },
-  {
-    path: 'inicio',
-    loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent),
-    data: { title: 'Inicio - Fundación Afrocolombiana Pro Encasa' }
-  },
+  path: '',
+  loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent),
+  data: { title: 'Inicio - Fundación Afrocolombiana Pro Encasa' }
+},
+{
+  path: 'inicio',
+  redirectTo: '',
+  pathMatch: 'full'
+},
   {
     path: 'proyectos',
     loadComponent: () => import('./features/projects/projects.component').then(m => m.ProjectsComponent),
@@ -84,7 +84,7 @@ export const APP_ROUTES: Routes = [
   { path: 'contact', redirectTo: '/contactanos', pathMatch: 'full' },
   { path: 'contacto', redirectTo: '/contactanos', pathMatch: 'full' },
   {
-    path: '**',
-    redirectTo: '/inicio'
-  }
+  path: '**',
+  redirectTo: ''
+}
 ];
